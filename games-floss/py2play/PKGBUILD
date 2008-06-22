@@ -1,0 +1,18 @@
+# Maintainer: Eric Belanger <belanger@astro.umontreal.ca>
+# Contributor: rensel <rensel@email.it>
+
+pkgname=py2play
+pkgver=0.1.9
+pkgrel=1
+arch="i686"
+pkgdesc="A peer-to-peer network game engine in Python"
+url="http://home.gna.org/oomadness/en"
+license="GPL"
+depends=('python')
+source=(http://download.gna.org/slune/Py2Play-$pkgver.tar.gz)
+md5sums=('dbc8c43d2331b723220e40d65ad1dfde')
+
+build() {
+  cd $startdir/src/Py2Play-$pkgver
+  python setup.py install --root=$startdir/pkg
+}
