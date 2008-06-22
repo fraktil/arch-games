@@ -1,0 +1,18 @@
+post_install() {
+  if [ ! -e usr/share/trackballs/highScores ]; then
+    install -m664 -g100 usr/share/trackballs/highScores.init usr/share/trackballs/highScores
+  fi
+}
+
+post_upgrade() {
+  post_install $1
+}
+
+post_remove() {
+  rm -f usr/share/trackballs/highScores
+}
+
+op=$1
+shift
+
+$op $*

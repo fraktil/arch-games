@@ -1,0 +1,18 @@
+# Contributor: kastor <kastor@fobos.org.ar>
+pkgname=xpilot-ng
+pkgver=4.7.2
+pkgrel=2
+pkgdesc="XPilot NG is a multi-player 2D spacewar game"
+arch=('i686' 'x86_64')
+license=('gpl')
+url="http://xpilot.sourceforge.net/"
+depends=('glibc' 'zlib' 'expat' 'sdl' 'sdl_ttf' 'sdl_image')
+source=(http://ufpr.dl.sourceforge.net/sourceforge/xpilot/$pkgname-$pkgver.tar.gz)
+md5sums=('b922251ab9c69f87567c9606304ee589')
+
+build() {
+	  cd $startdir/src/$pkgname-$pkgver
+         ./configure --prefix=/usr
+          make || return 1
+          make prefix=$startdir/pkg/usr install
+}

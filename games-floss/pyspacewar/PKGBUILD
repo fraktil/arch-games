@@ -1,0 +1,16 @@
+# Contributor: Stefano Esposito <ragnarok@email.it>
+
+pkgname=pyspacewar
+pkgver=0.9.3
+pkgrel=1
+pkgdesc="Open-source game, loosely inspired by Spacewar, Gravity Wars, and a bit by Star Control (I and II)."
+url="http://mg.pov.lt/pyspacewar"
+license="GPL"
+arch=('i686')
+depends=("python-pygame" "psyco")
+source=("http://mg.pov.lt/pyspacewar/$pkgname-$pkgver.tar.gz")
+build ()
+{
+	cd $startdir/src/$pkgname-$pkgver
+	python setup.py install --root=$startdir/pkg/
+}

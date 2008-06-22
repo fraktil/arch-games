@@ -1,0 +1,52 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=warsow
+pkgver=0.42
+pkgrel=1
+pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
+url="http://www.warsow.net/"
+license=('GPL' 'custom:Warsow Content License')
+arch=('i686' 'x86_64') 
+depends=('sdl' 'curl' 'libxxf86dga' 'libjpeg' 'libvorbis' 'libxxf86vm' 'libxinerama')
+makedepends=('mesa' 'openal' 'unzip' 'hd2u')
+source=('warsow.desktop' 'warsow.launcher' 'wsw-server.launcher' 'wswtv-server.launcher' \
+"http://www.derchris.net/warsow/warsow_${pkgver}_unified.zip" \
+"https://launchpad.net/warsow/0.4/0.42/+download/warsow_${pkgver}_sdk.zip")
+md5sums=('f9bf60c80820237f7097c4e50a9582cd' 'ec00081d81ad9802a8ca42fc2eac5498' 'f73e10c26197178df71b941b10bf83d7' 'd7e4a69835bbcf801e58307e9d6b951e' 'cba5fe9b8af01b378e685959098fa84f' '94c9bb2a48ac6f2687b38809e003f3b9')
+
+build() {
+    cd $startdir/src/warsow_${pkgver}_unified
+    # Create Destination Directories
+    install -d $startdir/pkg/opt/warsow/
+    # Delete Pre-Built Binaries/Libraries
+    rm {warsow,warsow.i386,warsow.x86_64,warsow_x86.exe,warsow_x64.exe,wsw_portable_x86.exe} wsw_server* wswtv_server* libs/*
+    # Move Data to Destination Directory
+    cp -r $startdir/src/warsow_${pkgver}_unified/basewsw $startdir/pkg/opt/warsow
+    
+    # Compile Warsow
+    cd $startdir/src/warsow_${pkgver}_src/source/
+    make || return 1
+    # Move Compiled Data to Destination Directory
+    cp -r $startdir/src/warsow_${pkgver}_src/source/release/* \
+        $startdir/pkg/opt/warsow
+    # Fix File Format on Created Scripts
+    /usr/bin/dos2unix --d2u $pkgdir/opt/warsow/{warsow,wsw_server,wswtv_server}
+    # Install Custom License: Warsow Content License
+    install -D -m 0644 $startdir/src/docs/license.txt \
+        $startdir/pkg/usr/share/licenses/${pkgname}/license.txt
+    # Install Client Game Launcher
+    install -D -m 0755 $startdir/src/warsow.launcher \
+        $startdir/pkg/usr/bin/warsow
+    # Install Server Game Launcher
+    install -D -m 0755 $startdir/src/wsw-server.launcher \
+        $startdir/pkg/usr/bin/wsw-server
+    # Install WSWTV Server Launcher
+    install -D -m 0755 $startdir/src/wswtv-server.launcher \
+        $startdir/pkg/usr/bin/wswtv-server
+    # Install Client Desktop Shortcut
+    install -D -m 0644 $startdir/src/warsow.desktop \
+        $startdir/pkg/usr/share/applications/warsow.desktop
+    # Install Icon
+    install -D -m 0644 $startdir/src/warsow_${pkgver}_src/source/win32/warsow.ico \
+        $startdir/pkg/usr/share/pixmaps/warsow.ico
+}

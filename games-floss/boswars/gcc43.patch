@@ -1,0 +1,22 @@
+diff -ruN boswars-2.5-src-old/engine/pathfinder/astar.cpp boswars-2.5-src/engine/pathfinder/astar.cpp
+--- boswars-2.5-src-old/engine/pathfinder/astar.cpp	2008-05-21 23:25:41.000000000 +0200
++++ boswars-2.5-src/engine/pathfinder/astar.cpp	2008-05-21 23:26:26.000000000 +0200
+@@ -33,6 +33,7 @@
+ --  Includes
+ ----------------------------------------------------------------------------*/
+ 
++#include <stdlib.h>
+ #include "stratagus.h"
+ #include "pathfinder.h"
+ 
+diff -ruN boswars-2.5-src-old/engine/stratagus/stratagus.cpp boswars-2.5-src/engine/stratagus/stratagus.cpp
+--- boswars-2.5-src-old/engine/stratagus/stratagus.cpp	2008-05-21 23:25:41.000000000 +0200
++++ boswars-2.5-src/engine/stratagus/stratagus.cpp	2008-05-21 23:26:54.000000000 +0200
+@@ -160,6 +160,7 @@
+ #include <time.h>
+ #include <ctype.h>
+ #include <sstream>
++#include <algorithm>
+ 
+ #ifndef _MSC_VER
+ #include <unistd.h>

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Widelands
+GenericName=Widelands
+Comment=A realtime-strategy game inspired by Settlers II
+Icon=widelands
+Exec=widelands
+Type=Application
+Categories=Game;StrategyGame;
