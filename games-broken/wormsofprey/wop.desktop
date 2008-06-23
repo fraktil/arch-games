@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Worms of Prey
+Exec=wop
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Game;

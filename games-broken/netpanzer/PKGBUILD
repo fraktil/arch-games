@@ -1,0 +1,22 @@
+# Contributor: Angelo Theodorou <encelo@users.sourceforge.net>
+# Contributor: Darwin Bautista <djclue917@gmail.com>
+
+pkgname=netpanzer
+pkgver=0.8.2
+pkgrel=1
+pkgdesc="An Online Multiplayer Tactical Warfare Game"
+arch=('i686')
+url="http://netpanzer.berlios.de/"
+license="GPL"
+depends=('gcc' 'physfs' 'sdl_mixer')
+makedepends=('jam')
+source=(http://download.berlios.de/netpanzer/${pkgname}-${pkgver}.tar.bz2)
+md5sums=('3f446403ac7e72ed0ff9e093517c83d3')
+
+build() {
+  cd ${startdir}/src/${pkgname}-${pkgver}/
+
+  ./configure --prefix=/usr --disable-debug --without-wx-config
+  jam || return 1
+  jam -sprefix=${startdir}/pkg/usr install
+}

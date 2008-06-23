@@ -1,0 +1,21 @@
+# Contributor: Nagy Gabor <ngaba@@petra..hos..u-szeged..hu>
+pkgname=enigma_sdl
+pkgver=1.01
+pkgrel=2
+pkgdesc="Puzzle game inspired by Oxyd on the Atari ST and Rock'n'Roll on the Amiga."
+url="http://www.nongnu.org/enigma/"
+depends=('libpng' 'sdl' 'sdl_image' 'sdl_mixer' 'sdl_ttf' 'xerces-c' 'zlib')
+makedepends=('sed')
+source=(http://download.berlios.de/enigma-game/enigma-$pkgver.tar.gz)
+md5sums=('d3804534ac03425051ebfd383ed1b4ee')
+license=('GPL')
+arch=('i686')
+
+build() {
+  cd $startdir/src/enigma-$pkgver
+  ./configure --prefix=/usr --program-suffix=_sdl --sysconfdir=/etc --disable-sdltest --enable-optimize
+  make || return 1
+  make DESTDIR=$startdir/pkg install
+  rm -R $startdir/pkg/usr/share/icons $startdir/pkg/usr/include $startdir/pkg/usr/lib
+  sed -i s/Exec=enigma/Exec=enigma_sdl/ $startdir/pkg/usr/share/applications/enigma.desktop
+} 
