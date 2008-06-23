@@ -1,0 +1,23 @@
+# $Id: PKGBUILD,v 1.11 2008/05/26 02:51:56 Snowman Exp $
+# Maintainer: Eric Belanger <eric@archlinux.org>
+# Contributor: pukyxd 
+
+pkgname=wormux 
+pkgver=0.8
+pkgrel=1
+pkgdesc="Wormux is a clone of the worms game"
+arch=('i686' 'x86_64')
+url="http://www.wormux.org/" 
+license=('GPL') 
+depends=('libxml++2' 'sdl_image' 'sdl_gfx>=2.0.16' 'sdl_ttf' 'sdl_mixer' 'sdl_net' 'curl>=7.16.2' 'gcc-libs' 'libxml2')
+makedepends=('pkgconfig')
+source=(http://download.gna.org/${pkgname}/${pkgname}-${pkgver}.tar.bz2)
+sha1sums=('e23d06daa1b7a7f5c3400f0b2354541f91bb9c68')
+md5sums=('0f0276975ca71059bc2535f1b919be43')
+
+build() { 
+  cd ${startdir}/src/${pkgname}-${pkgver} 
+  ./configure --prefix=/usr || return 1 
+  make || return 1 
+  make DESTDIR=${startdir}/pkg install || return 1 
+}

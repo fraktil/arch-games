@@ -1,0 +1,19 @@
+# Maintainer: William Rea <sillywilly@gmail.com>
+# Contributor: Hans Janssen <hans@janserv.xs4all.nl>
+pkgname=flightgear
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="An open-source, multi-platform flight simulator"
+arch=(i686 x86_64)
+depends=('simgear' 'libxmu' 'libxi' 'zlib' 'flightgear-data')
+license=("GPL")
+url="http://www.flightgear.org"
+source=(ftp://ftp.de.flightgear.org/pub/fgfs/Source/FlightGear-$pkgver.tar.gz)
+md5sums=('fd960c6c8c537bdb8764c111ad4b1356')
+
+build() {
+  cd $startdir/src/FlightGear-$pkgver
+  ./configure --prefix=/usr
+  make || return 1
+  make DESTDIR=$startdir/pkg install
+} 
