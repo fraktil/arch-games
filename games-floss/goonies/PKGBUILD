@@ -16,15 +16,15 @@ srcname=goonies_r1-0-1
 md5sums=('1b949eda5cc57ebe2cb95ede67bfb467')
 
 build() {
-	mkdir -p $startdir/pkg/usr/share/goonies/	
-	mkdir -p $startdir/pkg/usr/bin/
-	cd $startdir/src/$srcname/src
+	mkdir -p $pkgdir/usr/share/goonies/	
+	mkdir -p $pkgdir/usr/bin/
+	cd $srcdir/$srcname/src
 	cp ../build/linux/Makefile .
 	make || return 1
-	cp goonies $startdir/pkg/usr/share/goonies/
-	cp -r ../graphics ../mapeditor ../maps ../sound $startdir/pkg/usr/share/goonies/
-	echo "#!/bin/bash" > $startdir/pkg/usr/bin/goonies
-	echo "cd /usr/share/goonies/" >> $startdir/pkg/usr/bin/goonies
-	echo "exec /usr/share/goonies/goonies" >> $startdir/pkg/usr/bin/goonies
-	chmod 755 $startdir/pkg/usr/bin/goonies
+	cp goonies $pkgdir/usr/share/goonies/
+	cp -r ../graphics ../mapeditor ../maps ../sound $pkgdir/usr/share/goonies/
+	echo "#!/bin/bash" > $pkgdir/usr/bin/goonies
+	echo "cd /usr/share/goonies/" >> $pkgdir/usr/bin/goonies
+	echo "exec /usr/share/goonies/goonies" >> $pkgdir/usr/bin/goonies
+	chmod 755 $pkgdir/usr/bin/goonies
 }

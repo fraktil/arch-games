@@ -12,10 +12,10 @@ license=('GPL')
 arch=('i686')
 
 build() {
-  cd $startdir/src/enigma-$pkgver
+  cd $srcdir/enigma-$pkgver
   ./configure --prefix=/usr --program-suffix=_sdl --sysconfdir=/etc --disable-sdltest --enable-optimize
   make || return 1
-  make DESTDIR=$startdir/pkg install
-  rm -R $startdir/pkg/usr/share/icons $startdir/pkg/usr/include $startdir/pkg/usr/lib
-  sed -i s/Exec=enigma/Exec=enigma_sdl/ $startdir/pkg/usr/share/applications/enigma.desktop
+  make DESTDIR=$pkgdir install
+  rm -R $pkgdir/usr/share/icons $pkgdir/usr/include $pkgdir/usr/lib
+  sed -i s/Exec=enigma/Exec=enigma_sdl/ $pkgdir/usr/share/applications/enigma.desktop
 } 

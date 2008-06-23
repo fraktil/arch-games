@@ -23,6 +23,6 @@ build() {
   mkdir -p $pkgdir/usr/share/widelands
   cp -rf campaigns/ fonts/ locale/ maps/ music/ pics/ sound/ tribes/ txts/ worlds/ \
 	$pkgdir/usr/share/widelands/
-  install -m644 -D pics/wl-ico-128.png $startdir/pkg/usr/share/pixmaps/widelands.png
-  install -m644 -D ../widelands.desktop $startdir/pkg/usr/share/applications/widelands.desktop
+  install -m644 -D pics/wl-ico-128.png $pkgdir/usr/share/pixmaps/widelands.png
+  install -m644 -D ../widelands.desktop $pkgdir/usr/share/applications/widelands.desktop
 }

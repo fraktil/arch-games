@@ -13,18 +13,18 @@ source=(http://www.boswars.org/releases/$pkgname-$pkgver-src.tar.gz \
 md5sums=('9d280d086ccf81119f40bde98eb9a795' '2e560036f5f51f781b8ab3806be08c70' 'ab92e1da36939b8dc69003f5d6045f96' '9dd495a2f125c5b97a9523257397c492' 'cf2f90772f73f26f97a43586dc2651fe')
 
 build() {
-  cd $startdir/src/$pkgname-$pkgver-src
+  cd $srcdir/$pkgname-$pkgver-src
   patch -Np1 < ../gcc43.patch || return 1
   scons prefix=/usr || return 1
   
-  mkdir -p $startdir/pkg/{opt/bos,usr/bin,usr/share/pixmaps,usr/share/applications}
-  cp -rf campaigns doc graphics intro languages maps scripts sounds units video $startdir/pkg/opt/bos
+  mkdir -p $pkgdir/{opt/bos,usr/bin,usr/share/pixmaps,usr/share/applications}
+  cp -rf campaigns doc graphics intro languages maps scripts sounds units video $pkgdir/opt/bos
   install -D -m 755 boswars \
-	  $startdir/pkg/opt/bos/boswars
-  install -D -m 755 $startdir/src/boswars \
-	  $startdir/pkg/usr/bin/boswars
-  install -D -m 644 $startdir/src/boswars.png \
-	  $startdir/pkg/usr/share/pixmaps/boswars.png
-  install -D -m 644 $startdir/src/boswars.desktop \
-	  $startdir/pkg/usr/share/applications/boswars.desktop
+	  $pkgdir/opt/bos/boswars
+  install -D -m 755 $srcdir/boswars \
+	  $pkgdir/usr/bin/boswars
+  install -D -m 644 $srcdir/boswars.png \
+	  $pkgdir/usr/share/pixmaps/boswars.png
+  install -D -m 644 $srcdir/boswars.desktop \
+	  $pkgdir/usr/share/applications/boswars.desktop
 }

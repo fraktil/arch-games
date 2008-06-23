@@ -11,6 +11,6 @@ depends=("python-pygame" "psyco")
 source=("http://mg.pov.lt/pyspacewar/$pkgname-$pkgver.tar.gz")
 build ()
 {
-	cd $startdir/src/$pkgname-$pkgver
-	python setup.py install --root=$startdir/pkg/
+	cd $srcdir/$pkgname-$pkgver
+	python setup.py install --root=$pkgdir/
 }

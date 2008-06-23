@@ -12,8 +12,8 @@ source=(ftp://ftp.de.flightgear.org/pub/fgfs/Source/FlightGear-$pkgver.tar.gz)
 md5sums=('fd960c6c8c537bdb8764c111ad4b1356')
 
 build() {
-  cd $startdir/src/FlightGear-$pkgver
+  cd $srcdir/FlightGear-$pkgver
   ./configure --prefix=/usr
   make || return 1
-  make DESTDIR=$startdir/pkg install
+  make DESTDIR=$pkgdir install
 } 

@@ -15,11 +15,11 @@ source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.bz2 \
 md5sums=('95278382bb563906fce624d833a845cf' '7823133f184a4cd5859f971e6e2f3452')
 
 build() {
-  cd $startdir/src/$pkgname-$pkgver
+  cd $srcdir/$pkgname-$pkgver
 
   patch -Np0 -i ../$pkgname-$pkgver-gcc41.patch
 
   ./configure --prefix=/usr
   make || return 1
-  make DESTDIR=$startdir/pkg install
+  make DESTDIR=$pkgdir install
 }

@@ -17,19 +17,19 @@ arch=('i686')
 url="http://joey101.net/snowballz/"
 
 build() {
-	cd $startdir/src/$pkgname-$pkgver
-	install -d -m755 $startdir/pkg/usr/share/{$pkgname,pixmaps,applications}
+	cd $srcdir/$pkgname-$pkgver
+	install -d -m755 $pkgdir/usr/share/{$pkgname,pixmaps,applications}
 	
 	# removing pygame.mixer calls, since it doesn't support MP3s and that crashes the game
 	for i in *.py; do cat $i | sed -r "s/^([ \t]*)(pygame\.mixer.*)$/\1pass/" > _tmp_$i_; rm -f $i; mv _tmp_$i_ $i; done
 
 	# copy to final directory
-	cp -r *.py buildings data maps plugins cellulose gooeypy $startdir/pkg/usr/share/$pkgname/
+	cp -r *.py buildings data maps plugins cellulose gooeypy $pkgdir/usr/share/$pkgname/
 
 	# create false exe in /usr/bin
-	install -D -m755 $startdir/src/snowballz $startdir/pkg/usr/bin/snowballz
+	install -D -m755 $srcdir/snowballz $pkgdir/usr/bin/snowballz
 
 	# create menu integration with desktop file and PNG
-	install -m644 $startdir/src/snowballz.png $startdir/pkg/usr/share/pixmaps/snowballz.png
-	install -m644 $startdir/src/snowballz.desktop $startdir/pkg/usr/share/applications/snowballz.desktop
+	install -m644 $srcdir/snowballz.png $pkgdir/usr/share/pixmaps/snowballz.png
+	install -m644 $srcdir/snowballz.desktop $pkgdir/usr/share/applications/snowballz.desktop
 }

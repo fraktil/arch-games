@@ -11,6 +11,6 @@ source=(http://downloads.sourceforge.net/sourceforge/ufoai/ufoai-$pkgver-data.ta
 md5sums=('a6bb13414d01299679c4e2effc6e41b7')
 
 build() {
-  mkdir -p $startdir/pkg/usr/share/ufoai
-  cp -r $startdir/src/base $startdir/pkg/usr/share/ufoai
+  mkdir -p $pkgdir/usr/share/ufoai
+  cp -r $srcdir/base $pkgdir/usr/share/ufoai
 }

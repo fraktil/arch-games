@@ -11,7 +11,7 @@ arch=('i686')
 md5sums=('91594c0fd5def93053d911e037f5a383')
 
 build() {
-  cd $startdir/src/$pkgname-$pkgver
+  cd $srcdir/$pkgname-$pkgver
   make || return 1
-  make PREFIX=$startdir/pkg/usr DESTDIR=$startdir/pkg install
+  make PREFIX=$pkgdir/usr DESTDIR=$pkgdir install
 }

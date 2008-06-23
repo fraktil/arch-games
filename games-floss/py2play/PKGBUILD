@@ -13,6 +13,6 @@ source=(http://download.gna.org/slune/Py2Play-$pkgver.tar.gz)
 md5sums=('dbc8c43d2331b723220e40d65ad1dfde')
 
 build() {
-  cd $startdir/src/Py2Play-$pkgver
-  python setup.py install --root=$startdir/pkg
+  cd $srcdir/Py2Play-$pkgver
+  python setup.py install --root=$pkgdir
 }

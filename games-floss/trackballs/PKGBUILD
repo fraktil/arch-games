@@ -14,12 +14,12 @@ source=(http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.t
 md5sums=('84e2e8bb68842a636da91673751279a0' 'dba47c0b52855b4e7021484783f68004')
 
 build() {
-  cd $startdir/src/$pkgname-$pkgver
+  cd $srcdir/$pkgname-$pkgver
   ./configure --prefix=/usr
   make || return 1
   make DESTDIR=${startdir}/pkg install
-  install -m644 share/highScores $startdir/pkg/usr/share/trackballs/highScores.init
-  mkdir -p $startdir/pkg/usr/share/applications
-  install -m644 $startdir/src/trackballs.desktop \
-                $startdir/pkg/usr/share/applications/
+  install -m644 share/highScores $pkgdir/usr/share/trackballs/highScores.init
+  mkdir -p $pkgdir/usr/share/applications
+  install -m644 $srcdir/trackballs.desktop \
+                $pkgdir/usr/share/applications/
 }

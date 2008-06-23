@@ -13,15 +13,15 @@ source=(http://ftp.belnet.be/mirror/rsync.gentoo.org/gentoo/distfiles/viruskille
 md5sums=('de7c78b3abdb4ff488943d78a94f5bb1' '8ed8b12b1a6c9640a1969f627d206ac8')
 
 build() {
-  cd $startdir/src/$pkgname-$pkgver
+  cd $srcdir/$pkgname-$pkgver
   sed -i -e "s/-g games/-g root/g" makefile
   sed -i -e "80,85d" makefile
   sed -i -e "84,89d" makefile
   make DATADIR=/usr/share/viruskiller/ || return 1
-  make DESTDIR=$startdir/pkg BINDIR=$startdir/pkg/usr/bin/ DATADIR=$startdir/pkg/usr/share/viruskiller/ install || return 1
+  make DESTDIR=$pkgdir BINDIR=$pkgdir/usr/bin/ DATADIR=$pkgdir/usr/share/viruskiller/ install || return 1
   # Install icon
-  install -D -m 644 $startdir/$pkgname.png $startdir/pkg/usr/share/pixmaps/$pkgname.png
+  install -D -m 644 $startdir/$pkgname.png $pkgdir/usr/share/pixmaps/$pkgname.png
 	
   # Install desktop file
-  install -D -m 644 $startdir/src/$pkgname-$pkgver/icons/$pkgname.desktop $startdir/pkg/usr/share/applications/$pkgname.desktop
+  install -D -m 644 $srcdir/$pkgname-$pkgver/icons/$pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
 }

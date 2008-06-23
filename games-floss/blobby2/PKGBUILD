@@ -13,9 +13,9 @@ source=(http://internap.dl.sourceforge.net/sourceforge/blobby/$pkgname-linux-$pk
 md5sums=('fdef3e59f0870d890be8dffaccd773ca' 'b9f629723320ded196a72c6bb9d50b1d')
 
 build() {
-        cd $startdir/src/blobby-alpha-6
+        cd $srcdir/blobby-alpha-6
 	patch -p1 <../gcc-4.3-fixes.patch
          ./configure --prefix=/usr
         make || return 1
-        make DESTDIR=$startdir/pkg install
+        make DESTDIR=$pkgdir install
 }
