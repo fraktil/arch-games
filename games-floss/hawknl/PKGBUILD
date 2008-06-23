@@ -14,12 +14,12 @@ source=(http://www.sonic.net/~philf/download/HawkNL168src.zip \
 md5sums=('1b5eb1373a4c45dc49ded2c9d89cec93' 'd8a5982f59b66a1ef816aed555f9fd3a')
 
 build() {
-  cd $startdir/src/HawkNL1.68
+  cd $srcdir/HawkNL1.68
   patch -p1 -i ../build.patch
   ln -s makefile.linux makefile
   sed -i -e 's:make :$(MAKE) :g' makefile
   sed -i -e '/echo /d' src/makefile.linux 
   make || return 1
-  install -m755 -d $startdir/pkg/usr/include $startdir/pkg/usr/lib
-  make LIBDIR="$startdir/pkg/usr/lib" INCDIR="$startdir/pkg/usr/include" OPTFLAGS="-D_GNU_SOURCE -D_REENTRANT" install || return 1
+  install -m755 -d $pkgdir/usr/include $pkgdir/usr/lib
+  make LIBDIR="$pkgdir/usr/lib" INCDIR="$pkgdir/usr/include" OPTFLAGS="-D_GNU_SOURCE -D_REENTRANT" install || return 1
 }

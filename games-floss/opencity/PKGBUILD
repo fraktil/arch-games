@@ -12,8 +12,8 @@ source=(http://downloads.sourceforge.net/$pkgname/$pkgname-${pkgver}stable.tar.b
 md5sums=('7cfd14d857af6aaff7210f7d00198d38')
 
 build() {
-  cd $startdir/src/$pkgname-${pkgver/.1/}stable
+  cd $srcdir/$pkgname-${pkgver/.1/}stable
   ./configure --prefix=/usr --sysconfdir=/etc
   make || return 1
-  make DESTDIR=$startdir/pkg install
+  make DESTDIR=$pkgdir install
 }

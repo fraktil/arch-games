@@ -9,22 +9,22 @@ source=(http://dl.sourceforge.net/sourceforge/dark-oberon/dark-oberon-$pkgver-RC
         dark-oberon-$pkgver-usr.patch dark-oberon.sh)
 
 build() {
-  export DARK_OBERON_HOME=$startdir/src/dark-oberon-$pkgver-RC$pkgrel
-  cd $startdir/src/dark-oberon-$pkgver-RC1
+  export DARK_OBERON_HOME=$srcdir/dark-oberon-$pkgver-RC$pkgrel
+  cd $srcdir/dark-oberon-$pkgver-RC1
 	patch -Np1 -i ../dark-oberon-$pkgver-usr.patch || return 1
-	sed "s|LIBRARIES = |LIBRARIES = -pthread -lglfw -lGL -lX11 -lXxf86vm -lGLU -lXext -lfmod-3.74.1 |g" -i $startdir/src/dark-oberon-$pkgver-RC1/src/Makefile
-  sed "s|CPPFLAGS = -g -Wall -O|CPPFLAGS = ${CXXFLAGS}|g" -i $startdir/src/dark-oberon-$pkgver-RC1/src/Makefile
-  sed "s|-DDATA_DIR='\"\"'|-DDATA_DIR='\"/opt/dark-oberon/\"'|g" -i $startdir/src/dark-oberon-$pkgver-RC1/src/Makefile
+	sed "s|LIBRARIES = |LIBRARIES = -pthread -lglfw -lGL -lX11 -lXxf86vm -lGLU -lXext -lfmod-3.74.1 |g" -i $srcdir/dark-oberon-$pkgver-RC1/src/Makefile
+  sed "s|CPPFLAGS = -g -Wall -O|CPPFLAGS = ${CXXFLAGS}|g" -i $srcdir/dark-oberon-$pkgver-RC1/src/Makefile
+  sed "s|-DDATA_DIR='\"\"'|-DDATA_DIR='\"/opt/dark-oberon/\"'|g" -i $srcdir/dark-oberon-$pkgver-RC1/src/Makefile
 	make SOUND=1 || return 1
 
-  mkdir -p $startdir/pkg/opt/dark-oberon
+  mkdir -p $pkgdir/opt/dark-oberon
   for src in dark-oberon dat docs libs maps races schemes; do
-    cp -a $src $startdir/pkg/opt/dark-oberon
+    cp -a $src $pkgdir/opt/dark-oberon
   done
-  chown -R root:root $startdir/pkg/*
-  chmod -R a+r  $startdir/pkg/*
+  chown -R root:root $pkgdir/*
+  chmod -R a+r  $pkgdir/*
 
-  mkdir -p $startdir/pkg/etc/profile.d
-  install -c $startdir/src/dark-oberon.sh $startdir/pkg/etc/profile.d/dark-oberon.sh
+  mkdir -p $pkgdir/etc/profile.d
+  install -c $srcdir/dark-oberon.sh $pkgdir/etc/profile.d/dark-oberon.sh
 }
 md5sums=('62e5f4593b282b630a06675127afc840' '9bbb5cc6d635c2435ad1d80591150cb6')

@@ -21,25 +21,25 @@ md5sums=('538eadf2b78897620f3ef683a4ea423a'
 build() {
 
   # Compile with scons
-  cd $startdir/src/$pkgname-$pkgver
+  cd $srcdir/$pkgname-$pkgver
   patch -p1 <../gcc-4.3-fixes.patch
   scons || return 1
 	
   # Copy over files
-  mkdir -p $startdir/pkg/usr/share
-  cp -r $startdir/src/$pkgname-$pkgver $startdir/pkg/usr/share/btanks
+  mkdir -p $pkgdir/usr/share
+  cp -r $srcdir/$pkgname-$pkgver $pkgdir/usr/share/btanks
 
   # Install script
-  install -D -m755 $startdir/src/btanks_script $startdir/pkg/usr/bin/btanks
+  install -D -m755 $srcdir/btanks_script $pkgdir/usr/bin/btanks
 
   # Install desktop file
-  install -D -m644 $startdir/src/btanks_desktop $startdir/pkg/usr/share/applications/btanks.desktop
+  install -D -m644 $srcdir/btanks_desktop $pkgdir/usr/share/applications/btanks.desktop
 
   # Install icon
-  install -D -m644 $startdir/src/$pkgname-$pkgver/data/tiles/icon.png $startdir/pkg/usr/share/pixmaps/btanks.png
+  install -D -m644 $srcdir/$pkgname-$pkgver/data/tiles/icon.png $pkgdir/usr/share/pixmaps/btanks.png
 
   # Make settings saveable
-  touch $startdir/pkg/usr/share/btanks/bt.xml
-  chown :games $startdir/pkg/usr/share/btanks/bt.xml
-  chmod 664 $startdir/pkg/usr/share/btanks/bt.xml
+  touch $pkgdir/usr/share/btanks/bt.xml
+  chown :games $pkgdir/usr/share/btanks/bt.xml
+  chmod 664 $pkgdir/usr/share/btanks/bt.xml
 }

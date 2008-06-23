@@ -13,6 +13,6 @@ md5sums=('0eebcf062bfec08305b2228099dddfd3')
 arch=('i686')
 
 build() {
-	cd $startdir/src/Rabbyt-$pkgver
-	python setup.py install --root $startdir/pkg
+	cd $srcdir/Rabbyt-$pkgver
+	python setup.py install --root $pkgdir
 }

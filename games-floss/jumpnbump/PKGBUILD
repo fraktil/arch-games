@@ -18,8 +18,8 @@ md5sums=('165873fca1c7164eb08b4875f9e7da07')
 
 
 build() {
-  cd $startdir/src/$pkgname-1.50
+  cd $srcdir/$pkgname-1.50
   ./configure --prefix=/usr  
   make || return 1
-  make DESTDIR=$startdir/pkg install
+  make DESTDIR=$pkgdir install
 }

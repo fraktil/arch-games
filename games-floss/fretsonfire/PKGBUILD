@@ -14,9 +14,9 @@ install=frets.install
 source=("http://downloads.sourceforge.net/sourceforge/fretsonfire/FretsOnFire-$pkgver-linux.tar.gz" 'fretsonfire.desktop' 'fretsonfire.file' 'fretsonfire.png')
 md5sums=('0189a25be663173c9b4c462c38fa1c81' 'e792e7dfe01775c0034781393c457696' '3944d671bcfaa9d773c5aec1049e2a4e' '66668cad0211bf4e6ab1bd5efa8f65bf')
 build() {
-	mkdir -p $startdir/pkg/usr/share/games/fretsonfire
-	cp -R $startdir/src/FretsOnFire/* $startdir/pkg/usr/share/games/fretsonfire
-	install -D -m0755 $startdir/src/fretsonfire.file $startdir/pkg/usr/bin/fretsonfire
-	install -D $startdir/src/fretsonfire.desktop  $startdir/pkg/usr/share/applications/fretsonfire.desktop
-	install -D $startdir/src/fretsonfire.png $startdir/pkg/usr/share/pixmaps/fretsonfire.png
+	mkdir -p $pkgdir/usr/share/games/fretsonfire
+	cp -R $srcdir/FretsOnFire/* $pkgdir/usr/share/games/fretsonfire
+	install -D -m0755 $srcdir/fretsonfire.file $pkgdir/usr/bin/fretsonfire
+	install -D $srcdir/fretsonfire.desktop  $pkgdir/usr/share/applications/fretsonfire.desktop
+	install -D $srcdir/fretsonfire.png $pkgdir/usr/share/pixmaps/fretsonfire.png
 }

@@ -15,12 +15,12 @@ md5sums=('418f9ecac5756f7bc79863596dee7f34')
 
 build() {
   # apply patch for gcc-4.3 on ksudoku version 0.4
-  cp $startdir/gcc43.diff $startdir/src
-  cd $startdir/src
+  cp $startdir/gcc43.diff $srcdir
+  cd $srcdir
   patch -p0 < gcc43.diff  
 
-  cd $startdir/src/$pkgname-$pkgver
+  cd $srcdir/$pkgname-$pkgver
   cmake . -DCMAKE_INSTALL_PREFIX:PATH=`kde-config --prefix`
   make || return 1
-  make DESTDIR=$startdir/pkg install
+  make DESTDIR=$pkgdir install
 }

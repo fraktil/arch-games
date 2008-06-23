@@ -11,8 +11,8 @@ source=(http://ufpr.dl.sourceforge.net/sourceforge/xpilot/$pkgname-$pkgver.tar.g
 md5sums=('b922251ab9c69f87567c9606304ee589')
 
 build() {
-	  cd $startdir/src/$pkgname-$pkgver
+	  cd $srcdir/$pkgname-$pkgver
          ./configure --prefix=/usr
           make || return 1
-          make prefix=$startdir/pkg/usr install
+          make prefix=$pkgdir/usr install
 }

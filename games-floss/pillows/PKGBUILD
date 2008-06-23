@@ -13,8 +13,8 @@ source=(http://fydo.net/programming/pillows-v$pkgver.zip
 md5sums=('17c2811f154cfd666d0f0d46901d6b24' 'ed5159e82ada432bb2b9fba58d26fe2f' 'd024127c5bf0f05357aea1fe9a8a32b8')
 
 build() {
- mkdir -p $startdir/pkg/usr/share
- cp -r $startdir/src/$pkgname-v$pkgver $startdir/pkg/usr/share/pillows
- install -D $startdir/src/$pkgname-script $startdir/pkg/usr/bin/$pkgname
- install -D -m644 $startdir/src/$pkgname-desktop $startdir/pkg/usr/share/applications/$pkgname.desktop
+ mkdir -p $pkgdir/usr/share
+ cp -r $srcdir/$pkgname-v$pkgver $pkgdir/usr/share/pillows
+ install -D $srcdir/$pkgname-script $pkgdir/usr/bin/$pkgname
+ install -D -m644 $srcdir/$pkgname-desktop $pkgdir/usr/share/applications/$pkgname.desktop
 }

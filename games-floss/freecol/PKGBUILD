@@ -14,16 +14,16 @@ md5sums=('57600a0437091d65e220ee3ba2fb69fb' 'd0bf043f05dfc51cc9c1f5e169bc1316'\
 	 'f471d4fd3624d9b45aa3e16e40f2faef')
 
 build() {
-  cd $startdir/src/$pkgname
+  cd $srcdir/$pkgname
   
-  install -D -m644 FreeCol.jar $startdir/pkg/usr/share/java/$pkgname/FreeCol.jar
-  cp -R jars $startdir/pkg/usr/share/java/$pkgname
-  mkdir -p $startdir/pkg/usr/share/$pkgname
-  cp -R data $startdir/pkg/usr/share/$pkgname
-  install -D -m755 $startdir/src/$pkgname.sh $startdir/pkg/usr/bin/$pkgname
+  install -D -m644 FreeCol.jar $pkgdir/usr/share/java/$pkgname/FreeCol.jar
+  cp -R jars $pkgdir/usr/share/java/$pkgname
+  mkdir -p $pkgdir/usr/share/$pkgname
+  cp -R data $pkgdir/usr/share/$pkgname
+  install -D -m755 $srcdir/$pkgname.sh $pkgdir/usr/bin/$pkgname
 
-  install -D -m644 $startdir/src/$pkgname/$pkgname.xpm $startdir/pkg/usr/share/pixmaps/$pkgname.xpm
-  install -D -m644 $startdir/src/$pkgname.desktop $startdir/pkg/usr/share/applications/$pkgname.desktop
+  install -D -m644 $srcdir/$pkgname/$pkgname.xpm $pkgdir/usr/share/pixmaps/$pkgname.xpm
+  install -D -m644 $srcdir/$pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
 
-  install -D -m644 COPYING $startdir/pkg/usr/share/licenses/$pkgname/COPYING
+  install -D -m644 COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
 }

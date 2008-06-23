@@ -21,20 +21,20 @@ md5sums=('5daccbed195ae74cdfa54755ef62e3ce'
          '803ab9381984ebd0699f76ba7dfd9f01')
 
 build() {
-  cd "$startdir/src/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-$pkgver"
 
-  patch -Np0 -i $startdir/src/$pkgname-$pkgver-gcc.patch
+  patch -Np0 -i $srcdir/$pkgname-$pkgver-gcc.patch
 
   ./configure --prefix=/usr --datadir=/usr/share/fillets-ng
   make || return 1
-  make DESTDIR="$startdir/pkg" install
+  make DESTDIR="$pkgdir" install
 
-  install -d -m755 "$startdir/pkg/usr/share/fillets-ng"
-  cp -r $startdir/src/$pkgname-data-$pkgver/* \
-    $startdir/pkg/usr/share/fillets-ng || return 1
+  install -d -m755 "$pkgdir/usr/share/fillets-ng"
+  cp -r $srcdir/$pkgname-data-$pkgver/* \
+    $pkgdir/usr/share/fillets-ng || return 1
 
-  install -D -m644 "$startdir/src/$pkgname-data-$pkgver/images/icon.png" \
-    "$startdir/pkg/usr/share/pixmaps/fillets.png" || return 1
-  install -D -m644 "$startdir/src/fillets-ng.desktop" \
-    "$startdir/pkg/usr/share/applications/fillets-ng.desktop" || return 1
+  install -D -m644 "$srcdir/$pkgname-data-$pkgver/images/icon.png" \
+    "$pkgdir/usr/share/pixmaps/fillets.png" || return 1
+  install -D -m644 "$srcdir/fillets-ng.desktop" \
+    "$pkgdir/usr/share/applications/fillets-ng.desktop" || return 1
 }

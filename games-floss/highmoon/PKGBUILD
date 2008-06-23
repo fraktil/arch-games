@@ -13,8 +13,8 @@ source=(http://highmoon.gerdsmeier.net/$pkgname-$pkgver.tar.gz)
 md5sums=('4b16a749f844d5ca691c9774884979ec')
 
 build() { 
-  cd $startdir/src/HighMoon
+  cd $srcdir/HighMoon
   make || return 1
-  make INSTALLPATH=$startdir/pkg/usr/share/highmoon INSTALLBIN=$startdir/pkg/usr/bin install
-  sed -i -e "s|$startdir/pkg/usr/share/highmoon|/usr/share/highmoon|" $startdir/pkg/usr/bin/highmoon
+  make INSTALLPATH=$pkgdir/usr/share/highmoon INSTALLBIN=$pkgdir/usr/bin install
+  sed -i -e "s|$pkgdir/usr/share/highmoon|/usr/share/highmoon|" $pkgdir/usr/bin/highmoon
 }

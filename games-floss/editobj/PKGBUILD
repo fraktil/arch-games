@@ -15,6 +15,6 @@ source=(http://download.gna.org/songwrite/EditObj-$pkgver.tar.gz)
 md5sums=('d262f0b4769723b0c7d14314c4a58a1f')
 
 build() {
-  cd $startdir/src/EditObj-$pkgver
-  python setup.py install --root=$startdir/pkg
+  cd $srcdir/EditObj-$pkgver
+  python setup.py install --root=$pkgdir
 }
