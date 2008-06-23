@@ -1,0 +1,11 @@
+--- torcs-1.2.4/src/modules/graphic/ssggraph/Makefile.freealutfix	2006-02-01 10:46:38.000000000 -0500
++++ torcs-1.2.4/src/modules/graphic/ssggraph/Makefile	2006-02-01 10:46:56.000000000 -0500
+@@ -24,7 +24,7 @@
+ 
+ MODULEDIR = modules/graphic
+ 
+-LIBS      = -lplibsl -lplibsm -lplibsg -lplibssg -lplibul -lplibssgaux -lopenal
++LIBS      = -lplibsl -lplibsm -lplibsg -lplibssg -lplibul -lplibssgaux -lopenal -lalut
+ 
+ SHIPDIR   = config
+ 
