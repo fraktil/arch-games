@@ -1,0 +1,30 @@
+# Contributor: rabyte <rabyte.at.pen.dot.tj>
+# Contributor: Jacek Poplawski <jacekpoplawski.at.gmail.dot.com> 
+
+pkgname=alephone
+pkgver=20071103
+pkgrel=1
+pkgdesc="A free descendant of Bungie's 3D FPS Marathon 2"
+arch=('i686')
+url="http://marathon.sourceforge.net/"
+license=('GPL2')
+depends=('libgl' 'libmad' 'libsndfile' 'libvorbis' 'mesa' 'sdl_image' 'sdl_net' \
+	 'smpeg' 'speex')
+makedepends=('boost' 'lua')
+install=$pkgname.install
+source=(http://downloads.sourceforge.net/marathon/AlephOne-$pkgver-nolibs.tar.bz2 \
+	$pkgname.6)
+md5sums=('78b58f845a6a8e34bae43ff1413d5cd9' 'b69dd8bc7cd455b1d1649dfa1ca4976e')
+
+build() {
+  cd $startdir/src/AlephOne-$pkgver
+
+  # fix install path
+  sed "s|PACKAGE='AlephOne'|PACKAGE='alephone'|" -i configure
+
+  ./configure --prefix=/usr
+  make || return 1
+  make DESTDIR=$startdir/pkg install
+
+  install -m644 -D ../alephone.6 $startdir/pkg/usr/man/man6/alephone.6
+}

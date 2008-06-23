@@ -1,0 +1,18 @@
+post_install() {
+cat << EOF
+>>> You need some data files to play Aleph One.
+>>> Please install at least one of the following packages:
+>>> alephone-m1a1
+>>> alephone-marathon2
+>>> alephone-infinity
+EOF
+}
+
+post_upgrade() {
+  post_install $1
+}
+
+op=$1
+shift
+
+$op $*

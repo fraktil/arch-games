@@ -1,0 +1,57 @@
+# Contributor: Wael Nasreddine <gandalf@siemens-mobiles.org>
+
+pkgname=wormsofprey
+pkgver=0.4.3
+pkgrel=1
+pkgdesc="Wörms of Prey is the new and free real-time Worms game."
+depends=('sdl_ttf' 'sdl_net' 'sdl_mixer' 'sdl_image')
+license="GPL"
+arch=('i686')
+url="http://www.wormsofprey.org"
+source=(http://www.wormsofprey.org/download/wop-$pkgver-src.tar.bz2 \
+	http://wormsofprey.org/download/wopdata-2005-12-21.tar.bz2 \
+	wop.desktop)
+md5sums=('ae07e9e1092de6c447a9af2cf8e90959'
+         '0bf42f28e03dcac5c8066b46d7733907'
+         'a3394fada53fdcd34849cf97b4fae137')
+sha1sums=('b5556d83e6855e50fe439b57978c4c5c0521d4a8'
+          '8a1b3c7dfcc1c938aa18afb938caa2ce6e4c1b28'
+          '6205129d4970052b620733f68d2241e8679bc8d5')
+
+	 
+build() {
+  cd $startdir/src/wop-$pkgver
+
+
+  #Change the configuration file path from /etc to /opt/wop/etc
+	sed -i \
+		-e "s:/etc/woprc:/opt/wop/etc/woprc:g" \
+		"src/wopsettings.cpp" \
+		|| return 1
+
+	sed -i \
+		-e "s:^data =.*$:data = /opt/wop/data:" \
+		"woprc" \
+		|| return 1
+
+  # something is wrong, how Makefile.depend does not exist, i don't get it
+  touch {sdlwidgets,src}/Makefile.depend || return 1
+
+  # Starting make
+  make || return 1
+
+  # Installing it
+  mkdir -p $startdir/pkg/usr/bin
+  install -m755 bin/wop $startdir/pkg/usr/bin/wop
+  mkdir -p $startdir/pkg/opt/wop/{data,etc}
+  cp woprc $startdir/pkg/opt/wop/etc
+  cp -R $startdir/src/wopdata-2005-12-21/* $startdir/pkg/opt/wop/data
+
+  # Copying .desktop file
+  # P.D: plz i need an icon for it, thx
+  mkdir -p $startdir/pkg/usr/share/applications
+  cp $startdir/src/wop.desktop $startdir/pkg/usr/share/applications/wop.desktop
+
+  #hmmm some files are not world-readable... hmmmm WTH :o
+  chmod a+r $startdir/pkg
+}

@@ -1,0 +1,179 @@
+diff -ur spring_0.76b1.orig/AI/Global/AAI/AAIBuildTable.cpp spring_0.76b1/AI/Global/AAI/AAIBuildTable.cpp
+--- spring_0.76b1.orig/AI/Global/AAI/AAIBuildTable.cpp	2007-12-23 22:13:44.000000000 +0100
++++ spring_0.76b1/AI/Global/AAI/AAIBuildTable.cpp	2008-06-21 11:29:21.000000000 +0200
+@@ -10,6 +10,7 @@
+ #include "AAIBuildTable.h"
+ 
+ #include "AAI.h"
++#include <string.h>
+ 
+ // all the static vars
+ const UnitDef** AAIBuildTable::unitList = 0;
+diff -ur spring_0.76b1.orig/AI/Global/AAI/AAIConfig.cpp spring_0.76b1/AI/Global/AAI/AAIConfig.cpp
+--- spring_0.76b1.orig/AI/Global/AAI/AAIConfig.cpp	2007-12-23 22:13:44.000000000 +0100
++++ spring_0.76b1/AI/Global/AAI/AAIConfig.cpp	2008-06-21 11:37:40.000000000 +0200
+@@ -9,6 +9,7 @@
+ 
+ #include "AAIConfig.h"
+ #include "AAI.h"
++#include <string.h>
+ 
+ AAIConfig::AAIConfig(void)
+ {
+diff -ur spring_0.76b1.orig/AI/Global/AAI/AAI.cpp spring_0.76b1/AI/Global/AAI/AAI.cpp
+--- spring_0.76b1.orig/AI/Global/AAI/AAI.cpp	2007-12-23 22:13:44.000000000 +0100
++++ spring_0.76b1/AI/Global/AAI/AAI.cpp	2008-06-21 11:34:51.000000000 +0200
+@@ -10,7 +10,7 @@
+ #include "AAI.h"
+ #include <math.h>
+ #include <stdio.h>
+-
++#include <string.h>
+ 
+ AAI::AAI()
+ {
+diff -ur spring_0.76b1.orig/AI/Global/AAI/AAIMap.cpp spring_0.76b1/AI/Global/AAI/AAIMap.cpp
+--- spring_0.76b1.orig/AI/Global/AAI/AAIMap.cpp	2007-12-20 01:41:48.000000000 +0100
++++ spring_0.76b1/AI/Global/AAI/AAIMap.cpp	2008-06-21 11:30:15.000000000 +0200
+@@ -11,6 +11,7 @@
+ #include "AAI.h"
+ #include "AAISector.h"
+ #include "AAIBuildTable.h"
++#include <string.h>
+ 
+ // all the static vars
+ int AAIMap::aai_instances = 0;
+diff -ur spring_0.76b1.orig/AI/Global/AAI/Interface.cpp spring_0.76b1/AI/Global/AAI/Interface.cpp
+--- spring_0.76b1.orig/AI/Global/AAI/Interface.cpp	2007-12-20 01:41:48.000000000 +0100
++++ spring_0.76b1/AI/Global/AAI/Interface.cpp	2008-06-21 11:32:54.000000000 +0200
+@@ -10,6 +10,7 @@
+ #include "aidef.h"
+ #include "Platform/Win/win32.h"
+ #include "AAI.h"
++#include <string.h>
+ 
+ /////////////////////////////////////////////////////////////////////////////
+ 
+diff -ur spring_0.76b1.orig/AI/Global/TestGlobalAI/TestAI.cpp spring_0.76b1/AI/Global/TestGlobalAI/TestAI.cpp
+--- spring_0.76b1.orig/AI/Global/TestGlobalAI/TestAI.cpp	2006-06-27 12:31:52.000000000 +0200
++++ spring_0.76b1/AI/Global/TestGlobalAI/TestAI.cpp	2008-06-21 11:40:31.000000000 +0200
+@@ -1,5 +1,6 @@
+ #include "TestGlobalAI.h"
+ #include "ExternalAI/aibase.h"
++#include <string.h>
+ 
+ /////////////////////////////////////////////////////////////////////////////
+ 
+diff -ur spring_0.76b1.orig/AI/Group/EconomyAI/MetalMap.cpp spring_0.76b1/AI/Group/EconomyAI/MetalMap.cpp
+--- spring_0.76b1.orig/AI/Group/EconomyAI/MetalMap.cpp	2007-10-27 21:14:56.000000000 +0200
++++ spring_0.76b1/AI/Group/EconomyAI/MetalMap.cpp	2008-06-21 11:17:18.000000000 +0200
+@@ -1,5 +1,7 @@
+ #include "ExternalAI/IAICallback.h"
+ #include "MetalMap.h"
++#include <string.h>
++#include <stdlib.h>
+ 
+ CMetalMap::CMetalMap(IAICallback* aicb, bool verbose)
+ {
+diff -ur spring_0.76b1.orig/rts/Rendering/Textures/Bitmap.cpp spring_0.76b1/rts/Rendering/Textures/Bitmap.cpp
+--- spring_0.76b1.orig/rts/Rendering/Textures/Bitmap.cpp	2007-12-27 16:45:16.000000000 +0100
++++ spring_0.76b1/rts/Rendering/Textures/Bitmap.cpp	2008-06-21 10:59:25.000000000 +0200
+@@ -18,6 +18,7 @@
+ #include "Rendering/Textures/Bitmap.h"
+ #include "bitops.h"
+ #include "mmgr.h"
++#include <string.h>
+ 
+ //////////////////////////////////////////////////////////////////////
+ // Construction/Destruction
+diff -ur spring_0.76b1.orig/rts/Sim/Units/UnitDef.h spring_0.76b1/rts/Sim/Units/UnitDef.h
+--- spring_0.76b1.orig/rts/Sim/Units/UnitDef.h	2008-01-02 00:52:51.000000000 +0100
++++ spring_0.76b1/rts/Sim/Units/UnitDef.h	2008-06-21 11:19:38.000000000 +0200
+@@ -4,6 +4,7 @@
+ #include <string>
+ #include <vector>
+ #include <map>
++#include <stdlib.h>
+ 
+ #include "Rendering/GL/myGL.h"
+ #include "creg/creg.h"
+diff -ur spring_0.76b1.orig/rts/System/AutohostInterface.cpp spring_0.76b1/rts/System/AutohostInterface.cpp
+--- spring_0.76b1.orig/rts/System/AutohostInterface.cpp	2007-12-26 13:43:52.000000000 +0100
++++ spring_0.76b1/rts/System/AutohostInterface.cpp	2008-06-21 10:24:20.000000000 +0200
+@@ -1,6 +1,7 @@
+ #include "AutohostInterface.h"
+ 
+ #include "Net/UDPHardlink.h" 
++#include "string.h"
+ 
+ namespace {
+ 
+diff -ur spring_0.76b1.orig/rts/System/LogOutput.h spring_0.76b1/rts/System/LogOutput.h
+--- spring_0.76b1.orig/rts/System/LogOutput.h	2007-12-26 13:27:25.000000000 +0100
++++ spring_0.76b1/rts/System/LogOutput.h	2008-06-21 10:34:33.000000000 +0200
+@@ -7,6 +7,8 @@
+ #define LOGOUTPUT_H
+ 
+ #include <vector>
++#include <string>
++#include "stdarg.h"
+ 
+ // format string error checking
+ #ifdef __GNUC__
+diff -ur spring_0.76b1.orig/rts/System/Net/UDPSocket.cpp spring_0.76b1/rts/System/Net/UDPSocket.cpp
+--- spring_0.76b1.orig/rts/System/Net/UDPSocket.cpp	2007-12-26 13:43:52.000000000 +0100
++++ spring_0.76b1/rts/System/Net/UDPSocket.cpp	2008-06-21 10:53:46.000000000 +0200
+@@ -10,6 +10,8 @@
+ #endif
+ 
+ #include "Exception.h"
++#include <stdlib.h>
++#include <string.h>
+ 
+ namespace netcode {
+ 
+diff -ur spring_0.76b1.orig/rts/System/Platform/Linux/PosixCmd.cpp spring_0.76b1/rts/System/Platform/Linux/PosixCmd.cpp
+--- spring_0.76b1.orig/rts/System/Platform/Linux/PosixCmd.cpp	2006-08-03 16:55:35.000000000 +0200
++++ spring_0.76b1/rts/System/Platform/Linux/PosixCmd.cpp	2008-06-21 10:50:09.000000000 +0200
+@@ -8,7 +8,7 @@
+  * GNU GPL, v2 or later.
+  */
+ #include "PosixCmd.h"
+-
++#include <stdlib.h>
+ 
+ /**
+  * Just stores the arguments and calls the parent class's
+diff -ur spring_0.76b1.orig/rts/System/StdAfx.h spring_0.76b1/rts/System/StdAfx.h
+--- spring_0.76b1.orig/rts/System/StdAfx.h	2007-09-23 13:54:17.000000000 +0200
++++ spring_0.76b1/rts/System/StdAfx.h	2008-06-21 11:03:20.000000000 +0200
+@@ -70,6 +70,7 @@
+ #include <stdexcept>
+ #include <string>
+ #include <ctype.h>
++#include <string.h>
+ 
+ /**
+  * content_error
+diff -ur spring_0.76b1.orig/tools/unitsync/javabind.cpp spring_0.76b1/tools/unitsync/javabind.cpp
+--- spring_0.76b1.orig/tools/unitsync/javabind.cpp	2007-11-16 18:40:13.000000000 +0100
++++ spring_0.76b1/tools/unitsync/javabind.cpp	2008-06-21 10:56:04.000000000 +0200
+@@ -17,6 +17,7 @@
+ #include <string>
+ #include <vector>
+ #include <algorithm>
++#include <string.h>
+ 
+ #define NAMEBUF_SIZE 4096
+ 
+diff -ur spring_0.76b1.orig/tools/unitsync/unitsync.cpp spring_0.76b1/tools/unitsync/unitsync.cpp
+--- spring_0.76b1.orig/tools/unitsync/unitsync.cpp	2007-12-23 18:53:37.000000000 +0100
++++ spring_0.76b1/tools/unitsync/unitsync.cpp	2008-06-21 10:55:19.000000000 +0200
+@@ -24,6 +24,7 @@
+ #include <algorithm>
+ #include <cstdio>
+ #include <cstdarg>
++#include <string.h>
+ 
+ #define ASSERT(condition, message) \
+ 	do { \
