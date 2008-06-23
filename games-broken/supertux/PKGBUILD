@@ -1,0 +1,22 @@
+# Contributor: Jaroslaw Swierczynski <swiergot@aur.archlinux.org>
+# Contributor: Eric Belanger <belanger@astro.umontreal.ca>
+# Contributor: vande198
+
+pkgname=supertux
+pkgver=0.3.1
+pkgrel=1
+pkgdesc="A classic 2D jump'n run sidescroller game in a style similar to the original SuperMario games"
+url="http://super-tux.sourceforge.net/"
+license="GPL"
+arch=('i686' 'x86_64')
+depends=('sdl_image' 'curl' 'libgl' 'physfs' 'openal' 'libvorbis')
+makedepends=('ftjam')
+source=(http://download.berlios.de/supertux/${pkgname}-${pkgver}d.tar.bz2)
+md5sums=('6741f3874f64bc5371d72d664a6424bc')
+
+build() {
+  cd $startdir/src/$pkgname-$pkgver
+  ./configure --prefix=/usr
+  jam || return 1
+  jam -sprefix=$startdir/pkg/usr install 
+}
