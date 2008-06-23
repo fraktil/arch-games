@@ -1,0 +1,22 @@
+# Contributor: Angel 'angvp' Velasquez <angvp[at]archlinux.com.ve> 
+pkgname=fretsonfire
+pkgver=1.2.512
+pkgrel=1
+arch=('i686' 'x86_64')
+pkgdesc="A game of musical skill and fast fingers. Play guitar with the keyboard as accurately as possible. Like guitar Hero."
+url="http://fretsonfire.sourceforge.net/"
+license=('GPL')
+if [ "$CARCH" = "x86_64" ]; then 
+depends=('lib32-sdl' 'lib32-sdl_ttf' 'lib32-sdl_mixer' 'lib32-smpeg' 'lib32-freeglut')
+else depends=('sdl' 'sdl_ttf' 'sdl_mixer' 'smpeg' 'freeglut')
+fi
+install=frets.install
+source=("http://downloads.sourceforge.net/sourceforge/fretsonfire/FretsOnFire-$pkgver-linux.tar.gz" 'fretsonfire.desktop' 'fretsonfire.file' 'fretsonfire.png')
+md5sums=('0189a25be663173c9b4c462c38fa1c81' 'e792e7dfe01775c0034781393c457696' '3944d671bcfaa9d773c5aec1049e2a4e' '66668cad0211bf4e6ab1bd5efa8f65bf')
+build() {
+	mkdir -p $startdir/pkg/usr/share/games/fretsonfire
+	cp -R $startdir/src/FretsOnFire/* $startdir/pkg/usr/share/games/fretsonfire
+	install -D -m0755 $startdir/src/fretsonfire.file $startdir/pkg/usr/bin/fretsonfire
+	install -D $startdir/src/fretsonfire.desktop  $startdir/pkg/usr/share/applications/fretsonfire.desktop
+	install -D $startdir/src/fretsonfire.png $startdir/pkg/usr/share/pixmaps/fretsonfire.png
+}

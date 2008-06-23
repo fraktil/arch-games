@@ -1,0 +1,104 @@
+diff -c -r btanks-0.7.5800/menu/menu_config.cpp btanks-0.7.5800-new/menu/menu_config.cpp
+*** btanks-0.7.5800/menu/menu_config.cpp	2007-04-18 09:04:27.000000000 +0200
+--- btanks-0.7.5800-new/menu/menu_config.cpp	2008-05-16 12:44:00.000000000 +0200
+***************
+*** 23,28 ****
+--- 23,29 ----
+  #include "mrt/random.h"
+  #include "mrt/b64.h"
+  #include "config.h"
++ #include <cstring>
+  
+  IMPLEMENT_SINGLETON(MenuConfig, IMenuConfig);
+  
+diff -c -r btanks-0.7.5800/mrt/lang.cpp btanks-0.7.5800-new/mrt/lang.cpp
+*** btanks-0.7.5800/mrt/lang.cpp	2007-07-11 12:02:35.000000000 +0200
+--- btanks-0.7.5800-new/mrt/lang.cpp	2008-05-16 12:38:57.000000000 +0200
+***************
+*** 7,12 ****
+--- 7,14 ----
+  
+  #include "lang.h"
+  #include "logger.h"
++ #include <cstdlib>
++ #include <cstring>
+  
+  const std::string mrt::getLanguageCode() {
+  #ifdef WIN32
+diff -c -r btanks-0.7.5800/mrt/serializator.cpp btanks-0.7.5800-new/mrt/serializator.cpp
+*** btanks-0.7.5800/mrt/serializator.cpp	2007-09-21 04:10:44.000000000 +0200
+--- btanks-0.7.5800-new/mrt/serializator.cpp	2008-05-16 12:37:02.000000000 +0200
+***************
+*** 28,33 ****
+--- 28,34 ----
+  #include "serializator.h"
+  #include "chunk.h"
+  #include <assert.h>
++ #include <cstring>
+  #include <limits.h>
+  #include "exception.h"
+  
+diff -c -r btanks-0.7.5800/mrt/sys_socket.cpp btanks-0.7.5800-new/mrt/sys_socket.cpp
+*** btanks-0.7.5800/mrt/sys_socket.cpp	2007-12-21 11:43:21.000000000 +0100
+--- btanks-0.7.5800-new/mrt/sys_socket.cpp	2008-05-16 12:37:44.000000000 +0200
+***************
+*** 17,22 ****
+--- 17,23 ----
+   */
+  #include "sys_socket.h"
+  #include "ioexception.h"
++ #include <cstring>
+  
+  #ifdef WIN32
+  #	include "Winsock2.h"
+diff -c -r btanks-0.7.5800/mrt/udp_socket.cpp btanks-0.7.5800-new/mrt/udp_socket.cpp
+*** btanks-0.7.5800/mrt/udp_socket.cpp	2007-09-13 07:28:11.000000000 +0200
+--- btanks-0.7.5800-new/mrt/udp_socket.cpp	2008-05-16 12:39:28.000000000 +0200
+***************
+*** 1,5 ****
+--- 1,6 ----
+  #include "udp_socket.h"
+  #include "ioexception.h"
++ #include <cstring>
+  
+  #ifdef WIN32
+  #	include "Winsock2.h"
+diff -c -r btanks-0.7.5800/objects/trooper.cpp btanks-0.7.5800-new/objects/trooper.cpp
+*** btanks-0.7.5800/objects/trooper.cpp	2007-12-21 14:01:17.000000000 +0100
+--- btanks-0.7.5800-new/objects/trooper.cpp	2008-05-16 12:56:43.000000000 +0200
+***************
+*** 23,28 ****
+--- 23,29 ----
+  #include "alarm.h"
+  #include "config.h"
+  #include "trooper.h"
++ #include <cstring>
+  
+  void Trooper::getImpassabilityPenalty(const float impassability, float &base, float &base_value, float &penalty) const {
+  	if (impassability > 0.2f) {
+diff -c -r btanks-0.7.5800/src/i18n.cpp btanks-0.7.5800-new/src/i18n.cpp
+*** btanks-0.7.5800/src/i18n.cpp	2007-07-30 13:42:05.000000000 +0200
+--- btanks-0.7.5800-new/src/i18n.cpp	2008-05-16 12:49:52.000000000 +0200
+***************
+*** 19,24 ****
+--- 19,25 ----
+  #include "i18n.h"
+  #include "mrt/exception.h"
+  #include <assert.h>
++ #include <cstring>
+  
+  IMPLEMENT_SINGLETON(I18n, II18n);
+  
+diff -c -r btanks-0.7.5800/src/var.cpp btanks-0.7.5800-new/src/var.cpp
+*** btanks-0.7.5800/src/var.cpp	2007-04-04 10:34:03.000000000 +0200
+--- btanks-0.7.5800-new/src/var.cpp	2008-05-16 12:48:38.000000000 +0200
+***************
+*** 20,25 ****
+--- 20,26 ----
+  #include "mrt/exception.h"
+  #include "mrt/serializator.h"
+  #include <assert.h>
++ #include <cstdlib>
+  
+  void Var::serialize(mrt::Serializator &s) const {
+  		if (type.empty()) 
