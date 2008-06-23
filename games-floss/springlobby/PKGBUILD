@@ -1,0 +1,24 @@
+# Maintainer: Cirdan <gero.mueller@cloo.de>
+
+pkgname=springlobby
+pkgver=0.0.1.10263
+pkgrel=1
+pkgdesc="A free cross-platform lobby client for the Spring RTS project."
+arch=('i686')
+url="http://trac.springlobby.info/"
+license=('GPL2')
+depends=('spring' 'wxgtk' 'rb_libtorrent')
+makedepends=()
+source=(http://www.springlobby.info/tarballs/${pkgname}-${pkgver}.tar.bz2 springlobby.desktop springlobby.png)
+md5sums=('7da8d702ad17d6dac0a43f8690d0dce2' '45f8b59d033931d02e734fe3bd7777dd' '1f388187539aeb0358b51995e26ed890')
+
+build() {
+  cd $startdir/src/${pkgname}-$pkgver
+  ./configure --prefix=/usr --disable-sound  || return 1
+  make && make DESTDIR=$startdir/pkg install || return 1
+  
+  mkdir -p $startdir/pkg/usr/share/applications
+  cp $startdir/src/springlobby.desktop $startdir/pkg/usr/share/applications
+  mkdir -p $startdir/pkg/usr/share/pixmaps
+  cp $startdir/src/springlobby.png $startdir/pkg/usr/share/pixmaps
+}
