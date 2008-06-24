@@ -1,0 +1,56 @@
+# Contributor: Andrea Scarpino <bash.lnx@gmail.com>
+# Contributor: Darwin Bautista <djclue917@gmail.com>
+
+pkgname=planeshift
+_pkgname=PlaneShift
+pkgver=0.4.00
+pkgrel=2
+pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
+arch=('i686' 'x86_64')
+[ "${CARCH}" = "x86_64" ] && _arch="x64" || _arch="x86"
+url="http://www.planeshift.it/"
+license=('GPL' 'custom:PlaneShift Content License')
+depends=('libgl' 'libsm' 'libxmu' 'libxpm' 'openssl' 'zlib')
+options=('emptydirs')
+install=planeshift.install
+source=(http://88.198.39.231/$pkgname/${_pkgname}-v${pkgver}-${_arch}.bin \
+        planeshift.desktop \
+        planeshiftsetup.desktop \
+        planeshiftupdater.desktop \
+        license.txt \
+	scriptfix.patch)
+[ "${CARCH}" = "x86_64" ] && md5sums[0]='e2b7c8e2395884781692e70390265bb1'
+md5sums=('cf1270be1a71aef2cef37b283e6bccc2' '5be27f6e51c8edff591aa1fdc668b7e9' 'e75381f677b5d2ae331d0e4e742ee21a' '4e8d4876b9c99db92d6dcb3e0c22128e' 'dbac9cf5bfb63463bcb2b5ea09b00586' 'dd0d68f2988a93ec29fe5cb37b4add0d')
+
+build() {
+  cd $startdir/src
+  # Make the installer executable
+  chmod +x ${_pkgname}-v${pkgver}-${_arch}.bin
+  # Extract the files
+  ./${_pkgname}-v${pkgver}-${_arch}.bin \
+    --mode unattended \
+    --syswide yes \
+    --prefix ${startdir}/pkg/opt
+  # Change group to games
+  chown -R root:games $startdir/pkg/opt/${_pkgname}
+  # Set correct permissions for files and folders
+  find $startdir/pkg/opt/${_pkgname} -type f -exec chmod 660 {} +
+  find $startdir/pkg/opt/${_pkgname} -type d -exec chmod 770 {} +
+  cd $startdir/pkg/opt/${_pkgname}
+  # Set correct permissions for executables
+  chmod 770 psclient.bin pssetup.bin psupdater.bin
+  # Install scripts to proper directory
+  install -D -m755 psclient $startdir/pkg/usr/bin/$pkgname
+  install -D -m755 pssetup $startdir/pkg/usr/bin/$pkgname-setup
+  install -D -m755 psupdater $startdir/pkg/usr/bin/$pkgname-updater
+  # Remove unnecessary files
+  rm uninstall unscript.sh $pkgname $pkgname-setup $pkgname-updater psclient pssetup psupdater
+  cd $startdir/src
+  #fix script
+  patch -Np0 < scriptfix.patch || return 1
+  # Install shortcuts
+  mkdir -p $startdir/pkg/usr/share/applications
+  install -m644 $startdir/src/*.desktop $startdir/pkg/usr/share/applications/
+  # Install the PlaneShift Content License
+  install -D -m644 $startdir/src/license.txt $startdir/pkg/usr/share/licenses/$pkgname/license.txt
+}

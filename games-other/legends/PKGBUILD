@@ -1,0 +1,36 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=legends
+pkgver=0.4.1.43
+pkgrel=1
+pkgdesc="Legends is a mulitplayer first person shooter game, similar to Tribes"
+url="http://www.legendsthegame.net"
+license="Apache"
+arch=('i686' 'x86_64')
+depends=('libxext' 'libogg' 'sdl' 'sdl_image' 'sdl_mixer' 'libpng' 'libjpeg' 'zlib' 'rsync')
+install=
+source=('legends.launcher' 'legends.desktop' \
+"http://run.legendsthegame.net/legends_linux-${pkgver}.run")
+build ()
+{
+    cd $startdir/src
+    # Unpack Files from Installer into src/legends/
+    chmod +x $startdir/src/legends_linux-${pkgver}.run
+    ./legends_linux-${pkgver}.run --noexec --target $startdir/src/legends/
+    # Remove Junk from Game Directory
+    rm $startdir/src/legends/OPENAL32.DLL
+    # Move Icon Aside
+    cp $startdir/src/legends/legends.ico $startdir/src/
+    # Move Game Directory to Package Directory
+    install -d -m755 $startdir/pkg/opt/
+    cp -r $startdir/src/legends/ $startdir/pkg/opt/
+    # Install Launcher
+    install -D -m755 $startdir/src/legends.launcher \
+        $startdir/pkg/usr/bin/legends
+    # Install Desktop File
+    install -D -m644 $startdir/src/legends.desktop \
+        $startdir/pkg/usr/share/applications/legends.desktop
+    # Install Icon File
+    install -D -m644 $startdir/src/legends.ico \
+        $startdir/pkg/usr/share/pixmaps/legends.ico
+}

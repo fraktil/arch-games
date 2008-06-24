@@ -1,0 +1,37 @@
+# Contributor: grimi <grimi@poczta.fm>
+
+pkgname=urbanterror
+pkgver=4.1
+pkgrel=4
+pkgdesc="Urban Terror is a team-based tactical shooter based on the Quake 3 Engine (Stand-Alone Version)"
+arch=('i686' 'x86_64')
+url="http://www.urbanterror.net"
+license=('freeware')
+depends=('sdl' 'openal' 'curl')
+makedepends=('unzip')
+source=("ftp://ftp.snt.utwente.nl/pub/games/urbanterror/UrbanTerror_41_FULL.zip" \
+	"urbanterror.sh" "urbanterror.desktop" "urbanterror.png")
+md5sums=('1370306ea236f65f595e7ca70765e469' '434b7658f6dfb4c715eb739cf115804f' '703aa5578a938e0240e54af2ce7a6668' 'f9a57d898df73f43c6a85c8d8cc455ba')
+
+build() {
+	# checkup machine
+        [ "$CARCH" = "i686"   ] && ARCH=i386
+        [ "$CARCH" = "x86_64" ] && ARCH=x86_64
+	
+        # copy base UT files	
+	install -d $startdir/pkg/opt/urbanterror/
+	cd $startdir/pkg/opt/urbanterror/
+	cp -r $startdir/src/UrbanTerror/q3ut4 ./
+	# copy ioUrban exec's
+        install -m755 $startdir/src/UrbanTerror/ioUrbanTerror.$ARCH ioUrbanTerror
+	install -m755 $startdir/src/UrbanTerror/ioUrTded.$ARCH ioUrTded
+	# copy docs
+	install -m644 $startdir/src/UrbanTerror/ioUrbanTerror_id-readme.txt ./
+	install -m644 $startdir/src/UrbanTerror/ioUrbanTerror_COPYING.txt ./
+	install -m644 $startdir/src/UrbanTerror/ioUrbanTerror_README.txt ./
+	# desktop launcher
+	install -Dm644 $startdir/src/urbanterror.desktop $startdir/pkg/usr/share/applications/urbanterror.desktop
+	install -Dm644 $startdir/src/urbanterror.png $startdir/pkg/usr/share/pixmaps/urbanterror.png
+	# launch script
+	install -Dm755 $startdir/src/urbanterror.sh $startdir/pkg/usr/bin/urbanterror
+}
