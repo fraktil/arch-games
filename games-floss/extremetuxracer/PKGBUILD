@@ -1,0 +1,29 @@
+# Contributor: Federico Boaretti <kingrebound gmail com>
+pkgname=extremetuxracer
+pkgver=0.4
+pkgrel=1
+pkgdesc="Open source racing game featuring Tux the Linux Penguin"
+arch=("i686")
+url="http://extremetuxracer.com/"
+license=('GPL')
+depends=('sdl' 'tcl')
+source=(http://surfnet.dl.sourceforge.net/sourceforge/extremetuxracer/$pkgname-$pkgver.tar.gz \
+	extremetuxracer.desktop)
+md5sums=('6830eb4e1ca7c5a541f286ded3853f9f' '388bfbac0790927ccc094ee023ed4afe')
+
+build() {
+  cd $startdir/src/$pkgname-$pkgver
+  ./configure --prefix=/usr
+  make || return 1
+  make DESTDIR=$startdir/pkg install 
+  #|| return 1
+	mkdir -p $startdir/pkg/usr/share/pixmaps
+	mkdir -p $startdir/pkg/usr/share/applications
+ 	
+	install -D -m644 $startdir/src/$pkgname-$pkgver/data/textures/splash.png $startdir/pkg/usr/share/pixmaps/extremetuxracer.png 
+	#|| return 1
+ 	install -D -m644 $startdir/extremetuxracer.desktop  $startdir/pkg/usr/share/applications/ 
+	#|| return 1
+                        
+        }
+        

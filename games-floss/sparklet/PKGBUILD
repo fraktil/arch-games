@@ -1,0 +1,19 @@
+# Maintainer: nut543 (kfs1 <at> online <dot> no)
+pkgname=sparklet
+pkgver=0.9.7
+pkgrel=1
+arch="i686"
+pkgdesc="real-time, 2D, top-down view, multiplayer networked space shooting game"
+url="http://sparklet.sourceforge.net/"
+license="GPL"
+depends=('mesa' 'libxcursor' 'alsa-lib')
+source=(http://dl.sourceforge.net/sourceforge/sparklet/sparklet-0.9.7-linux-p3.tar.bz2 sparklet.file sparklet.desktop sparklet-0.9.2.xpm)
+md5sums=('bd659a06f73f2d018a089ae6b7d0befe' '22a2419789530a09c70ecbc6d349626d' 'd5c2fdceb3495a5fde8dce77d1f6b1bf' '52f845182ba7c0d81cc963f9a9ced949')
+
+build() {
+mkdir -p $startdir/pkg/usr/games
+mv $startdir/src/$pkgname $startdir/pkg/usr/games
+install -D -m0755 $startdir/sparklet.file $startdir/pkg/usr/bin/sparklet
+install -D -m0644 $startdir/sparklet.desktop $startdir/pkg/usr/share/applications/sparklet.desktop
+install -D $startdir/sparklet-0.9.2.xpm $startdir/pkg/usr/games/sparklet.xpm
+}
