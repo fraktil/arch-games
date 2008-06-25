@@ -1,0 +1,4 @@
+11c11
+<   s =+ fileName;
+---
+>   s += fileName;

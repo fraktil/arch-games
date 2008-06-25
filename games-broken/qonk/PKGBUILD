@@ -1,0 +1,23 @@
+# Contributor: Troels Kofoed Jacobsen <tkjacobsen@gmail.com>
+pkgname=qonk
+pkgver=0.3.0
+pkgrel=2
+pkgdesc="A small space build-and-conquer strategy game."
+arch=('i686')
+url="http://qonk.sf.net"
+license=('GPL')
+depends=('sdl_ttf' 'sdl_gfx' 'sdl_image' 'gcc-libs')
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz
+	fonts.cpp.patch
+	qonk.desktop)
+md5sums=('7460e5e1e28fd1e0ed0fa51b1afb138c' 'f74254ccdf0881dd023ddde26d16d667' '3bcea57577ee185fe2a27e3548cb6be6')
+
+build() {
+  cd "$startdir/src/$pkgname-$pkgver"
+  patch src/fonts.cpp $startdir/src/fonts.cpp.patch
+  ./configure --prefix=/usr
+  make || return 1
+  make DESTDIR="$startdir/pkg" install
+#install desktop file
+  install -Dm0644 $startdir/src/qonk.desktop $startdir/pkg/usr/share/applications/qonk.desktop
+}
