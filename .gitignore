@@ -1,5 +1,5 @@
 src
 pkg
-*pkg*.tar.gz
+*.tar.gz
 pkgtools.tar.gz
 .*.swp
