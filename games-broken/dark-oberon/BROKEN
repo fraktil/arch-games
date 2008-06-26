@@ -1,4 +1,6 @@
 # I do not think this is gcc4.3 related
+# SEE http://aur.archlinux.org/packages.php?do_Details=1&ID=1876
+# AND http://bbs.archlinux.org/viewtopic.php?id=26350
 ==> Starting build()...
 patching file src/doconfig.h
 patching file src/dologs.h
