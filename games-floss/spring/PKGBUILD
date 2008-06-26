@@ -5,7 +5,7 @@ pkgname=spring
 pkgver=0.76b1
 pkgrel=1
 pkgdesc="A free 3D game engine for the real-time-strategy game Total Annihilation"
-arch=('i686')
+arch=('i686 x86_64')
 url="http://spring.clan-sy.com/"
 license=('GPL2')
 depends=('openal' 'glew' 'boost' 'devil>=1.6.7-5' 'libvorbis' 'freetype2')

@@ -13,7 +13,7 @@ source=(http://joey101.net/snowballz/files/$pkgname-$pkgver.tar.gz snowballz.des
 md5sums=('197e3281cc85f9fe89a45c622e08ba0d' 'abe4faa6864022e3274955039792e1c7' \
          '1eb0c353d99dc54d02c340fc057d28d2' '7fdfd218e42f763d37312cc1181378b6' \
          '291effd03d9a528519ba1bacfdf976d7')
-arch=('i686')
+arch=('i686 x86_64')
 url="http://joey101.net/snowballz/"
 
 build() {
