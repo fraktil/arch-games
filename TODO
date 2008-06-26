@@ -1,9 +1,7 @@
 Fix namcap errors
-
 # ----
-
 Use "BROKEN" file to detail why a given package fails to build
-
 # ----
-
+Port the broken games to gcc 4.3, if applicable
+# ----
 Create deps/ so we can distribute binary copies of required AUR packages

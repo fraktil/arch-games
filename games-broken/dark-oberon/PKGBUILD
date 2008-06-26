@@ -2,14 +2,15 @@
 pkgname=dark-oberon
 pkgver=1.0.2
 pkgrel=2
+arch=(i686)
 pkgdesc="An open source real-time strategy game similar to Warcraft II"
 url="http://dark-oberon.sourceforge.net"
 depends=('glfw' 'fmod')
-source=(http://dl.sourceforge.net/sourceforge/dark-oberon/dark-oberon-$pkgver-RC1.tar.gz \
+source=(http://downloads.sourceforge.net/sourceforge/dark-oberon/dark-oberon-$pkgver-RC1.tar.gz \
         dark-oberon-$pkgver-usr.patch dark-oberon.sh)
 
 build() {
-  export DARK_OBERON_HOME=$srcdir/dark-oberon-$pkgver-RC$pkgrel
+  export DARK_OBERON_HOME=$srcdir/dark-oberon-$pkgver-RC1
   cd $srcdir/dark-oberon-$pkgver-RC1
 	patch -Np1 -i ../dark-oberon-$pkgver-usr.patch || return 1
 	sed "s|LIBRARIES = |LIBRARIES = -pthread -lglfw -lGL -lX11 -lXxf86vm -lGLU -lXext -lfmod-3.74.1 |g" -i $srcdir/dark-oberon-$pkgver-RC1/src/Makefile
