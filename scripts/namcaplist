@@ -1,0 +1,4 @@
+#!/bin/bash
+
+: > namcap_errors.txt
+find . -name PKGBUILD -exec namcap {} \; | sort +3 >> namcap_errors.txt
