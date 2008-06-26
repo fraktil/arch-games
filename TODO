@@ -1,1 +1,9 @@
-1. Fix namcap errors
+Fix namcap errors
+
+# ----
+
+Use "BROKEN" file to detail why a given package fails to build
+
+# ----
+
+Create deps/ so we can distribute binary copies of required AUR packages
