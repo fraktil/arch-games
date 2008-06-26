@@ -1,1 +1,2 @@
 1. Fix namcap errors
+2. Port the broken games to gcc 4.3, if applicable
