@@ -7,7 +7,7 @@ arch=("i686")
 url="http://extremetuxracer.com/"
 license=('GPL')
 depends=('sdl' 'tcl')
-source=(http://surfnet.dl.sourceforge.net/sourceforge/extremetuxracer/$pkgname-$pkgver.tar.gz \
+source=(http://downloads.sourceforge.net/sourceforge/extremetuxracer/$pkgname-$pkgver.tar.gz \
 	extremetuxracer.desktop)
 md5sums=('6830eb4e1ca7c5a541f286ded3853f9f' '388bfbac0790927ccc094ee023ed4afe')
 

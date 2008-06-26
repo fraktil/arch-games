@@ -7,7 +7,7 @@ arch=('i686 x86_64')
 url="http://stratagus.sourceforge.net"
 license="GPL"
 depends=('bzip2' 'libgl' 'sdl' 'libpng' 'libvorbis' 'libmikmod' 'lua')
-source=(http://dl.sourceforge.net/sourceforge/stratagus/$pkgname-$pkgver-src.tar.gz movie.cpp.patch)
+source=(http://downloads.sourceforge.net/sourceforge/stratagus/$pkgname-$pkgver-src.tar.gz movie.cpp.patch)
 md5sums=('311b41c8dcd2d695d2f3ca7d2c17587e' '877d912911bd60b6a5f10feff8227f36')
 
 build() {

@@ -12,7 +12,7 @@ conflicts=()
 replaces=()
 backup=()
 install=
-source=(http://dl.sourceforge.net/sourceforge/epiar/$pkgname-$pkgver-src.zip epiar-wrapper)
+source=(http://downloads.sourceforge.net/sourceforge/epiar/$pkgname-$pkgver-src.zip epiar-wrapper)
 md5sums=('5f9bef3bfbd758d9a2937acf9a91e77f' 'd2f3b6e586a11accf47d27652c0884a6')
 
 build() {

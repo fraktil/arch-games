@@ -7,7 +7,7 @@ arch=('i686' 'x86_64')
 license=('gpl')
 url="http://xpilot.sourceforge.net/"
 depends=('glibc' 'zlib' 'expat' 'sdl' 'sdl_ttf' 'sdl_image')
-source=(http://ufpr.dl.sourceforge.net/sourceforge/xpilot/$pkgname-$pkgver.tar.gz)
+source=(http://downloads.sourceforge.net/sourceforge/xpilot/$pkgname-$pkgver.tar.gz)
 md5sums=('b922251ab9c69f87567c9606304ee589')
 
 build() {

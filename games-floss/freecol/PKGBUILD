@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 url="http://www.freecol.org/"
 license="GPL"
 depends=('jre')
-source=(http://dl.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz \
+source=(http://downloads.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz \
 	$pkgname.sh $pkgname.desktop)
 md5sums=('57600a0437091d65e220ee3ba2fb69fb' 'd0bf043f05dfc51cc9c1f5e169bc1316'\
 	 'f471d4fd3624d9b45aa3e16e40f2faef')

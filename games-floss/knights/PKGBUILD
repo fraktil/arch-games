@@ -8,7 +8,7 @@ url="http://knights.sourceforge.net"
 depends=('kdelibs>=3.3.0' 'kdebase') 
 license=('GPL')
 arch=('i686')
-source=(http://dl.sourceforge.net/sourceforge/knights/knights-0.6.4-beta.tar.gz) 
+source=(http://downloads.sourceforge.net/sourceforge/knights/knights-0.6.4-beta.tar.gz) 
 md5sums=('06fc733571b573638fb85d74af8ef9a3')
 
 build() 

@@ -7,7 +7,7 @@ arch=('i686')
 url="http://scourgeweb.org"
 license="GPL"
 depends=('sdl_image' 'sdl_mixer' 'sdl_net' 'sdl_ttf' 'libgl' 'mesa')
-source=(http://dl.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.src.tar.gz http://dl.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.data.tar.gz userconfiguration.cpp.patch)
+source=(http://downloads.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.data.tar.gz userconfiguration.cpp.patch)
 md5sums=('f7e90f60d60925b117e9dc1a848548d3' '45ca5a98487146b1e8ecab8637bf74ad'
          '984b969881e6c67dd48c19ffaa71ec9d')
 

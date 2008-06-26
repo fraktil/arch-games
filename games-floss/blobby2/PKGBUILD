@@ -8,7 +8,7 @@ url="http://blobby.sourceforge.net/"
 license="GPL"
 depends=('sdl' 'unzip' 'physfs')
 arch=('i686 x86_64')
-source=(http://internap.dl.sourceforge.net/sourceforge/blobby/$pkgname-linux-$pkgver.tar.gz
+source=(http://downloads.sourceforge.net/sourceforge/blobby/$pkgname-linux-$pkgver.tar.gz
 	gcc-4.3-fixes.patch)
 md5sums=('fdef3e59f0870d890be8dffaccd773ca' 'b9f629723320ded196a72c6bb9d50b1d')
 
