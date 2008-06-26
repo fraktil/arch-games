@@ -1,0 +1,111 @@
+# Contributor: August Gustavsson <august.g@telia.com>
+# Contributor: Travis Nickles <ryoohki7@yahoo.com>
+# Contributor: Joonas Niilola <juippis@roskakori.org>
+
+pkgname=stepmania
+pkgver=3.9
+pkgrel=14
+pkgdesc="An Advanced Dance Simulation Game"
+url="http://www.stepmania.com/"
+license="MIT"
+arch=(i686 x86_64)
+depends=('ffmpeg' 'gtk2' 'libmad' 'lua' 'mesa')
+makedepends=('pkgconfig' 'make' 'patch' 'autoconf' 'automake')
+source=(http://dl.sourceforge.net/$pkgname/StepMania-$pkgver-linux.tar.gz \
+	http://dl.sourceforge.net/$pkgname/StepMania-$pkgver-src.tar.gz \
+	$pkgname-$pkgver-64bits.patch \
+	$pkgname-$pkgver-all_ffmpeg-2.patch \
+	$pkgname-$pkgver-gcc41-alias-2.patch \
+	$pkgname-$pkgver-gcc41.patch \
+	$pkgname-$pkgver-glibc.patch \
+	$pkgname-$pkgver-lua51-2.patch \
+	$pkgname-$pkgver-sdl.patch \
+	$pkgname-$pkgver-warnings-2.patch \
+	$pkgname-$pkgver-bgvideos.patch \
+	$pkgname-$pkgver-aclocal.patch \
+	$pkgname-$pkgver-gcc-4.3.patch \
+	$pkgname.desktop \
+	$pkgname.sh \
+	$pkgname.xpm)
+
+md5sums=('c786dd30170e2770b6b1638f1115472b'
+         '28bbbc985788bc990fa7042e2d7320b8'
+         'e76157bde8b349748600fd5e1fcd59d7'
+         '599f445378a23f6177be42a813c21855'
+         'e7eba54e8214f85be379c88dcb3da8c4'
+         '3d3184c0174fba572a4e73986bb9f6dc'
+         'e5c93bcd9c2d19b947ecc65838e80ae8'
+         '0368de2765b5f999e2aaf79249f9b4ed'
+         '57f24c097fbd478bf4174a4351d32150'
+         'ab1c78d3e7655ae40ecd5498c750911e'
+         '9845a9d0dd9b6b97f12ccbb10c74f20f'
+         '82cc7f646118270e03ebf15df836f24f'
+         '3d22ad1cfbcf6a775f89ce27c4348c55'
+         '8fb95933764b52ab1fe6a099c779035e'
+         '1cc95d5c33c9fac516ff1912be7e63c9'
+         '10732965e8abf53ba4b85c63377daf2e')
+
+
+install=stepmania.install
+
+build() {
+  cd $startdir/src
+
+  # Set up a proper file structure that will be needed to keep file permissions intact
+  mv StepMania-$pkgver $pkgname
+  install -d $pkgname/Cache/{Banners,Songs} $pkgname/Data/LocalProfiles \
+$pkgname/Data/MachineProfile/{Edits,Screenshots}
+  touch $pkgname/{info,log}.txt
+  rm -f $pkgname/Data/MachineProfile/Stats.xml $pkgname/{GtkModule.so,$pkgname}
+
+  # Copy game data to destination
+  install -d $startdir/pkg/opt
+  cp -r $pkgname $startdir/pkg/opt
+
+  # Apply patches so StepMania will compile with newer versions of ffmpeg,
+  # newer versions of gcc, newer glibc packages, lua 5.1, and newer 
+  # versions of sdl. Also, if needed, apply patch so StepMania will compile
+  # on 64-bit systems.
+  cd StepMania-$pkgver-src
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-all_ffmpeg-2.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-gcc41-alias-2.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-gcc41.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-glibc.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-lua51-2.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-sdl.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-warnings-2.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-bgvideos.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-aclocal.patch || return 1
+  patch -Np1 -i $startdir/src/$pkgname-$pkgver-gcc-4.3.patch || return 1
+  if [ "$CARCH" = "x86_64" ]; then
+   patch -Np1 -i $startdir/src/$pkgname-$pkgver-64bits.patch || return 1
+  fi
+
+  #automake and autoconf files have been modified
+  aclocal -I autoconf/m4
+  autoconf
+  automake
+
+  # Build the StepMania source code
+  ./configure --enable-force-oss
+  make || return 1
+  make bindir=/opt/$pkgname DESTDIR=$startdir/pkg install
+
+  # Install bash script, desktop entry files, and license info
+  install -D -m755 $startdir/src/$pkgname.sh $startdir/pkg/usr/bin/$pkgname
+  install -D -m644 $startdir/src/$pkgname.desktop $startdir/pkg/usr/share/applications/$pkgname.desktop
+  install -D -m644 $startdir/src/$pkgname.xpm $startdir/pkg/usr/share/pixmaps/$pkgname.xpm
+  install -D -m644 $startdir/src/$pkgname/Copying.txt $startdir/pkg/usr/share/licenses/$pkgname/Copying.txt
+
+  # Change file permissions so that users in the games group can write save data,
+  # write to log files, and add more content
+  cd $startdir/pkg/opt/$pkgname
+  chown -R root:games *
+  chmod 2775 {Announcers,BGAnimations,Cache,CDTitles,Characters,Courses,Data,Docs,\
+NoteSkins,RandomMovies,Songs,Themes,Visualizations}
+  chmod 2775 Cache/{Banners,Songs}
+  chmod 664 {info,log}.txt
+  cd Data
+  chmod 664 {AI.ini,Translation.dat,Unlocks.dat,splash.png}
+  chmod 2775 LocalProfiles MachineProfile MachineProfile/{Edits,Screenshots}
+}

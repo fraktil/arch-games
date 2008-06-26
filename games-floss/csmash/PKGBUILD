@@ -1,0 +1,20 @@
+pkgname=csmash
+pkgver=0.6.6
+pkgrel=1
+arch="i686"
+pkgdesc="a 3D tabletennis game."
+url="http://cannonsmash.sourceforge.net/"
+license=GPL
+depends=('sdl' 'gtk')
+source=(http://internap.dl.sourceforge.net/cannonsmash/$pkgname-$pkgver.tar.gz)
+md5sums=('bcf2eddd0f04d58e5dac6d767f41d9af')
+
+build() {
+cd $startdir/src/$pkgname-$pkgver
+patch -p1 < $startdir/csmash_0.6.6-6.1.diff.gz
+sed -i 's|/local||' configure
+./configure --prefix=/usr --with-sdl-prefix=/usr --disable-sdltest
+sed -i 's|vector3F origin = vector3F(0) \* ~t|vector3F origin = vector3F(0) \* t|g' parts.cpp loadparts.cpp
+make || return 1
+make prefix=$startdir/pkg/usr install
+}

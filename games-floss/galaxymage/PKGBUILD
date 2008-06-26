@@ -1,0 +1,29 @@
+# Contributor: Jacek Poplawski <jacekpoplawski@gmail.com>
+# Contributor: rabyte <rabyte__gmail>
+
+pkgname=galaxymage
+pkgver=0.3.0
+pkgrel=2
+pkgdesc="A tactical/strategic RPG with online multiplayer support"
+arch=('i686')
+url="https://gna.org/projects/tactics/"
+license=('GPL' 'custom:"galaxymage"')
+depends=('python-opengl' 'pygame' 'twisted' 'python-numeric')
+install=$pkgname.install
+source=(http://download.gna.org/tactics/$pkgname-$pkgver.tar.gz \
+	galaxymage.sh \
+	LICENSE)
+md5sums=('c65ac4e255043d699e98a355fb595a20' '9ad35cf514ec4bf35782d7d1c39944bf' 'c296d2940e80cd5a303a9bb31d3fe2d2')
+
+build() {
+  cd $startdir/src/$pkgname-$pkgver
+  install -m755 -D ../galaxymage.sh $startdir/pkg/usr/bin/galaxymage
+  mkdir -p $startdir/pkg/usr/share/{licenses/,}galaxymage
+  cp -r GalaxyMage.py data/ locale/ src/ $startdir/pkg/usr/share/galaxymage/
+  install -m644 -D ../LICENSE $startdir/pkg/usr/share/licenses/galaxymage/LICENSE
+  cd $startdir/pkg/usr/share/galaxymage
+  # remove junk
+  rm -rf src/test
+  # fix permissions
+  find ./ -type d | xargs chmod 755
+}

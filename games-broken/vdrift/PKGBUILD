@@ -1,0 +1,50 @@
+# Contributor : Lone_Wolf lonewolf@xs4all.nl
+
+pkgname=vdrift
+pkgver=2007.03.23
+_realver=2007-03-23
+pkgrel=1
+pkgdesc="A free drift racing simulator with excellent physics and graphics. (FULL version)"
+arch=('i686')
+url="http://vdrift.net"
+license=('GPL')
+depends=(freealut sdl_net sdl_image sdl_gfx mesa)
+makedepends=(scons)
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$_realver-src.tar.bz2 http://downloads.sourceforge.net/$pkgname/$pkgname-$_realver-data-full.tar.bz2)
+md5sums=('efc5c3c409923382035738798a6392e8' '2136ce2e347a018f2400e3f114e005fd')
+
+build() {
+    rm $startdir/src/build/$pkgname-$_realver-src/data -fr
+    mv $startdir/src/build/$pkgname-$_realver-src/* $startdir/src/$pkgname-$_realver-src/
+    rm $startdir/src/build/ -fr
+    mkdir -p $startdir/pkg/usr/bin
+    mkdir -p $startdir/pkg/usr/share/{applications,$pkgname/bin}
+    mkdir -p $startdir/pkg/usr/share/icons/hicolor/{16x16,32x32,64x64}/apps
+# create symbolic link so vdrift can be started from path
+    cd $startdir/pkg/usr/bin
+    ln -s /usr/share/$pkgname/bin/vdrift
+    cd $startdir/src/$pkgname-$_realver-src
+# copy icons
+    cd data/textures/icons
+    install -D -m644 vdrift-16x16.png $startdir/pkg/usr/share/icons/hicolor/16x16/apps/vdrift.png
+    install -D -m644 vdrift-32x32.png $startdir/pkg/usr/share/icons/hicolor/32x32/apps/vdrift.png
+    install -D -m644 vdrift-64x64.png $startdir/pkg/usr/share/icons/hicolor/64x64/apps/vdrift.png
+    cd ../../..
+# adjust & copy .desktop file
+    cd tools/autopackage
+    mv vdrift.desktop vdrift.desktop.org
+    sed 's;vdrift-64x64.png;vdrift.png;' <vdrift.desktop.org >vdrift.desktop
+    install -D -m644 vdrift.desktop $startdir/pkg/usr/share/applications
+    cd ../..
+# change src/main.cpp to correct error : invalid use of 'GLvoid' (already corrected in CVS)
+    mv src/main.cpp src/main.old
+    sed 's;GLvoid;void;' <src/main.old >src/main.cpp
+    if [ "$CARCH" = "x86_64" ]
+    then
+      _SconsArch="arch=a64"        # for x86_64
+    else
+      _SconsArch="arch=686"        # for i686
+    fi
+    scons destdir=$startdir/pkg datadir=share/$pkgname/data bindir=share/$pkgname/bin release=1 minimal=0 force_feedback=1 $_SconsArch
+    scons install
+}
