@@ -1,0 +1,7 @@
+#!/bin/bash
+IP=0.0.0.0
+PORT=30720
+DEDICATED=1
+TREMARGS="+set net_ip $IP +set net_port $PORT +set dedicated $DEDICATED +exec server.cfg'
+
+screen -dmS Tremded tremded $TREMARGS
