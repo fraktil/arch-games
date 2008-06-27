@@ -14,6 +14,7 @@ post_install() {
   groupadd tremded 
   useradd -D -d /srv/tremulous -g tremded -s /bin/bash tremded
   chown -R tremded:tremded /srv/tremulous
+  echo "Make sure to passwd tremded"
   
 }
 

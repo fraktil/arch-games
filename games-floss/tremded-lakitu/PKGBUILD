@@ -8,7 +8,7 @@ url="http://www.mercenariesguild.net/patches/index.php?project=2&do=index"
 license=('GPL')
 depends=('sdl' 'openal' )
 options=(emptydirs )
-backup=()
+backup=(srv/tremulous/screended)
 install="$pkgname.install"
 source=("http://source.mercenariesguild.net/lakitu7-qvm/tags/Release_$pkgver.tar.gz?view=tar"
         'http://downloads.sourceforge.net/tremulous/tremulous-1.1.0.zip'
