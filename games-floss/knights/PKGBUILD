@@ -5,7 +5,7 @@ pkgver=0.6.4beta
 pkgrel=1 
 pkgdesc="Chess game for KDE, can connect to engines and FICS" 
 url="http://knights.sourceforge.net" 
-depends=('kdelibs>=3.3.0' 'kdebase') 
+depends=('kdelibs>=3.3.0' 'kdebase' 'gnuchess') 
 license=('GPL')
 arch=('i686')
 source=(http://downloads.sourceforge.net/sourceforge/knights/knights-0.6.4-beta.tar.gz) 
