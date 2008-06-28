@@ -1,0 +1,24 @@
+
+# Contributor: Daenyth <Daenyth+Arch AT gmail DOT com>
+pkgname=n-ninja
+pkgver=1.4
+pkgrel=1
+pkgdesc="N - a unique 2D puzzle / action platformer"
+arch=(i686)
+url="http://www.harveycartel.org/metanet/n.html"
+license=('freeware')
+depends=(gtk2)
+source=(http://www.ziva-vatra.com/downloads/N_v14_vatra n-ninja)
+md5sums=('22305ef8338d24af98a12fcefdb786fc' '943d2b0c52d66382bb885e3c7c7e85dd')
+
+build() {
+  cd $srcdir
+  mkdir -p $pkgdir/usr/bin/
+  mkdir -p $pkgdir/usr/share/
+  cp N_v14_vatra $pkgdir/usr/share/
+  chmod +x $pkgdir/usr/share/N_v14_vatra
+  cd $startdir
+  cp n-ninja $pkgdir/usr/bin/
+  chmod +x $pkgdir/usr/bin/n-ninja
+}
+# vim:set ts=2 sw=2 et:
