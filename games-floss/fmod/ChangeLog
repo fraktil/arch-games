@@ -1,0 +1,6 @@
+2007-11-25 encelo <encelo@users.sourceforge.net>
+* 'mv' changed to 'cp' in the build process
+2007-11-24 encelo <encelo@users.sourceforge.net>
+* Source URL corrected
+* 'arch' field added
+* Comments added for the build process

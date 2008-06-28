@@ -1,0 +1,25 @@
+# Contributor: Angelo Theodorou <encelo@users.sourceforge.net>
+pkgname=fmod
+pkgver=3.75
+pkgrel=4
+_filename=fmodapi375linux
+pkgdesc="A fast, powerful, easy to use sound system"
+url="http://www.fmod.org/"
+license=('custom:FMOD EULA')
+depends=()
+arch=('i686')
+source=(http://www.fmod.org/index.php/release/version/fmodapi375linux.tar.gz LICENSE)
+md5sums=('4fbd42fb8187c37ea454cc66186a1dfa' '248407cba4fb34928374318ba86667f0')
+
+build() {
+  cd $startdir/src/$_filename
+  # Create Destination Directories
+  mkdir -p $startdir/pkg/usr/include/fmod
+  mkdir -p $startdir/pkg/usr/lib
+  # Install Source Files
+  cp api/inc/* $startdir/pkg/usr/include/fmod
+  # Install Libraries
+  cp -d api/libfmod*.so $startdir/pkg/usr/lib
+  # Install License
+  install -D ../LICENSE $startdir/pkg/usr/share/licenses/$pkgname/LICENSE
+}
