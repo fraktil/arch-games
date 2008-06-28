@@ -1,0 +1,59 @@
+pkgname=worldofpadman
+pkgver=80
+pkgrel=1
+pkgdesc="a free standalone online game based on the quake3 engine."
+url="http://www.worldofpadman.com/"
+license=('custom' 'GPL')
+arch=('i686' 'x86_64' 'ppc')
+depends=('sdl' 'libvorbis' 'curl')
+makedepends=('subversion')
+source=(http://thilo.kickchat.com/download/worldofpadman.run
+        ftp://ftp.kickchat.com/wop/wop_patch_1_2.run
+        http://thilo.kickchat.com/download/wop_padpack.zip
+        wop.desktop)
+_svntrunk=http://wop-engine.svn.sourceforge.net/svnroot/wop-engine/trunk/
+#_svntags='patch1_2(released071206)_nonWindows'
+_svnmod=wop-engine
+md5sums=('c7650414d7865ddac26ada6b3f7b8cc9' '3468fc91889795471bc68e35ea334614' 'c59e212b29b28e0162af33dfb118344c' '4ccaa4e14b4438aec6289d1cfd4811c6')
+
+build() {
+  install -d $pkgdir/usr/share/worldofpadman/{xtras,wop}
+  # SVN update
+  cd ${srcdir}
+  svn co ${_svntrunk} ${_svnmod}
+  msg "SVN checkout done or server timeout"
+  msg "Starting make..."
+  if [ -d ${srcdir}/${_svnmod}-build ] ; then
+      rm -rf ${startdir}/src/${_svnmod}-build
+  fi
+  cp -R ${srcdir}/${_svnmod} ${srcdir}/${_svnmod}-build || return 1
+  cd ${_svnmod}-build
+  # Build the engine
+  /bin/sed -i "s:i386:i686:" ${srcdir}/${_svnmod}-build/Makefile
+  make BUILD_CLIENT=1 BUILD_SERVER=1 DEFAULT_BASEDIR=/usr/share/worldofpadman || return 1
+  # Install the engine executables
+  cd build/release-*
+  install -Dm755 wop-engine.* ${pkgdir}/usr/bin/worldofpadman || return 1
+  install -Dm755 wopded.* ${pkgdir}/usr/bin/worldofpadman-ded || return 1
+  # Data dir creation
+  mkdir ${srcdir}/wop-data
+  cd ${srcdir}/wop-data
+  # .run files extraction
+  # Based on http://sources.gentoo.org/viewcvs.py/gentoo-x86/eclass/eutils.eclass
+  for _f in ${srcdir}/worldofpadman.run ${srcdir}/wop_patch_1_2.run ; do
+    _skip_lines=$(grep -a offset=.*head.*wc ${_f} | awk '{print $3}' | head -n 1)
+    _skip_chars=$(head -n ${_skip_lines} $_f | wc -c)
+    dd ibs=${_skip_chars} skip=1 obs=1024 conv=sync if=${_f} | tar --no-same-owner -xzf - || return 1
+  done
+  # Data extraction
+  tar xf ${srcdir}/wop-data/wop-data.tar -C ${pkgdir}/usr/share/worldofpadman/wop || return 1
+  tar xf ${srcdir}/wop-data/wop-data-1.2.tar -C ${pkgdir}/usr/share/worldofpadman/wop || return 1
+  tar xf ${srcdir}/wop-data/extras.tar -C ${pkgdir}/usr/share/worldofpadman/xtras || return 1
+  unzip -qo ${srcdir}/wop_padpack.zip || return 1
+  # Freedesktop files 
+  install -Dm644 ${srcdir}/wop.desktop ${pkgdir}/usr/share/applications/worldofpadman.desktop || return 1
+  install -Dm644 ${srcdir}/wop-data/wop.png ${pkgdir}/usr/share/pixmaps/worldofpadman.png || return 1
+  # License file
+  install -Dm644 ${srcdir}/wop-data/copyright_en.txt ${pkgdir}/usr/share/licenses/worldofpadman/COPYING || return 1
+}
+# vim:set ts=2 sw=2 et:

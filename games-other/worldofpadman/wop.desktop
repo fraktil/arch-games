@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=World of Padman
+Comment=Cartoon-style multiplayer first person shooter
+Icon=worldofpadman
+Exec=worldofpadman
+Terminal=false
+Categories=Game;ActionGame;
