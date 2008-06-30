@@ -1,0 +1,26 @@
+# Contributor: John Gerritse (reaphsharc@gmail.com)
+
+pkgname=eve
+pkgver=000066
+pkgrel=1
+arch=('i686' 'x86_64')
+pkgdesc="The EVE Online native linux client."
+url="http://www.eve-online.com/"
+license=('custom')
+depends=('libx11' 'wget' 'python' 'gtk2' 'libglade' 'alsa-lib' 'libjpeg' 'pygtk' 'dbus-python' 'pycairo' 'pygobject')
+options=('!strip')
+source=(http://ccp.vo.llnwd.net/o2/linux/$pkgname-$pkgver.tgz transgaming-eve-play.patch)
+md5sums=('a99f06e952f0f4cd53641d43b5a9fb0f' '8c5ab5d68e4e6eff14b79eff297867ec')
+
+build() {
+  cd $startdir/src
+  cp -R usr $startdir/pkg
+  rm -rf $startdir/pkg/usr/share/{applnk,appp*,gnome,icons}
+  install -m 644 -D $startdir/pkg/usr/lib/eve/LICENSE $startdir/pkg/usr/share/licenses/$pkgname/LICENSE
+  cd $startdir/pkg/usr/lib/eve/icons/
+  patch -p0 -i $startdir/src/transgaming-eve-play.patch
+  mkdir -p $startdir/pkg/usr/share/{applications,pixmaps}
+  mv $startdir/pkg/usr/lib/eve/icons/*.desktop $startdir/pkg/usr/share/applications/
+  mv $startdir/pkg/usr/lib/eve/icons/*.png $startdir/pkg/usr/share/pixmaps/
+  rm -rf $startdir/pkg/usr/lib/eve/icons
+}
