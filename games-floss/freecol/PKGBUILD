@@ -1,29 +1,29 @@
-# Contributor: Johannes Sjolund "wulax" <j.sjolund@gmail.com>
+# Contributor: Nelson Menon <nelsonmenon@gmail.com insanatorium.wordpress.com>
 
 pkgname=freecol
-pkgver=0.7.3
+pkgver=0.7.4
 pkgrel=1
 pkgdesc="Turn-based strategy game based on the game Colonization"
 arch=('i686' 'x86_64')
 url="http://www.freecol.org/"
 license="GPL"
 depends=('jre')
-source=(http://downloads.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz \
+source=(http://dl.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz \
 	$pkgname.sh $pkgname.desktop)
-md5sums=('57600a0437091d65e220ee3ba2fb69fb' 'd0bf043f05dfc51cc9c1f5e169bc1316'\
+md5sums=('50b3cb3cbd090b8d6e88e4567e17f991' 'd0bf043f05dfc51cc9c1f5e169bc1316'\
 	 'f471d4fd3624d9b45aa3e16e40f2faef')
 
 build() {
-  cd $srcdir/$pkgname
+  cd $startdir/src/$pkgname
   
-  install -D -m644 FreeCol.jar $pkgdir/usr/share/java/$pkgname/FreeCol.jar
-  cp -R jars $pkgdir/usr/share/java/$pkgname
-  mkdir -p $pkgdir/usr/share/$pkgname
-  cp -R data $pkgdir/usr/share/$pkgname
-  install -D -m755 $srcdir/$pkgname.sh $pkgdir/usr/bin/$pkgname
+  install -D -m644 FreeCol.jar $startdir/pkg/usr/share/java/$pkgname/FreeCol.jar
+  cp -R jars $startdir/pkg/usr/share/java/$pkgname
+  mkdir -p $startdir/pkg/usr/share/$pkgname
+  cp -R data $startdir/pkg/usr/share/$pkgname
+  install -D -m755 $startdir/src/$pkgname.sh $startdir/pkg/usr/bin/$pkgname
 
-  install -D -m644 $srcdir/$pkgname/$pkgname.xpm $pkgdir/usr/share/pixmaps/$pkgname.xpm
-  install -D -m644 $srcdir/$pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+  install -D -m644 $startdir/src/$pkgname/$pkgname.xpm $startdir/pkg/usr/share/pixmaps/$pkgname.xpm
+  install -D -m644 $startdir/src/$pkgname.desktop $startdir/pkg/usr/share/applications/$pkgname.desktop
 
-  install -D -m644 COPYING $pkgdir/usr/share/licenses/$pkgname/COPYING
+  install -D -m644 COPYING $startdir/pkg/usr/share/licenses/$pkgname/COPYING
 }
