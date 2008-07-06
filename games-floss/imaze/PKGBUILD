@@ -4,7 +4,7 @@
 pkgname=imaze
 pkgver=1.4
 pkgrel=2
-arch="i686"
+arch="i686 x86_64"
 pkgdesc="A 3D TCP/IP-network-game which is a Smiley shootout under X11/OpenMotif. "
 
 depends=('lesstif')
