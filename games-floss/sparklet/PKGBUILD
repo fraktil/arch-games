@@ -2,7 +2,7 @@
 pkgname=sparklet
 pkgver=0.9.7
 pkgrel=1
-arch="i686"
+arch="i686 x86_64"
 pkgdesc="real-time, 2D, top-down view, multiplayer networked space shooting game"
 url="http://sparklet.sourceforge.net/"
 license="GPL"
