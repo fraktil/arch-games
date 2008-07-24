@@ -6,7 +6,8 @@ pkgdesc="The tremulous server patched with lakitu's game.qvm"
 arch=(i686)
 url="http://www.mercenariesguild.net/patches/index.php?project=2&do=index"
 license=('GPL')
-depends=('sdl' 'openal' 'screen')
+depends=('sdl' 'openal')
+optdepends=('screen: For the launcher script')
 options=(emptydirs )
 backup=(srv/tremulous/screended)
 install="$pkgname.install"
