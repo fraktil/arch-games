@@ -7,7 +7,7 @@ arch=('i686')
 url="http://www.cs.caltech.edu/~mvanier/hacking/gnushogi/gnushogi.html"
 license=('GPL')
 provides=(xshogi=$pkgver)
-depends=()
+depends=('ncurses' 'termcap-compat')
 makedepends=()
 source=(http://www.cs.caltech.edu/~mvanier/hacking/$pkgname/$pkgname-$pkgver.tar.gz)
 md5sums=() #generate with 'makepkg -g'
@@ -17,7 +17,7 @@ build() {
 
   ./configure --prefix=/usr
   make || return 1
-  #make DESTDIR="$pkgdir" install
+  make prefix="$pkgdir/usr" install
 }
 
 # vim:set ts=2 sw=2 et:
