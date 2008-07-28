@@ -10,7 +10,7 @@ provides=(xshogi=$pkgver)
 depends=('ncurses' 'termcap-compat')
 makedepends=()
 source=(http://www.cs.caltech.edu/~mvanier/hacking/$pkgname/$pkgname-$pkgver.tar.gz)
-md5sums=() #generate with 'makepkg -g'
+md5sums=('a18eae93afc89bfd368ed5f6768be791')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
