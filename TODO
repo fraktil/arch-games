@@ -4,3 +4,4 @@ Use "BROKEN" file to detail why a given package fails to build
 # ----
 Port the broken games to gcc 4.3, if applicable
 # ----
+Openarena is out of date: latest 0.8; repo 0.7.7
