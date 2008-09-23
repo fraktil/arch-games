@@ -1,83 +1,7 @@
-PKGBUILD (3dpong)    W: Missing CVS Id tag
-PKGBUILD (alephone)  W: Missing CVS Id tag
-PKGBUILD (alienarena) W: Missing CVS Id tag
-PKGBUILD (armyops)   W: Missing CVS Id tag
-PKGBUILD (asc)       W: Missing CVS Id tag
-PKGBUILD (biloba)    W: Missing CVS Id tag
-PKGBUILD (biniax2)   W: Missing CVS Id tag
-PKGBUILD (bjs)       W: Missing CVS Id tag
-PKGBUILD (blobby2)   W: Missing CVS Id tag
-PKGBUILD (boswars)   W: Missing CVS Id tag
-PKGBUILD (btanks)    W: Missing CVS Id tag
-PKGBUILD (csmash)    W: Missing CVS Id tag
-PKGBUILD (dark-oberon) W: Missing CVS Id tag
-PKGBUILD (defcon)    W: Missing CVS Id tag
-PKGBUILD (editobj)   W: Missing CVS Id tag
-PKGBUILD (enemy-territory) W: Missing CVS Id tag
-PKGBUILD (enemy-territory-etpro) W: Missing CVS Id tag
-PKGBUILD (enigma_sdl) W: Missing CVS Id tag
-PKGBUILD (epiar)     W: Missing CVS Id tag
-PKGBUILD (extremetuxracer) W: Missing CVS Id tag
-PKGBUILD (fillets-ng) W: Missing CVS Id tag
-PKGBUILD (freecol)   W: Missing CVS Id tag
-PKGBUILD (fretsonfire) W: Missing CVS Id tag
-PKGBUILD (galaxymage) W: Missing CVS Id tag
-PKGBUILD (gate88)    W: Missing CVS Id tag
-PKGBUILD (generally) W: Missing CVS Id tag
-PKGBUILD (gltron)    W: Missing CVS Id tag
-PKGBUILD (goonies)   W: Missing CVS Id tag
-PKGBUILD (hawknl)    W: Missing CVS Id tag
-PKGBUILD (highmoon)  W: Missing CVS Id tag
-PKGBUILD (jumpnbump) W: Missing CVS Id tag
-PKGBUILD (jumpnbump-levels) W: Missing CVS Id tag
-PKGBUILD (knights)   W: Missing CVS Id tag
-PKGBUILD (ksudoku)   W: Missing CVS Id tag
-PKGBUILD (legends)   W: Missing CVS Id tag
-PKGBUILD (lgeneral)  W: Missing CVS Id tag
-PKGBUILD (libsigcpp1.2) W: Missing CVS Id tag
-PKGBUILD (netpanzer) W: Missing CVS Id tag
-PKGBUILD (offender)  W: Missing CVS Id tag
-PKGBUILD (openarena) W: Missing CVS Id tag
-PKGBUILD (opencity)  W: Missing CVS Id tag
-PKGBUILD (openlierox) W: Missing CVS Id tag
-PKGBUILD (openmortal) W: Missing CVS Id tag
-PKGBUILD (pacman-arena) W: Missing CVS Id tag
-PKGBUILD (pillows)   W: Missing CVS Id tag
-PKGBUILD (planeshift) W: Missing CVS Id tag
-PKGBUILD (pong2)     W: Missing CVS Id tag
-PKGBUILD (py2play)   W: Missing CVS Id tag
-PKGBUILD (pyspacewar) W: Missing CVS Id tag
-PKGBUILD (python-rabbyt) W: Missing CVS Id tag
-PKGBUILD (qonk)      W: Missing CVS Id tag
-PKGBUILD (ri-li)     W: Missing CVS Id tag
-PKGBUILD (savage)    W: Missing CVS Id tag
-PKGBUILD (scourge)   W: Missing CVS Id tag
-PKGBUILD (slingshot) W: Missing CVS Id tag
-PKGBUILD (slune)     W: Missing CVS Id tag
-PKGBUILD (snowballz) W: Missing CVS Id tag
-PKGBUILD (soya)      W: Missing CVS Id tag
-PKGBUILD (sparklet)  W: Missing CVS Id tag
-PKGBUILD (spring)    W: Missing CVS Id tag
-PKGBUILD (springlobby) W: Missing CVS Id tag
-PKGBUILD (springlobby) W: Missing CVS Id tag
-PKGBUILD (stepmania) W: Missing CVS Id tag
-PKGBUILD (stratagus) W: Missing CVS Id tag
-PKGBUILD (trackballs) W: Missing CVS Id tag
-PKGBUILD (true-combat) W: Missing CVS Id tag
-PKGBUILD (ufoai)     W: Missing CVS Id tag
-PKGBUILD (ufoai-data) W: Missing CVS Id tag
-PKGBUILD (urbanterror) W: Missing CVS Id tag
-PKGBUILD (vdrift)    W: Missing CVS Id tag
-PKGBUILD (viruskiller) W: Missing CVS Id tag
-PKGBUILD (warsow)    W: Missing CVS Id tag
-PKGBUILD (warsow-map-pack-v1) W: Missing CVS Id tag
-PKGBUILD (widelands) W: Missing CVS Id tag
-PKGBUILD (wings2)    W: Missing CVS Id tag
-PKGBUILD (worldofpadman) W: Missing CVS Id tag
-PKGBUILD (wormsofprey) W: Missing CVS Id tag
-PKGBUILD (xpilot-ng) W: Missing CVS Id tag
+PKGBUILD (freecol)   W: Attempting to use dl.sourceforge.net, use downloads.sourceforge.net instead
 PKGBUILD (csmash)    W: Missing Contributor tag
 PKGBUILD (dark-oberon) W: Missing Contributor tag
+PKGBUILD (freeorion) W: Missing Contributor tag
 PKGBUILD (gate88)    W: Missing Contributor tag
 PKGBUILD (goonies)   W: Missing Contributor tag
 PKGBUILD (imaze)     W: Missing Contributor tag
@@ -87,6 +11,7 @@ PKGBUILD (python-rabbyt) W: Missing Contributor tag
 PKGBUILD (sparklet)  W: Missing Contributor tag
 PKGBUILD (springlobby) W: Missing Contributor tag
 PKGBUILD (springlobby) W: Missing Contributor tag
+PKGBUILD (worldofpadman) W: Missing Contributor tag
 PKGBUILD (3dpong)    W: Missing Maintainer tag
 PKGBUILD (alephone)  W: Missing Maintainer tag
 PKGBUILD (alienarena) W: Missing Maintainer tag
@@ -100,17 +25,22 @@ PKGBUILD (boswars)   W: Missing Maintainer tag
 PKGBUILD (btanks)    W: Missing Maintainer tag
 PKGBUILD (csmash)    W: Missing Maintainer tag
 PKGBUILD (defcon)    W: Missing Maintainer tag
+PKGBUILD (dreamchess) W: Missing Maintainer tag
+PKGBUILD (dreamchess-music) W: Missing Maintainer tag
 PKGBUILD (enemy-territory) W: Missing Maintainer tag
 PKGBUILD (enigma_sdl) W: Missing Maintainer tag
 PKGBUILD (epiar)     W: Missing Maintainer tag
+PKGBUILD (eve)       W: Missing Maintainer tag
 PKGBUILD (extremetuxracer) W: Missing Maintainer tag
 PKGBUILD (fillets-ng) W: Missing Maintainer tag
+PKGBUILD (fmod)      W: Missing Maintainer tag
 PKGBUILD (freecol)   W: Missing Maintainer tag
 PKGBUILD (fretsonfire) W: Missing Maintainer tag
 PKGBUILD (galaxymage) W: Missing Maintainer tag
 PKGBUILD (gate88)    W: Missing Maintainer tag
 PKGBUILD (generally) W: Missing Maintainer tag
 PKGBUILD (gltron)    W: Missing Maintainer tag
+PKGBUILD (gnushogi)  W: Missing Maintainer tag
 PKGBUILD (jumpnbump) W: Missing Maintainer tag
 PKGBUILD (jumpnbump-levels) W: Missing Maintainer tag
 PKGBUILD (knights)   W: Missing Maintainer tag
@@ -118,6 +48,7 @@ PKGBUILD (ksudoku)   W: Missing Maintainer tag
 PKGBUILD (legends)   W: Missing Maintainer tag
 PKGBUILD (lgeneral)  W: Missing Maintainer tag
 PKGBUILD (libsigcpp1.2) W: Missing Maintainer tag
+PKGBUILD (n-ninja)   W: Missing Maintainer tag
 PKGBUILD (netpanzer) W: Missing Maintainer tag
 PKGBUILD (offender)  W: Missing Maintainer tag
 PKGBUILD (openarena) W: Missing Maintainer tag
@@ -139,6 +70,8 @@ PKGBUILD (spring)    W: Missing Maintainer tag
 PKGBUILD (stepmania) W: Missing Maintainer tag
 PKGBUILD (stratagus) W: Missing Maintainer tag
 PKGBUILD (trackballs) W: Missing Maintainer tag
+PKGBUILD (trem-backport) W: Missing Maintainer tag
+PKGBUILD (tremded-lakitu) W: Missing Maintainer tag
 PKGBUILD (true-combat) W: Missing Maintainer tag
 PKGBUILD (ufoai)     W: Missing Maintainer tag
 PKGBUILD (ufoai-data) W: Missing Maintainer tag
@@ -151,12 +84,14 @@ PKGBUILD (widelands) W: Missing Maintainer tag
 PKGBUILD (wings2)    W: Missing Maintainer tag
 PKGBUILD (worldofpadman) W: Missing Maintainer tag
 PKGBUILD (wormsofprey) W: Missing Maintainer tag
+PKGBUILD (xblast)    W: Missing Maintainer tag
 PKGBUILD (xpilot-ng) W: Missing Maintainer tag
 PKGBUILD (dark-oberon) E: Missing license
 PKGBUILD (imaze)     E: Missing license
 PKGBUILD (pong2)     E: Missing license
 PKGBUILD (legends)   E: Missing md5sums
 PKGBUILD (pyspacewar) E: Missing md5sums
+PKGBUILD (tremded-lakitu) E: Missing md5sums
 PKGBUILD (dark-oberon) E: Not enough md5sums: 3 needed
 PKGBUILD (scourge)   E: Too Many md5sums: 2 needed
 PKGBUILD (csmash)    W: Variable arch is not an array.
@@ -191,6 +126,7 @@ PKGBUILD (sparklet)  W: Variable license is not an array.
 PKGBUILD (stepmania) W: Variable license is not an array.
 PKGBUILD (stratagus) W: Variable license is not an array.
 PKGBUILD (wormsofprey) W: Variable license is not an array.
+PKGBUILD (xblast)    W: Variable license is not an array.
 PKGBUILD (asc)       W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
 PKGBUILD (asc)       W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
 PKGBUILD (asc)       W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
@@ -210,6 +146,7 @@ PKGBUILD (ksudoku)   W: file referenced in $startdir outside of $startdir/src or
 PKGBUILD (lgeneral)  W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
 PKGBUILD (lgeneral)  W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
 PKGBUILD (lgeneral)  W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
+PKGBUILD (n-ninja)   W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
 PKGBUILD (openlierox) W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
 PKGBUILD (pong2)     W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
 PKGBUILD (sparklet)  W: file referenced in $startdir outside of $startdir/src or $startdir/pkg
