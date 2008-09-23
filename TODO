@@ -1,4 +1,5 @@
 Fix namcap errors
+ -- Use scripts/namcaplist to find more.
 # ----
 Use "BROKEN" file to detail why a given package fails to build
 # ----
