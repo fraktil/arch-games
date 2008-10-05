@@ -3,13 +3,12 @@
 pkgname=pacman-arena
 pkgver=0.15
 pkgrel=1
-pkgdesc="Pacman Arena is a Pacman clone in full 3D with a few surprises"
-arch=('i686 x86_64')
+pkgdesc="A Pacman clone in full 3D with a few surprises"
+arch=(i686 x86_64)
 url="http://sourceforge.net/projects/pacmanarena/"
 license=('GPL')
 
-depends=('sdl' 'sdl_mixer')
-makedepends=()
+depends=('sdl' 'sdl_mixer' sdl_net)
 
 source=(http://downloads.sourceforge.net/sourceforge/pacmanarena/pacman-arena-$pkgver.tar.bz2 http://downloads.sourceforge.net/sourceforge/pacmanarena/pacman-data-0.0.zip)
 md5sums=('4ff7e55810838fd81f966b76340b0103' '876b7bf02bbe26aab47c5aeee26b2be6')
