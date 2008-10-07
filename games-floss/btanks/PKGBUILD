@@ -1,6 +1,6 @@
 # Contributor: Nick B <Shirakawasuna at gmail _dot_ com>
 pkgname=btanks
-pkgver=0.7.5800
+pkgver=0.8.7686
 pkgrel=1
 pkgdesc="Fast 2d tank arcade game with multiplayer and split-screen modes."
 arch=('i686' 'x86_64')
@@ -8,29 +8,30 @@ url="http://btanks.sourceforge.net"
 license=('GPL')
 depends=('sdl' 'sdl_image' 'openal' 'libvorbis' 'libsigc++2.0' 'libgl' 'expat' 'lua')
 makedepends=('scons')
-source=(http://downloads.sourceforge.net/btanks/btanks-$pkgver.tar.bz2
+source=(http://downloads.sourceforge.net/btanks/$pkgname-$pkgver.tar.bz2 
 	btanks_desktop
-	btanks_script
-	gcc-4.3-fixes.patch)
+	btanks
+	bted)
 install=btanks.install
-md5sums=('538eadf2b78897620f3ef683a4ea423a'
+md5sums=('f5e4076e8562f4ad54fefeceaa37870d'
          'a2ddeb1e79dff8d3fd702984c8d3aab5'
-         '4db2b5c91194559801c5018a2ecd41b2'
-         '6e46f5a9816f68151d43c197e0bf5aa5')
+         'fd3a1f50bae8bdb49eb13d48087eae66'
+         'df3c29946f4ddd875b254689c614445d')
 
 build() {
 
   # Compile with scons
   cd $srcdir/$pkgname-$pkgver
-  patch -p1 <../gcc-4.3-fixes.patch
   scons || return 1
 	
   # Copy over files
   mkdir -p $pkgdir/usr/share
   cp -r $srcdir/$pkgname-$pkgver $pkgdir/usr/share/btanks
-
-  # Install script
-  install -D -m755 $srcdir/btanks_script $pkgdir/usr/bin/btanks
+  
+  # Install scripts
+  mkdir -p $pkgdir/usr/bin
+  install -D -m755 $srcdir/btanks $pkgdir/usr/bin/btanks
+  install -D -m755 $srcdir/bted $pkgdir/usr/bin/bted
 
   # Install desktop file
   install -D -m644 $srcdir/btanks_desktop $pkgdir/usr/share/applications/btanks.desktop
