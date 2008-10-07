@@ -6,7 +6,7 @@ pkgdesc="Fast 2d tank arcade game with multiplayer and split-screen modes."
 arch=('i686' 'x86_64')
 url="http://btanks.sourceforge.net"
 license=('GPL')
-depends=('sdl' 'sdl_image' 'openal' 'libvorbis' 'libsigc++2.0' 'libgl' 'expat' 'lua')
+depends=('sdl' 'sdl_image' 'openal' 'libvorbis' 'libsigc++2.0' 'libgl' 'expat' 'lua' 'smpeg')
 makedepends=('scons')
 source=(http://downloads.sourceforge.net/btanks/$pkgname-$pkgver.tar.bz2 
 	btanks_desktop
