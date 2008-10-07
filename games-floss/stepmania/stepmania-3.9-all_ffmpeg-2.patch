@@ -67,7 +67,8 @@ diff -ur StepMania-3.9-src.orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp St
  #else
 +extern "C"
 +{
- #include <ffmpeg/avformat.h>
+-#include <ffmpeg/avformat.h>
++#include <libavformat/avformat.h>
 +}
  #endif
 -};
@@ -75,7 +76,7 @@ diff -ur StepMania-3.9-src.orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp St
 +#if !defined(HAVE_IMG_CONVERT)
 +extern "C"
 +{
-+#include <ffmpeg/swscale.h>
++#include <libswscale/swscale.h>
 +}
 +#endif // HAVE_IMG_CONVERT
 +    void img_convert__(AVPicture *dst, int dst_pix_fmt,
