@@ -67,7 +67,7 @@ $pkgname/Data/MachineProfile/{Edits,Screenshots}
   # versions of sdl. Also, if needed, apply patch so StepMania will compile
   # on 64-bit systems.
   cd StepMania-$pkgver-src
-  patch -Np1 -i $startdir/src/$pkgname-$pkgver-all_ffmpeg-2.patch || return 1
+  #patch -Np1 -i $startdir/src/$pkgname-$pkgver-all_ffmpeg-2.patch || return 1
   patch -Np1 -i $startdir/src/$pkgname-$pkgver-gcc41-alias-2.patch || return 1
   patch -Np1 -i $startdir/src/$pkgname-$pkgver-gcc41.patch || return 1
   patch -Np1 -i $startdir/src/$pkgname-$pkgver-glibc.patch || return 1
