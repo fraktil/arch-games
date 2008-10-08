@@ -1,0 +1,11 @@
+<config>
+    <mirrors>
+        <mirror id="1" name="psmirror" url="http://www.psmirror.org/repo/" />
+        <mirror id="2" name="xordan" url="http://www.xordan.com/psupdater/" />
+    </mirrors>
+    <updater version="5" md5win32="efae3ec90d8d2cf99901b4751231bf9d" md5linux32="f161185810ac9b2abde51738344ebfbe" md5linux64="63d8c85077931cc28fff9fd10a526c4d" md5macosx="3e052db2cc44c35401d1f9b8607e7ac3" md5macosx1039="514333d70deda716d45b97cc6b124b11" />
+    <client>
+        <version name="0.4.00" md5win32="ce76fa5127532ed1aeb69921316605e7" md5linux32="3fa44e9769af561caecfc8752fa38808" md5linux64="d081fd3f95433a0eba9259b10607abd9" md5macosx="7e2105679a7f8e419038073ddb01c47e" />
+        <version name="0.4.00.1" md5win32="42e1a6d8e1bb72b9f62b6fcd3fc6aeef" md5linux32="9b4c6471539d77306911ea355fc39b1a" md5linux64="16e412ddfe4c827846b50d7c9b83e3ab" md5macosx="43d11aeee2a887f60763e9d0936e6968" />
+    </client>
+</config>

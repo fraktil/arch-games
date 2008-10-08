@@ -1,36 +1,29 @@
---- ../pkg/usr/bin/planeshift~	2008-03-16 02:36:37.000000000 +0100
-+++ ../pkg/usr/bin/planeshift	2008-03-16 02:39:13.000000000 +0100
-@@ -1,8 +1,6 @@
+--- ../pkg/usr/bin/planeshift~	2008-07-10 20:04:22.000000000 +0200
++++ ../pkg/usr/bin/planeshift	2008-07-10 20:04:53.000000000 +0200
+@@ -1,6 +1,6 @@
  #!/bin/bash
  
--R=$PWD/$0
--R=${R%/*}
--cd $R
+-cd $(dirname $0)
 +cd /opt/PlaneShift
- chmod 770 psclient.bin
- export LD_LIBRARY_PATH=libs/:\$LD_LIBRARY_PATH
+ export LD_LIBRARY_PATH=libs/:$LD_LIBRARY_PATH
  exec ./psclient.bin $@
---- ../pkg/usr/bin/planeshift-setup~	2008-03-16 02:36:37.000000000 +0100
-+++ ../pkg/usr/bin/planeshift-setup	2008-03-16 02:40:09.000000000 +0100
-@@ -1,8 +1,6 @@
+ 
+--- ../pkg/usr/bin/planeshift-setup~	2008-07-10 20:05:19.000000000 +0200
++++ ../pkg/usr/bin/planeshift-setup	2008-07-10 20:05:32.000000000 +0200
+@@ -1,6 +1,6 @@
  #!/bin/bash
  
--R=$PWD/$0
--R=${R%/*}
--cd $R
+-cd $(dirname $0)
 +cd /opt/PlaneShift
- chmod 770 pssetup.bin
- export LD_LIBRARY_PATH=libs/:\$LD_LIBRARY_PATH
+ export LD_LIBRARY_PATH=libs/:$LD_LIBRARY_PATH
  exec ./pssetup.bin $@
---- ../pkg/usr/bin/planeshift-updater~	2008-03-16 02:36:37.000000000 +0100
-+++ ../pkg/usr/bin/planeshift-updater	2008-03-16 02:40:35.000000000 +0100
-@@ -1,8 +1,6 @@
+ 
+--- ../pkg/usr/bin/planeshift-updater~	2008-07-10 20:05:49.000000000 +0200
++++ ../pkg/usr/bin/planeshift-updater	2008-07-10 20:06:05.000000000 +0200
+@@ -1,6 +1,6 @@
  #!/bin/bash
  
--R=$PWD/$0
--R=${R%/*}
--cd $R
+-cd $(dirname $0)
 +cd /opt/PlaneShift
- chmod 770 psupdater.bin
- export LD_LIBRARY_PATH=libs/:\$LD_LIBRARY_PATH
+ export LD_LIBRARY_PATH=libs/:$LD_LIBRARY_PATH
  exec ./psupdater.bin $@
