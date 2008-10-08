@@ -8,7 +8,7 @@ pkgrel=2
 pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
 arch=('i686' 'x86_64')
 [ "${CARCH}" = "x86_64" ] && _arch="x64" || _arch="x86"
-[ "${CARCH}" = "x86_64" ] && __arch="64" || __arch="86"
+[ "${CARCH}" = "x86_64" ] && __arch="64" || __arch="32"
 url="http://www.planeshift.it/"
 license=('GPL' 'custom:PlaneShift Content License')
 depends=('libgl' 'libsm' 'libxmu' 'libxpm' 'openal' 'openssl' 'zlib' 'libarchive')
