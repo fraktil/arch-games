@@ -14,7 +14,7 @@ source=(http://download.berlios.de/$pkgname/$pkgname-$pkgver.tar.gz \
 url="http://pong2.berlios.de/"
 md5sums=('720e8e6772bbe41e8c3d416271951862' 
 		 '28167ea1175ffcf297583c29f7df66a1'
-		 '76537d4b0f92785c4120a3c124d49563')
+		 'e9bddd8eedb142eb7fd63bac969dbfed')
 build() {
   cd $srcdir/$pkgname-$pkgver
   patch -Np1 -i $srcdir/$pkgname-$pkgver-gcc-4.3.patch || return 1

@@ -18,19 +18,19 @@ md5sums=('4f1390d2fe3a94b8a87c06aea4bed1e9'
 
 build()
 {
-  cd ${startdir}/src/$pkgname-$pkgver-src
+  cd $srcdir/$pkgname-$pkgver-src
   make depend || return 1
   make || return 1
-  mkdir -p ${startdir}/pkg/usr/bin
-  mkdir -p ${startdir}/pkg/usr/share/${pkgname}
-  mkdir -p ${startdir}/pkg/usr/share/applications
-  mkdir -p ${startdir}/pkg/usr/share/pixmaps
-  install -m755 bjs ${startdir}/pkg/usr/share/${pkgname}
-  install -m755 bjs_server ${startdir}/pkg/usr/share/${pkgname}
-  install -m755 ${startdir}/src/bjs ${startdir}/pkg/usr/bin
-  install -m755 ${startdir}/src/bjs_server ${startdir}/pkg/usr/bin
-  install -m644 ${startdir}/src/bjs.desktop ${startdir}/pkg/usr/share/applications
-  install -m644 ${startdir}/src/bjs.png ${startdir}/pkg/usr/share/pixmaps
-  cp -r config ${startdir}/pkg/usr/share/${pkgname}
-  cp -r data ${startdir}/pkg/usr/share/${pkgname}
+  mkdir -p $pkgdir/usr/bin
+  mkdir -p $pkgdir/usr/share/${pkgname}
+  mkdir -p $pkgdir/usr/share/applications
+  mkdir -p $pkgdir/usr/share/pixmaps
+  install -m755 bjs $pkgdir/usr/share/${pkgname}
+  install -m755 bjs_server $pkgdir/usr/share/${pkgname}
+  install -m755 $srcdir/bjs $pkgdir/usr/bin
+  install -m755 $srcdir/bjs_server $pkgdir/usr/bin
+  install -m644 $srcdir/bjs.desktop $pkgdir/usr/share/applications
+  install -m644 $srcdir/bjs.png $pkgdir/usr/share/pixmaps
+  cp -r config $pkgdir/usr/share/${pkgname}
+  cp -r data $pkgdir/usr/share/${pkgname}
 }
