@@ -2,22 +2,19 @@
 
 pkgname=eve
 pkgver=000066
-pkgrel=2
-arch=('i686' 'x86_64')
+pkgrel=3
+arch=('i686')
 pkgdesc="The EVE Online native linux client."
 url="http://www.eve-online.com/"
 license=('custom')
-if [ "$CARCH" = "x86_64" ]; then 
-	depends=('lib32-libx11' 'python' 'lib32-gtk2' 'lib32-libglade' 'lib32-alsa-lib' 'lib32-libjpeg' 'pygtk' 'dbus-python' 'pycairo' 'pygobject')
-	else depends=('libx11' 'python' 'gtk2' 'libglade' 'alsa-lib' 'libjpeg' 'pygtk' 'dbus-python' 'pycairo' 'pygobject')
-fi
+depends=('libx11' 'python' 'gtk2' 'libglade' 'alsa-lib' 'libjpeg' 'pygtk' 'dbus-python' 'pycairo' 'pygobject')
 options=('!strip')
 source=(http://ccp.vo.llnwd.net/o2/linux/$pkgname-$pkgver.tgz transgaming-eve-play.patch)
 md5sums=('a99f06e952f0f4cd53641d43b5a9fb0f' '8c5ab5d68e4e6eff14b79eff297867ec')
 
 build() {
   cd $srcdir
-  cp -R usr $startdir/pkg
+  cp -R usr $pkgdir
   rm -rf $pkgdir/usr/share/{applnk,appp*,gnome,icons}
   install -m 644 -D $pkgdir/usr/lib/eve/LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
   cd $pkgdir/usr/lib/eve/icons/
