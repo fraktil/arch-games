@@ -4,17 +4,23 @@
 pkgname=pong2
 pkgver=0.1.2
 pkgrel=1
+license=('GPL')
+arch=('i686' 'x86_64')
 pkgdesc="Networked, 3D clone of pong"
 depends=('libgl' 'openssl' 'sdl_image')
 source=(http://download.berlios.de/$pkgname/$pkgname-$pkgver.tar.gz \
-	pong2.desktop)
+	pong2.desktop
+	pong2-0.1.2-gcc-4.3.patch)
 url="http://pong2.berlios.de/"
-md5sums=('720e8e6772bbe41e8c3d416271951862' '28167ea1175ffcf297583c29f7df66a1')
+md5sums=('720e8e6772bbe41e8c3d416271951862' 
+		 '28167ea1175ffcf297583c29f7df66a1'
+		 '76537d4b0f92785c4120a3c124d49563')
 build() {
   cd $srcdir/$pkgname-$pkgver
+  patch -Np1 -i $srcdir/$pkgname-$pkgver-gcc-4.3.patch || return 1
   ./configure --prefix=/usr
   make || return 1
   make prefix=$pkgdir/usr install
   install -D -m644 $srcdir/$pkgname-$pkgver/icon.png $pkgdir/usr/share/pixmaps/pong2.png
-  install -D -m644 $startdir/pong2.desktop $pkgdir/usr/share/applications/Pong2.desktop
+  install -D -m644 $srcdir/pong2.desktop $pkgdir/usr/share/applications/Pong2.desktop
 }
