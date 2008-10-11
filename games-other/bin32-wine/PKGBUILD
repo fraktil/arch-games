@@ -1,0 +1,54 @@
+# Contributor: Clement Siuchung Cheung <clement.cheung@umich.edu>
+# Maintainer: Mikko Seppälä <t-r-a-y@mbnet.fi>
+# This version needs no modifications to ld.so.conf
+
+_pkgsourcename=wine
+pkgname=bin32-wine
+pkgver=1.1.5
+pkgrel=1
+pkgrel32=1
+pkgdesc="Interpreter for the Windows 3.x and Win32 APIs"
+arch=(x86_64)
+url="http://www.winehq.com/"
+license=('LGPL')
+depends=('lib32-libx11' 'lib32-libjpeg' 'lib32-alsa-lib' 'lib32-libxxf86vm' 'lib32-mesa' 'util-linux-ng' 'lib32-freetype2' 'lib32-fontconfig' 'lib32-libxslt' 'lib32-libxml2' 'lib32-libxcb' 'lib32-libxrender')
+provides=('wine')
+conflicts=('wine')
+install=()
+source=("binarynames" "ftp://ftp.heanet.ie/mirrors/ftp.archlinux.org/extra/os/i686/${_pkgsourcename}-${pkgver}-${pkgrel32}-i686.pkg.tar.gz")
+md5sums=('b0fd553e2f11fe7553ac1717797befe6' '1d7f425c65f2beabf71a70d93a37d249')
+
+build() {
+  rm $startdir/src/${_pkgsourcename}-${pkgver}-${pkgrel32}-i686.pkg.tar.gz
+  rm $startdir/src/binarynames
+  cp -rPfp $startdir/src/* $startdir/pkg/
+  install -d $startdir/pkg/opt/lib32/usr/lib/
+  mv $startdir/pkg/usr/lib/libwine.so* $startdir/pkg/opt/lib32/usr/lib/
+  cd $startdir/pkg/usr/bin/
+  
+  install -d $startdir/pkg/opt/wine/bin/ $startdir/src/tempscripts/
+  for i in `cat $startdir/binarynames` ; do
+  mv $i $startdir/pkg/opt/wine/bin/
+  echo -e '#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /opt/wine/bin/replacename "$@"' > $startdir/src/tempscripts/$i
+  sed -re "s/replacename/$i/" -i $startdir/src/tempscripts/$i
+  install -m755 $startdir/src/tempscripts/$i $i
+  done
+
+  # PPD fix
+  mkdir -p $startdir/pkg/opt/lib32/usr/share/
+  ln -s /usr/share/wine $startdir/pkg//opt/lib32/usr/share/wine
+  
+  # These should NOT be needed!
+  # Fakeroot causes trouble for some users again?
+  cd $startdir/pkg/usr/lib/
+  chmod 755 wine
+  cd wine
+  chmod 755 *so
+  chmod 644 *.def *16 *.a
+  # Added /usr/share/wine workaround for some users
+  cd $startdir/pkg/usr/share/
+  chmod 755 wine
+  cd wine
+  chmod -R 644 *
+  chmod 755 fonts
+}
