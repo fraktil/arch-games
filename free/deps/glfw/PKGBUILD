@@ -1,0 +1,22 @@
+#Maintainer: philefou <tuxication AT gmail DOT com>
+#Contributor: lindquist <tomas@famolsen.dk>
+#Contributor: Christoph Siegenthaler <csi@gmx.ch>
+
+pkgname=glfw
+pkgver=2.6
+pkgrel=1
+pkgdesc="A free, open source, portable framework for OpenGL application development."
+arch=('i686' 'x86_64')
+url="http://glfw.sourceforge.net/"
+license=('GPL')
+depends=('x-server')
+source=(http://prdownloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.bz2)
+md5sums=('0d9b93e6194c3805be9e1c855a985a24')
+
+build() {
+     mkdir -p $pkgdir/usr/lib $pkgdir/usr/include/GL
+     cd $srcdir/$pkgname
+     make x11 || return 1
+     make PREFIX=$pkgdir/usr x11-install || return 1
+     cp $srcdir/glfw/lib/x11/libglfw.so $pkgdir/usr/lib
+}

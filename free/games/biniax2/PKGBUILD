@@ -1,0 +1,36 @@
+# Contributor: Nick B <Shirakawasuna at gmail _dot_com>
+pkgname=biniax2
+pkgver=1.2
+pkgrel=2
+pkgdesc="An innovative game with unique gameplay and a bright, colorful interface."
+arch=('i686' 'x86_64')
+url="http://biniax.com/index2.html"
+license=('custom')
+depends=('sdl_mixer' 'sdl_image')
+source=(http://mordred.dir.bg/biniax/biniax2-src.zip
+		http://mordred.dir.bg/biniax/biniax2-linux86.tar.gz
+		biniax2-desktop
+		biniax2-icon
+		biniax2-script)
+md5sums=('5ae36acb30bde362df55f77ff60cc4a1' 
+		 '3538678d7cc45d9c9dc787a1f30adde1'
+		 '1ca69c6172cd46803a45e631cc04e3b9' 
+		 'c40c6fc5e4620a37274454264f269f92' 
+		 '2ef8b4847dacf3e45fee2994d4d26b8c')
+
+build() {
+mkdir -p $pkgdir/usr/share/biniax2/{data/{graphics,music,sound,text},desktop,SDLinclude}
+cd $srcdir
+make || return 1
+install -D -m755 $srcdir/biniax2 $pkgdir/usr/share/biniax2/biniax2
+install -D -m644 $srcdir/SDLinclude/* $pkgdir/usr/share/biniax2/SDLinclude/
+install -D -m644 $srcdir/desktop/* $pkgdir/usr/share/biniax2/desktop/
+install -D -m644 $srcdir/LICENSE.txt $pkgdir/usr/share/licenses/biniax2/LICENSE.txt
+install -D -m644 $srcdir/biniax2-linux86/data/graphics/* $pkgdir/usr/share/biniax2/data/graphics/
+install -D -m644 $srcdir/biniax2-linux86/data/music/* $pkgdir/usr/share/biniax2/data/music/
+install -D -m644 $srcdir/biniax2-linux86/data/sound/* $pkgdir/usr/share/biniax2/data/sound/
+install -D -m644 $srcdir/biniax2-linux86/data/text/* $pkgdir/usr/share/biniax2/data/text/
+install -D -m755 $srcdir/biniax2-script $pkgdir/usr/bin/biniax2
+install -D -m644 $srcdir/biniax2-icon $pkgdir/usr/share/pixmaps/biniax2.png
+install -D -m644 $srcdir/biniax2-desktop $pkgdir/usr/share/applications/biniax2.desktop
+}

@@ -1,0 +1,34 @@
+# Contributor: Angelo Theodorou <encelo@users.sourceforge.net>
+# Contributor: Darwin Bautista <djclue917@gmail.com>
+
+pkgname=netpanzer-svn
+pkgver=1079
+pkgrel=1
+pkgdesc="An Online Multiplayer Tactical Warfare Game"
+arch=('i686' 'x86_64')
+url="http://netpanzer.berlios.de/"
+license="GPL"
+depends=('physfs' 'sdl' 'sdl_mixer' 'sdl_image')
+makedepends=('ftjam' 'subversion')
+source=()
+md5sums=()
+
+_svntrunk=http://svn.berlios.de/svnroot/repos/netpanzer/trunk/netpanzer/
+_svnmod=netpanzer-svn
+
+build() {
+	
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
+    else
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+    fi
+	
+	cd $srcdir/$_svnmod/
+	sh autogen.sh
+	./configure --prefix=/usr #--disable-debug 
+	sh jamconfig
+	jam || return 1
+	jam -sprefix=$pkgdir/usr install || return 1
+	
+}

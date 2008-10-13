@@ -1,0 +1,111 @@
+--- src/client/fx/gfx.cpp   2007-01-07 17:24:48.000000000 +0100
++++ src/client/fx/gfx.cpp~  2008-04-24 19:48:10.000000000 +0200
+@@ -19,6 +19,7 @@
+ #include "gui_constants.h"
+ 
+ #include <string>
++#include <climits>
+ #include <sstream>
+ #include <ios>
+ 
+--- src/client/game_data/terrain_client.cpp   2006-12-15 21:31:48.000000000 +0100
++++ src/client/game_data/terrain_client.cpp~  2008-04-24 19:53:39.000000000 +0200
+@@ -10,6 +10,8 @@
+ #include "weightfun.h"
+ #include "noise.h"
+ 
++#include <typeinfo>
++
+ #include "terrain_geomipmap.h"
+ typedef class TerrainGeoMipMap CurrentTerrainImplementation;
+ 
+--- src/common/game_data/params.h   2006-12-15 21:31:38.000000000 +0100
++++ src/common/game_data/params.h~  2008-04-24 19:29:48.000000000 +0200
+@@ -5,6 +5,7 @@
+ 
+ #include <string>
+ #include <vector>
++#include <cstdlib>
+ #include "terrain_map_attributes.h"
+ 
+ /**
+
+--- src/common/game_data/terrain.h   2006-12-15 21:31:38.000000000 +0100
++++ src/common/game_data/terrain.h~  2008-04-24 19:30:25.000000000 +0200
+@@ -5,7 +5,7 @@
+ 
+ #include <string>
+ #include <vector>
+-#include <memory.h>
++#include <memory>
+ 
+ #include "GLVector.h"
+ #include "terrain_base.h"
+
+--- src/common/model/model_loader.cpp   2006-12-15 21:31:35.000000000 +0100
++++ src/common/model/model_loader.cpp~  2008-04-24 19:58:05.000000000 +0200
+@@ -5,6 +5,7 @@
+ #include "hierarchy_node.h"
+ #include "hna_transform.h"
+ #include "GLMatrix.h"
++#include <memory>
+ 
+ // todo - error handling and memory dealocations on error
+ 
+--- src/common/model/model_loader.h   2006-12-15 21:31:35.000000000 +0100
++++ src/common/model/model_loader.h~  2008-04-24 20:03:49.000000000 +0200
+@@ -5,6 +5,7 @@
+ #include "model.h"
+ 
+ #include <string>
++#include <memory>
+ #include "hash_hack.h"
+ #include "stlextdefs.h"
+ 
+--- src/common/noise.h	 2006-12-15 21:31:40.000000000 +0100
++++ src/common/noise.h~	 2008-04-24 20:13:16.000000000 +0200
+@@ -4,6 +4,7 @@
+ 
+ #include "function2D.h"
+ #include "grutils.h"
++#include <string>
+ 
+ /**
+ *	\brief Noise from external image file.
+
+--- src/common/platform/unix/platform_unix.cpp 	 2006-12-26 21:07:04.000000000 +0100
++++ src/common/platform/unix/platform_unix.cpp~	 2008-04-24 20:19:07.000000000 +0200
+@@ -3,6 +3,7 @@
+ // #define WANT_TRACE
+ 
+ #include <cstdio>
++#include <cstdlib>
+ 
+ #include <sys/types.h>
+ #include <sys/stat.h>
+
+--- src/server/ai/aimanager.h   2006-12-15 21:31:30.000000000 +0100
++++ src/server/ai/aimanager.h~  2008-04-24 20:24:48.000000000 +0200
+@@ -6,6 +6,7 @@
+ #include "task.h"
+ #include "globals.h"
+ #include <vector>
++#include <string>
+ 
+ class AI;
+ 
+--- Makefile   2006-12-27 14:13:50.000000000 +0100
++++ Makefile~  2007-01-21 12:10:56.000000000 +0100
+@@ -12,9 +12,9 @@
+ CPP             = g++
+ #CC              = g++-3.3 # GCC 3.3 doen;t work :-) Some problem with liking
+ #CFLAGS          = -Wall -Wextra -Wcast-align
+-CFLAGS          = -Wall -Wcast-align `sdl-config --cflags` `freetype-config --cflags` -I./  -Wno-unknown-pragmas -DNO_SDL_GLEXT `pkg-config CEGUI-OPENGL --cflags`
+-LIBS_CLIENT            = `sdl-config --libs` -lGL -lGLU `freetype-config --libs` -lSDL_image -lSDL_ttf -lSDL_mixer -lomniORB4 -lode `openal-config --libs`  -lomniDynamic4 -lomnithread  `pkg-config CEGUI-OPENGL --libs`
+-LIBS_SERVER            = `sdl-config --libs` -lomniORB4 -lode -lGL -lGLU  -lSDL_image -lomniORB4 -lode -lomniDynamic4 -lomnithread  `openal-config --libs`
++CFLAGS          = -Wall -Wcast-align `sdl-config --cflags` `freetype-config --cflags` -I./  -Wno-unknown-pragmas -DNO_SDL_GLEXT `pkg-config CEGUI-OPENGL --cflags` -I/usr/include/AL
++LIBS_CLIENT            = `sdl-config --libs` -lGL -lGLU `freetype-config --libs` -lSDL_image -lSDL_ttf -lSDL_mixer -lomniORB4 -lode `openal-config --libs`  -lomniDynamic4 -lomnithread  `pkg-config CEGUI-OPENGL --libs` `freealut-config --libs` -lGLEW -lSDL_gfx
++LIBS_SERVER            = `sdl-config --libs` -lomniORB4 -lode -lGL -lGLU  -lSDL_image -lomniORB4 -lode -lomniDynamic4 -lomnithread  `openal-config --libs` -lSDL_gfx
+ 
+ OBJECTFILES_SERVER   = $(shell find ./src -name '*.cpp' -or -name '*.c' | grep -v '/client/' | grep -v 'win32'  | grep -v 'macosx' | sed 's/\.cp*/.o/')
+ OBJECTFILES_CLIENT   = $(shell find ./src -name '*.cpp' -or -name '*.c' | grep -v '/server/' | grep -v 'win32'  | grep -v 'macosx' | sed 's/\.cp*/.o/')

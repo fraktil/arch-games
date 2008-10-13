@@ -1,0 +1,43 @@
+# Contributor: Michal Malek <michalm@jabster.pl>
+
+pkgname=bjs
+pkgver=0.1.2
+pkgrel=4
+pkgdesc="3D multiplayer tank battle game"
+arch=('i686' 'x86_64')
+url="http://bjs.sourceforge.net/"
+license=('GPL')
+depends=('ode' 'sdl' 'sdl_image' 'sdl_mixer' 'sdl_ttf' 'sdl_gfx' 'openal' 'omniorb' 'cegui')
+makedepends=('imake')
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver-src.tar.gz 
+		bjs_game
+		bjs_server 
+		bjs.desktop 
+		bjs.png
+		bjs.patch)
+md5sums=('4f1390d2fe3a94b8a87c06aea4bed1e9'
+		 'fe51335d47866ff2d85334d3349bcf1b'
+		 'bc6236ce5a00115a7f8e1ee8e1d0ef79'
+		 '3661ea4d8f543c7acc523212f4cfa918'
+		 '0112598e776299f903b885bb87b02824'
+		 '4860c786aef58ac00005e717082253d4')
+
+build()
+{
+  cd $srcdir/$pkgname-$pkgver-src
+  patch -Np0 -i $srcdir/bjs.patch || return 1
+  make depend || return 1
+  make || return 1
+  mkdir -p $pkgdir/usr/bin
+  mkdir -p $pkgdir/usr/share/${pkgname}
+  mkdir -p $pkgdir/usr/share/applications
+  mkdir -p $pkgdir/usr/share/pixmaps
+  install -m755 bjs $pkgdir/usr/share/${pkgname}
+  install -m755 bjs_server $pkgdir/usr/share/${pkgname}
+  install -m755 $srcdir/bjs_game $pkgdir/usr/bin
+  install -m755 $srcdir/bjs_server $pkgdir/usr/bin
+  install -m644 $srcdir/bjs.desktop $pkgdir/usr/share/applications
+  install -m644 $srcdir/bjs.png $pkgdir/usr/share/pixmaps
+  cp -r config $pkgdir/usr/share/${pkgname}
+  cp -r data $pkgdir/usr/share/${pkgname}
+}
