@@ -9,16 +9,16 @@ license=('GPL')
 depends=('sdl_ttf' 'sdl_gfx' 'sdl_image' 'gcc-libs')
 source=(http://downloads.sourceforge.net/qonk/$pkgname-$pkgver.tar.gz
 		qonk.desktop
-		qonk-0.3.1-gcc-4.3.patch)
+		qonk.patch)
 		
 md5sums=('9491980477ac5beb5bba6b8234d2ddfd'
 		 '3bcea57577ee185fe2a27e3548cb6be6'
-		 '6036dc28183bf3bd2ccb0299f524c023')
+		 'f7b3f211b81de4274558960765c63cad')
 		 
 build() {
 		
 	cd $srcdir/$pkgname-$pkgver
-	patch -Np1 -i $srcdir/$pkgname-$pkgver-gcc-4.3.patch || return 1
+	patch -Np0 -i $srcdir/$pkgname.patch || return 1
 	./configure --prefix=/usr
 	make || return 1
 	make DESTDIR="$pkgdir" install
