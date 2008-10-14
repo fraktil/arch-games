@@ -1,43 +1,4 @@
 #!/bin/bash
-#
-# startscript for Battle Just Started
-#
-# written by oc2pus
-#
-# Changelog:
-# 20.12.2006 initial version
 
-# activate for debugging
-#set -x
-
-# base settings
-myShareDir=/usr/share/bjs
-myHomeDir=~/.bjs
-
-# creates a local working directory in user-home
-function createLocalDir ()
-{
- 	if [ ! -d $myHomeDir ]; then
-		echo "creating local working directory $myHomeDir ..."
-		mkdir -p $myHomeDir
-
-		ln -s $myShareDir/data $myHomeDir
-		# log and config should be writable
-		mkdir -p $myHomeDir/log
-		mkdir -p $myHomeDir/config
-		# copy config templates and base config
-		cp $myShareDir/config/* $myHomeDir/config
-		# bjs is looking in actual dir for server
-		ln -s /usr/bin/bjs_server $myHomeDir
-	fi
-}
-
-echo ""
-echo "starting Battle Just Started ..."
-
-# creates a local working directory in user-home
-createLocalDir
-
-cd $myHomeDir
-
-bjs
+cd /usr/share/bjs
+./bjs
