@@ -1,0 +1,43 @@
+# Contributor: Hugo Ideler <hugoideler@dse.nl>
+
+pkgname=epiar-cvs
+pkgver=20081015
+pkgrel=1
+pkgdesc="A space adventure/combat game written in C with SDL"
+arch=('i686' 'x86_64')
+url="http://epiar.net/"
+license="GPL"
+depends=('sdl' 'sdl_image' 'sdl_net' 'sdl_mixer' 'openal' 'mesa' 'libgl' 'libxml2' 'zlib')
+makedepends=('cvs')
+source=(epiar-wrapper)
+md5sums=('a6bcaaa52d1a7e4e11428d4060d5ebd0')
+
+_cvsroot=":pserver:anonymous@epiar.cvs.sourceforge.net:/cvsroot/epiar"
+_cvsmod="lamprey"
+
+build() {
+
+	#Some of the deps are not yet needed, but will be definatly used in epira future
+	#Also the file moving part will be changed in the future.
+
+	cd $srcdir
+	
+	if [ -d $_cvsmod/CVS ]; then
+		cd $_cvsmod
+		cvs -z3 update -d || return 1
+	else
+		cvs -z3 -d $_cvsroot co -P $_cvsmod || return 1
+		cd $_cvsmod
+	fi
+
+	sh autogen.sh || return 1
+	./configure || return 1
+	make || return 1
+	
+	install -D -m755 $srcdir/epiar-wrapper $pkgdir/usr/bin/epiar
+	install -d -m755 $pkgdir/usr/share/epiar
+	cp -t $pkgdir/usr/share/epiar/ *.xml *.png *.af *.dat *.ani
+	chmod 644 $pkgdir/usr/share/epiar/*
+	install -D -m755 Epiar $pkgdir/usr/share/epiar/
+
+}
