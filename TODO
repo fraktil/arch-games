@@ -5,3 +5,5 @@ Openarena is out of date: latest 0.8; repo 0.7.7
 # ----
 daenyth: need to update tremded-lakitu to latest and complete it.
 tremulous-backport needs update to mg client
+
+vleon: possibly move planeshift to use the engine svn source now that i know how
