@@ -1,31 +1,29 @@
 # Contributor: rabyte <rabyte__gmail>
-# Contributor: Cirdan <gero.mueller_at_cloo_de> (gcc43.patch)
 
 pkgname=spring
-pkgver=0.76b1
+pkgver=0.77b4
 pkgrel=1
-pkgdesc="A free 3D game engine for the real-time-strategy game Total Annihilation"
-arch=('i686 x86_64')
+pkgdesc='A free 3D game engine for the real-time-strategy (RTS) game "Total Annihilation"'
+arch=('i686' 'x86_64')
 url="http://spring.clan-sy.com/"
 license=('GPL2')
-depends=('openal' 'glew' 'boost' 'devil>=1.6.7-5' 'libvorbis' 'freetype2')
+depends=('openal' 'glew' 'boost' 'devil' 'libvorbis' 'libxcursor')
 makedepends=('scons>=0.98.5' 'gcc-gcj' 'zip')
-source=(http://spring.clan-sy.com/dl/spring_${pkgver}_src.tar.bz2 \
-	http://download2.berlios.de/taspring-linux/spring-linux-data-0.74b1.tar.bz2 \
-	gcc43.patch \
-	$pkgname-$pkgver-cxxflags.diff)
+optdepends=('springlobby (A lobby client that will download maps for you)')
+source=(http://spring.clan-sy.com/dl/${pkgname}_${pkgver}_src.tar.bz2)
+md5sums=('e26e7fe4be5ccc57f6e45c08b55ebbf1')
+
 # !! Doesn't build with "-march=pentium4" set in CFLAGS !!
-md5sums=('a89b38e1666c39ece32f0bafb2bfe17f' '6622e185870518d97b854f0417b779c5' '184d10652a669807925e92c8ea256bdc' '2d42a0f2e8ae6b34e481006603745193')
 
 build() {
-  cd $srcdir/spring_$pkgver
-  scons configure prefix=/usr bindir=bin datadir=share/spring installprefix=$pkgdir/usr
-  patch -Np1 -i ../$pkgname-$pkgver-cxxflags.diff || return 1
-  patch -Np1 -i ../gcc43.patch || return 1
-  scons configure prefix=/usr  bindir=bin datadir=share/spring installprefix=$pkgdir/usr
-  scons build || return 1
-  scons install
-  mkdir -p $pkgdir/etc/spring
-  echo '$HOME/.spring' > $pkgdir/etc/spring/datadir
-  cp -rf ../spring-linux-data-0.74b1/* $pkgdir/usr/share/spring/
+	
+	cd $srcdir/spring_$pkgver
+
+	scons configure prefix=/usr bindir=bin datadir=share/spring installprefix=$pkgdir/usr
+	scons build || return 1
+	scons install
+
+	mkdir -p $pkgdir/etc/spring
+	echo '$HOME/.spring' > $pkgdir/etc/spring/datadir
+  
 }

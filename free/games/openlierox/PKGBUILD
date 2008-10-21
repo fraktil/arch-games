@@ -2,23 +2,25 @@
 # Maintainer: Daniel J Griffiths <griffithsdj@ghost1227.com>
 
 pkgname=openlierox
-pkgver=0.57_beta5
-pkgrel=2
+pkgver=0.57_beta8
+pkgrel=1
 pkgdesc="A real-time, excessive worms-clone"
 arch=('i686' 'x86_64')
 url="http://openlierox.sourceforge.net/"
 license=('LGPL2')
-depends=('gcc-libs' 'gd' 'hawknl' 'libxml2' 'sdl_image' 'sdl_mixer')
-source=(http://downloads.sourceforge.net/sourceforge/openlierox/OpenLieroX_$pkgver.src.tar.bz2 openlierox.desktop)
-md5sums=('f55a06b61e08f6f8aafef71d3f9808aa' '136be76151864d154051455d75dc813e')
+depends=('gcc-libs' 'gd' 'hawknl' 'libxml2' 'sdl_image' 'sdl_mixer' 'libzip')
+source=(http://downloads.sourceforge.net/sourceforge/openlierox/OpenLieroX_$pkgver.src.tar.bz2 
+		openlierox.desktop)
+md5sums=('f83b5e8eec8dae77f04280420c848807' 
+		 '136be76151864d154051455d75dc813e')
 
 build() {
-  cd $srcdir/OpenLieroX
-  ./compile.sh || return 1
-  mkdir -p $pkgdir/usr/bin
-  cp bin/openlierox $pkgdir/usr/bin
-  mkdir -p $pkgdir/usr/share/OpenLieroX
-  cp -r share/gamedir/* $pkgdir/usr/share/OpenLieroX/
-  mkdir -p $pkgdir/usr/share/applications
-  cp $startdir/openlierox.desktop $pkgdir/usr/share/applications
+	
+	cd $srcdir/OpenLieroX
+	./compile.sh || return 1
+	mkdir -p $pkgdir/usr/{bin,share/{OpenLieroX,applications}}
+	cp bin/openlierox $pkgdir/usr/bin
+	cp -r share/gamedir/* $pkgdir/usr/share/OpenLieroX/
+	cp $srcdir/openlierox.desktop $pkgdir/usr/share/applications
+  
 }

@@ -9,10 +9,19 @@ license=('GPL' 'custom:Warsow Content License')
 arch=('i686' 'x86_64') 
 depends=('sdl' 'curl' 'libxxf86dga' 'libjpeg' 'libvorbis' 'libxxf86vm' 'libxinerama')
 makedepends=('mesa' 'openal' 'unzip' 'hd2u')
-source=('warsow.desktop' 'warsow.launcher' 'wsw-server.launcher' 'wswtv-server.launcher' \
-"http://www.derchris.net/warsow/warsow_${pkgver}_unified.zip" \
-"https://launchpad.net/warsow/0.4/0.42/+download/warsow_${pkgver}_sdk.zip")
-md5sums=('f9bf60c80820237f7097c4e50a9582cd' 'ec00081d81ad9802a8ca42fc2eac5498' 'f73e10c26197178df71b941b10bf83d7' 'd7e4a69835bbcf801e58307e9d6b951e' 'cba5fe9b8af01b378e685959098fa84f' '94c9bb2a48ac6f2687b38809e003f3b9')
+optdepends=('warsow-map-pack-v1 (A collection of maps)')
+source=(warsow.desktop 
+		warsow.launcher 
+		wsw-server.launcher 
+		wswtv-server.launcher 
+		http://wahs.de/warsow/${pkgname}_${pkgver}_unified.zip
+		https://launchpad.net/warsow/0.4/0.42/+download/${pkgname}_${pkgver}_sdk.zip)
+md5sums=('f9bf60c80820237f7097c4e50a9582cd' 
+		 'ec00081d81ad9802a8ca42fc2eac5498' 
+		 'f73e10c26197178df71b941b10bf83d7' 
+		 'd7e4a69835bbcf801e58307e9d6b951e' 
+		 'cba5fe9b8af01b378e685959098fa84f' 
+		 '94c9bb2a48ac6f2687b38809e003f3b9')
 
 build() {
     cd $srcdir/warsow_${pkgver}_unified

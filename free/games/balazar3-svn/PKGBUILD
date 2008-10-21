@@ -1,0 +1,34 @@
+# Maintainer: Eric Belanger <belanger@astro.umontreal.ca>
+# Contributor: rensel <rensel@email.it>
+
+pkgname=balazar3-svn
+pkgver=153
+pkgrel=1
+pkgdesc="Balazar in the rancid skull dungeon !"
+url="http://home.gna.org/oomadness/en/balazar_iii/index.html"
+license="GPL"
+arch=('i686' 'x86_64')
+depends=('python' 'pyogg' 'pyvorbis' 'soya' 'python-cerealizer')
+makedepends=('subversion')
+[ "$CARCH" = "i686" ] && optdepends=(psyco (Used for speed optimization))
+source=()
+md5sums=()
+
+_svntrunk=svn://svn.gna.org/svn/balazar/trunk/balazarIII/balazar3/
+_svnmod=balazar3-svn
+
+build() {
+  
+	cd $srcdir
+
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
+    else
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+    fi  
+  	
+	cd $srcdir/$_svnmod
+	python setup.py build || return 1
+	python setup.py install --root=$pkgdir
+  
+}

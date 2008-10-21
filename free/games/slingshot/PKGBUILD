@@ -3,30 +3,24 @@ pkgname=slingshot
 pkgver=0.8.1p
 pkgrel=1
 pkgdesc="A two dimensional strategy/simulation game set in the gravity fields of several planets."
-arch=(i686)
+arch=('i686' 'x86_64')
 url="http://www.slingshot-game.org/"
 license=('GPL')
-depends=('python>=2.4' 'python-pygame>=1.7.1')
-#makedepends=()
-#provides=()
-#conflicts=()
-#replaces=()
-#backup=()
-#options=()
-#install=
+depends=('python' 'python-pygame')
 source=(http://downloads.sourceforge.net/slingshot-game/Slingshot-$pkgver-linux.tar.gz)
-noextract=()
 md5sums=('cdfcf0c85dc7d1b203344c24f591e7b5')
 
 build() {
-  cd "$startdir/src/Slingshot-$pkgver-linux"
+	
+  cd $srcdir/Slingshot-$pkgver-linux
   tar xf slingshot_files.tar.gz
-  mkdir -p $startdir/pkg/usr/share/
-  cp -r slingshot $startdir/pkg/usr/share/
-  cp readme $startdir/pkg/usr/share/slingshot/
-  mkdir -p $startdir/pkg/usr/bin/
-  sed 's,/opt/,/usr/share/,' sling > $startdir/pkg/usr/bin/slingshot
-  chmod a+x $startdir/pkg/usr/bin/slingshot
+  mkdir -p $pkgdir/usr/share/
+  cp -r slingshot $pkgdir/usr/share/
+  cp readme $pkgdir/usr/share/slingshot/
+  mkdir -p $pkgdir/usr/bin/
+  sed 's,/opt/,/usr/share/,' sling > $pkgdir/usr/bin/slingshot
+  chmod a+x $pkgdir/usr/bin/slingshot
   sed -i 's,/opt/,/usr/share/,' slingshot.desktop
-  install -Dm0644 slingshot.desktop $startdir/pkg/usr/share/applications/slingshot.desktop
+  install -Dm0644 slingshot.desktop $pkgdir/usr/share/applications/slingshot.desktop
+  
 }

@@ -10,7 +10,7 @@ depends=('python' 'setuptools')
 makedepends=('pyrex')
 source=("http://cheeseshop.python.org/packages/source/R/Rabbyt/Rabbyt-$pkgver.tar.gz")
 md5sums=('0eebcf062bfec08305b2228099dddfd3')
-arch=('i686')
+arch=('i686' 'x86_64')
 
 build() {
 	cd $srcdir/Rabbyt-$pkgver

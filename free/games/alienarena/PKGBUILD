@@ -1,19 +1,17 @@
 # Contributor: Paul Bredbury <brebs@sent.com>
 
 pkgname=alienarena
-pkgver=20080603
+pkgver=20081016
 pkgrel=1
 pkgdesc="Multiplayer retro sci-fi deathmatch game"
-arch=(i686 x86_64)
+arch=('i686' 'x86_64')
 url="http://red.planetarena.org/"
 license=('GPL')
 depends=('curl' 'libgl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl')
 makedepends=('hd2u' 'p7zip' 'unzip')
 source=(http://alienarena.arcadebelgium.be/alienarena2008-linux${pkgver}.zip
-        http://forsakenweb.com/alienarena/files/accessorypack2008.7z
         alienarena.desktop)
-md5sums=('f05f373ef438286306c1bc90642e54bf'
-         '0e47e4c72ef11a34e598f7acd135660f'
+md5sums=('14f27c8494b849572690482232148e23'
          '46bbe3e3a93b2e5009ffd663ad462915')
 
 _datadir="/usr/share/${pkgname}"
@@ -22,12 +20,6 @@ _libdir="/usr/lib/${pkgname}"
 build() {
   cd $srcdir/${pkgname}2008
 
-  # Additional maps & skins
-  7z x -y ../accessorypack2008.7z || return 1
-
-  # Fix filenames
-  mv "data1/scripts/maps/tca-titan2k8 .rscript" data1/scripts/maps/tca-titan2k8.rscript
-
   # Remove pre-compiled libs
   rm {arena,data1}/game.so
 
@@ -35,10 +27,7 @@ build() {
   # Arch isn't multilib
   sed -i -e "s:lib64:lib:" Makefile || return 1
 
-  make PREFIX=/usr \
-       WITH_DATADIR=yes WITH_LIBDIR=yes \
-       DATADIR="${_datadir}" LIBDIR="${_libdir}" \
-       || return 1
+  make PREFIX=/usr WITH_DATADIR=yes WITH_LIBDIR=yes DATADIR="${_datadir}" LIBDIR="${_libdir}" || return 1
 
   cd release
   # opengl seems more stable, but may vary

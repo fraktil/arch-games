@@ -1,0 +1,20 @@
+There is either a bug in makepkg or something very speciall that needs to be done
+There is a lne in th pkgbuild that is commented, if you uncomment and build a corrupted
+soya pkg will be created it will look ok, but any game dependant on soya will not work 
+proparly if at all. a mail detailing this problem was send to the mail-list and i hope
+i will get an answer and remove this stupid hack.
+
+meanwhile building the package should be done with "makepkg -o" to download and extract
+sources, then manually enteringt the source directory and using "python setup.py build"
+and afterward back to the $stardir and "makepkg -e" to build from the exiting source
+(without extracting and modifying)
+
+If you want to see what im talking about, or to test wether the bug is still there
+just build the package with the way i decribed and backup the created $pkgdir
+next uncomment my line in the PKGBUILD and "makepkg -s" to build it
+compare if you "md5sum *" on one of the directories that contains files you will 
+notice that most of the files are the same but some files like 
+"$pkgdir/usr/lib/python2.5/site-packages/soya/opengl.so" should be different.
+if nothing is different then send me a mail to vleon1@gamil.com since it means
+either my comp is somehow wrong, or the problem was fixed and this hack
+should be removed, do not remove it yourself! mail me and let me confirm this.

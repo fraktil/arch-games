@@ -2,7 +2,7 @@
 # Contributor: Darwin Bautista <djclue917@gmail.com>
 
 pkgname=netpanzer-svn
-pkgver=1079
+pkgver=1078
 pkgrel=1
 pkgdesc="An Online Multiplayer Tactical Warfare Game"
 arch=('i686' 'x86_64')
@@ -17,6 +17,8 @@ _svntrunk=http://svn.berlios.de/svnroot/repos/netpanzer/trunk/netpanzer/
 _svnmod=netpanzer-svn
 
 build() {
+
+	cd $srcdir
 	
 	if [ -d $_svnmod/.svn ]; then
       (cd $_svnmod && svn up -r $pkgver)
@@ -24,7 +26,7 @@ build() {
       svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
     fi
 	
-	cd $srcdir/$_svnmod/
+	cd $_svnmod
 	sh autogen.sh
 	./configure --prefix=/usr #--disable-debug 
 	sh jamconfig

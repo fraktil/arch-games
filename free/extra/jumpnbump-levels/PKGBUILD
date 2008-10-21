@@ -8,7 +8,7 @@ url="http://jumpnbump.spaceteddy.net/"
 license=('GPL')
 makedepends=('bzip2')
 depends=('jumpnbump')
-arch=('any')
+arch=('i686' 'x86_64')
 source=('http://jumpnbump.spaceteddy.net/all-levels.tar.gz')
 md5sums=('0c4ad1b18dd31f34bbf80e0953d2a6a1')
 

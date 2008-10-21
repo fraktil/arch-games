@@ -1,0 +1,35 @@
+# Maintainer : fana-m <geminin@gmx.net>
+
+pkgname=gigi-svn
+pkgver=657
+pkgrel=1
+pkgdesc="A small, efficient, and feature-rich C++ GUI for OpenGL"
+arch=('i686' 'x86_64')
+url="http://sourceforge.net/projects/gigi/"
+license=('GPL')
+depends=('boost>=1.35' 'mesa' 'devil' 'freetype2')
+makedepends=('subversion' 'scons')
+provides=('gigi')
+source=(gigi-svn.patch)
+md5sums=('80c0b1c0ccc931fe1af0863daa677600')
+
+_svntrunk=https://gigi.svn.sourceforge.net/svnroot/gigi/trunk/GG/
+_svnmod=gigi-svn
+
+build() {
+
+	cd $srcdir
+
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
+    else
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+    fi
+
+	cd $_svnmod
+
+	patch -Np0 -i $srcdir/gigi-svn.patch || return 1
+	scons prefix=$pkgdir/usr pkgconfigdir=$pkgdir/usr/lib/pkgconfig/ build_ogre_driver=0 || return 1
+	scons install || return 1
+		
+}

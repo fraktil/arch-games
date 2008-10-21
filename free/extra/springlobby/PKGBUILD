@@ -1,24 +1,33 @@
-# Maintainer: Cirdan <gero.mueller@cloo.de>
+# Maintainer: Nicholas Clarke <osymandias@gmail.com>
 
 pkgname=springlobby
-pkgver=0.0.1.10263
-pkgrel=1
+pkgver=0.0.1.10355
+pkgrel=4
 pkgdesc="A free cross-platform lobby client for the Spring RTS project."
-arch=('i686 x86_64')
+arch=('i686' 'x86_64')
 url="http://trac.springlobby.info/"
 license=('GPL2')
-depends=('spring' 'wxgtk' 'rb_libtorrent')
+depends=('spring' 'wxgtk' 'libtorrent-rasterbar' 'asio') 
+optdepends=('sdl' 'sdl_sound' 'sdl_mixer') 
 makedepends=()
-source=(http://www.springlobby.info/tarballs/${pkgname}-${pkgver}.tar.bz2 springlobby.desktop springlobby.png)
-md5sums=('7da8d702ad17d6dac0a43f8690d0dce2' '45f8b59d033931d02e734fe3bd7777dd' '1f388187539aeb0358b51995e26ed890')
-
+source=(http://www.springlobby.info/tarballs/$pkgname-$pkgver.tar.bz2 
+		springlobby.desktop 
+		springlobby.png)
+md5sums=('e703dddb22c086a4bfc3220b488ff142'
+         '45f8b59d033931d02e734fe3bd7777dd'
+	     '1f388187539aeb0358b51995e26ed890')
+	     
 build() {
-  cd $startdir/src/${pkgname}-$pkgver
+	
+  cd $startdir/src/$pkgname-$pkgver
+
   ./configure --prefix=/usr --disable-sound  || return 1
-  make && make DESTDIR=$startdir/pkg install || return 1
+  make && make DESTDIR=$pkgdir install || return 1
   
-  mkdir -p $startdir/pkg/usr/share/applications
-  cp $startdir/src/springlobby.desktop $startdir/pkg/usr/share/applications
+  mkdir -p $pkgdir/usr/share/applications
+  cp $srcdir/springlobby.desktop $pkgdir/usr/share/applications
+
   mkdir -p $startdir/pkg/usr/share/pixmaps
-  cp $startdir/src/springlobby.png $startdir/pkg/usr/share/pixmaps
+  cp $srcdir/springlobby.png $pkgdir/usr/share/pixmaps
+  
 }
