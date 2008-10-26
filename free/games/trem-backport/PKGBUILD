@@ -5,15 +5,16 @@ _realpkgver=931-4
 _trempkgname="tremulous"
 _trempkgver=1.1.0
 pkgrel=2
-pkgdesc="The backport client mod the game tremulous"
+pkgdesc="The tremulous Merceneries's Guild backport client"
 arch=('i686')
 url="http://tremulous.net/"
 license=('GPL')
 depends=('sdl' 'openal')
 conflicts=('tremulous')
 provides=('tremulous=1.1.0')
-source=(http://downloads.sourceforge.net/sourceforge/tremulous/$_trempkgname-$_trempkgver.zip data-svn931-backport-4.pk3 vms-svn931-backport-4.pk3 tremulous.x86)
-md5sums=('3df5f7565571fb9524656308347bce1b' 'eed9a66fba81b181f0399e2c39a37e37' '37d50fadff7a9496bb5f289de94ca003' '93c692b5a85576dede56ce50846a9a74')
+source=(http://downloads.sourceforge.net/sourceforge/tremulous/$_trempkgname-$_trempkgver.zip data-svn931-backport-4.pk3 vms-svn931-backport-4.pk3 
+http://releases.mercenariesguild.net/client/linux_x86_x64/tremulous.x86_64 http://releases.mercenariesguild.net/client/linux_x86/tremulous.x86
+http://releases.mercenariesguild.net/client/mg-client-manual.txt)
 
 build() {
   cd $srcdir
@@ -59,4 +60,6 @@ build() {
   cp tremulous.x86 $pkgdir/opt/tremulous
   cp data-svn931-backport-4.pk3 $pkgdir/opt/tremulous/base/
   cp vms-svn931-backport-4.pk3 $pkgdir/opt/tremulous/base/
+
+  install -Dm644 $srcdir/mg-client-manual.txt $pkgdir/usr/share/tremulous/mg-client-manual.txt
 }
