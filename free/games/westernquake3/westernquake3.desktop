@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Encoding=UTF-8
+Name=WesternQuake3
+Name[tr]=WesternQuake3
+GenericName=Multiprocessor
+GenericName[tr]=Çok İşlemci Destekli
+Icon=westernquake3
+Exec=/usr/share/WesternQuake3/ioquake3.i386
+Terminal=false
+StartupNotify=false
+Categories=Application;Game;ActionGame

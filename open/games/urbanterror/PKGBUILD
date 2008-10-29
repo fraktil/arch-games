@@ -1,0 +1,63 @@
+# Contributor: grimi <grimi@poczta.fm>
+
+pkgname=urbanterror
+pkgver=4.1
+pkgrel=4
+pkgdesc="Urban Terror is a team-based tactical shooter based on the Quake 3 Engine (Stand-Alone Version)"
+arch=('i686' 'x86_64')
+url="http://www.urbanterror.net"
+license=('custom')
+depends=('sdl' 'openal' 'freealut' 'curl')
+makedepends=('unzip')
+source=(ftp://ftp.snt.utwente.nl/pub/games/urbanterror/UrbanTerror_41_FULL.zip
+		http://ftp.snt.utwente.nl/pub/games/urbanterror/iourbanterror/source/complete/ioUrbanTerrorSource_2007_12_20.zip
+		urbanterror
+		urbanterror-server
+		urbanterror.desktop
+		urbanterror.png
+		quake3-sdk-eula)
+		
+md5sums=('1370306ea236f65f595e7ca70765e469' 
+		 '4dbe5a03a10f23138f42b5e0dc39598b'
+		 'dc70d95f8ffb29cf50f815e6a6faefa7' 
+		 '08c8e80590e47642ba0e8b85069f253e'
+		 '703aa5578a938e0240e54af2ce7a6668' 
+		 'f9a57d898df73f43c6a85c8d8cc455ba'
+		 '65a1aee261360d434acd117193425d42')
+
+build() {
+
+	#Compile the Client Source
+	cd $srcdir/ioUrbanTerrorClientSource
+	sed -i "s:/usr/local/games/quake3:$pkgdir/opt/urbanterror:" Makefile
+	make || return 1
+	make copyfiles || return 1
+
+	#Compile the Client Source
+	cd $srcdir/ioUrbanTerrorServerSource
+	sed -i "s:/usr/local/games/quake3:$pkgdir/opt/urbanterror:" Makefile
+	make || return 1
+	make copyfiles || return 1
+
+	#Fix the stupid naming
+	mv $pkgdir/opt/urbanterror/ioUrbanTerror* $pkgdir/opt/urbanterror/ioUrbanTerror
+	mv $pkgdir/opt/urbanterror/ioUrTded* $pkgdir/opt/urbanterror/ioUrTded
+
+	#Copy the game data files
+	cd $srcdir/UrbanTerror/q3ut4
+	install -d -m755 $pkgdir/opt/urbanterror/q3ut4 $pkgdir/usr/bin $pkgdir/usr/share/pixmaps/ $pkgdir/usr/share/applications/ $pkgdir/usr/share/licenses/urbanterror/
+	install -D -m644 *.pk3 $pkgdir/opt/urbanterror/q3ut4/
+	install -D -m644 *.cfg $pkgdir/opt/urbanterror/q3ut4/
+
+	#Copy bin script
+	install -D -m755 $srcdir/urbanterror $pkgdir/usr/bin/urbanterror
+	install -D -m755 $srcdir/urbanterror-server $pkgdir/usr/bin/urbanterror-server
+
+	#Copy the icons and stuff
+	install -D -m644 $srcdir/urbanterror.desktop $pkgdir/usr/share/applications/urbanterror.desktop
+	install -D -m644 $srcdir/urbanterror.png $pkgdir/usr/share/pixmaps/urbanterror.png
+	
+	#Copy the license
+	install -D -m644 $srcdir/quake3-sdk-eula $pkgdir/usr/share/licenses/urbanterror/quake3-sdk-eula
+	
+}

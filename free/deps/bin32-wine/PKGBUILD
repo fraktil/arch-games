@@ -4,7 +4,7 @@
 
 _pkgsourcename=wine
 pkgname=bin32-wine
-pkgver=1.1.6
+pkgver=1.1.7
 pkgrel=1
 pkgrel32=1
 pkgdesc="Interpreter for the Windows 3.x and Win32 APIs"
@@ -17,7 +17,7 @@ conflicts=('wine')
 install=()
 source=(ftp://ftp.heanet.ie/mirrors/ftp.archlinux.org/extra/os/i686/${_pkgsourcename}-${pkgver}-${pkgrel32}-i686.pkg.tar.gz
 		binarynames)
-md5sums=('ecfe62b253a616c409a306eaa7991c64'
+md5sums=('22a249518968fd92807e070cf20b9461'
 		 'b0fd553e2f11fe7553ac1717797befe6')
 
 build() {

@@ -4,7 +4,7 @@ pkgname=pacman-arena
 pkgver=0.15
 pkgrel=1
 pkgdesc="A Pacman clone in full 3D with a few surprises"
-arch=(i686 x86_64)
+arch=('i686' 'x86_64')
 url="http://sourceforge.net/projects/pacmanarena/"
 license=('GPL')
 

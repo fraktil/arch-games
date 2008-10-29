@@ -1,0 +1,22 @@
+#Author: Andreas Zwinkau <beza1e1@web.de>
+
+pkgname=python-rabbyt-81
+pkgver=0.8.1
+pkgrel=1
+pkgdesc="sprite library for Python with game development in mind"
+url="http://matthewmarshall.org/projects/rabbyt/"
+license=('LGPL')
+conflicts=('python-rabbyt')
+provides=('python-rabbyt')
+depends=('python' 'setuptools')
+makedepends=('pyrex')
+source=("http://cheeseshop.python.org/packages/source/R/Rabbyt/Rabbyt-$pkgver.tar.gz")
+md5sums=('30c143d133a6abaf8ab2ba3516ae7fc2')
+arch=('i686' 'x86_64')
+
+build() {
+
+	cd $srcdir/Rabbyt-$pkgver
+	python setup.py install --root $pkgdir || return 1
+	
+}

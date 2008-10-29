@@ -5,7 +5,7 @@ pkgver=2680
 pkgrel=1
 pkgdesc="Free Clone of Master of Orion."
 arch=('i686' 'x86_64')
-url="http://freeorion.org/forum/viewtopic.php?f=9&p=28071#p28071"
+url="http://www.freeorion.org/index.php/Main_Page"
 license=('GPL')
 depends=('python' 'sdl' 'sdl_mixer' 'freealut' 'graphviz' 'gigi' 'log4cpp-old' 'libvorbis' 'libogg')
 makedepends=('subversion' 'scons')

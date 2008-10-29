@@ -1,0 +1,61 @@
+# Contributor: H.Gökhan SARI <hsa2@difuzyon.net>
+
+pkgname=westernquake3
+pkgver=2.2_beta1
+pkgrel=3
+pkgdesc="A Western game using Quake3 engine."
+arch=('i686' 'x86_64')
+url="http://www.smokin-guns.net/"
+license=('GPL')
+depends=('sdl' 'openal' 'freealut' 'curl')
+makedepends=('subversion' 'unzip')
+source=(http://bootblock.de/wq3/wq3_b22_full.zip
+		westernquake3.png
+		westernquake3.desktop
+		westernquake3
+		westernquake3-server)
+		
+md5sums=('6376bab9970bf4c22d40e41019a1900f'
+		 '9f02379e5f911b16760f28b74d9f321b'
+		 '8cb85c47fc906acb644521d6561bad0c'
+		 '33645636a25a0325fae27452176fa968'
+		 '376a40f1f177ee11aba5ef9a8906b636')
+
+_svntrunk=svn://svn.icculus.org/quake3/trunk
+_svnmod=ioquake3-svn
+
+build() {
+
+	#Grab the svn ioquake3 sources
+	cd $srcdir
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up)
+    else
+      svn co $_svntrunk --config-dir ./ $_svnmod
+    fi
+
+	#Build the ioquake engine
+	cd $srcdir/$_svnmod
+    sed -i "s:/usr/local/games/quake3:$pkgdir/opt/westernquake3:" Makefile
+	make || return 1
+    make copyfiles || return 1 
+	
+	#Fix the stupid naming conversion
+	mv $pkgdir/opt/westernquake3/ioquake3* $pkgdir/opt/westernquake3/ioquake3
+	mv $pkgdir/opt/westernquake3/ioq3ded* $pkgdir/opt/westernquake3/ioq3ded
+
+	#Install the data files
+	cd $srcdir/westernq3
+	install -d -m755 $pkgdir/opt/westernquake3/westernq3 $pkgdir/usr/bin $pkgdir/usr/share/pixmaps/ $pkgdir/usr/share/applications/
+	install -D -m644 *.pk3 $pkgdir/opt/westernquake3/westernq3/
+	install -D -m644 *.cfg $pkgdir/opt/westernquake3/westernq3/
+	
+	#Install the binary files
+	install -m755 $srcdir/westernquake3 $pkgdir/usr/bin/westernquake3
+	install -m755 $srcdir/westernquake3-server $pkgdir/usr/bin/westernquake3-server
+	
+	#Install the desktop file and the icon
+	install -m644 $srcdir/westernquake3.png $pkgdir/usr/share/pixmaps/
+	install -m644 $srcdir/westernquake3.desktop $pkgdir/usr/share/applications/
+
+}

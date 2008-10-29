@@ -1,0 +1,2 @@
+For planeshift this one must be revision 30956 or planeshift might break!
+build with makepkg -s --holdver

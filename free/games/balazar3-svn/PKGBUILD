@@ -10,7 +10,7 @@ license="GPL"
 arch=('i686' 'x86_64')
 depends=('python' 'pyogg' 'pyvorbis' 'soya' 'python-cerealizer')
 makedepends=('subversion')
-[ "$CARCH" = "i686" ] && optdepends=(psyco (Used for speed optimization))
+[ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
 source=()
 md5sums=()
 

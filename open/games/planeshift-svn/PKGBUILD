@@ -1,0 +1,78 @@
+# Contributor: Andrea Scarpino <bash.lnx@gmail.com>
+# Contributor: Darwin Bautista <djclue917@gmail.com>
+
+pkgname=planeshift-svn
+pkgver=2134
+pkgrel=1
+pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
+arch=('i686' 'x86_64')
+url="http://www.planeshift.it/"
+license=('GPL' 'custom:PlaneShift Content License')
+depends=('crystalspace-1.4branch-svn' 'cg-toolkit')
+makedepends=('ftjam' 'subversion')
+install=planeshift.install
+source=(planeshift.desktop 
+        planeshiftsetup.desktop 
+        planeshiftupdater.desktop 
+        license
+		psclient
+		pssetup
+		psupdater)
+		
+md5sums=('5be27f6e51c8edff591aa1fdc668b7e9' 
+		 'e75381f677b5d2ae331d0e4e742ee21a' 
+		 '228193984ba13ba04c983a9c8161edae' 
+		 'dbac9cf5bfb63463bcb2b5ea09b00586'
+		 '845b4ac589fdf361696245b796bd12f1'
+		 '7f1d3fe855658817d4c0498851fb4857'
+		 '7940e27577760ce04b95448b86f47104')
+
+_svntrunk=https://planeshift.svn.sourceforge.net/svnroot/planeshift/stable
+_svnmod=planeshift
+
+build() {
+
+	#Grab Planeshift from svn
+	cd $srcdir
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
+    else
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+    fi
+	
+	#Build Planeshift
+	cd $srcdir/$_svnmod
+	./autogen.sh
+	./configure --prefix=/opt/PlaneShift --enable-separate-debug-info=no
+	jam -q client psupdater || return 1
+	
+	#Planeshift installer is broken so we install manually 
+	mkdir -p $pkgdir/opt/PlaneShift
+	cp -rt $pkgdir/opt/PlaneShift data psclient pssetup psupdater psclient.cfg pssetup.cfg vfs.cfg || return 1
+	
+	#We create a speciall config file for the updater, that tells it NOT to overwrite our binaries
+	echo "Update.Platform=false" > $pkgdir/opt/PlaneShift/psupdater.cfg
+	
+	#Copy the icons for the desktop files
+	mkdir -p $pkgdir/opt/PlaneShift/support/icons
+	cp support/icons/*.png $pkgdir/opt/PlaneShift/support/icons/
+	
+	#Planeshift uses the directoy its in, so we set permissions to allow games group to update and run planeshift.
+	chown -R root:games $pkgdir/opt/PlaneShift || return 1
+    find $pkgdir/opt/PlaneShift -type f -exec chmod 660 {} + || return 1
+    find $pkgdir/opt/PlaneShift -type d -exec chmod 770 {} + || return 1
+	chmod 770 $pkgdir/opt/PlaneShift/psclient $pkgdir/opt/PlaneShift/pssetup $pkgdir/opt/PlaneShift/psupdater
+	
+	#Copy the desktop files
+	install -d -m755 $pkgdir/usr/share/applications/ 
+    install -D -m644 $srcdir/*.desktop $pkgdir/usr/share/applications/
+	
+	#Install the License
+	install -D -m644 $srcdir/license $pkgdir/usr/share/licenses/planeshift/license
+	
+	#Copy the bin scripts
+	install -D -m755 $srcdir/psclient $pkgdir/usr/bin/planeshift
+	install -D -m755 $srcdir/pssetup $pkgdir/usr/bin/planeshift-setup
+	install -D -m755 $srcdir/psupdater $pkgdir/usr/bin/planeshift-updater
+	
+}

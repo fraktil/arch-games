@@ -9,7 +9,7 @@ url="http://home.gna.org/oomadness/en/slune"
 license="GPL"
 arch=('i686' 'x86_64')
 depends=('python' 'python-opengl' 'glew' 'sdl' 'pyogg' 'soya' 'py2play' 'pyogg' 'pyvorbis' 'editobj')
-[ "$CARCH" = "i686" ] && optdepends=(psyco (Used for speed optimization))
+[ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
 source=(http://download.gna.org/$pkgname/Slune-$pkgver.tar.bz2)
 md5sums=('100cf5ccda0b7fe38065a8b83dde82ab')
 

@@ -1,0 +1,37 @@
+# Contributor: Hussam Al-Tayeb <ht990332@gmail.com>
+pkgname=cal3d-svn
+pkgver=495
+pkgrel=1
+pkgdesc="A skeletal-based 3D character animation library"
+arch=('i686' 'x86_64')
+url="https://gna.org/projects/cal3d"
+options=(!libtool)
+license=(GPL2)
+depends=()
+makedepends=('subversion')
+conflicts=('cal3d')
+provides=('cal3d')
+source=(cal3d.patch)
+md5sums=('d2ef9bbc133c0f5cccc55387df12851c')
+		 
+_svntrunk=svn://svn.gna.org/svn/cal3d/trunk/cal3d
+_svnmod=cal3d-svn 
+		 
+build() {
+
+	cd $srcdir
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
+    else
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+    fi
+
+	cd $srcdir/$_svnmod
+	patch -Np0 -i $srcdir/cal3d.patch || return 1
+	sed -i 's/AM_USE_UNITTESTCPP/# AM_USE_UNITTESTCPP/' configure.in
+	autoreconf --install --force
+	./configure --prefix=$pkgdir/usr
+	make || return 1
+	make install 
+  
+}
