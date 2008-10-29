@@ -20,15 +20,15 @@ md5sums=('5188d8aad55b8aa71e10e414ba12ee6b'
 build ()
 {
 
-	#Unpack Files from Installer
+	#Unpack files from the installer
 	cd $srcdir
 	chmod +x $srcdir/legends_linux-${pkgver}.run
 	./legends_linux-${pkgver}.run --noexec --target $srcdir/legends/
 	
-	#Remove Junk from Game Directory
+	#Remove junk from game directory
     rm $srcdir/legends/OPENAL32.DLL
 	
-    #Move Game Directory to Package Directory
+    #Move game directory to package directory
     install -d -m755 $pkgdir/opt/
 	cp -r $srcdir/legends $pkgdir/opt/
 	
@@ -36,7 +36,7 @@ build ()
     install -D -m644 $srcdir/legends.desktop $pkgdir/usr/share/applications/legends.desktop
     install -D -m644 $pkgdir/opt/legends/legends.ico $pkgdir/usr/share/pixmaps/legends.ico
 	
-	#Install Launcher
+	#Install launcher
     install -D -m755 $srcdir/legends.launcher $pkgdir/usr/bin/legends
 		
 }

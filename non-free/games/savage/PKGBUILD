@@ -12,7 +12,7 @@ makedepends=('unzip')
 install=savage.install
 source=(savage.launcher 
 		savage.desktop
-		http://www.slashbunny.com/aur/savage/icon.xpm
+		icon.xpm
 		http://mnky.newerth.com/lin-client-auth-patch.zip
 		http://www.notforidiots.com/SFE/SFE-Standalone.tar.gz)
 		
@@ -23,33 +23,36 @@ md5sums=('1588610be6fe7c52eda37fee65ca16c4'
 		 '3ce0c50e3d5e4ff6789122c5076fb66b')
 
 build() {
-    cd $srcdir/
-    # Make Destination Game Directory
-    install -d $pkgdir/opt/savage
-    # Install Game
+
+	#Install Game
+	cd $srcdir
+	install -d $pkgdir/opt/savage
     tar zxf $srcdir/SFE-Standalone.tar.gz -C $pkgdir/opt/savage/
-    # Install Client Auth Patch
-    install -m 755 $srcdir/lin-client-auth-patch/silverback.bin \
-        $pkgdir/opt/savage/silverback.bin
-    install -m 755 $srcdir/lin-client-auth-patch/game/game.so \
-        $pkgdir/opt/savage/game/game.so
-    install -m 755 $srcdir/lin-client-auth-patch/libs/libpng12.so.0 \
-        $pkgdir/opt/savage/libs/libpng12.so.0
-    # Install Launcher Script
-    install -D -m 755 $srcdir/savage.launcher \
-        $pkgdir/usr/bin/savage
-    # Install License
-    install -D -m 644 $srcdir/licenses.txt \
-        $pkgdir/usr/share/licenses/$pkgname/licenses.txt
-    # Install Icon
-    install -D -m 644 $srcdir/icon.xpm \
-        $pkgdir/usr/share/pixmaps/savage.xpm
-    # Install Desktop File
-    install -D -m 644 $srcdir/savage.desktop \
-        $pkgdir/usr/share/applications/savage.desktop
-    # Create Log File
+    
+	#Install Client Auth Patch
+    install -m 755 $srcdir/lin-client-auth-patch/silverback.bin $pkgdir/opt/savage/silverback.bin
+    install -m 755 $srcdir/lin-client-auth-patch/game/game.so $pkgdir/opt/savage/game/game.so
+    install -m 755 $srcdir/lin-client-auth-patch/libs/libpng12.so.0 $pkgdir/opt/savage/libs/libpng12.so.0
+    
+	#Create Log File
     touch $pkgdir/opt/savage/scripts.log
-    # Set Ownership to root:games 
+	
+    #Set Ownership to root:games 
     chown -R root:games $pkgdir/opt/savage
     chmod -R g+w $pkgdir/opt/savage
+    
+	#Install License
+    install -D -m 644 $srcdir/licenses.txt $pkgdir/usr/share/licenses/$pkgname/licenses.txt
+    
+	#Install Icon
+    install -D -m 644 $srcdir/icon.xpm $pkgdir/usr/share/pixmaps/savage.xpm
+    
+	#Install Desktop File
+    install -D -m 644 $srcdir/savage.desktop $pkgdir/usr/share/applications/savage.desktop
+    
+	#Install Launcher Script
+    install -D -m 755 $srcdir/savage.launcher $pkgdir/usr/bin/savage
+	
+
+	
 }
