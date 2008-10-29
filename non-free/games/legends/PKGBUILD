@@ -13,9 +13,9 @@ source=(http://run.legendsthegame.net/${pkgname}_linux-$pkgver.run
 		legends.launcher
 		legends.desktop)
 		
-md5sums=(''
-		 ''
-		 '')	
+md5sums=('5188d8aad55b8aa71e10e414ba12ee6b'
+		 'bb76660c04c94690c3817c4821ff3b24'
+		 '4cd83521478cb4802ef3cd2ee72fc37f')	
 
 build ()
 {
@@ -34,7 +34,7 @@ build ()
 	
     #Install .desktop and icon file
     install -D -m644 $srcdir/legends.desktop $pkgdir/usr/share/applications/legends.desktop
-    install -D -m644 $pkgdir/opt/legends.ico $pkgdir/usr/share/pixmaps/legends.ico
+    install -D -m644 $pkgdir/opt/legends/legends.ico $pkgdir/usr/share/pixmaps/legends.ico
 	
 	#Install Launcher
     install -D -m755 $srcdir/legends.launcher $pkgdir/usr/bin/legends
