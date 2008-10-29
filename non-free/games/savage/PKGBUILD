@@ -1,13 +1,15 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
+# Maintainer: Black_Mage <vleon1@gmail.com>
 
 pkgname=savage
 pkgver=2.00e
-pkgrel=6
+pkgrel=7
 pkgdesc="Savage: The Battle for Newerth is an online multiplayer team-based FPS/RTS hybrid. Completely free as of September 2006. (Includes SFE Patches)"
 url="http://s2games.com/savage"
+arch=('i686' 'x86_64')
 license=('custom')
-arch=('i686')
-depends=('libgl' 'sdl' 'glib2' 'mesa' 'libjpeg' 'libpng' 'libidn' 'e2fsprogs' 'curl' 'openssl')
+depends=('sdl' 'mesa' 'libjpeg' 'e2fsprogs')
+[ "$CARCH" = "x86_64" ] && depends=('lib32-sdl' 'lib32-mesa' 'lib32-libjpeg' 'lib32-e2fsprogs' 'lib32-glib2' 'lib32-pcre' 'lib32-zlib' 'lib32-freetype2' 'lib32-libxdamage')
 makedepends=('unzip')
 install=savage.install
 source=(savage.launcher 
@@ -24,35 +26,36 @@ md5sums=('1588610be6fe7c52eda37fee65ca16c4'
 
 build() {
 
-	#Install Game
+	#Install the game
 	cd $srcdir
 	install -d $pkgdir/opt/savage
     tar zxf $srcdir/SFE-Standalone.tar.gz -C $pkgdir/opt/savage/
     
-	#Install Client Auth Patch
+	#Install the client patch
     install -m 755 $srcdir/lin-client-auth-patch/silverback.bin $pkgdir/opt/savage/silverback.bin
     install -m 755 $srcdir/lin-client-auth-patch/game/game.so $pkgdir/opt/savage/game/game.so
     install -m 755 $srcdir/lin-client-auth-patch/libs/libpng12.so.0 $pkgdir/opt/savage/libs/libpng12.so.0
     
-	#Create Log File
+	#Create a log file
     touch $pkgdir/opt/savage/scripts.log
 	
-    #Set Ownership to root:games 
+    #Set ownership to the games group
     chown -R root:games $pkgdir/opt/savage
     chmod -R g+w $pkgdir/opt/savage
     
-	#Install License
+	#Install the license
     install -D -m 644 $srcdir/licenses.txt $pkgdir/usr/share/licenses/$pkgname/licenses.txt
     
-	#Install Icon
-    install -D -m 644 $srcdir/icon.xpm $pkgdir/usr/share/pixmaps/savage.xpm
-    
-	#Install Desktop File
+	#Install a .desktop and icon file
+	install -D -m 644 $srcdir/icon.xpm $pkgdir/usr/share/pixmaps/savage.xpm
     install -D -m 644 $srcdir/savage.desktop $pkgdir/usr/share/applications/savage.desktop
     
-	#Install Launcher Script
+	#Install the launcher
     install -D -m 755 $srcdir/savage.launcher $pkgdir/usr/bin/savage
 	
-
+	#If arch is x86_64 fix the launcher to include lib32 dir
+	if [ "$CARCH" = "x86_64" ] ; then
+		sed "4,4c\LD_LIBRARY_PATH=libs:/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/savage
+	fi
 	
 }

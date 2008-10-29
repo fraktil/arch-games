@@ -1,6 +1,6 @@
 # Contributor: Clement Siuchung Cheung <clement.cheung@umich.edu>
-# Maintainer: Mikko Seppälä <t-r-a-y@mbnet.fi>
-# This version needs no modifications to ld.so.conf
+# Contributor: Mikko Seppälä <t-r-a-y@mbnet.fi>
+# Maintainer: Black_Mage <vleon1@gmail.com>
 
 _pkgsourcename=wine
 pkgname=bin32-wine
