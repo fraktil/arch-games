@@ -4,7 +4,7 @@ pkgname=n-ninja
 pkgver=1.4
 pkgrel=1
 pkgdesc="N - a unique 2D puzzle / action platformer"
-arch=(i686)
+arch=('i686' 'x86_64')
 url="http://www.harveycartel.org/metanet/n.html"
 license=('freeware')
 depends=(gtk2)
@@ -21,4 +21,3 @@ build() {
   cp n-ninja $pkgdir/usr/bin/
   chmod +x $pkgdir/usr/bin/n-ninja
 }
-# vim:set ts=2 sw=2 et:
