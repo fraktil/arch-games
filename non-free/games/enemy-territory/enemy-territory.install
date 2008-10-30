@@ -1,35 +1,33 @@
 post_install() {
 
-  echo
-  echo "==> Running PunkBuster updater to make sure"
-  echo "==> that your PunkBuster installation is updated"
-  echo "==> to the latest version."
-  echo
-  echo "==> Please don't cancel the PunkBuster updater."
-  echo
-  sleep 3
+#Add 'games' group if not already there
+getent group games > /dev/null || /usr/sbin/groupadd -g 50 games
 
-  # Run et-pbupdate script
-  et-pbupdate
-
-  echo
-  echo "==> Update complete."
-  echo
-  echo "==> If you need to manually update PunkBuster at a later date,"
-  echo "==> you can run et-pbupdate as root."
-  sleep 3
-
-  echo
-  echo "==> If you use the et-ded rc.d dedicated server script, please be aware that"
+cat << EOF
+==>
+==> Please run PunkBuster updater to make sure
+==> that your PunkBuster installation is updated
+==> to the latest version:
+==> # enemy-territory-pb-update
+==>
+EOF
+  
 }
 
 post_upgrade() {
 
-  # Run post_install function
-  post_install $1
+post_install
+  
 }
 
-op=$1
-shift
+post_remove() {
 
-$op $*
+cat << EOF
+==>
+==> Some of the data in /opt/enemy-territory was not removed
+==> remove it manually by:
+==> # rm -r /opt/enemy-territory
+==>
+EOF
+
+}

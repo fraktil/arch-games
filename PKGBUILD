@@ -1,5 +1,4 @@
 # Contributor: name and/or nick <mail>
-# Maintainer: name and/or nick <mail>
 
 pkgname=name        
 pkgver=ver
@@ -8,14 +7,14 @@ pkgdesc="desc"
 url="url"
 arch=('i686' 'x86_64')
 license=('GPL')
-#groups
+groups=('group')
 depends=('1st dep' '2nd dep')
 makedepends=('1st dep' '2nd dep')
 optdepends('1st dep (desc)' '2nd dep (desc)')
 provides=('pkgname')
 conflicts=('pkgname')
 replaces=('pkgname')
-#backup
+backup=('file')
 options=('opt1' '!opt2')
 install=('pkg.install')
 source=(source1
