@@ -1,0 +1,65 @@
+pkgname=tremulous-updated
+pkgver=1.1.0
+pkgrel=1
+pkgdesc="A free team based FPS/RTS hybrid built on the ioq3 engine. Includes community updates."
+arch=(i686 x86_64)
+url='http://tremulous.net'
+license=(GPL)
+depends=('sdl' 'openal')
+conflicts=('tremulous')
+provides=('tremulous=1.1.0')
+replaces=(trem-backport)
+noextract=(mg_tremded_source_1.01.tar.gz mgclient_source_1.0.tar.gz)
+source=(http://downloads.sourceforge.net/sourceforge/tremulous/tremulous-1.1.0.zip 
+	http://releases.mercenariesguild.net/client/mg-client-manual.txt
+	http://releases.mercenariesguild.net/client/mgclient_source_1.0.tar.gz
+	http://releases.mercenariesguild.net/tremded/mg_tremded_source_1.01.tar.gz
+	game.qvm::http://patches.mercenariesguild.net/index.php?getfile=816
+	lakitu7_qvm.txt::http://patches.mercenariesguild.net/index.php?getfile=812
+	tremded.launcher tremdedrc tremulous.launcher)
+md5sums=('3df5f7565571fb9524656308347bce1b'
+         '54dc412c71ee30d801d3ef53bfa89f7d'
+         'a17a2b8f2d3fd9f0d136fc357e285b86'
+         '938bdf944dff667b74e2132a87a49780'
+         '5deb3bc2182aa22e121547b8af3d8fdb'
+         'da75a281104e79e16ebfef69b415cecb'
+         'e254bba4b327b06bd3b18271eb0bcecc'
+         'f0056120d0192a0d4d591d1114439c52'
+         '3f76920ec94ac9531e4ba562a77729fe')
+
+build() {
+	local _SUF=x86
+	[ "$CARCH" = "x86_64" ] && _SUF=$CARCH
+
+	# Server
+	cd "$srcdir"
+	mkdir tremded
+	bsdtar -x -C tremded -f mg_tremded_source_1.01.tar.gz
+	cd tremded
+	make || return 1
+	install -Dm755 build/release-linux-x86/tremded.$_SUF	"$pkgdir/opt/tremulous/bin/tremded.$_SUF"
+	install -Dm644 "$srcdir/tremdedrc" 			"$pkgdir/etc/tremdedrc"
+	install -Dm755 "$srcdir/tremded.launcher" 		"$pkgdir/usr/bin/tremded"
+	install -Dm644 "$srcdir/game.qvm"			"$pkgdir/opt/tremulous/base/vm/game.qvm"
+
+	# Client
+	cd "$srcdir"
+	mkdir mgclient
+	bsdtar -x -C mgclient -f mgclient_source_1.0.tar.gz
+	cd mgclient
+	make || return 1
+	install -Dm755 build/release-linux-x86/tremulous.$_SUF	"$pkgdir/opt/tremulous/bin/tremulous.$_SUF"
+	install -Dm755 "$srcdir/tremulous.launcher" 		"$pkgdir/usr/bin/tremulous"
+
+	# Common data files, images, and docs
+	cd "$srcdir/tremulous/base"
+	install -d -m775 -g games "$pkgdir/opt/tremulous/base"
+	install -Dm644 *.pk3 *.cfg 				"$pkgdir/opt/tremulous/base"
+	cd ..
+	install -d "$pkgdir/usr/share/pixmaps"
+	install -Dm644 tremulous.{ico,xpm} 			"$pkgdir/usr/share/pixmaps/"
+	cd "$srcdir"
+	install -Dm644 mg-client-manual.txt 			"$pkgdir/usr/share/tremulous/mg-client-manual.txt"
+	install -Dm644 lakitu7_qvm.txt				"$pkgdir/usr/share/tremulous/lakitu7_qvm.txt"
+	
+}
