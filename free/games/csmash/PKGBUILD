@@ -1,24 +1,26 @@
 pkgname=csmash
 pkgver=0.6.6
 pkgrel=2
-arch=('i686' 'x86_64')
 pkgdesc="a 3D tabletennis game."
 url="http://cannonsmash.sourceforge.net/"
-license=GPL
+arch=('i686' 'x86_64')
+license=('GPL')
 depends=('sdl' 'gtk2')
 source=(http://downloads.sourceforge.net/cannonsmash/$pkgname-$pkgver.tar.gz
 		csmash.patch)
+		
 md5sums=('bcf2eddd0f04d58e5dac6d767f41d9af'
 		 'f77a47225194e2440b11e509e7f67cd4')
 
 build() {
 
-cd $srcdir/$pkgname-$pkgver
-patch -Np0 -i $srcdir/csmash.patch || return 1
-sed -i 's|/local||' configure
-./configure --prefix=/usr --with-sdl-prefix=/usr --disable-sdltest
-sed -i 's|vector3F origin = vector3F(0) \* ~t|vector3F origin = vector3F(0) \* t|g' parts.cpp loadparts.cpp
-make || return 1
-make prefix=$pkgdir/usr install
+	#Patch, build and install the package
+	cd $srcdir/$pkgname-$pkgver
+	patch -Np0 -i $srcdir/csmash.patch || return 1
+	sed -i 's|/local||' configure
+	./configure --prefix=/usr --with-sdl-prefix=/usr --disable-sdltest
+	sed -i 's|vector3F origin = vector3F(0) \* ~t|vector3F origin = vector3F(0) \* t|g' parts.cpp loadparts.cpp
+	make || return 1
+	make prefix=$pkgdir/usr install
 
 }

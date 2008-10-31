@@ -4,51 +4,43 @@ pkgname=alienarena
 pkgver=20081016
 pkgrel=1
 pkgdesc="Multiplayer retro sci-fi deathmatch game"
-arch=('i686' 'x86_64')
 url="http://red.planetarena.org/"
+arch=('i686' 'x86_64')
 license=('GPL')
-depends=('curl' 'libgl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl')
+depends=('curl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl')
 makedepends=('hd2u' 'p7zip' 'unzip')
 source=(http://alienarena.arcadebelgium.be/alienarena2008-linux${pkgver}.zip
         alienarena.desktop)
+		
 md5sums=('14f27c8494b849572690482232148e23'
          '46bbe3e3a93b2e5009ffd663ad462915')
 
-_datadir="/usr/share/${pkgname}"
-_libdir="/usr/lib/${pkgname}"
-
 build() {
-  cd $srcdir/${pkgname}2008
 
-  # Remove pre-compiled libs
-  rm {arena,data1}/game.so
+	#Remove pre-compiled libs
+	cd $srcdir/${pkgname}2008
+	rm {arena,data1}/game.so
 
-  cd source
-  # Arch isn't multilib
-  sed -i -e "s:lib64:lib:" Makefile || return 1
+	#Patch, build and install the engine
+	cd source
+	sed -i -e "s:lib64:lib:" Makefile || return 1
+	make PREFIX=/usr WITH_DATADIR=yes WITH_LIBDIR=yes DATADIR="/opt/alienarena" LIBDIR="/usr/lib/alienarena" || return 1
 
-  make PREFIX=/usr WITH_DATADIR=yes WITH_LIBDIR=yes DATADIR="${_datadir}" LIBDIR="${_libdir}" || return 1
+	#Install the binaries
+	cd release
+	install -D -m755 game.so $pkgdir/usr/lib/alienarena/arena/game.so || return 1
+	install -D -m755 crx $pkgdir/usr/bin/alienarena || return 1
+	install -D -m755 crx.sdl $pkgdir/usr/bin/alienarena-sdl || return 1
+	install -D -m755 crded $pkgdir/usr/bin/alienarena-server || return 1
 
-  cd release
-  # opengl seems more stable, but may vary
-  install -D -m755 game.so $pkgdir/${_libdir}/arena/game.so || return 1
-  install -D -m755 crx $pkgdir/usr/bin/${pkgname} || return 1
-  install -D -m755 crx.sdl $pkgdir/usr/bin/${pkgname}-sdl || return 1
-  install -D -m755 crded $pkgdir/usr/bin/${pkgname}-ded || return 1
+	#Just in case fix Data files (can contain spaces), and install
+	cd ../..
+	find arena botinfo data1 -type f | while read _f ; do
+		install -D -m644 "$_f" "$pkgdir/$_datadir/$_f" || return 1
+	done
 
-  cd ../..
-  # Data files (can contain spaces)
-  find arena botinfo data1 -type f | while read _f ; do
-    install -D -m644 "$_f" "$pkgdir/$_datadir/$_f" || return 1
-  done
+	#Install the .desktop file and icon
+	install -D -m644 aa.png $pkgdir/usr/share/pixmaps/${pkgname}.png || return 1
+	install -D -m644 $srcdir/${pkgname}.desktop $pkgdir/usr/share/applications/${pkgname}.desktop || return 1
 
-  # Desktop entry
-  install -D -m644 aa.png $pkgdir/usr/share/pixmaps/${pkgname}.png || return 1
-  install -D -m644 $srcdir/${pkgname}.desktop $pkgdir/usr/share/applications/${pkgname}.desktop || return 1
-
-  # Docs
-  cd docs
-  dos2unix README.txt
-  mkdir -p $pkgdir/usr/share/doc/$pkgname
-  install -m644 -t $pkgdir/usr/share/doc/${pkgname}/ {license,README}.txt || return 1
 }

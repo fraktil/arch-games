@@ -4,8 +4,8 @@ pkgname=spring
 pkgver=0.77b5
 pkgrel=1
 pkgdesc='A free 3D game engine for the real-time-strategy (RTS) game "Total Annihilation"'
-arch=('i686' 'x86_64')
 url="http://spring.clan-sy.com/"
+arch=('i686' 'x86_64')
 license=('GPL2')
 depends=('openal' 'glew' 'boost' 'devil' 'libvorbis' 'libxcursor')
 makedepends=('scons>=0.98.5' 'gcc-gcj' 'zip')
@@ -15,12 +15,13 @@ md5sums=('3d2c3c879e4d07c1c2ca8c5181bf0a45')
 
 build() {
 	
+	#Build and install the package
 	cd $srcdir/spring_$pkgver
-
 	scons configure prefix=/usr bindir=bin datadir=share/spring installprefix=$pkgdir/usr
 	scons build || return 1
 	scons install
 
+	#Give spring the location of the user config file
 	mkdir -p $pkgdir/etc/spring
 	echo '$HOME/.spring' > $pkgdir/etc/spring/datadir
   

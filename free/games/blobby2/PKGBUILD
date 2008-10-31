@@ -1,21 +1,26 @@
-#Contributor: Urs Wolfer <uwolfer @ fwo.ch>
+# Contributor: Urs Wolfer <uwolfer @ fwo.ch>
 
 pkgname=blobby2
 pkgver=0.6a
 pkgrel=2
 pkgdesc="Blobby Volley is one of the most popular freeware (now open source!) games."
 url="http://blobby.sourceforge.net/"
-license="GPL"
-depends=('sdl' 'unzip' 'physfs')
 arch=('i686' 'x86_64')
+license=('GPL')
+depends=('sdl' 'unzip' 'physfs')
 source=(http://downloads.sourceforge.net/sourceforge/blobby/$pkgname-linux-$pkgver.tar.gz
-	gcc-4.3-fixes.patch)
-md5sums=('fdef3e59f0870d890be8dffaccd773ca' 'b9f629723320ded196a72c6bb9d50b1d')
+		blobby2.patch)
+		
+md5sums=('fdef3e59f0870d890be8dffaccd773ca' 
+		 'b9f629723320ded196a72c6bb9d50b1d')
 
 build() {
-        cd $srcdir/blobby-alpha-6
-	patch -p1 <../gcc-4.3-fixes.patch
-         ./configure --prefix=/usr
-        make || return 1
-        make DESTDIR=$pkgdir install
+
+	#Patch, build and install the package
+	cd $srcdir/blobby-alpha-6
+	patch -Np1 -i $srcdir/blobby2.patch || return 1
+	./configure --prefix=/usr
+	make || return 1
+	make DESTDIR=$pkgdir install
+	
 }

@@ -1,22 +1,23 @@
 #Contributor: ezzetabi <ezzetabi at gawab dot com>
+
 pkgname=generally
 pkgver=1.05
 pkgrel=2
-pkgdesc="GeneRally is a great, small racing game."
-arch=('i686' 'x86_64')
+pkgdesc="A small racing game."
 url="http://generally.rscsites.org/"
+arch=('i686' 'x86_64')
 license=('freeware')
 makedepends=(unzip)
-depends=()
-[ "$CARCH" = i686   ] && depends=(wine)
-[ "$CARCH" = x86_64 ] && depends=(bin32-wine)
+depends=('wine')
+[ "$CARCH" = x86_64 ] && depends=('bin32-wine')
 options=(!strip)
-install=
 source=(generally
         generally_track_ed 
         generally_res.c
-        http://generally.rscsites.org/grfiles/generally105.zip)
-noextract=(generally105.zip)
+        http://generally.rscsites.org/grfiles/${pkgname}105.zip)
+		
+noextract=(${pkgname}105.zip)
+
 md5sums=('618308be7f92d61f88d70b61142d8781' 
          'e765a4793d9962c4d2968ebe73fa030b' 
          '1b4e3c9be7a3d47559a0b12f49e456e4' 
@@ -24,14 +25,21 @@ md5sums=('618308be7f92d61f88d70b61142d8781'
 
 build() {
 	
-  cd $srcdir
-  install -d -m 755 $pkgdir/usr/share/generally $pkgdir/usr/bin || return 1
-  unzip -qqo generally105.zip -d $pkgdir/usr/share/generally/ || return 1
-  find $pkgdir/usr/share/generally/ -type f -exec chmod 644 "{}" \; || return 1
-  find $pkgdir/usr/share/generally/ -type d -exec chmod 755 "{}" \; || return 1
-  gcc -W -Wall -pedantic -o $pkgdir/usr/bin/generally_res generally_res.c || return 1
-  install -m 755 generally $pkgdir/usr/bin/generally || return 1
-  install -m 755 generally_track_ed $pkgdir/usr/bin/generally_track_ed || return 1
+	#Install the game
+	cd $srcdir
+	install -d -m 755 $pkgdir/usr/share/generally $pkgdir/usr/bin || return 1
+	unzip -qqo generally105.zip -d $pkgdir/usr/share/generally/ || return 1
+	
+	#Change the permissions
+	find $pkgdir/usr/share/generally/ -type f -exec chmod 644 "{}" \;
+	find $pkgdir/usr/share/generally/ -type d -exec chmod 755 "{}" \;
+	
+	#Compile the resolution changer
+	gcc -W -Wall -pedantic -o $pkgdir/usr/bin/generally_res generally_res.c
+	
+	#Install the bin files
+	install -m 755 generally $pkgdir/usr/bin/generally
+	install -m 755 generally_track_ed $pkgdir/usr/bin/generally_track_ed
   
 }
 

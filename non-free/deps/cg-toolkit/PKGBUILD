@@ -1,22 +1,23 @@
 # Contributor: Berkus <berkus+arch@madfire.net>
+
 pkgname=cg-toolkit
 pkgver=2.0
 pkgrel=1
 pkgdesc="NVIDIA Cg shader toolkit"
-arch=('i686' 'x86_64')
 url="http://developer.nvidia.com/object/cg_toolkit.html"
+arch=('i686' 'x86_64')
 license=('NVIDIA')
-_tarball='Cg-2.0_May2008_x86.tgz'
-[ "$CARCH" = "x86_64" ] && _tarball='Cg-2.0_May2008_x86_64.tgz'
-source=(http://developer.download.nvidia.com/cg/Cg_2.0/2.0.0015/$_tarball)
-noextract=($_tarball)
+source=(http://developer.download.nvidia.com/cg/Cg_2.0/2.0.0015/Cg-${pkgver}_May2008_x86.tgz)
+noextract=(Cg-${pkgver}_May2008_x86.tgz)
 md5sums=('311069e73186b3a7837d35df08b714c8')
-[ "$CARCH" = "x86_64" ] && md5sums[0]='f0923e9fe9c0e0f1b1f49e9069c59815'
+[ "$CARCH" = "x86_64" ] && source=(http://developer.download.nvidia.com/cg/Cg_2.0/2.0.0015/Cg-${pkgver}_May2008_x86_64.tgz)
+[ "$CARCH" = "x86_64" ] && noextract=(Cg-${pkgver}_May2008_x86_64.tgz)
+[ "$CARCH" = "x86_64" ] && md5sums=('f0923e9fe9c0e0f1b1f49e9069c59815')
 
 build() {
 
     cd $pkgdir
-    bsdtar -x -f $srcdir/$_tarball || return 1
+    bsdtar -x -f $srcdir/$noextract || return 1
 	rm -r $pkgdir/usr/share
 	rm -r $pkgdir/usr/local
 	

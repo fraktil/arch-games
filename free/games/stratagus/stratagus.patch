@@ -1,0 +1,10 @@
+--- src/movie.cpp.orig	2008-05-09 15:11:53.000000000 +0200
++++ src/movie.cpp	2008-05-09 15:30:28.000000000 +0200
+@@ -299,6 +299,7 @@
+ #else
+ 
+ #include <string>
++#include <cstring>
+ 
+ /**
+ **  FIXME: docu

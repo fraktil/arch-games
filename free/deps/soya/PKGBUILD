@@ -12,9 +12,10 @@ source=(http://download.gna.org/soya/Soya-$pkgver.tar.bz2)
 md5sums=('9fa56b14d3e9d5fcee073de650b3206f')
 
 build() {
-	
-  cd $srcdir/Soya-$pkgver
-  #python setup.py build || return 1
-  python setup.py install --root=$pkgdir 
+
+	#Build and install the package, read about the hack in README!!!
+	cd $srcdir/Soya-$pkgver
+	#python setup.py build || return 1
+	python setup.py install --root=$pkgdir 
 
 } 

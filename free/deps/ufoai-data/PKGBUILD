@@ -1,16 +1,20 @@
 # Contributor: Lukas Jirkovsky <l.jirkovsky@gmail.com>
+
 pkgname=ufoai-data
 pkgver=2.2.1
 pkgrel=2
 pkgdesc="UFO: Alien Invasion data"
-arch=('i686' 'x86_64')
 url="http://ufoai.sourceforge.net/"
+arch=('i686' 'x86_64')
 license=('GPL')
 depends=()
 source=(http://downloads.sourceforge.net/sourceforge/ufoai/ufoai-$pkgver-data.tar)
 md5sums=('02a582c9e845f264e8fd21a623651ce7')
 
 build() {
-  mkdir -p $pkgdir/usr/share/ufoai
-  cp -r $srcdir/base $pkgdir/usr/share/ufoai
+
+	#Install the package
+	mkdir -p $pkgdir/usr/share/ufoai
+	cp -r $srcdir/base $pkgdir/usr/share/ufoai
+  
 }

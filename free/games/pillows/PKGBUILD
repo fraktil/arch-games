@@ -1,20 +1,31 @@
 # Contributor: Nick Bolten <Shirakawasuna at gmail _dot_com>
+
 pkgname=pillows
 pkgver=0.2.1
 pkgrel=2
 pkgdesc="An exciting “save-the-world” arcade game with a very unique premise."
-arch=('i686' 'x86_64')
 url="http://fydo.net/projects/pillows"
+arch=('i686' 'x86_64')
 license=('GPL2')
 depends=('python' 'python-pygame')
 source=(http://fydo.net/programming/pillows-v$pkgver.zip
-	$pkgname-script
-	$pkgname-desktop)
-md5sums=('17c2811f154cfd666d0f0d46901d6b24' 'ed5159e82ada432bb2b9fba58d26fe2f' 'd024127c5bf0f05357aea1fe9a8a32b8')
+		pillows-script
+		pillows-desktop)
+		
+md5sums=('17c2811f154cfd666d0f0d46901d6b24' 
+		 'ed5159e82ada432bb2b9fba58d26fe2f' 
+		 'd024127c5bf0f05357aea1fe9a8a32b8')
 
 build() {
- mkdir -p $pkgdir/usr/share
- cp -r $srcdir/$pkgname-v$pkgver $pkgdir/usr/share/pillows
- install -D $srcdir/$pkgname-script $pkgdir/usr/bin/$pkgname
- install -D -m644 $srcdir/$pkgname-desktop $pkgdir/usr/share/applications/$pkgname.desktop
+
+	#Install the game
+	install -d -m755 $pkgdir/usr/share
+	cp -r $srcdir/$pkgname-v$pkgver $pkgdir/usr/share/pillows
+
+	#Install the .desktop file
+	install -D -m644 $srcdir/$pkgname-desktop $pkgdir/usr/share/applications/$pkgname.desktop
+ 
+	#Install the bin file
+	install -D -m755 $srcdir/$pkgname-script $pkgdir/usr/bin/$pkgname
+ 
 }

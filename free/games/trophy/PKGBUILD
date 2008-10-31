@@ -1,14 +1,13 @@
-# Maintainer: Colin Pitrat <colin.pitrat@gmail.com>
+# Contributor: Colin Pitrat <colin.pitrat@gmail.com>
 
 pkgname=trophy
-pkgdesc="A 2D car racing action game for Linux"
-url="http://trophy.sourceforge.net"
 pkgver=1.1.5
 pkgrel=3
+pkgdesc="A 2D car racing action game for Linux"
+url="http://trophy.sourceforge.net"
 arch=('i686' 'x86_64')
 license=('GPL')
-provides=(trophy)
-makedepends=('clanlib-svn')
+depends=('clanlib-svn')
 source=(http://trophy.sourceforge.net/archives/trophy-1.1.5.tar.gz 
 		trophy.png 
 		trophy.desktop)
@@ -19,11 +18,16 @@ md5sums=('bf62269cacf794e087ac88f0e39f54c1'
 
 build()
 {
+
+	#Build and install the package
 	cd $srcdir/$pkgname-$pkgver
 	./configure --prefix=/usr
 	make || return 1
 	make DESTDIR=$pkgdir install
+	
+	#Install the .desktop and icon files
 	install -D -m644 $srcdir/trophy.png $pkgdir/usr/share/icons/trophy.png
 	install -D -m644 $srcdir/trophy.desktop $pkgdir/usr/share/applications/trophy.desktop
+	
 	
 }

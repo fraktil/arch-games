@@ -1,27 +1,38 @@
 # Contributor: Angelo Theodorou <encelo@users.sourceforge.net>
+
 pkgname=scourge
 pkgver=0.20
 pkgrel=1
 pkgdesc="A rogue-like game in the fine tradition of NetHack and Moria but with a 3d graphical front-end"
-arch=('i686' 'x86_64')
 url="http://scourgeweb.org"
-license="GPL"
+arch=('i686' 'x86_64')
+license=('GPL')
 depends=('sdl_image' 'sdl_mixer' 'sdl_net' 'sdl_ttf' 'libgl' 'mesa')
-source=(http://downloads.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.src.tar.gz http://downloads.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.data.tar.gz userconfiguration.cpp.patch)
-md5sums=('f7e90f60d60925b117e9dc1a848548d3' '45ca5a98487146b1e8ecab8637bf74ad'
-         '984b969881e6c67dd48c19ffaa71ec9d')
+source=(http://downloads.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.src.tar.gz 
+		http://downloads.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.data.tar.gz 
+		scourge.patch)
+		
+md5sums=('f7e90f60d60925b117e9dc1a848548d3' 
+		 '45ca5a98487146b1e8ecab8637bf74ad'
+         '0e5a806d7a1cc2496d6228243a5d2d07')
 
 build() {
-  cd $srcdir/scourge
-  patch -p0 src/userconfiguration.cpp $srcdir/userconfiguration.cpp.patch
-  autoreconf -i
-  ./configure --prefix=/usr --with-data-dir=/usr/share/scourge --enable-stencil-buffer
-  make || return 1
-  make DESTDIR=$pkgdir install
+
+	#Patch, build and install the package
+	cd $srcdir/scourge
+	patch -Np0 -i $srcdir/scourge.patch
+	autoreconf -i
+	./configure --prefix=/usr --with-data-dir=/usr/share/scourge --enable-stencil-buffer
+	make || return 1
+	make DESTDIR=$pkgdir install
   
-  mkdir -p $pkgdir/usr/share/
-  chmod -R go+r ../scourge_data
-  chmod go+x ../scourge_data/models/character/gladius/
-  mv ../scourge_data $pkgdir/usr/share/scourge
-  rmdir $pkgdir/usr/share/scourge/world $pkgdir/usr/share/scourge/mod/default/models/
+	#Install the game data
+	install -d -m755 $pkgdir/usr/share/
+	chmod -R go+r $srcdir/scourge_data
+	chmod go+x $srcdir/scourge_data/models/character/gladius/
+	cp -pr $srcdir/scourge_data $pkgdir/usr/share/scourge
+	
+	#Remove garbage
+	rm -r $pkgdir/usr/share/scourge/world $pkgdir/usr/share/scourge/mod/default/models/
+  
 }

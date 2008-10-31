@@ -4,26 +4,32 @@ pkgname=freecol
 pkgver=0.7.4
 pkgrel=1
 pkgdesc="Turn-based strategy game based on the game Colonization"
-arch=('i686' 'x86_64')
 url="http://www.freecol.org/"
+arch=('i686' 'x86_64')
 license="GPL"
 depends=('jre')
-source=(http://downloads.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz \
-	$pkgname.sh $pkgname.desktop)
-md5sums=('50b3cb3cbd090b8d6e88e4567e17f991' 'd0bf043f05dfc51cc9c1f5e169bc1316'\
-	 'f471d4fd3624d9b45aa3e16e40f2faef')
+source=(http://downloads.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz
+		freecol.sh 
+		freecol.desktop)
+		
+md5sums=('50b3cb3cbd090b8d6e88e4567e17f991' 
+		 'd0bf043f05dfc51cc9c1f5e169bc1316'
+		 'f471d4fd3624d9b45aa3e16e40f2faef')
 
 build() {
-  cd $startdir/src/$pkgname
-  
-  install -D -m644 FreeCol.jar $startdir/pkg/usr/share/java/$pkgname/FreeCol.jar
-  cp -R jars $startdir/pkg/usr/share/java/$pkgname
-  mkdir -p $startdir/pkg/usr/share/$pkgname
-  cp -R data $startdir/pkg/usr/share/$pkgname
-  install -D -m755 $startdir/src/$pkgname.sh $startdir/pkg/usr/bin/$pkgname
 
-  install -D -m644 $startdir/src/$pkgname/$pkgname.xpm $startdir/pkg/usr/share/pixmaps/$pkgname.xpm
-  install -D -m644 $startdir/src/$pkgname.desktop $startdir/pkg/usr/share/applications/$pkgname.desktop
+	#Install the package
+	cd $srcdir/$pkgname
+	install -D -m644 FreeCol.jar $pkgdir/usr/share/java/freecol/FreeCol.jar
+	cp -R jars $pkgdir/usr/share/java/freecol
+	install -d -m755 $pkgdir/usr/share/freecol
+	cp -R data $pkgdir/usr/share/freecol
+	
+	#Install the .desktop and icon files
+	install -D -m644 $startdir/src/freecol/freecol.xpm $pkgdir/usr/share/pixmaps/freecol.xpm
+	install -D -m644 $startdir/src/freecol.desktop $pkgdir/usr/share/applications/freecol.desktop
 
-  install -D -m644 COPYING $startdir/pkg/usr/share/licenses/$pkgname/COPYING
+	#Install the bin files
+	install -D -m755 $startdir/src/freecol.sh $pkgdir/usr/bin/freecol
+	
 }

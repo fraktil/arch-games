@@ -6,7 +6,7 @@ pkgver=153
 pkgrel=1
 pkgdesc="Balazar in the rancid skull dungeon !"
 url="http://home.gna.org/oomadness/en/balazar_iii/index.html"
-license="GPL"
+license=('GPL')
 arch=('i686' 'x86_64')
 depends=('python' 'pyogg' 'pyvorbis' 'soya' 'python-cerealizer')
 makedepends=('subversion')
@@ -15,19 +15,19 @@ source=()
 md5sums=()
 
 _svntrunk=svn://svn.gna.org/svn/balazar/trunk/balazarIII/balazar3/
-_svnmod=balazar3-svn
 
 build() {
   
+	#Grab the sources with svn
 	cd $srcdir
-
-	if [ -d $_svnmod/.svn ]; then
-      (cd $_svnmod && svn up -r $pkgver)
+	if [ -d $pkgname/.svn ]; then
+      (cd $pkgname && svn up -r $pkgver)
     else
-      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+      svn co $_svntrunk --config-dir ./ -r $pkgver $pkgname
     fi  
-  	
-	cd $srcdir/$_svnmod
+
+	#Build and install the package
+	cd $srcdir/$pkgname
 	python setup.py build || return 1
 	python setup.py install --root=$pkgdir
   

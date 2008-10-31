@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /opt/bos/boswars -d /opt/bos $*
+exec /opt/boswars/boswars -d /opt/boswars $*

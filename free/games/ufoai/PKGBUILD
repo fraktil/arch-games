@@ -1,27 +1,34 @@
 # Contributor: Lukas Jirkovsky <l.jirkovsky@gmail.com>
+
 pkgname=ufoai
 pkgver=2.2.1
 pkgrel=1
 pkgdesc="UFO: Alien Invasion is a strategy game featuring tactical combat"
-arch=('i686' 'x86_64')
 url="http://ufoai.sourceforge.net/"
+arch=('i686' 'x86_64')
 license=('GPL')
 depends=('libgl' 'libjpeg' 'libpng' 'curl' 'sdl_mixer' 'sdl_ttf' 'ufoai-data')
 source=(http://downloads.sourceforge.net/sourceforge/ufoai/$pkgname-$pkgver-source.tar.bz2
 		ufoai.png 
 		ufoai.desktop)
+		
 md5sums=('d3d1e45056fe87efbd9a0f000779ab17' 
 		 'ae3be6e45fdd8ff584fcfc55d6a40a72' 
 		 '52af75b2ed6c027d2523b3358b8f1b32')
 
 build() {
 	
+	#Build and install the package
 	cd $srcdir/$pkgname-$pkgver-source
 	./configure --prefix=/usr --enable-release
 	make || return 1
 	make prefix=$pkgdir/usr install
-	sed -i "s|$pkgdir||" $pkgdir/usr/bin/*
+	
+	#Install the .desktop and icon files
 	install -D -m644 $srcdir/ufoai.desktop $pkgdir/usr/share/applications/ufoai.desktop
 	install -D -m644 $srcdir/ufoai.png $pkgdir/usr/share/pixmaps/ufoai.png
+	
+	#Patch the bin files
+	sed -i "s|$pkgdir||" $pkgdir/usr/bin/*
 	
 }

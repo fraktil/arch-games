@@ -1,24 +1,32 @@
 # Contributor: Nagy Gabor <ngaba@@bibl..u-szeged..hu>
+
 pkgname=enigma_sdl
 pkgver=1.01
 pkgrel=3
 pkgdesc="Puzzle game inspired by Oxyd on the Atari ST and Rock'n'Roll on the Amiga."
 url="http://www.nongnu.org/enigma/"
+arch=('i686' 'x86_64')
+license=('GPL')
 depends=('libpng' 'sdl' 'sdl_image' 'sdl_mixer' 'sdl_ttf' 'xerces-c' 'zlib')
-makedepends=('sed')
 source=(http://download.berlios.de/enigma-game/enigma-$pkgver-64bit.tar.gz
-	 	enigma-gcc-4.3.patch)
+	 	enigma.patch)
+		
 md5sums=('d58af8a7201601dabc45dcedae5e2e91' 
 		 '719e856a141448aac837e380b4adcf10')
-license=('GPL')
-arch=('i686' 'x86_64')
 
 build() {
-  cd $startdir/src/enigma-$pkgver
-  patch -p0 -i ../enigma-gcc-4.3.patch || return 1
-  ./configure --prefix=/usr --program-suffix=_sdl --sysconfdir=/etc --disable-sdltest --enable-optimize
-  make || return 1
-  make DESTDIR=$startdir/pkg install
-  rm -R $startdir/pkg/usr/share/icons $startdir/pkg/usr/include $startdir/pkg/usr/lib
-  sed -i s/Exec=enigma/Exec=enigma_sdl/ $startdir/pkg/usr/share/applications/enigma.desktop
+
+	#Patch, build and install the package
+	cd $srcdir/enigma-$pkgver
+	patch -p0 -i srcdir/enigma.patch || return 1
+	./configure --prefix=/usr --program-suffix=_sdl --sysconfdir=/etc --disable-sdltest --enable-optimize
+	make || return 1
+	make DESTDIR=$pkgdir install
+  
+	#Remove garbage
+	rm -R $pkgdir/usr/share/icons $pkgdir/usr/include $pkgdir/usr/lib
+  
+	#Patch the .desktop file
+	sed -i s/Exec=enigma/Exec=enigma_sdl/ $pkgdir/usr/share/applications/enigma.desktop
+  
 }

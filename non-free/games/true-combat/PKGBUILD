@@ -3,7 +3,7 @@
 pkgname=true-combat
 pkgver=0.49b
 pkgrel=3
-pkgdesc="True Combat: Elite (TCE) is a completely free, realistic, team-based modification for Enemy Territory."
+pkgdesc="A completely free, realistic, team-based modification for Enemy Territory."
 url="http://www.truecombatelite.com/"
 arch=('i686' 'x86_64')
 license=('custom')
