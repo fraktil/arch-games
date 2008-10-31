@@ -55,7 +55,7 @@ build() {
 	
 	#If arch is x86_64 fix the launcher to include lib32 dir
 	if [ "$CARCH" = "x86_64" ] ; then
-		sed "4,4c\LD_LIBRARY_PATH=libs:/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/savage
+		sed "4,4c\export LD_LIBRARY_PATH=libs:/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/savage
 	fi
 	
 }

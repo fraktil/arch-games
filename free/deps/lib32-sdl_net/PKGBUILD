@@ -1,0 +1,20 @@
+# Contributor: Black_Mage <vleon1@gmail.com>
+
+pkgname=lib32-sdl_net
+pkgver=1.2.7
+pkgrel=2
+pkgdesc="A small sample cross-platform networking library"
+url="http://www.libsdl.org/projects/SDL_net/"
+arch=('x86_64')
+license=('LGPL')
+groups=('lib32')
+depends=('lib32-sdl>=1.2.12')
+source=(ftp://ftp.archlinux.org/extra/os/i686/sdl_net-$pkgver-$pkgrel.pkg.tar.gz)
+md5sums=('db666a8f6a92628cb8e68ba507183910')
+
+build() {
+
+	mkdir -p $pkgdir/opt/lib32/usr/lib/
+	cp -R $srcdir/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib
+  
+}

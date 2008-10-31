@@ -1,0 +1,20 @@
+# Contributor: Angel 'angvp' Velasquez <angvp[at]archlinux.com.ve>
+
+pkgname=lib32-libmikmod
+pkgver=3.1.12
+pkgrel=1
+pkgdesc="A portable sound library"
+url="http://mikmod.raphnet.net/"
+arch=('x86_64')
+license=('LGPL')
+groups=('lib32')
+depends=('lib32-glibc')
+source=(ftp://ibiblio.org/pub/linux/distributions/archlinux/extra/os/i686/libmikmod-$pkgver-$pkgrel-i686.pkg.tar.gz)
+md5sums=('fff9715d9113cbae4185b68a19636e8a')
+
+build() {
+
+	mkdir -p $pkgdir/opt/lib32/usr/lib/
+	cp -R $srcdir/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib
+  
+}

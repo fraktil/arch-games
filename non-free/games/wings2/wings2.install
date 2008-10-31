@@ -1,8 +1,10 @@
-post_install() {
-  echo "Updating desktop and mime database ..."
-  update-desktop-database -q
-}
+post_remove() {
 
-op=$1
-shift
-[ "$(type -t "$op")" = "function" ] && $op "$@"
+cat << EOF
+==>
+==> Please note that some data in /opt/Wings2 was not removed
+==> remove it manually by:
+==> # rm -r /opt/Wings2
+EOF
+
+}

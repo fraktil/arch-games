@@ -1,0 +1,21 @@
+# Contributor: qwak <qwak@w8.pl>
+# Contributor: ThatGuyJon <theonereddragon@gmail.com>
+
+pkgname=lib32-sdl_mixer
+pkgver=1.2.8
+pkgrel=3
+pkgdesc="A simple multi-channel audio mixer"
+url="http://www.libsdl.org/projects/SDL_mixer/"
+arch=('x86_64')
+license=('LGPL')
+groups=('lib32')
+depends=('lib32-sdl>=1.2.12' 'lib32-libvorbis' 'lib32-libmikmod')
+source=(ftp://ftp.archlinux.org/extra/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel}-i686.pkg.tar.gz)
+md5sums=('e803468212c395d38ba67280a3b7dc70')
+
+build() {
+
+	mkdir -p $pkgdir/opt/lib32/usr/lib/
+	cp -R $srcdir/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib
+  
+}
