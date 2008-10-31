@@ -5,32 +5,30 @@ pkgname=netpanzer-svn
 pkgver=1078
 pkgrel=1
 pkgdesc="An Online Multiplayer Tactical Warfare Game"
-url="http://netpanzer.berlios.de/"
 arch=('i686' 'x86_64')
-license=('GPL')
+url="http://netpanzer.berlios.de/"
+license="GPL"
 depends=('physfs' 'sdl' 'sdl_mixer' 'sdl_image')
 makedepends=('ftjam' 'subversion')
-provides=('netpanzer')
-conflicts=('netpanzer')
 source=()
 md5sums=()
 
 _svntrunk=http://svn.berlios.de/svnroot/repos/netpanzer/trunk/netpanzer/
+_svnmod=netpanzer-svn
 
 build() {
 
-	#Grab the source from svn
 	cd $srcdir
-	if [ -d $pkgname/.svn ]; then
-      (cd $pkgname && svn up -r $pkgver)
+	
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
     else
-      svn co $_svntrunk --config-dir ./ -r $pkgver $pkgname
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
     fi
 	
-	#Build and install the package
-	cd $srcdir/$pkgname
+	cd $_svnmod
 	sh autogen.sh
-	./configure --prefix=/usr --disable-debug 
+	./configure --prefix=/usr #--disable-debug 
 	sh jamconfig
 	jam || return 1
 	jam -sprefix=$pkgdir/usr install || return 1

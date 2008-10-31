@@ -5,13 +5,11 @@ pkgname=planeshift-svn
 pkgver=2134
 pkgrel=1
 pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
-url="http://www.planeshift.it/"
 arch=('i686' 'x86_64')
+url="http://www.planeshift.it/"
 license=('GPL' 'custom:PlaneShift Content License')
 depends=('crystalspace-1.4branch-svn' 'cg-toolkit')
 makedepends=('ftjam' 'subversion')
-provides=('planeshift')
-conflicts=('planeshift')
 install=planeshift.install
 source=(planeshift.desktop 
         planeshiftsetup.desktop 
@@ -30,19 +28,20 @@ md5sums=('5be27f6e51c8edff591aa1fdc668b7e9'
 		 '7940e27577760ce04b95448b86f47104')
 
 _svntrunk=https://planeshift.svn.sourceforge.net/svnroot/planeshift/stable
+_svnmod=planeshift
 
 build() {
 
-	#Grab planeshift from svn
+	#Grab Planeshift from svn
 	cd $srcdir
-	if [ -d $pkgname/.svn ]; then
-      (cd $pkgname && svn up -r $pkgver)
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
     else
-      svn co $_svntrunk --config-dir ./ -r $pkgver $pkgname
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
     fi
 	
-	#Build planeshift
-	cd $srcdir/$pkgname
+	#Build Planeshift
+	cd $srcdir/$_svnmod
 	./autogen.sh
 	./configure --prefix=/opt/PlaneShift --enable-separate-debug-info=no
 	jam -q client psupdater || return 1
@@ -54,6 +53,9 @@ build() {
 	#We create a speciall config file for the updater, that tells it NOT to overwrite our binaries
 	echo "Update.Platform=false" > $pkgdir/opt/PlaneShift/psupdater.cfg
 	
+	#Copy the icons for the desktop files
+	mkdir -p $pkgdir/opt/PlaneShift/support/icons
+	cp support/icons/*.png $pkgdir/opt/PlaneShift/support/icons/
 	
 	#Planeshift uses the directoy its in, so we set permissions to allow games group to update and run planeshift.
 	chown -R root:games $pkgdir/opt/PlaneShift || return 1
@@ -61,9 +63,7 @@ build() {
     find $pkgdir/opt/PlaneShift -type d -exec chmod 770 {} + || return 1
 	chmod 770 $pkgdir/opt/PlaneShift/psclient $pkgdir/opt/PlaneShift/pssetup $pkgdir/opt/PlaneShift/psupdater
 	
-	#Copy the icons and .desktop files
-	mkdir -p $pkgdir/opt/PlaneShift/support/icons
-	cp support/icons/*.png $pkgdir/opt/PlaneShift/support/icons/
+	#Copy the desktop files
 	install -d -m755 $pkgdir/usr/share/applications/ 
     install -D -m644 $srcdir/*.desktop $pkgdir/usr/share/applications/
 	

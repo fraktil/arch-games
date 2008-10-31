@@ -5,29 +5,27 @@ pkgname=crystalspace-1.4branch-svn
 pkgver=30956
 pkgrel=1
 pkgdesc="free and portable 3D Game Development Kit written in C++, a specific revision for planeshift-svn"
-url="http://www.crystalspace3d.org/"
 arch=('i686' 'x86_64')
+url="http://www.crystalspace3d.org/"
 license=('GPL')
 depends=('libjpeg' 'curl' 'libmng' 'libmikmod' 'libvorbis' 'libpng' 'openal' 'freetype2' 'mesa' 'cal3d-svn')
 makedepends=('ftjam' 'subversion')
-conflicts=('crystalspace')
 source=()		
 md5sums=('')
 
 _svntrunk=https://crystal.svn.sourceforge.net/svnroot/crystal/CS/branches/release/V1.4
+_svnmod=crystalspace
 
 build() {
 
-	#Grab the source from svn
 	cd $srcdir
-	if [ -d $pkgname/.svn ]; then
-      (cd $pkgname && svn up -r $pkgver)
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
     else
-      svn co $_svntrunk --config-dir ./ -r $pkgver $pkgname
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
     fi
 	
-	#Build and install the package
-	cd $srcdir/$pkgname
+	cd $srcdir/$_svnmod
 	./configure --without-java --without-perl --without-python --without-lib3ds --prefix=/usr --sysconfdir=/etc --enable-separate-debug-info=no
 	jam -q libs plugins cs-config walktest || return 1
 	jam DESTDIR=$pkgdir install

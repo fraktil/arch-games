@@ -1,26 +1,24 @@
-# contributor: Dominika Solarz <dominikasolarz@gmail.com>
+#contributor: Dominika Solarz <dominikasolarz@gmail.com>
 
 pkgname=offender-cvs
 pkgver=20081021
 pkgrel=1
+arch=('i686' 'x86_64')
 pkgdesc="An entertaining 2d space shooter."
 url="http://offender.sourceforge.net"
-arch=('i686' 'x86_64')
-license=('GPL')
 depends=('gtk2')
 makedepends=('cvs')
-provides=('offender')
-conflicts=('offender')
 source=()
 md5sums=('')
+license=('GPL')
 
 _cvsroot=":pserver:anonymous@offender.cvs.sourceforge.net:/cvsroot"
 _cvsmod="offender"
 
 build() {
-
-	#Grab the source from cvs	
+	
 	cd $srcdir
+	
 	if [ -d $_cvsmod/CVS ]; then
 		cd $_cvsmod
 		cvs -z3 update -d || return 1
@@ -29,12 +27,13 @@ build() {
 		cd $_cvsmod
 	fi	
 	
-	#Build and install the package
 	cd $srcdir/$_cvsmod
 	mkdir config
 	./bootstrap || return 1
 	./configure --prefix=$pkgdir/usr --exec-prefix=$pkgdir/usr || return 1
 	make || return 1
 	make install || return 1
+	#mkdir -p $pkgdir/usr/bin
+	#cp $srcdir/offender-0.2/src/offender $pkgdir/usr/bin 
 	
 }

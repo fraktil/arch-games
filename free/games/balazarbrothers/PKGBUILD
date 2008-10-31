@@ -6,8 +6,8 @@ pkgver=1.0rc1
 pkgrel=2
 pkgdesc="A 3D puzzle and platform game"
 url="http://home.gna.org/oomadness/en/balazar_brothers/"
+license="GPL"
 arch=('i686' 'x86_64')
-license=('GPL')
 depends=('python' 'pyogg' 'pyvorbis' 'twisted' 'soya' 'python-cerealizer' 'editobj')
 [ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
 source=(http://download.gna.org/balazar/BalazarBrothers-$pkgver.tar.bz2)
@@ -16,7 +16,6 @@ md5sums=('b292ea006a74668dcbe4c609936b8217')
 
 build() {
   	
-	#Build and install the package
 	cd $srcdir/BalazarBrothers-$pkgver
 	python setup.py build || return 1
 	python setup.py install --root=$pkgdir

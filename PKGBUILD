@@ -15,7 +15,7 @@ provides=('pkgname')
 conflicts=('pkgname')
 replaces=('pkgname')
 backup=('file')
-options=(opt1 !opt2)
+options=('opt1' '!opt2')
 install=('pkg.install')
 source=(source1
 		source2

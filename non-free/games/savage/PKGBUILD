@@ -1,9 +1,10 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
+# Maintainer: Black_Mage <vleon1@gmail.com>
 
 pkgname=savage
 pkgver=2.00e
 pkgrel=7
-pkgdesc="An online multiplayer team-based FPS/RTS hybrid. Completely free as of September 2006. (Includes SFE Patches)"
+pkgdesc="Savage: The Battle for Newerth is an online multiplayer team-based FPS/RTS hybrid. Completely free as of September 2006. (Includes SFE Patches)"
 url="http://s2games.com/savage"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -42,13 +43,13 @@ build() {
     chown -R root:games $pkgdir/opt/savage
     chmod -R g+w $pkgdir/opt/savage
     
+	#Install the license
+    install -D -m 644 $srcdir/licenses.txt $pkgdir/usr/share/licenses/$pkgname/licenses.txt
+    
 	#Install a .desktop and icon file
 	install -D -m 644 $srcdir/icon.xpm $pkgdir/usr/share/pixmaps/savage.xpm
     install -D -m 644 $srcdir/savage.desktop $pkgdir/usr/share/applications/savage.desktop
     
-	#Install the license
-    install -D -m 644 $srcdir/licenses.txt $pkgdir/usr/share/licenses/$pkgname/licenses.txt
-	
 	#Install the launcher
     install -D -m 755 $srcdir/savage.launcher $pkgdir/usr/bin/savage
 	

@@ -1,27 +1,20 @@
 # Contributor: Angelo Theodorou <encelo@users.sourceforge.net>
-
 pkgname=stratagus
 pkgver=2.2.4
 pkgrel=2
 pkgdesc="Stratagus is a free cross-platform real-time strategy gaming engine"
-url="http://stratagus.sourceforge.net"
 arch=('i686' 'x86_64')
-license=('GPL')
+url="http://stratagus.sourceforge.net"
+license="GPL"
 depends=('bzip2' 'libgl' 'sdl' 'libpng' 'libvorbis' 'libmikmod' 'lua')
-source=(http://downloads.sourceforge.net/sourceforge/stratagus/$pkgname-$pkgver-src.tar.gz 
-		stratagus.patch)
-		
-md5sums=('311b41c8dcd2d695d2f3ca7d2c17587e' 
-		 'b1bdccc3c7661aeb0050e7dcd1305581')
+source=(http://downloads.sourceforge.net/sourceforge/stratagus/$pkgname-$pkgver-src.tar.gz movie.cpp.patch)
+md5sums=('311b41c8dcd2d695d2f3ca7d2c17587e' '877d912911bd60b6a5f10feff8227f36')
 
 build() {
-
-	#Patch, build and install the package
-	cd $srcdir/$pkgname-$pkgver
-	patch -Np0 -i $srcdir/movie.cpp.patch
-	./configure --prefix=$pkgdir/usr/ --with-opengl
-	make || return 1
-	mkdir -p $pkgdir/usr/bin
-	make install
-  
+  cd $srcdir/$pkgname-$pkgver
+  patch -p0 src/video/movie.cpp $srcdir/movie.cpp.patch
+  ./configure --prefix=$pkgdir/usr/ --with-opengl
+  make || return 1
+  mkdir -p $pkgdir/usr/bin
+  make install
 }

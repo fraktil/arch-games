@@ -1,0 +1,5 @@
+2008-05-09 Angelo "Encelo" Theodorou  <encelo@users.sourceforge.net>
+
+	* PKGBUILD :
+	using $srcdir and $pkgdir variables
+	applying a GCC 4.3 compatibility patch

@@ -2,10 +2,10 @@
 
 pkgname=bjs
 pkgver=0.1.2
-pkgrel=1
+pkgrel=4
 pkgdesc="3D multiplayer tank battle game"
-url="http://bjs.sourceforge.net/"
 arch=('i686' 'x86_64')
+url="http://bjs.sourceforge.net/"
 license=('GPL')
 depends=('ode' 'sdl' 'sdl_image' 'sdl_mixer' 'sdl_ttf' 'sdl_gfx' 'openal' 'omniorb' 'cegui')
 makedepends=('imake')
@@ -15,40 +15,36 @@ source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver-src.tar.gz
 		bjs.desktop 
 		bjs.patch
 		main_server.cpp)
-		
 md5sums=('4f1390d2fe3a94b8a87c06aea4bed1e9'
 		 'd2b5a838b99da6dbe70491ebe9227ee7'
 		 'c1b39469b5dc31a81d9133558f89ca1a'
 		 '3661ea4d8f543c7acc523212f4cfa918'
-		 '1fe58bffdf346a320e73dfd0cf9ffca6'
+		 '046b10a0c8de1cd196d67f0ec879d0b3'
 		 'c1963eacc2152a6aa274a15710986b53')
 
 build()
 {
 	
-	#Patch and build the package
 	cd $srcdir/$pkgname-$pkgver-src
 	patch -Np0 -i $srcdir/bjs.patch || return 1
-	cp $srcdir/main_server.cpp src/server/
+	#For some reson i cant create a working patch for this file :/
+		cp $srcdir/main_server.cpp src/server/
 	make depend || return 1
 	make || return 1
-	
-	#Manually install the package
-	install -d -m755  $pkgdir/usr/bin $pkgdir/usr/share/$pkgname $pkgdir/usr/share/applications $pkgdir/usr/share/pixmaps
+	install -d -m755  $pkgdir/usr/bin \
+  			  		  $pkgdir/usr/share/$pkgname \
+  			  		  $pkgdir/usr/share/applications \
+  			 		  $pkgdir/usr/share/pixmaps
 	install -m755 bjs $pkgdir/usr/share/$pkgname
 	install -m755 bjs_server $pkgdir/usr/share/$pkgname
+	install -m755 $srcdir/bjs $pkgdir/usr/bin
+	install -m755 $srcdir/bjs_server $pkgdir/usr/bin
+	install -m644 $srcdir/bjs.desktop $pkgdir/usr/share/applications
+  	install -m644 data/bitmaps/weapon3.png $pkgdir/usr/share/pixmaps/bjs.png
  	cp -r config $pkgdir/usr/share/$pkgname
   	cp -r data $pkgdir/usr/share/$pkgname
   	find $pkgdir/usr/share/$pkgname/data -type f -exec chmod 664 {} +
   	find $pkgdir/usr/share/$pkgname/config -type f -exec chmod 664 {} +
   	find $pkgdir/usr/share/$pkgname -type d -exec chmod 775 {} +
- 
-	#Install the icon and .desktop file 
-	install -m644 $srcdir/bjs.desktop $pkgdir/usr/share/applications
-  	install -m644 data/bitmaps/weapon3.png $pkgdir/usr/share/pixmaps/bjs.png 	
-	
-	#Install the bin files
-	install -m755 $srcdir/bjs $pkgdir/usr/bin
-	install -m755 $srcdir/bjs_server $pkgdir/usr/bin
-	
+  	
 }

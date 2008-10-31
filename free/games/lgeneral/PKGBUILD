@@ -1,0 +1,43 @@
+#Contributor: Michael Krauss <hippodriver@gmx.net>
+#old contributor: Jacek Poplawski <jacekpoplawski@gmail.com> 
+
+pkgname=lgeneral
+pkgver=1.2beta
+pkgrel=3
+pkgdesc="turn-based strategy engine heavily inspired by Panzer General"
+url="http://lgames.sourceforge.net/index.php?project=LGeneral"
+license=('GPL' 'custom')
+depends=("sdl" "sdl_mixer")
+install=()
+arch=('x86_64' 'i686')
+source=(
+  http://downloads.sourceforge.net/lgeneral/lgeneral-1.2beta-13.tar.gz
+  http://downloads.sourceforge.net/lgeneral/pg-data.tar.gz
+)
+md5sums=('ac8d4ec71a2e263d38a650a158e25da5' '40c4be23f60d1dc732aabe13b58fc5e3')
+
+build() {
+	cd $srcdir/lgeneral-1.2beta-13
+	./configure
+	# patch it
+	patch src/misc.h $startdir/patch0.diff
+	make || return 1
+	make install prefix=$pkgdir/usr
+	# convert PG data
+	cd $srcdir
+	mkdir -p $srcdir/lgeneral-1.2beta-13/lgc-pg/share/games/lgeneral/
+	ln -s $srcdir/lgeneral-1.2beta-13/lgc-pg/convdata\
+           $srcdir/lgeneral-1.2beta-13/lgc-pg/share/games/lgeneral/convdata
+        $srcdir/lgeneral-1.2beta-13/lgc-pg/lgc-pg -s $srcdir/pg-data\
+        -d $pkgdir/usr/share/games/lgeneral
+	# menu stuff
+	mkdir -p $pkgdir/usr/share/pixmaps
+	mkdir -p $pkgdir/usr/share/applications
+	cp $srcdir/lgeneral-1.2beta-13/lgeneral48.png\
+           $pkgdir/usr/share/pixmaps/lgeneral.png
+	cp $startdir/lgeneral.desktop $pkgdir/usr/share/applications
+	
+	# License
+	mkdir -p $pkgdir/usr/share/licenses/lgeneral
+	cp $startdir/COPYING $pkgdir/usr/share/licenses/lgeneral/COPYING
+}

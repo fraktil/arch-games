@@ -4,19 +4,16 @@ pkgname=opencity
 pkgver=0.0.5.1
 pkgrel=1
 pkgdesc="A full 3D city simulator game project"
-url="http://opencity.sourceforge.net/"
 arch=('i686' 'x86_64')
+url="http://opencity.sourceforge.net/"
 license=('GPL2')
 depends=('mesa' 'sdl_image' 'sdl_net' 'sdl_mixer')
 source=(http://downloads.sourceforge.net/$pkgname/$pkgname-${pkgver}stable.tar.bz2)
 md5sums=('7cfd14d857af6aaff7210f7d00198d38')
 
 build() {
-
-	#Build and install the package
-	cd $srcdir/$pkgname-005stable
-	./configure --prefix=/usr --sysconfdir=/etc
-	make || return 1
-	make DESTDIR=$pkgdir install
-  
+  cd $srcdir/$pkgname-${pkgver/.1/}stable
+  ./configure --prefix=/usr --sysconfdir=/etc
+  make || return 1
+  make DESTDIR=$pkgdir install
 }

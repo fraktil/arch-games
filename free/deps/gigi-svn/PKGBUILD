@@ -1,39 +1,39 @@
-# Contributor: fana-m <geminin@gmx.net>
+# Maintainer : fana-m <geminin@gmx.net>
 
 pkgname=gigi-svn
 pkgver=657
 pkgrel=1
 pkgdesc="A small, efficient, and feature-rich C++ GUI for OpenGL"
-url="http://sourceforge.net/projects/gigi/"
 arch=('i686' 'x86_64')
+url="http://sourceforge.net/projects/gigi/"
 license=('GPL')
 depends=('boost>=1.36' 'mesa' 'devil-dev' 'freetype2')
 makedepends=('subversion' 'scons')
 provides=('gigi')
-conflicts=('gigi')
 source=(gigi-svn.patch)
 md5sums=('80c0b1c0ccc931fe1af0863daa677600')
 
 _svntrunk=https://gigi.svn.sourceforge.net/svnroot/gigi/trunk/GG/
+_svnmod=gigi-svn
 
 build() {
 
-	#Grab the source from svn
 	cd $srcdir
-	if [ -d $pkgname/.svn ]; then
-      (cd $pkgname && svn up -r $pkgver)
+
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
     else
-      svn co $_svntrunk --config-dir ./ -r $pkgver $pkgname
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
     fi
 
-	#Patch and install the package
-	cd $pkgname
+	cd $_svnmod
+
 	patch -Np0 -i $srcdir/gigi-svn.patch || return 1
     scons configure
 	scons prefix=/usr pkgconfigdir=/usr/lib/pkgconfig/ build_ogre_driver=0 || return 1
 	scons install prefix=$pkgdir/usr pkgconfigdir=$pkgdir/usr/lib/pkgconfig/ 
 	
-	#Fix the symlinks
+	#A little symlink fix
     rm $pkgdir/usr/lib/libGiGi.so $pkgdir/usr/lib/libGiGiSDL.so
 	ln -s /usr/lib/libGiGi.so.0.6.0 $pkgdir/usr/lib/libGiGi.so 
 	ln -s /usr/lib/libGiGiSDL.so.0.6.0 $pkgdir/usr/lib/libGiGiSDL.so 

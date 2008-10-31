@@ -1,23 +1,21 @@
-# Contributor: leif_thande
-
 pkgname=jumpnbump
 pkgver=1.55
 pkgrel=1
 pkgdesc="Try to stomp as many bunnies while avoiding being stomped."
 url="http://jumpbump.mine.nu"
-arch=('i686' 'x86_64')
-license=('GPL')
+license="GPL"
 depends=('sdl' 'sdl_mixer')
 optdepends=('jumpnbump-levels (extra levels to be loaded with "jumpnbump -dat /usr/share/jumpnbump/nameoflevel.dat")')
-source=(http://ftp.hu.freebsd.org/pub/linux/distributions/frugalware/frugalware-testing/source/games-extra/jumpnbump/$pkgname-$pkgver.tar.gz)
+arch=('i686' 'x86_64')
+#Software no longer maintained, using mirror
+source=(http://ftp.hu.freebsd.org/pub/linux/distributions/frugalware/frugalware-testing/source/games-extra/jumpnbump/${pkgname}-${pkgver}.tar.gz)
 md5sums=('165873fca1c7164eb08b4875f9e7da07')
 
 build() {
 
-	#Build and install the package
-	cd $srcdir/$pkgname-1.50
-	./configure --prefix=/usr  
-	make || return 1
-	make DESTDIR=$pkgdir install
+  cd $srcdir/$pkgname-1.50
+  ./configure --prefix=/usr  
+  make || return 1
+  make DESTDIR=$pkgdir install
   
 }

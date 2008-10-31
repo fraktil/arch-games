@@ -1,5 +1,5 @@
---- src/userconfiguration.cpp.orig	2008-05-09 15:45:42.000000000 +0200
-+++ src/userconfiguration.cpp	2008-05-09 15:45:51.000000000 +0200
+--- userconfiguration.cpp.orig	2008-05-09 15:45:42.000000000 +0200
++++ userconfiguration.cpp	2008-05-09 15:45:51.000000000 +0200
 @@ -1055,7 +1055,7 @@
  }
  

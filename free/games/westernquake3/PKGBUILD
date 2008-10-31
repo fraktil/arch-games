@@ -4,8 +4,8 @@ pkgname=westernquake3
 pkgver=2.2_beta1
 pkgrel=3
 pkgdesc="A Western game using Quake3 engine."
-url="http://www.smokin-guns.net/"
 arch=('i686' 'x86_64')
+url="http://www.smokin-guns.net/"
 license=('GPL')
 depends=('sdl' 'openal' 'freealut' 'curl')
 makedepends=('subversion' 'unzip')
@@ -22,19 +22,20 @@ md5sums=('6376bab9970bf4c22d40e41019a1900f'
 		 '376a40f1f177ee11aba5ef9a8906b636')
 
 _svntrunk=svn://svn.icculus.org/quake3/trunk
+_svnmod=ioquake3-svn
 
 build() {
 
 	#Grab the svn ioquake3 sources
 	cd $srcdir
-	if [ -d $pkgname/.svn ]; then
-      (cd $pkgname && svn up)
+	if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up)
     else
-      svn co $_svntrunk --config-dir ./ $pkgname
+      svn co $_svntrunk --config-dir ./ $_svnmod
     fi
 
 	#Build the ioquake engine
-	cd $srcdir/$pkgname
+	cd $srcdir/$_svnmod
     sed -i "s:/usr/local/games/quake3:$pkgdir/opt/westernquake3:" Makefile
 	make || return 1
     make copyfiles || return 1 

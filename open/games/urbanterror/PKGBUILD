@@ -4,9 +4,9 @@ pkgname=urbanterror
 pkgver=4.1
 pkgrel=4
 pkgdesc="Urban Terror is a team-based tactical shooter based on the Quake 3 Engine (Stand-Alone Version)"
-url="http://www.urbanterror.net"
 arch=('i686' 'x86_64')
-license=(GPL 'custom: quake3 sdk eula')
+url="http://www.urbanterror.net"
+license=('custom')
 depends=('sdl' 'openal' 'freealut' 'curl')
 makedepends=('unzip')
 source=(ftp://ftp.snt.utwente.nl/pub/games/urbanterror/UrbanTerror_41_FULL.zip
@@ -27,19 +27,19 @@ md5sums=('1370306ea236f65f595e7ca70765e469'
 
 build() {
 
-	#Compile the client source
+	#Compile the Client Source
 	cd $srcdir/ioUrbanTerrorClientSource
 	sed -i "s:/usr/local/games/quake3:$pkgdir/opt/urbanterror:" Makefile
 	make || return 1
 	make copyfiles || return 1
 
-	#Compile the server source
+	#Compile the Client Source
 	cd $srcdir/ioUrbanTerrorServerSource
 	sed -i "s:/usr/local/games/quake3:$pkgdir/opt/urbanterror:" Makefile
 	make || return 1
 	make copyfiles || return 1
 
-	#Fix the stupid naming conversion
+	#Fix the stupid naming
 	mv $pkgdir/opt/urbanterror/ioUrbanTerror* $pkgdir/opt/urbanterror/ioUrbanTerror
 	mv $pkgdir/opt/urbanterror/ioUrTded* $pkgdir/opt/urbanterror/ioUrTded
 
@@ -49,15 +49,15 @@ build() {
 	install -D -m644 *.pk3 $pkgdir/opt/urbanterror/q3ut4/
 	install -D -m644 *.cfg $pkgdir/opt/urbanterror/q3ut4/
 
-	#Copy the icons and .desktop file
+	#Copy bin script
+	install -D -m755 $srcdir/urbanterror $pkgdir/usr/bin/urbanterror
+	install -D -m755 $srcdir/urbanterror-server $pkgdir/usr/bin/urbanterror-server
+
+	#Copy the icons and stuff
 	install -D -m644 $srcdir/urbanterror.desktop $pkgdir/usr/share/applications/urbanterror.desktop
 	install -D -m644 $srcdir/urbanterror.png $pkgdir/usr/share/pixmaps/urbanterror.png
 	
 	#Copy the license
 	install -D -m644 $srcdir/quake3-sdk-eula $pkgdir/usr/share/licenses/urbanterror/quake3-sdk-eula
-	
-	#Copy bin script
-	install -D -m755 $srcdir/urbanterror $pkgdir/usr/bin/urbanterror
-	install -D -m755 $srcdir/urbanterror-server $pkgdir/usr/bin/urbanterror-server
 	
 }

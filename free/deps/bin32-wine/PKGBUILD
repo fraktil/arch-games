@@ -1,41 +1,56 @@
 # Contributor: Clement Siuchung Cheung <clement.cheung@umich.edu>
 # Contributor: Mikko Seppälä <t-r-a-y@mbnet.fi>
+# Maintainer: Black_Mage <vleon1@gmail.com>
 
+_pkgsourcename=wine
 pkgname=bin32-wine
 pkgver=1.1.7
 pkgrel=1
+pkgrel32=1
 pkgdesc="Interpreter for the Windows 3.x and Win32 APIs"
-url="http://www.winehq.com/"
 arch=('x86_64')
+url="http://www.winehq.com/"
 license=('LGPL')
 depends=('lib32-libx11' 'lib32-libjpeg' 'lib32-alsa-lib' 'lib32-libxxf86vm' 'lib32-mesa' 'util-linux-ng' 'lib32-freetype2' 'lib32-fontconfig' 'lib32-libxslt' 'lib32-libxml2' 'lib32-libxcb' 'lib32-libxrender')
 provides=('wine')
 conflicts=('wine')
-source=(ftp://ftp.heanet.ie/mirrors/ftp.archlinux.org/extra/os/i686/wine-$pkgver-$pkgrel-i686.pkg.tar.gz
+install=()
+source=(ftp://ftp.heanet.ie/mirrors/ftp.archlinux.org/extra/os/i686/${_pkgsourcename}-${pkgver}-${pkgrel32}-i686.pkg.tar.gz
 		binarynames)
-		
 md5sums=('22a249518968fd92807e070cf20b9461'
 		 'b0fd553e2f11fe7553ac1717797befe6')
 
 build() {
 
-	#Moving the source files to the pkg directory and installing the libs
-	cp -rPfp $srcdir/* $pkgdir/
-	install -d $pkgdir/opt/lib32/usr/lib/
-	mv $pkgdir/usr/lib/libwine.so* $pkgdir/opt/lib32/usr/lib/
-	
-	#Making and patching all wine's run scripts to include lib32 paths
-	cd $pkgdir/usr/bin/
-	install -d $pkgdir/opt/wine/bin/ $srcdir/tempscripts/
-	for i in `cat $srcdir/binarynames` ; do
-		mv $i $pkgdir/opt/wine/bin/
-		echo -e '#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /opt/wine/bin/replacename "$@"' > $srcdir/tempscripts/$i
-		sed -re "s/replacename/$i/" -i $srcdir/tempscripts/$i
-		install -m755 $srcdir/tempscripts/$i $i
-	done
+  cp -rPfp $srcdir/* $pkgdir/
+  install -d $pkgdir/opt/lib32/usr/lib/
+  mv $pkgdir/usr/lib/libwine.so* $pkgdir/opt/lib32/usr/lib/
+  cd $pkgdir/usr/bin/
+  
+  install -d $pkgdir/opt/wine/bin/ $srcdir/tempscripts/
+  for i in `cat $srcdir/binarynames` ; do
+  mv $i $pkgdir/opt/wine/bin/
+  echo -e '#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /opt/wine/bin/replacename "$@"' > $srcdir/tempscripts/$i
+  sed -re "s/replacename/$i/" -i $srcdir/tempscripts/$i
+  install -m755 $srcdir/tempscripts/$i $i
+  done
 
-	#Linking the wine folder to its true location
-	mkdir -p $pkgdir/opt/lib32/usr/share/
-	ln -s /usr/share/wine $pkgdir/opt/lib32/usr/share/wine
- 
+  # PPD fix
+  mkdir -p $pkgdir/opt/lib32/usr/share/
+  ln -s /usr/share/wine $pkgdir/opt/lib32/usr/share/wine
+  
+  # These should NOT be needed!
+  # Fakeroot causes trouble for some users again?
+  cd $pkgdir/usr/lib/
+  chmod 755 wine
+  cd wine
+  chmod 755 *so
+  chmod 644 *.def *16 *.a
+  # Added /usr/share/wine workaround for some users
+  cd $pkgdir/usr/share/
+  chmod 755 wine
+  cd wine
+  chmod -R 644 *
+  chmod 755 fonts
+  
 }

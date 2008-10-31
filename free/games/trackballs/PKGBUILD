@@ -4,27 +4,22 @@ pkgname=trackballs
 pkgver=1.1.4
 pkgrel=2
 pkgdesc="Simple game similar to the classical game Marble Madness on the Amiga in the 80's"
-url="http://trackballs.sourceforge.net/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('guile>=1.8.1' 'sdl_ttf' 'sdl_image' 'sdl_mixer' 'mesa')
+url="http://trackballs.sourceforge.net/"
 install=trackballs.install
-source=(http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.gz
+depends=('guile>=1.8.1' 'sdl_ttf' 'sdl_image' 'sdl_mixer' 'mesa')
+source=(http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.gz \
 		trackballs.desktop)
-		
-md5sums=('84e2e8bb68842a636da91673751279a0' 
-		 'dba47c0b52855b4e7021484783f68004')
+md5sums=('84e2e8bb68842a636da91673751279a0' 'dba47c0b52855b4e7021484783f68004')
 
 build() {
-
-	#Build and install the package
-	cd $srcdir/$pkgname-$pkgver
-	./configure --prefix=/usr
-	make || return 1
-	make DESTDIR=$pkgdir install
-	install -D -m644 share/highScores $pkgdir/usr/share/trackballs/highScores.init
-
-	#Install the .desktop file
-	install -D -m644 $srcdir/trackballs.desktop $pkgdir/usr/share/applications/
-	
+  cd $srcdir/$pkgname-$pkgver
+  ./configure --prefix=/usr
+  make || return 1
+  make DESTDIR=${startdir}/pkg install
+  install -m644 share/highScores $pkgdir/usr/share/trackballs/highScores.init
+  mkdir -p $pkgdir/usr/share/applications
+  install -m644 $srcdir/trackballs.desktop \
+                $pkgdir/usr/share/applications/
 }

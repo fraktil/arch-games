@@ -4,38 +4,49 @@ pkgname=clanlib-svn
 pkgver=1848
 pkgrel=1
 pkgdesc="A multi-platform game development library"
-url="http://www.clanlib.org/"
 arch=('i686' 'x86_64')
-license=('custom: clanlib')
 depends=('libxmu' 'libxi' 'mesa' 'libjpeg' 'libpng' 'libmikmod' 'libvorbis' 'sdl_gfx>=2.0.13' 'inputproto')
 makedepends=('subversion')
-provides=('clanlib')
 conflicts=('clanlib')
-options=(!libtool)
+provides=('clanlib')
+url="http://www.clanlib.org/"
 source=()
-md5sums=('')
+license=('custom')
+md5sums=()
+options=(!libtool)
 
 _svntrunk=svn://esoteric.clanlib.org/ClanLib/Development/ClanLib-0.8
+_svnmod=clanlib-svn
 
 build() {
-
-	#Grabbing the source
     cd $srcdir
-    if [ -d $pkgname/.svn ]; then
-      (cd $pkgname && svn up -r $pkgver)
+
+    if [ -d $_svnmod/.svn ]; then
+      (cd $_svnmod && svn up -r $pkgver)
     else
-      svn co $_svntrunk --config-dir ./ -r $pkgver $pkgname
+      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
     fi
 
-	#Making and installing the package
-    cd $pkgname
+    msg "SVN checkout done or server timeout"
+    msg "Starting make..."
+
+    cp -r $_svnmod $_svnmod-build
+    cd $_svnmod-build
+
     ./autogen.sh
-    ./configure --prefix=/usr --disable-static --enable-clanDisplay --enable-clanGL --enable-clanSound --enable-clanNetwork --enable-clanGUI --enable-clanMikMod --enable-clanVorbis
+
+    ./configure --prefix=/usr \
+                --disable-static \
+                --enable-clanDisplay \
+                --enable-clanGL \
+                --enable-clanSound \
+                --enable-clanNetwork \
+                --enable-clanGUI  \
+                --enable-clanMikMod \
+                --enable-clanVorbis
+
     make || return 1
     make DESTDIR=$pkgdir install
-	
-	#Installing the license
     mkdir -p $pkgdir/usr/share/licenses/$pkgname
     install -m 644 COPYING $pkgdir/usr/share/licenses/$pkgname
-	
 }

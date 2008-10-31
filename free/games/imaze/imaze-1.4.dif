@@ -1,0 +1,20 @@
+diff -rc imaze-1.4-orig/source/Makefile.in imaze-1.4/source/Makefile.in
+*** imaze-1.4-orig/source/Makefile.in   Sat Jan 26 20:32:59 2002
+--- imaze-1.4/source/Makefile.in        Sat Jan 26 20:33:54 2002
+***************
+*** 43,49 ****
+        @echo "run ./configure first, don't use this makefile"
+  #END configure output
+
+! DEFINES=-DDEFAULT_SOUND_DIR=\"`pwd`/../sounds\"
+  #
+  # possible values:
+  #
+--- 43,49 ----
+        @echo "run ./configure first, don't use this makefile"
+  #END configure output
+
+! DEFINES=-DDEFAULT_SERVER=\"localhost\" -DDEFAULT_SOUND_DIR=\"`pwd`/../sounds\"
+  #
+  # possible values:
+  #
