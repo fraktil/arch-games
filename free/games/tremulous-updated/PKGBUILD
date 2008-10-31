@@ -10,6 +10,7 @@ conflicts=('tremulous')
 provides=('tremulous=1.1.0')
 replaces=(trem-backport)
 noextract=(mg_tremded_source_1.01.tar.gz mgclient_source_1.0.tar.gz)
+install=tremulous.install
 source=(http://downloads.sourceforge.net/sourceforge/tremulous/tremulous-1.1.0.zip 
 	http://releases.mercenariesguild.net/client/mg-client-manual.txt
 	http://releases.mercenariesguild.net/client/mgclient_source_1.0.tar.gz
@@ -40,7 +41,7 @@ build() {
 	install -Dm755 build/release-linux-x86/tremded.$_SUF	"$pkgdir/opt/tremulous/bin/tremded.$_SUF"
 	install -Dm644 "$srcdir/tremdedrc" 			"$pkgdir/etc/tremdedrc"
 	install -Dm755 "$srcdir/tremded.launcher" 		"$pkgdir/usr/bin/tremded"
-	install -Dm644 "$srcdir/game.qvm"			"$pkgdir/opt/tremulous/base/vm/game.qvm"
+	install -Dm644 "$srcdir/game.qvm"			"$pkgdir/opt/tremulous/game.qvm"
 
 	# Client
 	cd "$srcdir"
