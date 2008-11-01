@@ -1,6 +1,6 @@
 # Contributor: nick or name <youremail@domain.com>
 
-pkgname=name-svn        
+pkgname=name-svn
 pkgver=ver
 pkgrel=1
 pkgdesc=""
@@ -20,8 +20,8 @@ install=('pkg.install')
 source=(source1
         source2
         source3)
-        
-noextract=('source1')
+
+noextract=(source1)
 md5sums=('sum1'
          'sum2'
          'sum3')
@@ -46,7 +46,7 @@ build() {
 
   #Actions desc
   actions...
-  
+
 }
 
 # vim:set ts=2 sw=2 et:

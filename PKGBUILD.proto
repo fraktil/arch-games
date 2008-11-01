@@ -1,6 +1,6 @@
 # Contributor: nick or name <youremail@domain.com>
 
-pkgname=name    
+pkgname=name
 pkgver=ver
 pkgrel=1
 pkgdesc=""
@@ -20,12 +20,12 @@ install=('pkg.install')
 source=(source1
         source2
         source3)
-        
-noextract=('source1')
+
+noextract=(source1)
 md5sums=('sum1'
          'sum2'
          'sum3')
-         
+
 build () {
 
   #actions desc

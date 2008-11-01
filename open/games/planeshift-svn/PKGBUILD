@@ -59,12 +59,11 @@ build() {
   #We create a speciall config file for the updater, that tells it NOT to overwrite our binaries
   echo "Update.Platform=false" > $pkgdir/opt/PlaneShift/psupdater.cfg
   
-  
   #Planeshift uses the directoy its in, so we set permissions to allow games group to update and run planeshift.
   chown -R root:games $pkgdir/opt/PlaneShift || return 1
-  find $pkgdir/opt/PlaneShift -type f -exec chmod 660 {} + || return 1
-  find $pkgdir/opt/PlaneShift -type d -exec chmod 770 {} + || return 1
-  chmod 770 $pkgdir/opt/PlaneShift/psclient $pkgdir/opt/PlaneShift/pssetup $pkgdir/opt/PlaneShift/psupdater
+  find $pkgdir/opt/PlaneShift -type f -exec chmod 664 {} + || return 1
+  find $pkgdir/opt/PlaneShift -type d -exec chmod 775 {} + || return 1
+  chmod 775 $pkgdir/opt/PlaneShift/psclient $pkgdir/opt/PlaneShift/pssetup $pkgdir/opt/PlaneShift/psupdater
   
   #Copy the icons and .desktop files
   mkdir -p $pkgdir/opt/PlaneShift/support/icons
