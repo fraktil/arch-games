@@ -1,25 +1,36 @@
-#Contributor: Eduard "bekks" Warkentin <eduard.warkentin@gmail.com>
+# Contributor: Eduard "bekks" Warkentin <eduard.warkentin@gmail.com>
+
 pkgname=asc
 pkgver=2.1.0.0
 pkgrel=1
 pkgdesc="Advance Strategy Command strategy game"
-arch=('i686' 'x86_64')
 url="http://www.asc-hq.org/"
+arch=('i686' 'x86_64')
 license=('GPL')
 depends=('libsigcpp1.2' 'sdl_image' 'sdl_mixer' 'sdl_sound' 'expat' 'boost' 'freetype2' 'physfs' 'xvidcore')
-
 source=(http://downloads.sourceforge.net/sourceforge/asc-hq/$pkgname-$pkgver.tar.bz2
-	http://www.asc-hq.org/music/frontiers.ogg
-	http://www.asc-hq.org/music/time_to_strike.ogg
-	http://www.asc-hq.org/music/machine_wars.ogg)
-md5sums=('d76cf500bebdddd8e7d2a094b532e6af' 'c27415246734d59e27e6a786ee4820d2' '0f4de5275ab649f4426d110840e3e1ea' 'b4421ddd67a9e44d90a49a1d8bdf44c3')
+        http://www.asc-hq.org/music/frontiers.ogg
+        http://www.asc-hq.org/music/time_to_strike.ogg
+        http://www.asc-hq.org/music/machine_wars.ogg)
+    
+md5sums=('d76cf500bebdddd8e7d2a094b532e6af' 
+         'c27415246734d59e27e6a786ee4820d2' 
+         '0f4de5275ab649f4426d110840e3e1ea' 
+         'b4421ddd67a9e44d90a49a1d8bdf44c3')
 
 build() {
-  cp $startdir/frontiers.ogg $startdir/src/$pkgname-$pkgver/data/music/
-  cp $startdir/time_to_strike.ogg $startdir/src/$pkgname-$pkgver/data/music/
-  cp $startdir/machine_wars.ogg $startdir/src/$pkgname-$pkgver/data/music/
-  cd $startdir/src/$pkgname-$pkgver
+
+  #Move the music files to their source destination
+  cp $srcdir/frontiers.ogg $srcdir/$pkgname-$pkgver/data/music/
+  cp $srcdir/time_to_strike.ogg $srcdir/$pkgname-$pkgver/data/music/
+  cp $srcdir/machine_wars.ogg $srcdir/$pkgname-$pkgver/data/music/
+  
+  #Build and install the package
+  cd $srcdir/$pkgname-$pkgver
   ./configure --prefix=/usr --enable-docbook2man --enable-genparse
   make || return 1
-  make DESTDIR=$startdir/pkg install
+  make DESTDIR=$pkgdir install
+  
 }
+
+# vim:set ts=2 sw=2 et:

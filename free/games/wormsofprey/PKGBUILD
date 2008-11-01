@@ -4,57 +4,43 @@ pkgname=wormsofprey
 pkgver=0.4.3
 pkgrel=1
 pkgdesc="Wörms of Prey is the new and free real-time Worms game."
-depends=('sdl_ttf' 'sdl_net' 'sdl_mixer' 'sdl_image')
-license="GPL"
-arch=('i686' 'x86_64')
 url="http://www.wormsofprey.org"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('sdl_ttf' 'sdl_net' 'sdl_mixer' 'sdl_image')
 source=(http://www.wormsofprey.org/download/wop-$pkgver-src.tar.bz2 
-	    http://wormsofprey.org/download/wopdata-2005-12-21.tar.bz2 \
-	    wop.desktop
-	    wormsofprey-0.4.3-gcc-4.3.patch)
+        http://wormsofprey.org/download/wopdata-2005-12-21.tar.bz2
+        wop.desktop
+        wormsofprey.patch)
+    
 md5sums=('ae07e9e1092de6c447a9af2cf8e90959'
          '0bf42f28e03dcac5c8066b46d7733907'
-		 'c1dbee54839fbba119a00925fa4a4702'
+         'c1dbee54839fbba119a00925fa4a4702'
          'd3c489bacd8d079fac32f6e96dd0ecbf')
-
-
-	 
+ 
 build() {
-	
-	cd $srcdir/wop-$pkgver
-    patch -Np0 -i $srcdir/$pkgname-$pkgver-gcc-4.3.patch || return 1
+  
+  #Patching and building the package
+  cd $srcdir/wop-$pkgver
+  patch -Np0 -i $srcdir/wormsofprey.patch || return 1
+  sed -i -e "s:/etc/woprc:/opt/wop/etc/woprc:g" "src/wopsettings.cpp" || return 1
+  sed -i -e "s:^data =.*$:data = /opt/wop/data:" "woprc" || return 1
+  touch {sdlwidgets,src}/Makefile.depend || return 1
+  make -d || return 1
 
-    Change the configuration file path from /etc to /opt/wop/etc
-	sed -i \
-		-e "s:/etc/woprc:/opt/wop/etc/woprc:g" \
-		"src/wopsettings.cpp" \
-		|| return 1
-	
-	sed -i \
-		-e "s:^data =.*$:data = /opt/wop/data:" \
-		"woprc" \
-		|| return 1
-
-    # something is wrong, how Makefile.depend does not exist, i don't get it
-    touch {sdlwidgets,src}/Makefile.depend || return 1
-
-    # Starting make
-    make -d || return 1
-
-    # Installing it
-    mkdir -p $pkgdir/usr/bin
-    install -m755 bin/wop $pkgdir/usr/bin/wop
-    mkdir -p $pkgdir/opt/wop/{data,etc}
-    cp woprc $pkgdir/opt/wop/etc
-    cp -R $srcdir/wopdata-2005-12-21/* $pkgdir/opt/wop/data
-
-    # Copying .desktop file and an Icon
-    mkdir -p $pkgdir/usr/share/applications
-    install -D -m644 $srcdir/wop.desktop $pkgdir/usr/share/applications/wop.desktop
-	install -D -m644 $srcdir/wopdata-2005-12-21/images/gui/wop32.png $pkgdir/usr/share/pixmaps/wop.png
-
-
-    #hmmm some files are not world-readable... hmmmm WTH :o
-    chmod a+r $pkgdir
-    
+  #Manually installing the package
+  install -d -m755 $pkgdir/opt/wop/{data,etc}
+  cp woprc $pkgdir/opt/wop/etc
+  cp -R $srcdir/wopdata-2005-12-21/* $pkgdir/opt/wop/data
+  chmod a+r $pkgdir
+  
+  #Installing the .desktop and icon files
+  install -D -m644 $srcdir/wop.desktop $pkgdir/usr/share/applications/wop.desktop
+  install -D -m644 $srcdir/wopdata-2005-12-21/images/gui/wop32.png $pkgdir/usr/share/pixmaps/wop.png
+  
+  #Installing the binary file
+  install -D -m755 bin/wop $pkgdir/usr/bin/wop
+  
 }
+
+# vim:set ts=2 sw=2 et:

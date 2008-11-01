@@ -1,6 +1,18 @@
 post_install() {
-	echo "If you are using an amd/ati card you will have ugly visuals because of broken shaders"
-	echo "in this version, a partial fix is already in the svn and the new version will probably"
-	echo "fix the problem, if you want to partially fix it follow this thread at your own risk:"
-	echo "http://vdrift.net/Forum/viewtopic.php?t=1024"
+
+cat << EOF
+==>
+==> If you are using an amd/ati card you will have ugly visuals because of broken shaders
+==> in this version, a partial fix is already in the svn and the new version will probably
+==> fix the problem, if you want to partially fix it follow this thread at your own risk:
+==> http://vdrift.net/Forum/viewtopic.php?t=1024
+==> 
+EOF
+
+}
+
+post_upgrade() {
+
+post_install
+  
 }

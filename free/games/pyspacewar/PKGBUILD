@@ -5,19 +5,26 @@ pkgver=0.9.3
 pkgrel=1
 pkgdesc="Open-source game, loosely inspired by Spacewar, Gravity Wars, and a bit by Star Control (I and II)."
 url="http://mg.pov.lt/pyspacewar"
-license="GPL"
 arch=('i686' 'x86_64')
+license=('GPL')
 depends=('python-pygame')
 [ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
 source=(http://mg.pov.lt/pyspacewar/$pkgname-$pkgver.tar.gz
-		pyspacewar-64bit.hack)
+        pyspacewar-64bit.hack)
+    
 md5sums=('d9515eb2584efd9fa43f6fa49b9761b2'
-		 'd1f4f2522c40683c6e76c43c9f5a9205')
+         'd1f4f2522c40683c6e76c43c9f5a9205')
 
 build ()
 {
-	cd $srcdir/$pkgname-$pkgver
-	#A hack that would disable transperacy in the title (oh no!!), but would enabe it to run on 64bit 
-		[ "$CARCH" = "x86_64" ] && patch -Np0 -i $srcdir/pyspacewar-64bit.hack || return 1
-	python setup.py install --root=$pkgdir/
+
+  #Hack the game for 64bit is needed
+  cd $srcdir/$pkgname-$pkgver
+  [ "$CARCH" = "x86_64" ] && patch -Np0 -i $srcdir/pyspacewar-64bit.hack || return 1
+  
+  #Install the package
+  python setup.py install --root=$pkgdir/
+  
 }
+
+# vim:set ts=2 sw=2 et:

@@ -4,38 +4,45 @@ pkgname=freeorion-svn
 pkgver=2680
 pkgrel=1
 pkgdesc="Free Clone of Master of Orion."
-arch=('i686' 'x86_64')
 url="http://www.freeorion.org/index.php/Main_Page"
+arch=('i686' 'x86_64')
 license=('GPL')
 depends=('python' 'sdl' 'sdl_mixer' 'freealut' 'graphviz' 'gigi' 'log4cpp-old' 'libvorbis' 'libogg')
 makedepends=('subversion' 'scons')
 provides=('freeorion')
+conflicts=('freeorion')
 source=(freeorion.png 
-		freeorion.desktop
-		freeorion-svn.patch)
-		
+        freeorion.desktop
+        freeorion-svn.patch)
+    
 md5sums=('7064e5b16d222322ce90cd4598eec64e' 
-		 '2cb863f94d76c7d2f53a9d393b2b2660'
-		 '99de313465cc1fbcd4e88cea3f7a03f8')
+         '2cb863f94d76c7d2f53a9d393b2b2660'
+         '99de313465cc1fbcd4e88cea3f7a03f8')
 
 _svntrunk=https://freeorion.svn.sourceforge.net/svnroot/freeorion/trunk/FreeOrion/
-_svnmod=freeorion-svn
+_svnmod=freeorion
 
 build() {
 
-	cd $srcdir
-
-	if [ -d $_svnmod/.svn ]; then
-      (cd $_svnmod && svn up -r $pkgver)
-    else
-      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
-    fi
-
-	cd $_svnmod
-
-	patch -Np0 -i $srcdir/freeorion-svn.patch || return 1
-	scons configure
-	scons prefix=/usr || return 1
-	scons install prefix=$pkgdir/usr
-	
+  #Grab the sources with svn
+  cd $srcdir
+  if [ -d $_svnmod/.svn ]; then
+    (cd $_svnmod && svn up -r $pkgver) || return 1
+  else
+    svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod || return 1
+  fi
+  msg "SVN checkout done or server timeout"
+  msg "Starting make..."
+  rm -r "$srcdir/$_svnmod-build"
+  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
+  cd "$srcdir/$_svnmod-build"
+  
+  #Patch, build and install the package
+  patch -Np0 -i $srcdir/freeorion-svn.patch || return 1
+  scons configure
+  scons prefix=/usr || return 1
+  scons install prefix=$pkgdir/usr
+  
 }
+
+# vim:set ts=2 sw=2 et:

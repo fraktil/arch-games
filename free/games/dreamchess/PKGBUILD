@@ -4,21 +4,28 @@ pkgname=dreamchess
 pkgver=0.2.0
 pkgrel=3
 pkgdesc="An open source chess game with OpenGL graphics and various chess board sets"
-arch=('i686' 'x86_64')
 url="http://www.dreamchess.org/"
+arch=('i686' 'x86_64')
 license=('GPL3')
 depends=('sdl_mixer' 'sdl_image' 'mesa')
 makedepends=('mxml' 'autoconf' 'automake')
 optdepends=('dreamchess-music')
-source=(http://download2.berlios.de/$pkgname/$pkgname-$pkgver.tar.gz \
-	add-lpthread.diff)
-md5sums=('0e837e14819c1e7d0232c6beb4d5c185' '7b2505302f63ee06039acb146326f306')
+source=(http://download2.berlios.de/$pkgname/$pkgname-$pkgver.tar.gz
+        dreamchess.patch)
+    
+md5sums=('0e837e14819c1e7d0232c6beb4d5c185'
+         '7b2505302f63ee06039acb146326f306')
 
 build() {
+
+  #Patch, build and install the package
   cd $srcdir/$pkgname-$pkgver
-  patch -Np1 -i ../add-lpthread.diff || return 1
+  patch -Np1 -i $srcdir/dreamchess.patch || return 1
   autoreconf -i
   ./configure --prefix=/usr
   make || return 1
   make DESTDIR=$pkgdir install
+  
 }
+
+# vim:set ts=2 sw=2 et:

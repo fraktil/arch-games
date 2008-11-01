@@ -1,23 +1,26 @@
-# Maintainer: Eric Belanger <belanger@astro.umontreal.ca>
+# Contributor: Eric Belanger <belanger@astro.umontreal.ca>
 # Contributor: Patrick Leslie Polzer <leslie.polzer@gmx.net>
-# AUR Contributor: dejari
+# Contributor: dejari
  
 pkgname=editobj
 pkgver=0.5.7
 pkgrel=2
 pkgdesc="EditObj can create a dialog box to edit any Python object"
 url="http://home.gna.org/oomadness/en/editobj"
-license="GPL"
 arch=('i686' 'x86_64')
-options=('!strip')
+license=('GPL')
 depends=('python')
+options=('!strip')
 source=(http://download.gna.org/songwrite/EditObj-$pkgver.tar.gz)
 md5sums=('d262f0b4769723b0c7d14314c4a58a1f')
  
 build() {
-	
+
+  #Build and install the package  
   cd $srcdir/EditObj-$pkgver
   python setup.py build || return 1
   python setup.py install --root=$pkgdir
   
 }
+
+# vim:set ts=2 sw=2 et:

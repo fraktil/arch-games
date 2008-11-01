@@ -4,11 +4,13 @@ pkgname=epiar-cvs
 pkgver=20081015
 pkgrel=1
 pkgdesc="A space adventure/combat game written in C with SDL"
-arch=('i686' 'x86_64')
 url="http://epiar.net/"
+arch=('i686' 'x86_64')
 license="GPL"
 depends=('sdl' 'sdl_image' 'sdl_net' 'sdl_mixer' 'openal' 'mesa' 'libgl' 'libxml2' 'zlib')
 makedepends=('cvs')
+provides=('epiar')
+conflicts=('epiar')
 source=(epiar-wrapper)
 md5sums=('a6bcaaa52d1a7e4e11428d4060d5ebd0')
 
@@ -17,27 +19,34 @@ _cvsmod="lamprey"
 
 build() {
 
-	#Some of the deps are not yet needed, but will be definatly used in epira future
-	#Also the file moving part will be changed in the future.
+  #Grab the sources with cvs
+  cd $srcdir
+  msg "Connecting to $_cvsmod.sourceforge.net CVS server...."
+  if [ -d $_cvsmod/CVS ]; then
+    cd $_cvsmod
+    cvs -z3 update -d || return 1
+  else
+    cvs -z3 -d $_cvsroot co -D $pkgver -f $_cvsmod || return 1
+    cd $_cvsmod
+  fi
+  msg "CVS checkout done or server timeout"
+  msg "Starting make..."
+  rm -r "$srcdir/$_cvsmod-build"
+  cp -r "$srcdir/$_cvsmod" "$srcdir/$_cvsmod-build"
+  cd "$srcdir/$_cvsmod-build"
 
-	cd $srcdir
-	
-	if [ -d $_cvsmod/CVS ]; then
-		cd $_cvsmod
-		cvs -z3 update -d || return 1
-	else
-		cvs -z3 -d $_cvsroot co -P $_cvsmod || return 1
-		cd $_cvsmod
-	fi
-
-	sh autogen.sh || return 1
-	./configure || return 1
-	make || return 1
-	
-	install -D -m755 $srcdir/epiar-wrapper $pkgdir/usr/bin/epiar
-	install -d -m755 $pkgdir/usr/share/epiar
-	cp -t $pkgdir/usr/share/epiar/ *.xml *.png *.af *.dat *.ani
-	chmod 644 $pkgdir/usr/share/epiar/*
-	install -D -m755 Epiar $pkgdir/usr/share/epiar/
+  #Build the package
+  sh autogen.sh || return 1
+  ./configure || return 1
+  make || return 1
+  
+  #Manually install the package
+  install -D -m755 $srcdir/epiar-wrapper $pkgdir/usr/bin/epiar
+  install -d -m755 $pkgdir/usr/share/epiar
+  cp -t $pkgdir/usr/share/epiar/ *.xml *.png *.af *.dat *.ani
+  chmod 644 $pkgdir/usr/share/epiar/*
+  install -D -m755 Epiar $pkgdir/usr/share/epiar/
 
 }
+
+# vim:set ts=2 sw=2 et:

@@ -4,25 +4,36 @@ pkgname=widelands
 pkgver=12
 pkgrel=1
 pkgdesc="A realtime-strategy game inspired by Settlers II"
-arch=('i686' 'x86_64')
 url="http://www.widelands.org/"
+arch=('i686' 'x86_64')
 license=('GPL2')
 depends=('sdl_mixer>=1.2.6' 'sdl_image' 'sdl_net' 'sdl_ttf>=2' 'sdl_gfx' 'gcc-libs')
 makedepends=('scons>=0.97' 'boost')
-source=(http://downloads.sourceforge.net/$pkgname/$pkgname-build-$pkgver-source.tar.bz2 \
-	$pkgname.desktop)
-md5sums=('1b551106e0f613f63abd7e6bdc9cebf6' '4778247d832b78702746f3116e61156b')
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-build-$pkgver-source.tar.bz2
+        widelands.desktop)
+    
+md5sums=('1b551106e0f613f63abd7e6bdc9cebf6' 
+         '4778247d832b78702746f3116e61156b')
 
 build() {
+
+  #Patch and build the package
   cd $srcdir/$pkgname
   sed "s#/games##" -i src/wlapplication.cc
-  scons prefix=/usr bindir=bin datadir=share/widelands localedir=share/widelands/locale \
-	extra_compile_flags="${CXXFLAGS}" || return 1
+  scons prefix=/usr bindir=bin datadir=share/widelands localedir=share/widelands/locale extra_compile_flags="${CXXFLAGS}" || return 1
   utils/buildlocale.py || return 1
-  install -m755 -D widelands $pkgdir/usr/bin/widelands
+  
+  #Install the data
   mkdir -p $pkgdir/usr/share/widelands
-  cp -rf campaigns/ fonts/ locale/ maps/ music/ pics/ sound/ tribes/ txts/ worlds/ \
-	$pkgdir/usr/share/widelands/
+  cp -rf campaigns/ fonts/ locale/ maps/ music/ pics/ sound/ tribes/ txts/ worlds/ $pkgdir/usr/share/widelands/
+  
+  #Install the .desktop and icon files
   install -m644 -D pics/wl-ico-128.png $pkgdir/usr/share/pixmaps/widelands.png
   install -m644 -D ../widelands.desktop $pkgdir/usr/share/applications/widelands.desktop
+  
+  #Install the bin file
+  install -m755 -D widelands $pkgdir/usr/bin/widelands
+  
 }
+
+# vim:set ts=2 sw=2 et:

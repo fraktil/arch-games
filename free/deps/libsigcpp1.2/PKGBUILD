@@ -1,19 +1,25 @@
 # Contributor: Shinlun Hsieh <yngwiexx@yahoo.com.tw>
+
 pkgname=libsigcpp1.2
 pkgver=1.2.7
 pkgrel=1
 pkgdesc="Libsigc++ implements a full callback system for use in widget libraries - V1.2"
-arch=(i686)
 url="http://libsigc.sourceforge.net/"
+arch=('i686' 'x86_64')
 license=('LGPL')
-depends=('gcc')
+depends=()
 source=(http://ftp.gnome.org/pub/GNOME/sources/libsigc++/1.2/libsigc++-$pkgver.tar.bz2)
 md5sums=('212f48536019e1f003d2509b4c9b36df')
 
 build() {
-  cd $startdir/src/libsigc++-$pkgver
+
+  #Build and Insatall the package
+  cd $srcdir/libsigc++-$pkgver
   ./configure --prefix=/usr || return 1
   make || return 1
-  make DESTDIR=$startdir/pkg install || return 1
-  find $startdir/pkg -name '*.la' -exec rm {} \;
+  make DESTDIR=$pkgdir install || return 1
+  find $pkgdir -name '*.la' -exec rm {} \;
+  
 }
+
+# vim:set ts=2 sw=2 et:

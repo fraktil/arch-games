@@ -1,0 +1,1487 @@
+diff -au StepMania-3.9-src-orig/src/GameManager.cpp StepMania-3.9-src/src/GameManager.cpp
+--- StepMania-3.9-src-orig/src/GameManager.cpp	2004-09-09 19:58:52.000000000 +0200
++++ StepMania-3.9-src/src/GameManager.cpp	2007-11-15 15:09:59.000000000 +0100
+@@ -49,7 +49,7 @@
+ const int PNM9_COL_SPACING = 32; 
+ 
+ struct {
+-	char *name;
++	const char *name;
+ 	int NumTracks;
+ } const StepsTypes[NUM_STEPS_TYPES] = {
+ 	{ "dance-single",	4 },
+diff -au StepMania-3.9-src-orig/src/NotesLoaderBMS.cpp StepMania-3.9-src/src/NotesLoaderBMS.cpp
+--- StepMania-3.9-src-orig/src/NotesLoaderBMS.cpp	2005-09-30 10:09:01.000000000 +0200
++++ StepMania-3.9-src/src/NotesLoaderBMS.cpp	2007-11-15 14:59:15.000000000 +0100
+@@ -579,7 +579,7 @@
+ 				switch( iBMSTrackNo )
+ 				{
+ 				case 1:	{ // background music track
+-					float fBeatOffset = fBeatOffset = NoteRowToBeat( (float)iStepIndex );
++					float fBeatOffset = NoteRowToBeat( (float)iStepIndex );
+ 					if( fBeatOffset > 10 )	// some BPMs's play the music again at the end.  Why?  Who knows...
+ 						break;
+ 					float fBPS;
+diff -au StepMania-3.9-src-orig/src/NotesLoaderDWI.cpp StepMania-3.9-src/src/NotesLoaderDWI.cpp
+--- StepMania-3.9-src-orig/src/NotesLoaderDWI.cpp	2004-09-12 07:56:23.000000000 +0200
++++ StepMania-3.9-src/src/NotesLoaderDWI.cpp	2007-11-15 14:56:36.000000000 +0100
+@@ -501,9 +501,8 @@
+ 				BlacklistedImages.insert( sub.c_str() );
+ 			}
+ 		}
+-		else
+-			// do nothing.  We don't care about this value name
+-			;
++		else {} // do nothing.  We don't care about this value name
++
+ 	}
+ 
+ 	return true;
+diff -au StepMania-3.9-src-orig/src/StepMania.cpp StepMania-3.9-src/src/StepMania.cpp
+--- StepMania-3.9-src-orig/src/StepMania.cpp	2005-10-28 01:40:53.000000000 +0200
++++ StepMania-3.9-src/src/StepMania.cpp	2007-11-15 14:53:03.000000000 +0100
+@@ -351,8 +351,8 @@
+ 
+ struct VideoCardDefaults
+ {
+-	char *szDriverRegex;
+-	char *szVideoRenderers;
++	const char *szDriverRegex;
++	const char *szVideoRenderers;
+ 	int iWidth;
+ 	int iHeight;
+ 	int iDisplayColor;
+diff -au StepMania-3.9-src-orig/src/StepMania.xpm StepMania-3.9-src/src/StepMania.xpm
+--- StepMania-3.9-src-orig/src/StepMania.xpm	2002-11-17 08:36:54.000000000 +0100
++++ StepMania-3.9-src/src/StepMania.xpm	2007-11-15 15:04:34.000000000 +0100
+@@ -1,5 +1,5 @@
+ /* XPM */
+-static char *icon[] = {
++static const char *icon[] = {
+ "32 32 21 1",
+ /* colors */
+ "  c #000000",
+diff -au StepMania-3.9-src-orig/src/pcre/pcre.c StepMania-3.9-src/src/pcre/pcre.c
+--- StepMania-3.9-src-orig/src/pcre/pcre.c	2004-08-07 21:02:41.000000000 +0200
++++ StepMania-3.9-src/src/pcre/pcre.c	2007-11-15 15:29:31.000000000 +0100
+@@ -4197,7 +4197,7 @@
+ ptr = (const uschar *)(pattern - 1);
+ while ((c = *(++ptr)) != 0)
+   {
+-  int min, max;
++  int min = 0, max = 0;
+   int class_optcount;
+   int bracket_length;
+   int duplength;
+diff -au StepMania-3.9-src-orig/src/archutils/Unix/BacktraceNames.cpp StepMania-3.9-src/src/archutils/Unix/BacktraceNames.cpp
+--- StepMania-3.9-src-orig/src/archutils/Unix/BacktraceNames.cpp	2005-09-30 10:09:25.000000000 +0200
++++ StepMania-3.9-src/src/archutils/Unix/BacktraceNames.cpp	2007-11-15 15:42:14.000000000 +0100
+@@ -83,7 +83,7 @@
+ 		ShortenedPath = CString("(") + ShortenedPath + ")";
+ 	}
+ 
+-	CString ret = ssprintf( "%0*lx: ", int(sizeof(void*)*2), Address );
++	CString ret = ssprintf( "%0*lx: ", int(sizeof(void*)*2), (long unsigned int)Address );
+ 	if( Symbol != "" )
+ 		ret += Symbol + " ";
+ 	ret += ShortenedPath;
+diff -au StepMania-3.9-src-orig/src/archutils/Unix/CrashHandler.cpp StepMania-3.9-src/src/archutils/Unix/CrashHandler.cpp
+--- StepMania-3.9-src-orig/src/archutils/Unix/CrashHandler.cpp	2005-10-17 03:39:27.000000000 +0200
++++ StepMania-3.9-src/src/archutils/Unix/CrashHandler.cpp	2007-11-15 15:45:05.000000000 +0100
+@@ -102,9 +102,9 @@
+ 	GetExecutableName( path, sizeof(path) );
+ 
+ 	/* Use execve; it's the lowest-level of the exec calls.  The others may allocate. */
+-	char *argv[3] = { path, CHILD_MAGIC_PARAMETER, NULL };
++	const char *argv[3] = { path, CHILD_MAGIC_PARAMETER, NULL };
+ 	char *envp[1] = { NULL };
+-	execve( path, argv, envp );
++	execve( path, (char* const*)argv, envp );
+ 
+ 	/* If we got here, the exec failed.  We can't call strerror. */
+ 	// safe_print(fileno(stderr), "Crash handler execl(", path, ") failed: ", strerror(errno), "\n", NULL);
+diff -au StepMania-3.9-src-orig/src/archutils/Unix/CrashHandlerChild.cpp StepMania-3.9-src/src/archutils/Unix/CrashHandlerChild.cpp
+--- StepMania-3.9-src-orig/src/archutils/Unix/CrashHandlerChild.cpp	2004-10-23 00:41:44.000000000 +0200
++++ StepMania-3.9-src/src/archutils/Unix/CrashHandlerChild.cpp	2007-11-15 15:47:46.000000000 +0100
+@@ -175,7 +175,7 @@
+ 
+ 		if( ret == 0 )
+ 		{
+-			fprintf( stderr, "Crash handler: EOF communicating with parent\n", strerror(errno) );
++			fprintf( stderr, "Crash handler: EOF communicating with parent: %s\n", strerror(errno) );
+ 			return false;
+ 		}
+ 
+diff -au StepMania-3.9-src-orig/src/arch/LoadingWindow/LoadingWindow_GtkModule.cpp StepMania-3.9-src/src/arch/LoadingWindow/LoadingWindow_GtkModule.cpp
+--- StepMania-3.9-src-orig/src/arch/LoadingWindow/LoadingWindow_GtkModule.cpp	2004-09-14 02:40:10.000000000 +0200
++++ StepMania-3.9-src/src/arch/LoadingWindow/LoadingWindow_GtkModule.cpp	2007-11-15 15:03:24.000000000 +0100
+@@ -20,7 +20,7 @@
+ 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+ 	gtk_window_set_position( GTK_WINDOW(window), GTK_WIN_POS_CENTER );
+ 	gtk_widget_realize(window);
+-	loadmap = gdk_pixmap_create_from_xpm_d(window->window,NULL,NULL,loading);
++	loadmap = gdk_pixmap_create_from_xpm_d(window->window,NULL,NULL,(gchar **)loading);
+ 	loadimage = gtk_image_new_from_pixmap(loadmap,NULL);
+ 	label = gtk_label_new(NULL);
+ 	gtk_label_set_justify(GTK_LABEL(label),GTK_JUSTIFY_CENTER);
+diff -au StepMania-3.9-src-orig/src/arch/LoadingWindow/LoadingWindow_SDL.cpp StepMania-3.9-src/src/arch/LoadingWindow/LoadingWindow_SDL.cpp
+--- StepMania-3.9-src-orig/src/arch/LoadingWindow/LoadingWindow_SDL.cpp	2004-08-28 20:38:49.000000000 +0200
++++ StepMania-3.9-src/src/arch/LoadingWindow/LoadingWindow_SDL.cpp	2007-11-15 15:05:20.000000000 +0100
+@@ -29,7 +29,7 @@
+ 	SDL_WM_SetCaption("Loading StepMania", "");
+ 
+ 	CString error;
+-	RageSurface *srf = RageSurface_Load_XPM( icon, error );
++	RageSurface *srf = RageSurface_Load_XPM( (char* const*)icon, error );
+ 
+ 	uint32_t color;
+ 	if( srf->fmt.MapRGBA( 0xFF, 0, 0xFF, 0xFF, color ) )
+@@ -54,7 +54,7 @@
+ 
+ 
+ 	/* Load the BMP - we need its dimensions */
+-    srf = RageSurface_Load_XPM( loading, error );
++    srf = RageSurface_Load_XPM( (char* const*)loading, error );
+     if( srf == NULL ) // XXX SDL_GetError
+         RageException::Throw( "Couldn't load loading.bmp: %s",SDL_GetError() );
+ 
+diff -au StepMania-3.9-src-orig/src/arch/LoadingWindow/loading.xpm StepMania-3.9-src/src/arch/LoadingWindow/loading.xpm
+--- StepMania-3.9-src-orig/src/arch/LoadingWindow/loading.xpm	2002-11-18 22:37:58.000000000 +0100
++++ StepMania-3.9-src/src/arch/LoadingWindow/loading.xpm	2007-11-15 15:00:11.000000000 +0100
+@@ -1,5 +1,5 @@
+ /* XPM */
+-static char *loading[] = {
++static const char *loading[] = {
+ /* width height ncolors chars_per_pixel */
+ "468 62 128 2",
+ /* colors */
+diff -au StepMania-3.9-src-orig/src/arch/MemoryCard/MemoryCardDriverThreaded_Linux.cpp StepMania-3.9-src/src/arch/MemoryCard/MemoryCardDriverThreaded_Linux.cpp
+--- StepMania-3.9-src-orig/src/arch/MemoryCard/MemoryCardDriverThreaded_Linux.cpp	2004-08-17 08:35:02.000000000 +0200
++++ StepMania-3.9-src/src/arch/MemoryCard/MemoryCardDriverThreaded_Linux.cpp	2007-11-15 15:08:30.000000000 +0100
+@@ -441,9 +441,9 @@
+ 		// Don't include a path.  The usbutils installer script installs 
+ 		// to /usr/local/sbin and the Debian package installs to /usr/sbin/.
+ 		CString sCommand = "lsusb";
+-		char *szParams[] = { "lsusb", "-v", NULL }; 
++		const char *szParams[] = { "lsusb", "-v", NULL }; 
+ 		CString sOutput;
+-		RunProgram( sCommand, szParams, sOutput );
++		RunProgram( sCommand, (char * const*)szParams, sOutput );
+ 		
+ 		CStringArray vsLines;
+ 		split( sOutput, "\n", vsLines );
+diff -au StepMania-3.9-src-orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp StepMania-3.9-src/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+--- StepMania-3.9-src-orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2007-11-15 19:45:39.000000000 +0100
++++ StepMania-3.9-src/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2007-11-15 20:29:48.000000000 +0100
+@@ -429,7 +429,7 @@
+ 
+ static avcodec::AVStream *FindVideoStream( avcodec::AVFormatContext *m_fctx )
+ {
+-    for( int stream = 0; stream < m_fctx->nb_streams; ++stream )
++    for( unsigned int stream = 0; stream < m_fctx->nb_streams; ++stream )
+ 	{
+ 		avcodec::AVStream *enc = m_fctx->streams[stream];
+ #if (LIBAVCODEC_BUILD >= 4754)
+--- StepMania-3.9-src-orig/src/arch/Sound/ALSA9Dynamic.h	2007-11-26 18:25:16.000000000 +0100
++++ StepMania-3.9-src/src/arch/Sound/ALSA9Dynamic.h	2007-12-13 06:04:36.000000000 +0100
+@@ -12,11 +12,11 @@
+ #include "ALSA9Functions.h"
+ #undef FUNC
+ 
+-#define dsnd_pcm_hw_params_alloca(ptr) { assert(ptr); *ptr = (snd_pcm_hw_params_t *) alloca(dsnd_pcm_hw_params_sizeof()); memset(*ptr, 0, dsnd_pcm_hw_params_sizeof()); }
+-#define dsnd_pcm_sw_params_alloca(ptr) { assert(ptr); *ptr = (snd_pcm_sw_params_t *) alloca(dsnd_pcm_sw_params_sizeof()); memset(*ptr, 0, dsnd_pcm_sw_params_sizeof()); }
+-#define dsnd_pcm_info_alloca(ptr) { assert(ptr); *ptr = (snd_pcm_info_t *) alloca(dsnd_pcm_info_sizeof()); memset(*ptr, 0, dsnd_pcm_info_sizeof()); }
+-#define dsnd_ctl_card_info_alloca(ptr) { assert(ptr); *ptr = (snd_ctl_card_info_t *) alloca(dsnd_ctl_card_info_sizeof()); memset(*ptr, 0, dsnd_ctl_card_info_sizeof()); }
+-#define dsnd_pcm_status_alloca(ptr) do { assert(ptr); *ptr = (snd_pcm_status_t *) alloca(dsnd_pcm_status_sizeof()); memset(*ptr, 0, dsnd_pcm_status_sizeof()); } while (0)
++#define dsnd_pcm_hw_params_alloca(ptr) { *ptr = (snd_pcm_hw_params_t *) alloca(dsnd_pcm_hw_params_sizeof()); memset(*ptr, 0, dsnd_pcm_hw_params_sizeof()); }
++#define dsnd_pcm_sw_params_alloca(ptr) { *ptr = (snd_pcm_sw_params_t *) alloca(dsnd_pcm_sw_params_sizeof()); memset(*ptr, 0, dsnd_pcm_sw_params_sizeof()); }
++#define dsnd_pcm_info_alloca(ptr) { *ptr = (snd_pcm_info_t *) alloca(dsnd_pcm_info_sizeof()); memset(*ptr, 0, dsnd_pcm_info_sizeof()); }
++#define dsnd_ctl_card_info_alloca(ptr) { *ptr = (snd_ctl_card_info_t *) alloca(dsnd_ctl_card_info_sizeof()); memset(*ptr, 0, dsnd_ctl_card_info_sizeof()); }
++#define dsnd_pcm_status_alloca(ptr) do { *ptr = (snd_pcm_status_t *) alloca(dsnd_pcm_status_sizeof()); memset(*ptr, 0, dsnd_pcm_status_sizeof()); } while (0)
+ 
+ CString LoadALSA();
+ void UnloadALSA();
+
+--- StepMania-3.9-src-orig/src/arch/InputHandler/InputHandler_SDL.cpp	2004-09-09 21:12:40.000000000 -0500
++++ StepMania-3.9-src/src/arch/InputHandler/InputHandler_SDL.cpp	2006-06-18 00:09:53.000000000 -0500
+@@ -123,7 +123,7 @@
+ 	SDL_KEYDOWN, SDL_KEYUP, SDL_JOYBUTTONDOWN, SDL_JOYBUTTONUP,
+ 	SDL_JOYAXISMOTION, SDL_JOYHATMOTION, -1
+ };
+-static int SDL_EventMask;
++static int SDL_EventMask2;
+ 
+ InputHandler_SDL::InputHandler_SDL()
+ {
+@@ -173,7 +173,7 @@
+ 	for(i = 0; Handled_SDL_Events[i] != -1; ++i)
+ 	{
+ 		mySDL_EventState(Handled_SDL_Events[i], SDL_ENABLE);
+-		SDL_EventMask |= SDL_EVENTMASK(Handled_SDL_Events[i]);
++		SDL_EventMask2 |= SDL_EVENTMASK(Handled_SDL_Events[i]);
+ 	}
+ }
+ 
+@@ -192,7 +192,7 @@
+ void InputHandler_SDL::Update(float fDeltaTime)
+ {
+ 	SDL_Event event;
+-	while(SDL_GetEvent(event, SDL_EventMask))
++	while(SDL_GetEvent(event, SDL_EventMask2))
+ 	{
+ 		switch(event.type)
+ 		{
+
+--- StepMania-3.9-src-orig/src/LuaFunctions.h	2004-09-10 16:17:07.000000000 -0500
++++ StepMania-3.9-src/src/LuaFunctions.h	2006-06-27 02:12:05.000000000 -0500
+@@ -6,8 +6,7 @@
+ 
+ extern "C"
+ {
+-#include <lua.h>
+-#include <lualib.h>
++#include <lua.hpp>
+ }
+ 
+ /* Argument helpers: */
+
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/lua.m4 StepMania-3.9-src/autoconf/m4/lua.m4
+--- StepMania-3.9-src-orig/autoconf/m4/lua.m4	2005-01-12 15:23:23.000000000 +0100
++++ StepMania-3.9-src/autoconf/m4/lua.m4	2008-01-22 23:14:29.000000000 +0100
+@@ -1,4 +1,4 @@
+-AC_DEFUN(SM_LUA, [
++AC_DEFUN([SM_LUA], [
+ 
+ AC_CHECK_PROGS(LUA_CONFIG, [lua-config50 lua-config], "")
+ if test "$LUA_CONFIG" != ""; then
+@@ -8,7 +8,7 @@
+ 	old_LIBS=$LIBS
+ 	LIBS="$LIBS $LUA_LIBS"
+ 	
+-	AC_CHECK_FUNC(lua_open, , LUA_MISSING=yes)
++	AC_CHECK_FUNC(luaL_newstate, , LUA_MISSING=yes)
+ 
+ 	# If lua-config exists, we should at least have Lua; if it fails to build,
+ 	# something other than it not being installed is wrong.
+@@ -23,25 +23,16 @@
+ 	LIBS="$old_LIBS"
+ else
+ 	if test "$LIB_LUA" = ""; then
+-		AC_CHECK_LIB(lua, lua_open, LIB_LUA=-llua)
++		AC_CHECK_LIB(lua, luaL_newstate, LIB_LUA=-llua, , [$LIB_LUA -ldl])
+ 	fi
+-	if test "$LIB_LUA" = ""; then
+-		AC_CHECK_LIB(lua50, lua_open, LIB_LUA=-llua50)
+-	fi
+-	if test "$LIB_LUA_LIB" = ""; then
+-		AC_CHECK_LIB(lualib, luaopen_base, LIB_LUA_LIB=-llualib, , [$LIB_LUA -ldl])
+-	fi
+-	if test "$LIB_LUA_LIB" = ""; then
+-		AC_CHECK_LIB(lualib50, luaopen_base, LIB_LUA_LIB=-llualib50, , [$LIB_LUA -ldl])
++	if test "$LIB_LIB" = ""; then
++		AC_CHECK_LIB(lua, luaopen_base, LIB_LUA=-llua, , [$LIB_LUA -ldl])
+ 	fi
+ 	if test "$LIB_LUA" = ""; then
+ 		LUA_MISSING=yes
+ 	fi
+-	if test "$LIB_LUA_LIB" = ""; then
+-		LUA_LIB_MISSING=yes
+-	fi
+ 	LUA_CFLAGS=
+-	LUA_LIBS="$LIB_LUA $LIB_LUA_LIB"
++	LUA_LIBS="$LIB_LUA"
+ fi
+ if test "$LUA_MISSING" = "yes"; then
+ 	echo
+@@ -49,12 +40,6 @@
+ 	echo "*** it is installed to continue the installation process."
+ 	exit 1;
+ fi
+-if test "$LUA_LIB_MISSING" = "yes"; then
+-	echo
+-	echo "*** liblualib is required to build StepMania; please make sure that"
+-	echo "*** it is installed to continue the installation process."
+-	exit 1;
+-fi
+ 
+ AC_SUBST(LUA_CFLAGS)
+ AC_SUBST(LUA_LIBS)
+
+--- StepMania-3.9-src-orig/src/archutils/Unix/LinuxThreadHelpers.cpp	2004-10-22 17:23:38.000000000 -0500
++++ StepMania-3.9-src/src/archutils/Unix/LinuxThreadHelpers.cpp	2006-11-18 13:36:18.000000000 -0600
+@@ -15,7 +15,7 @@
+ #include <sys/wait.h>
+ #include <sys/ptrace.h>
+ #include <sys/stat.h>
+-#include <linux/unistd.h>
++#include <sys/syscall.h>
+ #define _LINUX_PTRACE_H // hack to prevent broken linux/ptrace.h from conflicting with sys/ptrace.h
+ #include <sys/user.h>
+ 
+@@ -29,7 +29,7 @@
+ 
+ static bool g_bUsingNPTL = false;
+ 
+-static _syscall0(pid_t,gettid)
++#define gettid() syscall(SYS_gettid)
+ 
+ #ifndef _CS_GNU_LIBPTHREAD_VERSION
+ #define _CS_GNU_LIBPTHREAD_VERSION 3
+
+--- StepMania-3.9-src-orig/src/GameState.h	2004-08-29 23:35:14.000000000 -0500
++++ StepMania-3.9-src/src/GameState.h	2006-11-18 13:36:18.000000000 -0600
+@@ -85,8 +85,8 @@
+ 	bool AnyPlayersAreCpu() const;
+ 
+ 	void GetCharacters( vector<Character*> &apCharactersOut );
+-	Character* GameState::GetRandomCharacter();
+-	Character* GameState::GetDefaultCharacter();
++	Character* GetRandomCharacter();
++	Character* GetDefaultCharacter();
+ 
+ 	PlayerController	m_PlayerController[NUM_PLAYERS];
+ 	
+
+--- StepMania-3.9-src-orig/src/StdString.h	2005-09-30 03:09:01.000000000 -0500
++++ StepMania-3.9-src/src/StdString.h	2006-11-18 13:36:18.000000000 -0600
+@@ -1087,7 +1087,7 @@
+ 
+ 		while ( (nIdx=this->find(szOld, nIdx)) != MYBASE::npos )
+ 		{
+-			replace(this->begin()+nIdx, this->begin()+nIdx+nOldLen, szRealNew);
++			MYBASE::replace(this->begin()+nIdx, this->begin()+nIdx+nOldLen, szRealNew);
+ 			nReplaced++;
+ 			nIdx += nNewLen;
+ 		}
+
+--- StepMania-3.9-src-orig/src/NetworkSyncServer.h	2005-10-16 21:31:11.000000000 -0500
++++ StepMania-3.9-src/src/NetworkSyncServer.h	2006-11-18 13:36:18.000000000 -0600
+@@ -117,7 +117,7 @@
+ 	void GameOver(PacketFunctions& Packet, const unsigned int clientNum);
+ 	void ScreenNetMusicSelectStatus(PacketFunctions& Packet, const unsigned int clientNum);
+ 	void AnalizeChat(PacketFunctions &Packet, const unsigned int clientNum);
+-	CString StepManiaLanServer::ListPlayers();
++	CString ListPlayers();
+ 	void Kick(CString &name);
+ 	void Ban(CString &name);
+ 	bool IsBanned(CString &ip);
+
+--- StepMania-3.9-src-orig/src/RageUtil_FileDB.h	2004-09-04 23:12:42.000000000 -0500
++++ StepMania-3.9-src/src/RageUtil_FileDB.h	2006-11-18 13:36:18.000000000 -0600
+@@ -86,9 +86,9 @@
+ 	virtual void PopulateFileSet( FileSet &fs, const CString &sPath ) { }
+ 
+ public:
+-	FilenameDB::FilenameDB():
++	FilenameDB():
+ 		ExpireSeconds( -1 ) { }
+-	virtual FilenameDB::~FilenameDB() { FlushDirCache(); }
++	virtual ~FilenameDB() { FlushDirCache(); }
+ 
+ 	void AddFile( const CString &sPath, int size, int hash, void *priv=NULL );
+ 	void DelFile( const CString &sPath );
+
+diff -u StepMania-3.9-src-orig/src/Difficulty.cpp StepMania-3.9-src/src/Difficulty.cpp
+--- StepMania-3.9-src-orig/src/Difficulty.cpp	2004-07-11 09:21:29.000000000 +0200
++++ StepMania-3.9-src/src/Difficulty.cpp	2006-11-27 00:15:25.000000000 +0100
+@@ -57,7 +57,7 @@
+ 
+ CourseDifficulty GetNextShownCourseDifficulty( CourseDifficulty cd )
+ {
+-	for( CourseDifficulty d=(CourseDifficulty)(cd+1); d<NUM_DIFFICULTIES; ((int&)d)++ )
++	for( CourseDifficulty d=(CourseDifficulty)(cd+1); d<NUM_DIFFICULTIES; enum_add(d, 1) )
+ 	{
+ 		if( GAMESTATE->IsCourseDifficultyShown(d) )
+ 			return d;
+diff -u StepMania-3.9-src-orig/src/PlayerNumber.cpp StepMania-3.9-src/src/PlayerNumber.cpp
+--- StepMania-3.9-src-orig/src/PlayerNumber.cpp	2004-07-18 00:15:39.000000000 +0200
++++ StepMania-3.9-src/src/PlayerNumber.cpp	2006-11-27 00:15:25.000000000 +0100
+@@ -22,41 +22,33 @@
+ 
+ PlayerNumber GetNextHumanPlayer( PlayerNumber pn )
+ {
+-	for( PlayerNumber p=(PlayerNumber)(pn+1); p<NUM_PLAYERS; ((int&)p)++ )
+-	{
+-		if( GAMESTATE->IsHumanPlayer(p) )
+-			return p;
+-	}
++	for( enum_add(pn, 1); pn < NUM_PLAYERS; enum_add(pn, 1) )
++		if( GAMESTATE->IsHumanPlayer(pn) )
++			return pn;
+ 	return PLAYER_INVALID;
+ }
+ 
+ PlayerNumber GetNextEnabledPlayer( PlayerNumber pn )
+ {
+-	for( PlayerNumber p=(PlayerNumber)(pn+1); p<NUM_PLAYERS; ((int&)p)++ )
+-	{
+-		if( GAMESTATE->IsPlayerEnabled(p) )
+-			return p;
+-	}
++	for( enum_add(pn, 1); pn < NUM_PLAYERS; enum_add(pn, 1) )
++		if( GAMESTATE->IsPlayerEnabled(pn) )
++			return pn;
+ 	return PLAYER_INVALID;
+ }
+ 
+ PlayerNumber GetNextCpuPlayer( PlayerNumber pn )
+ {
+-	for( PlayerNumber p=(PlayerNumber)(pn+1); p<NUM_PLAYERS; ((int&)p)++ )
+-	{
+-		if( GAMESTATE->IsCpuPlayer(p) )
+-			return p;
+-	}
++	for( enum_add(pn, 1); pn < NUM_PLAYERS; enum_add(pn, 1) )
++		if( GAMESTATE->IsCpuPlayer(pn) )
++			return pn;
+ 	return PLAYER_INVALID;
+ }
+ 
+ PlayerNumber GetNextPotentialCpuPlayer( PlayerNumber pn )
+ {
+-	for( PlayerNumber p=(PlayerNumber)(pn+1); p<NUM_PLAYERS; ((int&)p)++ )
+-	{
+-		if( !GAMESTATE->IsHumanPlayer(p) )
+-			return p;
+-	}
++	for( enum_add(pn, 1); pn < NUM_PLAYERS; enum_add(pn, 1) )
++		if( !GAMESTATE->IsHumanPlayer(pn) )
++			return pn;
+ 	return PLAYER_INVALID;
+ }
+ 
+diff -u StepMania-3.9-src-orig/src/RageUtil.h StepMania-3.9-src/src/RageUtil.h
+--- StepMania-3.9-src-orig/src/RageUtil.h	2004-10-07 19:56:16.000000000 +0200
++++ StepMania-3.9-src/src/RageUtil.h	2006-11-27 00:15:25.000000000 +0100
+@@ -53,6 +53,14 @@
+ 	return false;
+ }
+ 
++template<class T>
++inline bool ENUM_CLAMP( T &x, T l, T h )
++{
++	if (x > h)	{ x = h; return true; }
++	else if (x < l) { x = l; return true; }
++	return false;
++}
++
+ inline void wrap( int &x, int n)
+ {
+ 	if (x<0)
+diff -u StepMania-3.9-src-orig/src/ScreenBookkeeping.cpp StepMania-3.9-src/src/ScreenBookkeeping.cpp
+--- StepMania-3.9-src-orig/src/ScreenBookkeeping.cpp	2004-08-22 18:28:19.000000000 +0200
++++ StepMania-3.9-src/src/ScreenBookkeeping.cpp	2006-11-27 00:15:25.000000000 +0100
+@@ -74,14 +74,14 @@
+ void ScreenBookkeeping::MenuLeft( PlayerNumber pn )
+ {
+ 	m_View = (View)(m_View-1);
+-	CLAMP( (int&)m_View, 0, NUM_VIEWS-1 );
++	ENUM_CLAMP( m_View, View(0), View(NUM_VIEWS-1) );
+ 	ChangeView( m_View );
+ }
+ 
+ void ScreenBookkeeping::MenuRight( PlayerNumber pn )
+ {
+ 	m_View = (View)(m_View+1);
+-	CLAMP( (int&)m_View, 0, NUM_VIEWS-1 );
++	ENUM_CLAMP( m_View, View(0), View(NUM_VIEWS-1) );
+ 	ChangeView( m_View );
+ }
+ 
+diff -u StepMania-3.9-src-orig/src/ScreenSetTime.cpp StepMania-3.9-src/src/ScreenSetTime.cpp
+--- StepMania-3.9-src-orig/src/ScreenSetTime.cpp	2004-08-31 10:29:34.000000000 +0200
++++ StepMania-3.9-src/src/ScreenSetTime.cpp	2006-11-27 00:15:25.000000000 +0100
+@@ -160,7 +160,7 @@
+ 	SetTimeSelection OldSelection = m_Selection;
+ 	enum_add<SetTimeSelection>( m_Selection, iDirection );
+ 
+-	CLAMP( (int&)m_Selection, 0, NUM_SET_TIME_SELECTIONS-1 );
++	ENUM_CLAMP( m_Selection, SetTimeSelection(0), SetTimeSelection(NUM_SET_TIME_SELECTIONS-1) );
+ 	if( iDirection != 0 && m_Selection == OldSelection )
+ 		return; // can't move any more
+ 
+diff -u StepMania-3.9-src-orig/src/Song.cpp StepMania-3.9-src/src/Song.cpp
+--- StepMania-3.9-src-orig/src/Song.cpp	2004-12-20 23:25:12.000000000 +0100
++++ StepMania-3.9-src/src/Song.cpp	2006-11-27 00:15:25.000000000 +0100
+@@ -916,22 +916,22 @@
+ 	if( pSteps )
+ 		return pSteps;
+ 	newDC = (Difficulty)(dc-1);
+-	CLAMP( (int&)newDC, 0, NUM_DIFFICULTIES-1 );
++	ENUM_CLAMP( newDC, Difficulty(0), Difficulty(NUM_DIFFICULTIES-1) );
+ 	pSteps = GetStepsByDifficulty( st, newDC );
+ 	if( pSteps )
+ 		return pSteps;
+ 	newDC = (Difficulty)(dc+1);
+-	CLAMP( (int&)newDC, 0, NUM_DIFFICULTIES-1 );
++	ENUM_CLAMP( newDC, Difficulty(0), Difficulty(NUM_DIFFICULTIES-1) );
+ 	pSteps = GetStepsByDifficulty( st, newDC );
+ 	if( pSteps )
+ 		return pSteps;
+ 	newDC = (Difficulty)(dc-2);
+-	CLAMP( (int&)newDC, 0, NUM_DIFFICULTIES-1 );
++	ENUM_CLAMP( newDC, Difficulty(0), Difficulty(NUM_DIFFICULTIES-1) );
+ 	pSteps = GetStepsByDifficulty( st, newDC );
+ 	if( pSteps )
+ 		return pSteps;
+ 	newDC = (Difficulty)(dc+2);
+-	CLAMP( (int&)newDC, 0, NUM_DIFFICULTIES-1 );
++	ENUM_CLAMP( newDC, Difficulty(0), Difficulty(NUM_DIFFICULTIES-1) );
+ 	pSteps = GetStepsByDifficulty( st, newDC );
+ 	return pSteps;
+ }
+diff -au StepMania-3.9-src-orig/src/PaneDisplay.cpp StepMania-3.9-src/src/PaneDisplay.cpp
+--- StepMania-3.9-src-orig/src/PaneDisplay.cpp	2004-08-22 19:35:22.000000000 +0200
++++ StepMania-3.9-src/src/PaneDisplay.cpp	2007-11-15 19:15:19.000000000 +0100
+@@ -415,19 +415,19 @@
+ 		dir = 1;
+ 	}
+ 
+-	PaneTypes ret = current;
++	int ret = (PaneTypes)current;
+ 	while( 1 )
+ 	{
+ 		ret = (PaneTypes) (ret + dir);
+-		wrap( (int&) ret, NUM_PANES );
++		wrap( (int&)ret, NUM_PANES );
+ 
+-		if( PaneIsValid( ret ) )
++		if( PaneIsValid( (PaneTypes)ret ) )
+ 			break;
+ 	}
+ 
+ 	LOG->Trace("pane %i", ret);
+ 
+-	return ret;
++	return (PaneTypes)ret;
+ }
+ 
+ void PaneDisplay::Move( int dir )
+diff -au StepMania-3.9-src-orig/src/PrefsManager.cpp StepMania-3.9-src/src/PrefsManager.cpp
+--- StepMania-3.9-src-orig/src/PrefsManager.cpp	2005-10-28 01:40:53.000000000 +0200
++++ StepMania-3.9-src/src/PrefsManager.cpp	2007-11-15 18:29:32.000000000 +0100
+@@ -343,6 +343,7 @@
+ 
+ void PrefsManager::ReadPrefsFromFile( CString sIni )
+ {
++	int temp = 0;
+ 	IniFile ini;
+ 	if( !ini.ReadFile(sIni) )
+ 		return;
+@@ -362,7 +363,8 @@
+ 	ini.GetValue( "Options", "UseDedicatedMenuButtons",			m_bOnlyDedicatedMenuButtons );
+ 	ini.GetValue( "Options", "ShowStats",						m_bShowStats );
+ 	ini.GetValue( "Options", "ShowBanners",						m_bShowBanners );
+-	ini.GetValue( "Options", "BackgroundMode",					(int&)m_BackgroundMode );
++	ini.GetValue( "Options", "BackgroundMode",					temp);//(int&)m_BackgroundMode );
++	m_BackgroundMode = (BackgroundModes)temp;
+ 	ini.GetValue( "Options", "NumBackgrounds",					m_iNumBackgrounds);
+ 	ini.GetValue( "Options", "ShowDanger",						m_bShowDanger );
+ 	ini.GetValue( "Options", "BGBrightness",					m_fBGBrightness );
+@@ -458,10 +460,12 @@
+ 	ini.GetValue( "Options", "TexturePreload",					m_bTexturePreload );
+ 	ini.GetValue( "Options", "DelayedScreenLoad",				m_bDelayedScreenLoad );
+ 	ini.GetValue( "Options", "DelayedModelDelete",				m_bDelayedModelDelete );
+-	ini.GetValue( "Options", "BannerCache",						(int&)m_BannerCache );
++	ini.GetValue( "Options", "BannerCache",						temp); //(int&)m_BannerCache );
++	m_BannerCache = (BannerCacheMode)temp;
+ 	ini.GetValue( "Options", "PalettedBannerCache",				m_bPalettedBannerCache );
+ 	ini.GetValue( "Options", "FastLoad",						m_bFastLoad );
+-	ini.GetValue( "Options", "MusicWheelUsesSections",			(int&)m_MusicWheelUsesSections );
++	ini.GetValue( "Options", "MusicWheelUsesSections",			temp); //(int&)m_MusicWheelUsesSections );
++	m_MusicWheelUsesSections = (MusicWheelUsesSections)temp;
+ 	ini.GetValue( "Options", "MusicWheelSwitchSpeed",			m_iMusicWheelSwitchSpeed );
+ 	ini.GetValue( "Options", "SoundDrivers",					m_sSoundDrivers );
+ 	ini.GetValue( "Options", "SoundWriteAhead",					m_iSoundWriteAhead );
+@@ -475,14 +479,16 @@
+ 	ini.GetValue( "Options", "CoinMode",						m_iCoinMode );
+ 	ini.GetValue( "Options", "CoinsPerCredit",					m_iCoinsPerCredit );
+ 	m_iCoinsPerCredit = max(m_iCoinsPerCredit, 1);
+-	ini.GetValue( "Options", "Premium",							(int&)m_Premium );
++	ini.GetValue( "Options", "Premium",							temp); //(int&)m_Premium );
++	m_Premium = (Premium)temp;
+ 	ini.GetValue( "Options", "DelayedCreditsReconcile",			m_bDelayedCreditsReconcile );
+ 	ini.GetValue( "Options", "BoostAppPriority",				m_iBoostAppPriority );
+ 	ini.GetValue( "Options", "PickExtraStage",					m_bPickExtraStage );
+ 	ini.GetValue( "Options", "ComboContinuesBetweenSongs",		m_bComboContinuesBetweenSongs );
+ 	ini.GetValue( "Options", "LongVerSeconds",					m_fLongVerSongSeconds );
+ 	ini.GetValue( "Options", "MarathonVerSeconds",				m_fMarathonVerSongSeconds );
+-	ini.GetValue( "Options", "ShowSongOptions",					(int&)m_ShowSongOptions );
++	ini.GetValue( "Options", "ShowSongOptions",					temp); //(int&)m_ShowSongOptions );
++	m_ShowSongOptions = (Maybe)temp;
+ 	ini.GetValue( "Options", "LightsStepsDifficulty",			m_sLightsStepsDifficulty );
+ 	ini.GetValue( "Options", "BlinkGameplayButtonLightsOnNote",	m_bBlinkGameplayButtonLightsOnNote );
+ 	ini.GetValue( "Options", "AllowUnacceleratedRenderer",		m_bAllowUnacceleratedRenderer );
+@@ -502,14 +508,15 @@
+ 	ini.GetValue( "Options", "AutogenGroupCourses",				m_bAutogenGroupCourses );
+ 	ini.GetValue( "Options", "BreakComboToGetItem",				m_bBreakComboToGetItem );
+ 	ini.GetValue( "Options", "LockCourseDifficulties",			m_bLockCourseDifficulties );
+-	ini.GetValue( "Options", "ShowDancingCharacters",			(int&)m_ShowDancingCharacters );
+-
+-	ini.GetValue( "Options", "CourseSortOrder",					(int&)m_iCourseSortOrder );
++	ini.GetValue( "Options", "ShowDancingCharacters",			temp); //(int&)m_ShowDancingCharacters );
++	m_ShowDancingCharacters = (CharacterOption)temp;
++	ini.GetValue( "Options", "CourseSortOrder",					temp); //(int&)m_iCourseSortOrder );
++	m_iCourseSortOrder = (CourseSortOrders)temp;
+ 	ini.GetValue( "Options", "MoveRandomToEnd",					m_bMoveRandomToEnd );
+ 	ini.GetValue( "Options", "SubSortByNumSteps",				m_bSubSortByNumSteps );
+ 
+-	ini.GetValue( "Options", "ScoringType",						(int&)m_iScoringType );
+-
++	ini.GetValue( "Options", "ScoringType",						temp); //(int&)m_iScoringType );
++	m_iScoringType = (ScoringTypes)temp;
+ 	ini.GetValue( "Options", "ProgressiveLifebar",				m_iProgressiveLifebar );
+ 	ini.GetValue( "Options", "ProgressiveNonstopLifebar", 		m_iProgressiveNonstopLifebar );
+ 	ini.GetValue( "Options", "ProgressiveStageLifebar",			m_iProgressiveStageLifebar );
+@@ -525,7 +532,8 @@
+ 	ini.GetValue( "Options", "LastSeenMemory",					m_iLastSeenMemory );
+ #endif
+ 	ini.GetValue( "Options", "CoursesToShowRanking",			m_sCoursesToShowRanking );
+-	ini.GetValue( "Options", "GetRankingName",					(int&)m_iGetRankingName);
++	ini.GetValue( "Options", "GetRankingName",					temp); //(int&)m_iGetRankingName);
++	m_iGetRankingName = (GetRankingName)temp;
+ 	ini.GetValue( "Options", "SmoothLines",						m_bSmoothLines );
+ 	ini.GetValue( "Options", "GlobalOffsetSeconds",				m_fGlobalOffsetSeconds );
+ 	ini.GetValue( "Options", "ShowBeginnerHelper",				m_bShowBeginnerHelper );
+diff -au StepMania-3.9-src-orig/src/ezsockets.cpp StepMania-3.9-src/src/ezsockets.cpp
+--- StepMania-3.9-src-orig/src/ezsockets.cpp	2005-10-01 05:32:45.000000000 +0200
++++ StepMania-3.9-src/src/ezsockets.cpp	2007-11-15 16:40:58.000000000 +0100
+@@ -434,9 +434,9 @@
+ 	if(state == skCONNECTED || state == skLISTENING)
+ 		return recv(sock, data, 1024, 0);
+ 	
+-	fromAddr_len = sizeof(sockaddr_in);
++	socklen_t sock_len = sizeof(sockaddr_in);
+ 	return recvfrom(sock, data, 1024, 0, (sockaddr*)&fromAddr,
+-					(socklen_t*)&fromAddr_len);
++					(socklen_t*)&sock_len);
+ }
+ 
+ int EzSockets::pWriteData(const char* data, int dataSize)
+diff -au StepMania-3.9-src-orig/src/ezsockets.h StepMania-3.9-src/src/ezsockets.h
+--- StepMania-3.9-src-orig/src/ezsockets.h	2005-10-01 05:32:45.000000000 +0200
++++ StepMania-3.9-src/src/ezsockets.h	2007-11-15 16:38:46.000000000 +0100
+@@ -108,7 +108,7 @@
+ 		skERROR 
+ 	};
+     struct sockaddr_in fromAddr;
+-	unsigned long fromAddr_len;
++	//unsigned long fromAddr_len;
+ 
+ 	//The following possibly should be private.
+ 	string inBuffer;
+
+--- StepMania-3.9-src-orig/src/ModelTypes.h	2004-08-19 10:29:16.000000000 +0200
++++ StepMania-3.9-src/src/ModelTypes.h.new	2008-04-04 03:48:01.000000000 +0200
+@@ -6,6 +6,7 @@
+ #define MS_MAX_NAME             32
+ 
+ #include "RageTypes.h"
++#include <cstring>
+ 
+ struct msTriangle
+ {
+--- StepMania-3.9-src-orig/src/crypto51/filters.h	2004-05-13 08:02:27.000000000 +0200
++++ StepMania-3.9-src/src/crypto51/filters.h.new	2008-04-04 03:50:33.000000000 +0200
+@@ -7,6 +7,7 @@
+ #include "smartptr.h"
+ #include "queue.h"
+ #include "algparam.h"
++#include <memory>
+ 
+ NAMESPACE_BEGIN(CryptoPP)
+ 
+--- StepMania-3.9-src-orig/src/crypto/CryptSH512.h	2004-06-08 07:30:52.000000000 +0200
++++ StepMania-3.9-src/src/crypto/CryptSH512.h.new	2008-04-04 03:50:24.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef SSH_SHA512_H
+ #define SSH_SHA512_H
+ 
++#include <cstring>
++
+ typedef struct
+ {
+ 	unsigned long hi, lo;
+--- StepMania-3.9-src-orig/src/crypto/CryptSHA.h	2004-06-08 07:30:52.000000000 +0200
++++ StepMania-3.9-src/src/crypto/CryptSHA.h.new	2008-04-04 03:53:07.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef SSHSHA_H
+ #define SSHSHA_H
+ 
++#include <cstring>
++
+ typedef struct {
+ 	uint32_t h[5];
+ 	unsigned char block[64];
+--- StepMania-3.9-src-orig/src/crypto/CryptRand.h	2004-06-08 07:30:52.000000000 +0200
++++ StepMania-3.9-src/src/crypto/CryptRand.h.new	2008-04-04 03:52:58.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef SSH_RAND_H
+ #define SSH_RAND_H
+ 
++#include <cstring>
++
+ void random_init();
+ void random_add_noise( const CString &noise );
+ unsigned char random_byte();
+--- StepMania-3.9-src-orig/src/crypto/CryptBn.h	2004-06-08 07:30:52.000000000 +0200
++++ StepMania-3.9-src/src/crypto/CryptBn.h.new	2008-04-04 03:52:51.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef SSHBN_H
+ #define SSHBN_H
+ 
++#include <cstring>
++
+ #if defined __GNUC__ && defined __i386__
+ typedef unsigned long BignumInt;
+ typedef unsigned long long BignumDblInt;
+--- StepMania-3.9-src-orig/src/NetworkSyncServer.h	2008-04-04 03:46:16.000000000 +0200
++++ StepMania-3.9-src/src/NetworkSyncServer.h.new	2008-04-04 03:52:43.000000000 +0200
+@@ -7,6 +7,8 @@
+ #include "ezsockets.h"
+ #define NETMAXBUFFERSIZE 1020
+ 
++#include <cstring>
++
+ class LanPlayer
+ {
+ public:
+--- StepMania-3.9-src-orig/src/RageSurface.h	2004-09-06 01:37:04.000000000 +0200
++++ StepMania-3.9-src/src/RageSurface.h.new	2008-04-04 03:52:33.000000000 +0200
+@@ -3,6 +3,8 @@
+ #ifndef RAGE_SURFACE_H
+ #define RAGE_SURFACE_H
+ 
++#include <cstring>
++
+ /* XXX remove? */
+ struct RageSurfaceColor 
+ {
+--- StepMania-3.9-src-orig/src/RageSoundReader.h	2004-08-21 09:01:54.000000000 +0200
++++ StepMania-3.9-src/src/RageSoundReader.h.new	2008-04-04 03:52:25.000000000 +0200
+@@ -5,6 +5,8 @@
+ #ifndef RAGE_SOUND_READER_H
+ #define RAGE_SOUND_READER_H
+ 
++#include <cstring>
++
+ class SoundReader
+ {
+ 	mutable string error;
+--- StepMania-3.9-src-orig/src/RageFile.h	2004-07-24 05:01:23.000000000 +0200
++++ StepMania-3.9-src/src/RageFile.h.new	2008-04-04 03:52:18.000000000 +0200
+@@ -5,6 +5,8 @@
+ #ifndef RAGE_FILE_H
+ #define RAGE_FILE_H
+ 
++#include <cstring>
++
+ class RageFileObj;
+ 
+ class RageFile
+--- StepMania-3.9-src-orig/src/archutils/Unix/LinuxThreadHelpers.h	2004-09-08 06:45:16.000000000 +0200
++++ StepMania-3.9-src/src/archutils/Unix/LinuxThreadHelpers.h.new	2008-04-04 03:52:08.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef PID_THREAD_HELPERS_H
+ #define PID_THREAD_HELPERS_H
+ 
++#include <cstring>
++
+ CString ThreadsVersion();
+ 
+ /* Get the current thread's ThreadID. */
+--- StepMania-3.9-src-orig/src/archutils/Unix/AssertionHandler.cpp	2004-06-16 05:32:46.000000000 +0200
++++ StepMania-3.9-src/src/archutils/Unix/AssertionHandler.cpp.new	2008-04-04 03:52:00.000000000 +0200
+@@ -4,6 +4,7 @@
+ #include "archutils/Unix/EmergencyShutdown.h"
+ #include <unistd.h>
+ #include <assert.h>
++#include <cstring>
+ 
+ /* We can define this symbol to catch failed assert() calls.  This is only used
+  * for library code that uses assert(); internally we always use ASSERT, which
+--- StepMania-3.9-src-orig/src/arch/Sound/RageSoundDriver.h	2004-09-09 10:51:07.000000000 +0200
++++ StepMania-3.9-src/src/arch/Sound/RageSoundDriver.h.new	2008-04-04 03:51:53.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef RAGE_SOUND_DRIVER
+ #define RAGE_SOUND_DRIVER
+ 
++#include <cstring>
++
+ class RageSoundBase;
+ class RageSoundDriver
+ {
+--- StepMania-3.9-src-orig/src/PlayerOptions.h	2004-08-29 23:26:51.000000000 +0200
++++ StepMania-3.9-src/src/PlayerOptions.h.new	2008-04-04 03:51:45.000000000 +0200
+@@ -3,6 +3,8 @@
+ #ifndef PLAYER_OPTIONS_H
+ #define PLAYER_OPTIONS_H
+ 
++#include <cstring>
++
+ class Song;
+ class Steps;
+ class Course;
+--- StepMania-3.9-src-orig/src/NoteDataUtil.h	2004-08-29 23:26:51.000000000 +0200
++++ StepMania-3.9-src/src/NoteDataUtil.h.new	2008-04-04 03:51:37.000000000 +0200
+@@ -6,6 +6,7 @@
+ #include "GameConstantsAndTypes.h"	// for RadarCategory
+ #include "NoteTypes.h"
+ #include "NoteData.h"
++#include <cstring>
+ 
+ struct PlayerOptions;
+ struct RadarValues;
+--- StepMania-3.9-src-orig/src/Game.h	2004-09-06 04:48:04.000000000 +0200
++++ StepMania-3.9-src/src/Game.h.new	2008-04-04 03:51:29.000000000 +0200
+@@ -6,6 +6,7 @@
+ #include "GameInput.h"
+ #include "MenuInput.h"
+ #include "GameConstantsAndTypes.h"
++#include <cstring>
+ 
+ 
+ const int MAX_STYLES_PER_GAME = 10;
+--- StepMania-3.9-src-orig/src/CodeDetector.h	2004-06-01 00:42:11.000000000 +0200
++++ StepMania-3.9-src/src/CodeDetector.h.new	2008-04-04 03:51:09.000000000 +0200
+@@ -4,6 +4,7 @@
+ #define CODEDETECTOR_H
+ 
+ #include "GameInput.h"
++#include <cstring>
+ 
+ struct CodeItem
+ {
+--- StepMania-3.9-src-orig/src/ScreenMiniMenu.h	2004-08-11 09:30:41.000000000 +0200
++++ StepMania-3.9-src/src/ScreenMiniMenu.h.new	2008-04-04 03:51:01.000000000 +0200
+@@ -8,6 +8,7 @@
+ #include "Transition.h"
+ #include "Quad.h"
+ #include "RandomSample.h"
++#include <cstring>
+ 
+ 
+ #define MAX_MENU_ROWS  40
+--- StepMania-3.9-src-orig/src/HighScore.h	2004-08-22 19:23:07.000000000 +0200
++++ StepMania-3.9-src/src/HighScore.h.new	2008-04-04 03:50:50.000000000 +0200
+@@ -7,6 +7,7 @@
+ #include "GameConstantsAndTypes.h"
+ #include "RadarValues.h"
+ #include "DateTime.h"
++#include <cstring>
+ 
+ struct XNode;
+ 
+--- StepMania-3.9-src-orig/src/RageUtil.h	2008-04-04 03:46:16.000000000 +0200
++++ StepMania-3.9-src/src/RageUtil.h.new	2008-04-04 03:50:41.000000000 +0200
+@@ -4,6 +4,7 @@
+ #define RAGEUTIL_H
+ 
+ #include <map>
++#include <climits>
+ 
+ #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
+ #define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p);   (p)=NULL; } }
+--- StepMania-3.9-src-orig/src/crypto/CryptMD5.h	2004-06-08 07:30:52.000000000 +0200
++++ StepMania-3.9-src/src/crypto/CryptMD5.h.new	2008-04-04 03:50:16.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef SSHMD5_H
+ #define SSHMD5_H
+ 
++#include <cstring>
++
+ typedef struct {
+ 	uint32_t h[4];
+ } MD5_Core_State;
+--- StepMania-3.9-src-orig/src/ezsockets.h	2005-10-01 05:32:45.000000000 +0200
++++ StepMania-3.9-src/src/ezsockets.h.new	2008-04-04 03:50:08.000000000 +0200
+@@ -18,6 +18,7 @@
+ #include <vector>
+ #include <fcntl.h>
+ #include <ctype.h>
++#include <cstring>
+ 
+ #if defined(_XBOX)
+ // Summary : WinsockX is bad, XTL is good.
+--- StepMania-3.9-src-orig/src/RageSoundResampler.h	2004-07-24 03:22:10.000000000 +0200
++++ StepMania-3.9-src/src/RageSoundResampler.h.new	2008-04-04 03:49:52.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef RAGE_SOUND_RESAMPLER_H
+ #define RAGE_SOUND_RESAMPLER_H
+ 
++#include <cstring>
++
+ class RageSoundResampler
+ {
+ 	int InputRate, OutputRate, Channels;
+--- StepMania-3.9-src-orig/src/RageSound.h	2004-08-21 09:01:54.000000000 +0200
++++ StepMania-3.9-src/src/RageSound.h.new	2008-04-04 03:49:44.000000000 +0200
+@@ -6,6 +6,7 @@
+ #include "RageTimer.h"
+ #include "RageUtil_CircularBuffer.h"
+ #include "RageSoundPosMap.h"
++#include <cstring>
+ 
+ class SoundReader;
+ 
+--- StepMania-3.9-src-orig/src/archutils/Unix/CrashHandler.h	2004-09-08 09:34:38.000000000 +0200
++++ StepMania-3.9-src/src/archutils/Unix/CrashHandler.h.new	2008-04-04 03:49:38.000000000 +0200
+@@ -1,6 +1,8 @@
+ #ifndef CRASH_HANDLER_H
+ #define CRASH_HANDLER_H
+ 
++#include <cstring>
++
+ void ForceCrashHandler( const char *reason );
+ struct BacktraceContext;
+ void ForceCrashHandlerDeadlock( CString reason, uint64_t CrashHandle );
+--- StepMania-3.9-src-orig/src/archutils/Unix/SignalHandler.h	2004-05-15 10:27:42.000000000 +0200
++++ StepMania-3.9-src/src/archutils/Unix/SignalHandler.h.new	2008-04-04 03:49:30.000000000 +0200
+@@ -3,6 +3,7 @@
+ 
+ #include <csignal>
+ #include <ucontext.h>
++#include <cstring>
+        
+ class SaveSignals
+ {
+--- StepMania-3.9-src-orig/src/arch/Lights/LightsDriver.h	2004-07-07 22:11:30.000000000 +0200
++++ StepMania-3.9-src/src/arch/Lights/LightsDriver.h.new	2008-04-04 03:49:22.000000000 +0200
+@@ -4,6 +4,7 @@
+ #define LightsDriver_H
+ 
+ #include "LightsManager.h"
++#include <cstring>
+ 
+ struct LightsState;
+ 
+--- StepMania-3.9-src-orig/src/NotesLoader.h	2004-09-13 10:02:16.000000000 +0200
++++ StepMania-3.9-src/src/NotesLoader.h.new	2008-04-04 03:49:05.000000000 +0200
+@@ -3,6 +3,7 @@
+ 
+ #include "RageUtil.h"
+ #include <set>
++#include <cstring>
+ 
+ class Song;
+ 
+--- StepMania-3.9-src-orig/src/LyricsLoader.h	2004-06-01 00:42:12.000000000 +0200
++++ StepMania-3.9-src/src/LyricsLoader.h.new	2008-04-04 03:48:52.000000000 +0200
+@@ -3,6 +3,8 @@
+ #ifndef LYRICS_LOADER_H
+ #define LYRICS_LOADER_H
+ 
++#include <cstring>
++
+ class Song;
+ 
+ class LyricsLoader
+--- StepMania-3.9-src-orig/src/DateTime.h	2004-10-13 04:43:19.000000000 +0200
++++ StepMania-3.9-src/src/DateTime.h.new	2008-04-04 03:48:41.000000000 +0200
+@@ -2,6 +2,7 @@
+ #define DATE_TIME_H
+ 
+ #include <ctime>
++#include <cstring>
+ 
+ const int NUM_LAST_DAYS = 7;
+ const int NUM_LAST_WEEKS = 52;
+--- StepMania-3.9-src-orig/src/ScreenOptionsMasterPrefs.cpp	2004-09-06 00:10:58.000000000 +0200
++++ StepMania-3.9-src/src/ScreenOptionsMasterPrefs.cpp.new	2008-04-04 03:48:29.000000000 +0200
+@@ -69,7 +69,7 @@
+ }
+ 
+ template<>
+-static void MoveData( int &sel, bool &opt, bool ToSel )
++void MoveData( int &sel, bool &opt, bool ToSel )
+ {
+ 	if( ToSel )	sel = opt;
+ 	else		opt = !!sel;
+--- StepMania-3.9-src-orig/src/EditCoursesSongMenu.h	2004-05-26 04:48:21.000000000 +0200
++++ StepMania-3.9-src/src/EditCoursesSongMenu.h.new	2008-04-04 03:48:17.000000000 +0200
+@@ -10,6 +10,7 @@
+ #include "Course.h"
+ #include "ScreenMessage.h"
+ #include "song.h"
++#include <cstring>
+ 
+ 
+ class EditCoursesSongMenu: public ActorFrame 
+--- StepMania-3.9-src-orig/src/InputFilter.h	2004-09-10 00:14:33.000000000 +0200
++++ StepMania-3.9-src/src/InputFilter.h.new	2008-04-04 04:23:14.000000000 +0200
+@@ -4,6 +4,7 @@
+ #define INPUTFILTER_H
+ 
+ #include "RageInputDevice.h"
++#include <cstring>
+ 
+ enum InputEventType
+ {
+
+--- StepMania-3.9-src-orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2007-11-26 18:25:16.000000000 +0100
++++ StepMania-3.9-src/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2007-11-26 19:19:17.000000000 +0100
+@@ -721,10 +721,18 @@
+ 	m_iTextureWidth = power_of_two(m_iImageWidth);
+ 	m_iTextureHeight = power_of_two(m_iImageHeight);
+ 
+-    RageDisplay::PixelFormat pixfmt;
++	RageDisplay::PixelFormat pixfmt;
+ 	bool PreferHighColor = (TEXTUREMAN->GetPrefs().m_iMovieColorDepth == 32);
+-	m_AVTexfmt = FindCompatibleAVFormat( pixfmt, PreferHighColor );
++	m_AVTexfmt = 1; //Force RGB24 since OpenGL likes it
+ 
++	pixfmt = DISPLAY->FindPixelFormat(	AVPixelFormats[m_AVTexfmt].bpp,
++					  			AVPixelFormats[m_AVTexfmt].masks[0],
++       								AVPixelFormats[m_AVTexfmt].masks[1],
++       								AVPixelFormats[m_AVTexfmt].masks[2],
++       								AVPixelFormats[m_AVTexfmt].masks[3],
++ 								true /* realtime */ );
++
++#if 0
+ 	if( m_AVTexfmt == -1 )
+ 		m_AVTexfmt = FindCompatibleAVFormat( pixfmt, !PreferHighColor );
+ 
+@@ -761,7 +769,8 @@
+ 			break;
+ 		}
+ 	}
+-	
++#endif
++
+ 	if( !m_img )
+ 	{
+ 		const AVPixelFormat_t *pfd = &AVPixelFormats[m_AVTexfmt];
+
+diff -Nau StepMania-3.9-src-orig/configure.ac StepMania-3.9-src/configure.ac
+--- StepMania-3.9-src-orig/configure.ac	2005-11-03 16:27:02.000000000 +0100
++++ StepMania-3.9-src/configure.ac	2008-01-24 00:10:35.000000000 +0100
+@@ -159,39 +159,19 @@
+ SM_AUDIO
+ SM_TLS
+ 
+-AC_SEARCH_LIBS(avcodec_init, [avcodec], have_libavcodec=yes,  have_libavcodec=no)
+-AC_SEARCH_LIBS(guess_format, [avformat], have_libavformat=yes,  have_libavformat=no)
+-
+-if test "$have_libavcodec" = "yes"; then
+-  AC_MSG_CHECKING([for libavcodec >= 0.4.9])
+-  AC_TRY_RUN([
+-      #include <ffmpeg/avcodec.h>
+-      int main()
+-      {
+-	      return ( LIBAVCODEC_VERSION_INT < 0x000409 )? 1:0;
+-      }
+-      ],,have_libavcodec=no,)
+-  AC_MSG_RESULT($have_libavcodec)
+-fi
+-
+-if test "$have_libavformat" = "yes"; then
+-  AC_MSG_CHECKING([for libavformat >= 0.4.9])
+-  AC_TRY_RUN([
+-      #include <ffmpeg/avformat.h>
+-      int main()
+-      {
+-	      return ( LIBAVFORMAT_VERSION_INT < 0x000409 )? 1:0;
+-      }
+-      ],,have_libavformat=no,)
+-  AC_MSG_RESULT($have_libavformat)
++PKG_PROG_PKG_CONFIG
++PKG_CHECK_MODULES(FFMPEG, [libavformat libavcodec libswscale], have_ffmpeg=yes)
++AM_CONDITIONAL(HAVE_FFMPEG, test "$have_ffmpeg" = "yes")
++if test "$have_ffmpeg" = "yes"; then
++	AC_DEFINE(HAVE_FFMPEG, 1, [FMPEG support available])
++	AC_CHECK_LIB(avcodec, avcodec_init, have_libavcodec=yes,  have_libavcodec=no, [$FFMPEG_LIBS])
++	AC_CHECK_LIB(avformat, guess_format, have_libavformat=yes,  have_libavformat=no, [$FFMPEG_LIBS])
++	AC_CHECK_LIB(swscale, sws_scale, have_libswscale=yes,  have_libswscale=no, [$FFMPEG_LIBS])
+ fi
+ 
+-have_ffmpeg=no
+-if test "$have_libavformat" = "yes" -a "$have_libavcodec" = "yes"; then
+-	have_ffmpeg=yes
+-	AC_DEFINE(HAVE_FFMPEG, 1, [FMPEG support available])
++if test "$have_libswscale" = "no"; then
++	AC_CHECK_LIB(avcodec, img_convert, [AC_DEFINE([HAVE_IMG_CONVERT], [], [Deprecated img_convert function is available])])
+ fi
+-AM_CONDITIONAL(HAVE_FFMPEG, test "$have_ffmpeg" = "yes")
+ 
+ SM_CHECK_CRASH_HANDLER
+ 
+diff -ur StepMania-3.9-src.orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp StepMania-3.9-src/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+--- StepMania-3.9-src.orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2005-10-17 05:25:55.000000000 +0300
++++ StepMania-3.9-src/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2007-08-07 16:57:06.000000000 +0300
+@@ -1,3 +1,6 @@
++#define __STDC_CONSTANT_MACROS
++#include <stdint.h>
++
+ #include "global.h"
+ #include "MovieTexture_FFMpeg.h"
+ 
+@@ -20,9 +23,31 @@
+ #if defined(_WIN32)
+ #include "ffmpeg/include/ffmpeg/avformat.h"
+ #else
++extern "C"
++{
+-#include <ffmpeg/avformat.h>
++#include <libavformat/avformat.h>
++}
+ #endif
+-};
++
++#if !defined(HAVE_IMG_CONVERT)
++extern "C"
++{
++#include <libswscale/swscale.h>
++}
++#endif // HAVE_IMG_CONVERT
++    void img_convert__(AVPicture *dst, int dst_pix_fmt,
++                       const AVPicture *src, int pix_fmt,
++                       int width, int height)
++    {
++#ifdef HAVE_IMG_CONVERT
++        img_convert(dst, dst_pix_fmt, src, pix_fmt, width, height);
++#else
++        static SwsContext* context = 0;
++        context = sws_getCachedContext(context, width, height, pix_fmt, width, height, dst_pix_fmt, 0, NULL, NULL, NULL);
++        sws_scale(context, const_cast<uint8_t**>(src->data), const_cast<int*>(src->linesize), 0, height, dst->data, dst->linesize);
++#endif // HAVE_IMG_CONVERT
++    }
++}
+ 
+ #if defined(_WIN32)
+ 	#pragma comment(lib, "ffmpeg/lib/avcodec.lib")
+@@ -307,7 +332,11 @@
+ 		if ( GetNextTimestamp )
+ 		{
+ 			if (pkt.dts != int64_t(AV_NOPTS_VALUE))
++#if (LIBAVCODEC_BUILD >= 4754)
++				pts = (float)pkt.dts * m_stream->time_base.num / m_stream->time_base.den;
++#else
+ 				pts = (float)pkt.dts / AV_TIME_BASE;
++#endif
+ 			else
+ 				pts = -1;
+ 			GetNextTimestamp = false;
+@@ -326,7 +355,11 @@
+ 		 * to give it a buffer to read from since it tries to read anyway. */
+ 		static uint8_t dummy[FF_INPUT_BUFFER_PADDING_SIZE] = { 0 };
+ 		int len = avcodec::avcodec_decode_video(
++#if (LIBAVCODEC_BUILD >= 4754)
++				m_stream->codec, 
++#else
+ 				&m_stream->codec, 
++#endif
+ 				&frame, &got_frame,
+ 				pkt.size? pkt.data:dummy, pkt.size );
+ 		CHECKPOINT;
+@@ -360,7 +393,11 @@
+ 		}
+ 
+ 		/* Length of this frame: */
++#if (LIBAVCODEC_BUILD >= 4754)
++		LastFrameDelay = (float)m_stream->codec->time_base.num / m_stream->codec->time_base.den;
++#else
+ 		LastFrameDelay = (float)m_stream->codec.frame_rate_base / m_stream->codec.frame_rate;
++#endif
+ 		LastFrameDelay += frame.repeat_pict * (LastFrameDelay * 0.5f);
+ 
+ 		return 1;
+@@ -377,9 +414,15 @@
+ 	pict.data[0] = (unsigned char *)m_img->pixels;
+ 	pict.linesize[0] = m_img->pitch;
+ 
+-	avcodec::img_convert(&pict, AVPixelFormats[m_AVTexfmt].pf,
++#if (LIBAVCODEC_BUILD >= 4754)
++	avcodec::img_convert__(&pict, AVPixelFormats[m_AVTexfmt].pf,
++			(avcodec::AVPicture *) &decoder->frame, decoder->m_stream->codec->pix_fmt, 
++			decoder->m_stream->codec->width, decoder->m_stream->codec->height);
++#else
++	avcodec::img_convert__(&pict, AVPixelFormats[m_AVTexfmt].pf,
+ 			(avcodec::AVPicture *) &decoder->frame, decoder->m_stream->codec.pix_fmt, 
+ 			decoder->m_stream->codec.width, decoder->m_stream->codec.height);
++#endif
+ 
+ 	m_ImageWaiting = FRAME_WAITING;
+ }
+@@ -389,8 +432,13 @@
+     for( int stream = 0; stream < m_fctx->nb_streams; ++stream )
+ 	{
+ 		avcodec::AVStream *enc = m_fctx->streams[stream];
++#if (LIBAVCODEC_BUILD >= 4754)
++        if( enc->codec->codec_type == avcodec::CODEC_TYPE_VIDEO )
++			return enc;
++#else
+         if( enc->codec.codec_type == avcodec::CODEC_TYPE_VIDEO )
+ 			return enc;
++#endif
+ 	}
+ 	return NULL;
+ }
+@@ -418,8 +466,13 @@
+ 	m_bThreaded = PREFSMAN->m_bThreadedMovieDecode;
+ 
+ 	CreateDecoder();
++#if (LIBAVCODEC_BUILD >= 4754)
++	LOG->Trace("Bitrate: %i", decoder->m_stream->codec->bit_rate );
++	LOG->Trace("Codec pixel format: %s", avcodec::avcodec_get_pix_fmt_name(decoder->m_stream->codec->pix_fmt) );
++#else
+ 	LOG->Trace("Bitrate: %i", decoder->m_stream->codec.bit_rate );
+ 	LOG->Trace("Codec pixel format: %s", avcodec::avcodec_get_pix_fmt_name(decoder->m_stream->codec.pix_fmt) );
++#endif
+ 
+ 	/* Decode one frame, to guarantee that the texture is drawn when this function returns. */
+ 	int ret = decoder->GetFrame();
+@@ -487,7 +540,6 @@
+ 	case AVERROR_INVALIDDATA:	Error = "invalid data found"; break;
+ 	case AVERROR_NOMEM:			Error = "not enough memory"; break;
+ 	case AVERROR_NOFMT:			Error = "unknown format"; break;
+-	case AVERROR_UNKNOWN:		Error = "unknown error"; break;
+ 	default: Error = ssprintf( "unknown error %i", err ); break;
+ 	}
+ 
+@@ -573,6 +625,17 @@
+ 	if ( stream == NULL )
+ 		RageException::Throw( "AVCodec (%s): Couldn't find any video streams", GetID().filename.c_str() );
+ 
++#if (LIBAVCODEC_BUILD >= 4754)
++	if( stream->codec->codec_id == avcodec::CODEC_ID_NONE )
++		RageException::ThrowNonfatal( "AVCodec (%s): Unsupported codec %08x", GetID().filename.c_str(), stream->codec->codec_tag );
++
++	avcodec::AVCodec *codec = avcodec::avcodec_find_decoder( stream->codec->codec_id );
++	if( codec == NULL )
++		RageException::Throw( "AVCodec (%s): Couldn't find decoder %i", GetID().filename.c_str(), stream->codec->codec_id );
++
++	LOG->Trace("Opening codec %s", codec->name );
++	ret = avcodec::avcodec_open( stream->codec, codec );
++#else
+ 	if( stream->codec.codec_id == avcodec::CODEC_ID_NONE )
+ 		RageException::ThrowNonfatal( "AVCodec (%s): Unsupported codec %08x", GetID().filename.c_str(), stream->codec.codec_tag );
+ 
+@@ -582,6 +645,7 @@
+ 
+ 	LOG->Trace("Opening codec %s", codec->name );
+ 	ret = avcodec::avcodec_open( &stream->codec, codec );
++#endif
+ 	if ( ret < 0 )
+ 		RageException::Throw( averr_ssprintf(ret, "AVCodec (%s): Couldn't open codec \"%s\"", GetID().filename.c_str(), codec->name) );
+ 
+@@ -596,7 +660,11 @@
+ {
+ 	if( decoder->m_stream )
+ 	{
++#if (LIBAVCODEC_BUILD >= 4754)
++		avcodec::avcodec_close( decoder->m_stream->codec );
++#else
+ 		avcodec::avcodec_close( &decoder->m_stream->codec );
++#endif
+ 		decoder->m_stream = NULL;
+ 	}
+ 
+@@ -637,8 +705,13 @@
+ 	/* Cap the max texture size to the hardware max. */
+ 	actualID.iMaxSize = min( actualID.iMaxSize, DISPLAY->GetMaxTextureSize() );
+ 
++#if (LIBAVCODEC_BUILD >= 4754)
++	m_iSourceWidth  = decoder->m_stream->codec->width;
++	m_iSourceHeight = decoder->m_stream->codec->height;
++#else
+ 	m_iSourceWidth  = decoder->m_stream->codec.width;
+ 	m_iSourceHeight = decoder->m_stream->codec.height;
++#endif
+ 
+ 	/* image size cannot exceed max size */
+ 	m_iImageWidth = min( m_iSourceWidth, actualID.iMaxSize );
+@@ -818,7 +891,11 @@
+ 		m_FrameSkipMode = true;
+ 	}
+ 
++#if (LIBAVCODEC_BUILD >= 4754)
++	if( m_FrameSkipMode && decoder->m_stream->codec->frame_number % 2 )
++#else
+ 	if( m_FrameSkipMode && decoder->m_stream->codec.frame_number % 2 )
++#endif
+ 		return -1; /* skip */
+ 	
+ 	return 0;
+diff -ur StepMania-3.9-src.orig/src/Makefile.am StepMania-3.9-src/src/Makefile.am
+--- StepMania-3.9-src.orig/src/Makefile.am	2004-09-08 09:48:45.000000000 +0300
++++ StepMania-3.9-src/src/Makefile.am	2007-08-07 16:57:06.000000000 +0300
+@@ -303,6 +303,10 @@
+ 		  $(XLIBS) \
+ 		  $(srcdir)/libresample/libresample.a
+ 
++if HAVE_FFMPEG
++main_LDADD += $(FFMPEG_LIBS)
++endif
++
+ stepmania_SOURCES = $(main_SOURCES)
+ stepmania_LDADD = $(main_LDADD)
+
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/alsa.m4 StepMania-3.9-src/autoconf/m4/alsa.m4
+--- StepMania-3.9-src-orig/autoconf/m4/alsa.m4	2003-11-03 00:22:57.000000000 +0100
++++ StepMania-3.9-src/autoconf/m4/alsa.m4	2008-01-22 23:17:53.000000000 +0100
+@@ -8,7 +8,7 @@
+ dnl enables arguments --with-alsa-prefix=
+ dnl                   --with-alsa-enc-prefix=
+ dnl
+-AC_DEFUN(AM_PATH_ALSA,
++AC_DEFUN([AM_PATH_ALSA],
+ [dnl Save the original CFLAGS, LDFLAGS, and LIBS
+ alsa_save_CFLAGS="$CFLAGS"
+ alsa_save_LDFLAGS="$LDFLAGS"
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/audio.m4 StepMania-3.9-src/autoconf/m4/audio.m4
+--- StepMania-3.9-src-orig/autoconf/m4/audio.m4	2004-03-19 03:05:55.000000000 +0100
++++ StepMania-3.9-src/autoconf/m4/audio.m4	2008-01-22 23:17:32.000000000 +0100
+@@ -1,4 +1,4 @@
+-AC_DEFUN(SM_AUDIO, [
++AC_DEFUN([SM_AUDIO], [
+ 
+ AC_ARG_WITH(vorbis, AC_HELP_STRING([--without-vorbis], [Disable Vorbis support]), with_vorbis=$enableval, with_vorbis=yes)
+ 
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/backtrace.m4 StepMania-3.9-src/autoconf/m4/backtrace.m4
+--- StepMania-3.9-src-orig/autoconf/m4/backtrace.m4	2004-10-23 00:18:30.000000000 +0200
++++ StepMania-3.9-src/autoconf/m4/backtrace.m4	2008-01-22 23:19:03.000000000 +0100
+@@ -1,5 +1,5 @@
+ # See if we have a working backtrace_symbols.
+-AC_DEFUN(SM_FUNC_BACKTRACE_SYMBOLS,
++AC_DEFUN([SM_FUNC_BACKTRACE_SYMBOLS],
+ [
+     AC_MSG_CHECKING(for working backtrace_symbols())
+     AC_TRY_RUN(
+@@ -15,7 +15,7 @@
+     AC_MSG_RESULT($have_backtrace_symbols)
+ ])
+ 
+-AC_DEFUN(SM_FUNC_CXA_DEMANGLE,
++AC_DEFUN([SM_FUNC_CXA_DEMANGLE],
+ [
+     # Check for abi::__cxa_demangle (gcc 3.1+)
+     AC_MSG_CHECKING(for working cxa_demangle)
+@@ -45,7 +45,7 @@
+ 	
+ # To support backtraces in the crash handler, we need two things: a call to
+ # get backtrace pointers, and a way to convert them to symbols.
+-AC_DEFUN(SM_CHECK_CRASH_HANDLER,
++AC_DEFUN([SM_CHECK_CRASH_HANDLER],
+ [
+     # See if we have a custom backtrace():
+     case $host in
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/gtk-2.0.m4 StepMania-3.9-src/autoconf/m4/gtk-2.0.m4
+--- StepMania-3.9-src-orig/autoconf/m4/gtk-2.0.m4	2003-07-28 10:57:13.000000000 +0200
++++ StepMania-3.9-src/autoconf/m4/gtk-2.0.m4	2008-01-22 23:15:17.000000000 +0100
+@@ -5,7 +5,7 @@
+ dnl Test for GTK+, and define GTK_CFLAGS and GTK_LIBS, if gthread is specified in MODULES, 
+ dnl pass to pkg-config
+ dnl
+-AC_DEFUN(AM_PATH_GTK_2_0,
++AC_DEFUN([AM_PATH_GTK_2_0],
+ [dnl 
+ dnl Get the cflags and libraries from pkg-config
+ dnl
+
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/opengl.m4 StepMania-3.9-src/autoconf/m4/opengl.m4
+--- StepMania-3.9-src-orig/autoconf/m4/opengl.m4	2004-06-04 22:31:45.000000000 +0200
++++ StepMania-3.9-src/autoconf/m4/opengl.m4	2008-01-22 23:13:56.000000000 +0100
+@@ -1,4 +1,4 @@
+-AC_DEFUN(SM_X_WITH_OPENGL,
++AC_DEFUN([SM_X_WITH_OPENGL],
+ [
+     AC_PATH_X
+     
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/sdl.m4 StepMania-3.9-src/autoconf/m4/sdl.m4
+--- StepMania-3.9-src-orig/autoconf/m4/sdl.m4	2003-09-16 21:24:16.000000000 +0200
++++ StepMania-3.9-src/autoconf/m4/sdl.m4	2008-01-22 23:13:01.000000000 +0100
+@@ -8,7 +8,7 @@
+ dnl AM_PATH_SDL([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
+ dnl Test for SDL, and define SDL_CFLAGS and SDL_LIBS
+ dnl
+-AC_DEFUN(AM_PATH_SDL,
++AC_DEFUN([AM_PATH_SDL],
+ [dnl 
+ dnl Get the cflags and libraries from the sdl-config script
+ dnl
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/tls.m4 StepMania-3.9-src/autoconf/m4/tls.m4
+--- StepMania-3.9-src-orig/autoconf/m4/tls.m4	2004-12-17 03:24:16.000000000 +0100
++++ StepMania-3.9-src/autoconf/m4/tls.m4	2008-01-22 23:12:32.000000000 +0100
+@@ -2,7 +2,7 @@
+ # the resulting program actually runs, not whether the resulting TLS variables
+ # work properly; that check is done at runtime, since we can run binaries
+ # compiled with __thread on systems without TLS.
+-AC_DEFUN(SM_TLS,
++AC_DEFUN([SM_TLS],
+ [
+     AC_MSG_CHECKING(for TLS)
+     AC_TRY_RUN( [ static __thread int val; int main() { return 0; } ], have_tls=yes,have_tls=no,have_tls=no )
+diff -Naur StepMania-3.9-src-orig/autoconf/m4/zlib.m4 StepMania-3.9-src/autoconf/m4/zlib.m4
+--- StepMania-3.9-src-orig/autoconf/m4/zlib.m4	2003-12-10 09:07:54.000000000 +0100
++++ StepMania-3.9-src/autoconf/m4/zlib.m4	2008-01-22 23:11:55.000000000 +0100
+@@ -1,4 +1,4 @@
+-AC_DEFUN(SM_ZLIB,
++AC_DEFUN([SM_ZLIB],
+ [
+ 	AC_CHECK_LIB(z, inflate, have_libz=yes, have_libz=no)
+ 	AC_CHECK_HEADER(zlib.h, have_libz_header=yes, have_libz_header=no)
+	
+--- StepMania-3.9-src-orig/src/arch/Threads/Threads_Pthreads.cpp	2006-10-24 22:01:54.000000000 +0200
++++ StepMania-3.9-src/src/arch/Threads/Threads_Pthreads.cpp	2006-10-24 22:08:35.000000000 +0200
+@@ -39,12 +39,14 @@
+ 
+ int ThreadImpl_Pthreads::Wait()
+ {
+-	void *val;
+-	int ret = pthread_join( thread, &val );
++	int *val;
++	int ret = pthread_join( thread, (void **)&val );
+ 	if( ret )
+-		RageException::Throw( "pthread_join: %s", strerror(errno) );
++		RageException::Throw( "pthread_join: %s", strerror(ret) );
+ 
+-	return (int) val;
++	int iRet = *val;
++	delete val;
++	return iRet;
+ }
+ 
+ ThreadImpl *MakeThisThread()
+@@ -67,7 +69,8 @@
+ 	/* Tell MakeThread that we've set m_piThreadID, so it's safe to return. */
+ 	pThis->m_StartFinishedSem->Post();
+ 
+-	return (void *) pThis->m_pFunc( pThis->m_pData );
++	int iRet = pThis->m_pFunc( pThis->m_pData );
++	return new int(iRet);
+ }
+ 
+ ThreadImpl *MakeThread( int (*pFunc)(void *pData), void *pData, uint64_t *piThreadID )
+
+--- StepMania-3.9-src-orig/src/crypto51/misc.h	2006-10-24 22:17:51.000000000 +0200
++++ StepMania-3.9-src/src/crypto51/misc.h	2006-10-24 23:13:30.000000000 +0200
+@@ -142,7 +142,7 @@
+ 
+ inline bool IsAlignedOn(const void *p, unsigned int alignment)
+ {
+-	return IsPowerOf2(alignment) ? ModPowerOf2((unsigned int)p, alignment) == 0 : (unsigned int)p % alignment == 0;
++	return IsPowerOf2(alignment) ? ModPowerOf2((uintptr_t)p, alignment) == 0 : (uintptr_t)p % alignment == 0;
+ }
+ 
+ template <class T>
+
+--- StepMania-3.9-src-orig/src/crypto51/misc.cpp	2006-10-24 23:28:55.000000000 +0200
++++ StepMania-3.9-src/src/crypto51/misc.cpp	2006-10-24 23:30:19.000000000 +0200
+@@ -16,7 +16,7 @@
+ 
+ void xorbuf(byte *buf, const byte *mask, unsigned int count)
+ {
+-	if (((unsigned int)buf | (unsigned int)mask | count) % WORD_SIZE == 0)
++	if (((uintptr_t)buf | (uintptr_t)mask | count) % WORD_SIZE == 0)
+ 		XorWords((word *)buf, (const word *)mask, count/WORD_SIZE);
+ 	else
+ 	{
+@@ -27,7 +27,7 @@
+ 
+ void xorbuf(byte *output, const byte *input, const byte *mask, unsigned int count)
+ {
+-	if (((unsigned int)output | (unsigned int)input | (unsigned int)mask | count) % WORD_SIZE == 0)
++	if (((uintptr_t)output | (uintptr_t)input | (uintptr_t)mask | count) % WORD_SIZE == 0)
+ 		XorWords((word *)output, (const word *)input, (const word *)mask, count/WORD_SIZE);
+ 	else
+ 	{

@@ -1,41 +1,50 @@
 # Contributor: rabyte <rabyte__gmail>
 
 pkgname=openarena
-pkgver=0.7.7
-pkgrel=3
+pkgver=0.8.1 #<-- making it ready for when its out and legal again
+pkgrel=1
 pkgdesc="A completely free multiplayer FPS game based on the ioquake3 engine"
-arch=('i686' 'x86_64')
 url="http://openarena.ws/"
+arch=('i686' 'x86_64')
 license=('GPL2')
 depends=('libgl' 'sdl' 'libvorbis')
 makedepends=('unzip')
-source=(http://download.tuxfamily.org/openarena/rel/076/oa076.zip \
-	http://download.tuxfamily.org/openarena/rel/077/oa077-patch.zip \
-	http://openarena.ws/svn/source/077/openarena077scr3.tar.bz2 \
-	openarena.png \
-	openarena-server.png \
-	openarena.desktop \
-	openarena-server.desktop)
-md5sums=('9feb2124b9ac8c46ff11163fd5bb1049' 'e981b47dd39e3fde4af68a08cf76b7d3' 'ba7c65a99f86124309f97b8b47596609' 'c69f824dc500d436fc631b78b6a62dc8' '17e2f4fa060ed97ff6fe1eaff647bcfb' '229c87648c10e48b523c25d24aba8372' '00649517a4dd08cd9c6e99d6703f01f1')
+source=(http://download.tuxfamily.org/openarena/rel/076/oa076.zip 
+        http://download.tuxfamily.org/openarena/rel/077/oa077-patch.zip
+        http://openarena.ws/svn/source/077/openarena077scr3.tar.bz2
+        openarena.png
+        openarena-server.png
+        openarena.desktop
+        openarena-server.desktop)
+    
+md5sums=('9feb2124b9ac8c46ff11163fd5bb1049' 
+         'e981b47dd39e3fde4af68a08cf76b7d3' 
+         'ba7c65a99f86124309f97b8b47596609' 
+         'c69f824dc500d436fc631b78b6a62dc8' 
+         '17e2f4fa060ed97ff6fe1eaff647bcfb' 
+         '229c87648c10e48b523c25d24aba8372' 
+         '00649517a4dd08cd9c6e99d6703f01f1')
 
 build() {
-  # uncomment to disable semi-nude models:
-  # 	rm -f $srcdir/$pkgname-0.7.6/baseoa/pak2-players-mature.pk3
-  # (resulting version won't work with most servers!!)
-  cd $srcdir/$pkgname${pkgver//.}
-  make  DEFAULT_BASEDIR=/usr/share/openarena BUILD_CLIENT_SMP=0 \
-	USE_LOCAL_HEADERS=0 GENERATE_DEPENDENCIES=0 || return 1
-  mkdir -p $pkgdir/usr/{bin,share/{openarena,applications,pixmaps}}
+
+  #Build the package  
+  cd $srcdir/${pkgname}077
+  make  DEFAULT_BASEDIR=/opt/openarena BUILD_CLIENT_SMP=0 USE_LOCAL_HEADERS=0 GENERATE_DEPENDENCIES=0 || return 1
+  make COPYDIR=$pkgdir/opt/openarena copyfiles || return 1
+  
+  #Manually install the package   
+  install -d -m755 $pkgdir/usr/{bin,share/{openarena,applications,pixmaps}}
   cp -rf ../$pkgname-0.7.6/baseoa/ $pkgdir/usr/share/openarena/
-  make COPYDIR=$pkgdir/usr/share/openarena copyfiles || return 1
- if [ "$CARCH" = "x86_64" ]; then
-    mv -f $pkgdir/usr/share/openarena/ioquake3.$CARCH $pkgdir/usr/bin/openarena
-    mv -f $pkgdir/usr/share/openarena/ioq3ded.$CARCH $pkgdir/usr/bin/openarena-server
-  else
-    mv -f $pkgdir/usr/share/openarena/ioquake3.i386 $pkgdir/usr/bin/openarena
-    mv -f $pkgdir/usr/share/openarena/ioq3ded.i386 $pkgdir/usr/bin/openarena-server
-  fi
-  find $pkgdir/usr/share -type f -exec chmod 644 {} \;
+  find $pkgdir/opt/openarena -type f -exec chmod 644 {} \;
+  
+  #Install the .desktop and icon files
   install -m644 ../openarena{,-server}.png $pkgdir/usr/share/pixmaps/
   install -m644 ../openarena{,-server}.desktop $pkgdir/usr/share/applications/
+  
+  #Install the bin files  
+  install -d -m755 $pkgdir/usr/share/openarena/ioquake3.* $pkgdir/usr/bin/openarena
+  install -d -m755 $pkgdir/usr/share/openarena/ioq3ded.* $pkgdir/usr/bin/openarena-server
+  
 }
+
+# vim:set ts=2 sw=2 et:

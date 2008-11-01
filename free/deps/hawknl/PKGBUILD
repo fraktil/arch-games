@@ -1,22 +1,26 @@
-# Maintainer: Drew Desai <alerante@yahoo.com>
+# Contributor: Drew Desai <alerante@yahoo.com>
 # Contributor: Hugo Ideler <hugoideler@dse.nl>
+
 pkgname=hawknl
 pkgver=1.68
 pkgrel=1
 pkgdesc="A fairly low level API, a wrapper over Berkeley/Unix Sockets"
-arch=('i686' 'x86_64')
 url="http://www.hawksoft.com/hawknl"
-license="LGPL"
-depends=(glibc patch)
+arch=('i686' 'x86_64')
+license=('LGPL')
+depends=()
 makedepends=('unzip')
-source=(http://www.sonic.net/~philf/download/HawkNL168src.zip \
-	build.patch)
-md5sums=('1b5eb1373a4c45dc49ded2c9d89cec93' 'd8a5982f59b66a1ef816aed555f9fd3a')
+source=(http://www.sonic.net/~philf/download/HawkNL168src.zip
+        hawknl.patch)
+    
+md5sums=('1b5eb1373a4c45dc49ded2c9d89cec93' 
+         'd8a5982f59b66a1ef816aed555f9fd3a')
 
 build() {
 
+  #Patch build and install the package
   cd $srcdir/HawkNL1.68
-  patch -p1 -i ../build.patch
+  patch -Np1 -i $srcdir/hawknl.patch || return 1
   ln -s makefile.linux makefile
   sed -i -e 's:make :$(MAKE) :g' makefile
   sed -i -e '/echo /d' src/makefile.linux 
@@ -25,3 +29,5 @@ build() {
   make LIBDIR="$pkgdir/usr/lib" INCDIR="$pkgdir/usr/include" OPTFLAGS="-D_GNU_SOURCE -D_REENTRANT" install || return 1
   
 }
+
+# vim:set ts=2 sw=2 et:

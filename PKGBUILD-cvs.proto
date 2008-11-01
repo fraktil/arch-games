@@ -1,0 +1,55 @@
+# Contributor: nick or name <youremail@domain.com>
+
+pkgname=name-cvs        
+pkgver=ver
+pkgrel=1
+pkgdesc=""
+url=""
+arch=('i686' 'x86_64')
+license=('GPL')
+groups=('group')
+depends=('1st dep' '2nd dep')
+makedepends=('1st dep' '2nd dep')
+optdepends('1st dep (desc)' '2nd dep (desc)')
+provides=('pkgname')
+conflicts=('pkgname')
+replaces=('pkgname')
+backup=('file')
+options=(opt1 !opt2)
+install=('pkg.install')
+source=(source1
+        source2
+        source3)
+        
+noextract=('source1')
+md5sums=('sum1'
+         'sum2'
+         'sum3')
+
+_cvsroot="CVSROOT"
+_cvsmod="MODNAME"
+
+build() {
+
+  #Grab the sources with cvs
+  cd $srcdir
+  msg "Connecting to $_cvsmod.sourceforge.net CVS server...."
+  if [ -d $_cvsmod/CVS ]; then
+    cd $_cvsmod
+    cvs -z3 update -d || return 1
+  else
+    cvs -z3 -d $_cvsroot co -D $pkgver -f $_cvsmod || return 1
+    cd $_cvsmod
+  fi
+  msg "CVS checkout done or server timeout"
+  msg "Starting make..."
+  rm -r "$srcdir/$_cvsmod-build"
+  cp -r "$srcdir/$_cvsmod" "$srcdir/$_cvsmod-build"
+  cd "$srcdir/$_cvsmod-build"
+
+  #Actions desc
+  actions...
+  
+}
+
+# vim:set ts=2 sw=2 et:

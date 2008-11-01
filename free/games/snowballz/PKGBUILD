@@ -2,38 +2,39 @@
 # Contributor: Marc poiroud <marciun@free.fr>
 
 pkgname=snowballz
-arch=('i686' 'x86_64')
 pkgver=0.9.5.1
 pkgrel=4
 pkgdesc="A fun RTS game featuring snowball fights with penguins."
 url="http://joey101.net/snowballz/"
-license="GPL"
+arch=('i686' 'x86_64')
+license=('GPL')
 depends=('python' 'python-pygame' 'python-opengl' 'python-rabbyt-81')
 [ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
 source=(http://joey101.net/snowballz/files/$pkgname-$pkgver.tar.gz 
-		snowballz.desktop 
-		snowballz.png
+        snowballz.desktop 
+        snowballz.png
         snowballz)
-		
+    
 md5sums=('197e3281cc85f9fe89a45c622e08ba0d' 
-		 'abe4faa6864022e3274955039792e1c7'
+         'abe4faa6864022e3274955039792e1c7'
          '1eb0c353d99dc54d02c340fc057d28d2' 
          '7fdfd218e42f763d37312cc1181378b6')
 
 build() {
-	cd $srcdir/$pkgname-$pkgver
-	install -d -m755 $pkgdir/usr/share/{$pkgname,pixmaps,applications}
-	
-	# removing pygame.mixer calls, since it doesn't support MP3s and that crashes the game
-	for i in *.py; do cat $i | sed -r "s/^([ \t]*)(pygame\.mixer.*)$/\1pass/" > _tmp_$i_; rm -f $i; mv _tmp_$i_ $i; done
 
-	# copy to final directory
-	cp -r *.py buildings data maps plugins cellulose gooeypy $pkgdir/usr/share/$pkgname/
+  #Patch and install the package
+  cd $srcdir/$pkgname-$pkgver
+  install -d -m755 $pkgdir/usr/share/{$pkgname,pixmaps,applications}
+  for i in *.py; do cat $i | sed -r "s/^([ \t]*)(pygame\.mixer.*)$/\1pass/" > _tmp_$i_; rm -f $i; mv _tmp_$i_ $i; done
+  cp -r *.py buildings data maps plugins cellulose gooeypy $pkgdir/usr/share/$pkgname/
 
-	# create false exe in /usr/bin
-	install -D -m755 $srcdir/snowballz $pkgdir/usr/bin/snowballz
-
-	# create menu integration with desktop file and PNG
-	install -m644 $srcdir/snowballz.png $pkgdir/usr/share/pixmaps/snowballz.png
-	install -m644 $srcdir/snowballz.desktop $pkgdir/usr/share/applications/snowballz.desktop
+  #Install the .desktop and icon files
+  install -m644 $srcdir/snowballz.png $pkgdir/usr/share/pixmaps/snowballz.png
+  install -m644 $srcdir/snowballz.desktop $pkgdir/usr/share/applications/snowballz.desktop
+  
+  #Install the bin file
+  install -D -m755 $srcdir/snowballz $pkgdir/usr/bin/snowballz
+  
 }
+
+# vim:set ts=2 sw=2 et:

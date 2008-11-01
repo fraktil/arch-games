@@ -15,7 +15,9 @@ md5sums=('e803468212c395d38ba67280a3b7dc70')
 
 build() {
 
-	mkdir -p $pkgdir/opt/lib32/usr/lib/
-	cp -R $srcdir/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib
+  mkdir -p $pkgdir/opt/lib32/usr/lib/
+  cp -R $srcdir/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib
   
 }
+
+# vim:set ts=2 sw=2 et:

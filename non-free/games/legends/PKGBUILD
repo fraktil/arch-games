@@ -1,5 +1,4 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
-# Maintainer: Black_Mage <vleon1@gmail.com>
 
 pkgname=legends
 pkgver=0.4.1.43
@@ -10,33 +9,35 @@ arch=('i686' 'x86_64')
 license=('custom')
 depends=('libxext' 'libogg' 'sdl' 'sdl_image' 'sdl_mixer' 'libpng' 'libjpeg' 'zlib' 'rsync')
 source=(http://run.legendsthegame.net/${pkgname}_linux-$pkgver.run
-		legends.launcher
-		legends.desktop)
-		
+        legends.launcher
+        legends.desktop)
+    
 md5sums=('5188d8aad55b8aa71e10e414ba12ee6b'
-		 'bb76660c04c94690c3817c4821ff3b24'
-		 '4cd83521478cb4802ef3cd2ee72fc37f')	
+         'bb76660c04c94690c3817c4821ff3b24'
+         '4cd83521478cb4802ef3cd2ee72fc37f')  
 
 build ()
 {
 
-	#Unpack files from the installer
-	cd $srcdir
-	chmod +x $srcdir/legends_linux-${pkgver}.run
-	./legends_linux-${pkgver}.run --noexec --target $srcdir/legends/
-	
-	#Remove junk from game directory
-    rm $srcdir/legends/OPENAL32.DLL
-	
-    #Move game directory to package directory
-    install -d -m755 $pkgdir/opt/
-	cp -r $srcdir/legends $pkgdir/opt/
-	
-    #Install .desktop and icon file
-    install -D -m644 $srcdir/legends.desktop $pkgdir/usr/share/applications/legends.desktop
-    install -D -m644 $pkgdir/opt/legends/legends.ico $pkgdir/usr/share/pixmaps/legends.ico
-	
-	#Install launcher
-    install -D -m755 $srcdir/legends.launcher $pkgdir/usr/bin/legends
-		
+  #Unpack files from the installer
+  cd $srcdir
+  chmod +x $srcdir/legends_linux-${pkgver}.run
+  ./legends_linux-${pkgver}.run --noexec --target $srcdir/legends/
+  
+  #Remove junk from game directory
+  rm $srcdir/legends/OPENAL32.DLL
+  
+  #Move game directory to package directory
+  install -d -m755 $pkgdir/opt/
+  cp -r $srcdir/legends $pkgdir/opt/
+  
+  #Install .desktop and icon file
+  install -D -m644 $srcdir/legends.desktop $pkgdir/usr/share/applications/legends.desktop
+  install -D -m644 $pkgdir/opt/legends/legends.ico $pkgdir/usr/share/pixmaps/legends.ico
+  
+  #Install launcher
+  install -D -m755 $srcdir/legends.launcher $pkgdir/usr/bin/legends
+    
 }
+
+# vim:set ts=2 sw=2 et:

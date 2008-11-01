@@ -3,7 +3,7 @@
 pkgname=true-combat
 pkgver=0.49b
 pkgrel=3
-pkgdesc="True Combat: Elite (TCE) is a completely free, realistic, team-based modification for Enemy Territory."
+pkgdesc="A completely free, realistic, team-based modification for Enemy Territory."
 url="http://www.truecombatelite.com/"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -11,50 +11,52 @@ depends=('enemy-territory')
 makedepends=('unzip')
 backup=('opt/enemy-territory/tcetest/server.cfg')
 source=(true-combat.desktop
-		true-combat.sh
-		true-combatded.sh
-		http://dragons-perch.net/tce/tcetest049.zip
-		http://dragons-perch.net/tce/tce049b_all_os_fixed.zip)
-	
-noextract=('tce049b_all_os_fixed.zip')	
+        true-combat.sh
+        true-combatded.sh
+        http://dragons-perch.net/tce/tcetest049.zip
+        http://dragons-perch.net/tce/tce049b_all_os_fixed.zip)
+  
+noextract=('tce049b_all_os_fixed.zip')  
 md5sums=('7100aaf825e599753b8a3b55628e8e78' 
-		 'f83243004e7791e139e6683c733df6e2' 
-		 '55a9e175b1793463a03b60e8d780c97d' 
-		 '996ef2743e36103a351199f3fd72e70f' 
-		 'ed09515b41a4af92740c42c3053225a9')
+         'f83243004e7791e139e6683c733df6e2' 
+         '55a9e175b1793463a03b60e8d780c97d' 
+         '996ef2743e36103a351199f3fd72e70f' 
+         'ed09515b41a4af92740c42c3053225a9')
 
 build() {
 
-    #Install the game
-	cd $srcdir
-    install -d $pkgdir/opt/enemy-territory/
-    cp -r tcetest $pkgdir/opt/enemy-territory/
-    
-    #Apply the patch
-    unzip -o tce049b_all_os_fixed.zip -d $pkgdir/opt/enemy-territory/tcetest
-	
-	#Clean up
-    rm $pkgdir/opt/enemy-territory/tcetest/._Mac_users_run_me_first.pkg
-    rm $pkgdir/opt/enemy-territory/tcetest/Mac\ Users\ Read\ Me\ First\ -\ Important\ Information.txt
-    rm $pkgdir/opt/enemy-territory/tcetest/{cgame_mac,cgame_mp_x86.dll,qagame_mp_x86.dll,ui_mac,ui_mp_x86.dll}
-    rm -r $pkgdir/opt/enemy-territory/tcetest/{Mac_users_run_me_first.pkg/,qagame_mac.bundle/}
-	
-    #Install the icon and .desktop files
-    install -D -m 644 $pkgdir/opt/enemy-territory/tcetest/tce_icon_pc.ico $pkgdir/usr/share/pixmaps/true-combat.ico
-    install -D -m 644 true-combat.desktop $pkgdir/usr/share/applications/true-combat.desktop
-	
-    #Install the license
-    install -d $pkgdir/usr/share/licenses/$pkgname
-    mv $pkgdir/opt/enemy-territory/tcetest/EULA_TrueCombat_Elite.txt $pkgdir/usr/share/licenses/true-combat
-	
-	#Install the bin scripts 
-    install -D -m 755 true-combat.sh $pkgdir/usr/bin/true-combat
-    install -D -m 755 true-combatded.sh $pkgdir/usr/bin/true-combat-server
+  #Install the game
+  cd $srcdir
+  install -d $pkgdir/opt/enemy-territory/
+  cp -r tcetest $pkgdir/opt/enemy-territory/
+  
+  #Apply the patch
+  unzip -o tce049b_all_os_fixed.zip -d $pkgdir/opt/enemy-territory/tcetest
+  
+  #Clean up
+  rm $pkgdir/opt/enemy-territory/tcetest/._Mac_users_run_me_first.pkg
+  rm $pkgdir/opt/enemy-territory/tcetest/Mac\ Users\ Read\ Me\ First\ -\ Important\ Information.txt
+  rm $pkgdir/opt/enemy-territory/tcetest/{cgame_mac,cgame_mp_x86.dll,qagame_mp_x86.dll,ui_mac,ui_mp_x86.dll}
+  rm -r $pkgdir/opt/enemy-territory/tcetest/{Mac_users_run_me_first.pkg/,qagame_mac.bundle/}
+  
+  #Install the icon and .desktop files
+  install -D -m 644 $pkgdir/opt/enemy-territory/tcetest/tce_icon_pc.ico $pkgdir/usr/share/pixmaps/true-combat.ico
+  install -D -m 644 true-combat.desktop $pkgdir/usr/share/applications/true-combat.desktop
+  
+  #Install the license
+  install -d $pkgdir/usr/share/licenses/$pkgname
+  mv $pkgdir/opt/enemy-territory/tcetest/EULA_TrueCombat_Elite.txt $pkgdir/usr/share/licenses/true-combat
+  
+  #Install the bin scripts 
+  install -D -m 755 true-combat.sh $pkgdir/usr/bin/true-combat
+  install -D -m 755 true-combatded.sh $pkgdir/usr/bin/true-combat-server
 
-	#If arch is x86_64 fix the bin files to include lib32 dir
-	if [ "$CARCH" = "x86_64" ] ; then
-		sed "1,1a\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/true-combat
-		sed "1,1a\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/true-combat-server
-	fi
-		
+  #If arch is x86_64 fix the bin files to include lib32 dir
+  if [ "$CARCH" = "x86_64" ] ; then
+    sed "1,1a\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/true-combat
+    sed "1,1a\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/true-combat-server
+  fi
+    
 }
+
+# vim:set ts=2 sw=2 et:

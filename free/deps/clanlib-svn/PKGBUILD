@@ -4,49 +4,45 @@ pkgname=clanlib-svn
 pkgver=1848
 pkgrel=1
 pkgdesc="A multi-platform game development library"
+url="http://www.clanlib.org/"
 arch=('i686' 'x86_64')
+license=('custom: clanlib')
 depends=('libxmu' 'libxi' 'mesa' 'libjpeg' 'libpng' 'libmikmod' 'libvorbis' 'sdl_gfx>=2.0.13' 'inputproto')
 makedepends=('subversion')
-conflicts=('clanlib')
 provides=('clanlib')
-url="http://www.clanlib.org/"
-source=()
-license=('custom')
-md5sums=()
+conflicts=('clanlib')
 options=(!libtool)
+source=()
+md5sums=('')
 
 _svntrunk=svn://esoteric.clanlib.org/ClanLib/Development/ClanLib-0.8
-_svnmod=clanlib-svn
+_svnmod=clanlib
 
 build() {
-    cd $srcdir
 
-    if [ -d $_svnmod/.svn ]; then
-      (cd $_svnmod && svn up -r $pkgver)
-    else
-      svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
-    fi
+  #Grab the sources with svn
+  cd $srcdir
+  if [ -d $_svnmod/.svn ]; then
+    (cd $_svnmod && svn up -r $pkgver) || return 1
+  else
+    svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod || return 1
+  fi
+  msg "SVN checkout done or server timeout"
+  msg "Starting make..."
+  rm -r "$srcdir/$_svnmod-build"
+  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
+  cd "$srcdir/$_svnmod-build"
 
-    msg "SVN checkout done or server timeout"
-    msg "Starting make..."
-
-    cp -r $_svnmod $_svnmod-build
-    cd $_svnmod-build
-
-    ./autogen.sh
-
-    ./configure --prefix=/usr \
-                --disable-static \
-                --enable-clanDisplay \
-                --enable-clanGL \
-                --enable-clanSound \
-                --enable-clanNetwork \
-                --enable-clanGUI  \
-                --enable-clanMikMod \
-                --enable-clanVorbis
-
-    make || return 1
-    make DESTDIR=$pkgdir install
-    mkdir -p $pkgdir/usr/share/licenses/$pkgname
-    install -m 644 COPYING $pkgdir/usr/share/licenses/$pkgname
+  #Making and installing the package
+  ./autogen.sh
+  ./configure --prefix=/usr --disable-static --enable-clanDisplay --enable-clanGL --enable-clanSound --enable-clanNetwork --enable-clanGUI --enable-clanMikMod --enable-clanVorbis
+  make || return 1
+  make DESTDIR=$pkgdir install
+  
+  #Installing the license
+  mkdir -p $pkgdir/usr/share/licenses/$pkgname
+  install -m 644 COPYING $pkgdir/usr/share/licenses/$pkgname
+  
 }
+
+# vim:set ts=2 sw=2 et:

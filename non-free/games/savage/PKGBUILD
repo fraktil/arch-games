@@ -1,10 +1,9 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
-# Maintainer: Black_Mage <vleon1@gmail.com>
 
 pkgname=savage
 pkgver=2.00e
 pkgrel=7
-pkgdesc="Savage: The Battle for Newerth is an online multiplayer team-based FPS/RTS hybrid. Completely free as of September 2006. (Includes SFE Patches)"
+pkgdesc="An online multiplayer team-based FPS/RTS hybrid. Completely free as of September 2006. (Includes SFE Patches)"
 url="http://s2games.com/savage"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -13,49 +12,51 @@ depends=('sdl' 'mesa' 'libjpeg' 'e2fsprogs')
 makedepends=('unzip')
 install=savage.install
 source=(savage.launcher 
-		savage.desktop
-		icon.xpm
-		http://mnky.newerth.com/lin-client-auth-patch.zip
-		http://www.notforidiots.com/SFE/SFE-Standalone.tar.gz)
-		
+        savage.desktop
+        icon.xpm
+        http://mnky.newerth.com/lin-client-auth-patch.zip
+        http://www.notforidiots.com/SFE/SFE-Standalone.tar.gz)
+    
 md5sums=('1588610be6fe7c52eda37fee65ca16c4' 
-		 '1fcb84c031b22b73fd803a6e2a611aca' 
-		 'a73f68e3620382860b08e88c1125f55d' 
-		 '7fb1e0b31e838ea335a35c769c4549d8' 
-		 '3ce0c50e3d5e4ff6789122c5076fb66b')
+         '1fcb84c031b22b73fd803a6e2a611aca' 
+         'a73f68e3620382860b08e88c1125f55d' 
+         '7fb1e0b31e838ea335a35c769c4549d8' 
+         '3ce0c50e3d5e4ff6789122c5076fb66b')
 
 build() {
 
-	#Install the game
-	cd $srcdir
-	install -d $pkgdir/opt/savage
-    tar zxf $srcdir/SFE-Standalone.tar.gz -C $pkgdir/opt/savage/
-    
-	#Install the client patch
-    install -m 755 $srcdir/lin-client-auth-patch/silverback.bin $pkgdir/opt/savage/silverback.bin
-    install -m 755 $srcdir/lin-client-auth-patch/game/game.so $pkgdir/opt/savage/game/game.so
-    install -m 755 $srcdir/lin-client-auth-patch/libs/libpng12.so.0 $pkgdir/opt/savage/libs/libpng12.so.0
-    
-	#Create a log file
-    touch $pkgdir/opt/savage/scripts.log
-	
-    #Set ownership to the games group
-    chown -R root:games $pkgdir/opt/savage
-    chmod -R g+w $pkgdir/opt/savage
-    
-	#Install the license
-    install -D -m 644 $srcdir/licenses.txt $pkgdir/usr/share/licenses/$pkgname/licenses.txt
-    
-	#Install a .desktop and icon file
-	install -D -m 644 $srcdir/icon.xpm $pkgdir/usr/share/pixmaps/savage.xpm
-    install -D -m 644 $srcdir/savage.desktop $pkgdir/usr/share/applications/savage.desktop
-    
-	#Install the launcher
-    install -D -m 755 $srcdir/savage.launcher $pkgdir/usr/bin/savage
-	
-	#If arch is x86_64 fix the launcher to include lib32 dir
-	if [ "$CARCH" = "x86_64" ] ; then
-		sed "4,4c\export LD_LIBRARY_PATH=libs:/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/savage
-	fi
-	
+  #Install the game
+  cd $srcdir
+  install -d $pkgdir/opt/savage
+  tar zxf $srcdir/SFE-Standalone.tar.gz -C $pkgdir/opt/savage/
+  
+  #Install the client patch
+  install -m 755 $srcdir/lin-client-auth-patch/silverback.bin $pkgdir/opt/savage/silverback.bin
+  install -m 755 $srcdir/lin-client-auth-patch/game/game.so $pkgdir/opt/savage/game/game.so
+  install -m 755 $srcdir/lin-client-auth-patch/libs/libpng12.so.0 $pkgdir/opt/savage/libs/libpng12.so.0
+  
+  #Create a log file
+  touch $pkgdir/opt/savage/scripts.log
+  
+  #Set ownership to the games group
+  chown -R root:games $pkgdir/opt/savage
+  chmod -R g+w $pkgdir/opt/savage
+  
+  #Install a .desktop and icon file
+  install -D -m 644 $srcdir/icon.xpm $pkgdir/usr/share/pixmaps/savage.xpm
+  install -D -m 644 $srcdir/savage.desktop $pkgdir/usr/share/applications/savage.desktop
+  
+  #Install the license
+  install -D -m 644 $srcdir/licenses.txt $pkgdir/usr/share/licenses/$pkgname/licenses.txt
+  
+  #Install the launcher
+  install -D -m 755 $srcdir/savage.launcher $pkgdir/usr/bin/savage
+  
+  #If arch is x86_64 fix the launcher to include lib32 dir
+  if [ "$CARCH" = "x86_64" ] ; then
+    sed "4,4c\export LD_LIBRARY_PATH=libs:/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/savage
+  fi
+  
 }
+
+# vim:set ts=2 sw=2 et:

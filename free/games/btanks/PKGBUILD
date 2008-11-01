@@ -1,18 +1,20 @@
 # Contributor: Nick B <Shirakawasuna at gmail _dot_ com>
+
 pkgname=btanks
 pkgver=0.8.7686
 pkgrel=1
 pkgdesc="Fast 2d tank arcade game with multiplayer and split-screen modes."
-arch=('i686' 'x86_64')
 url="http://btanks.sourceforge.net"
+arch=('i686' 'x86_64')
 license=('GPL')
 depends=('sdl' 'sdl_image' 'openal' 'libvorbis' 'libsigc++2.0' 'libgl' 'expat' 'lua' 'smpeg')
 makedepends=('scons')
-source=(http://downloads.sourceforge.net/btanks/$pkgname-$pkgver.tar.bz2 
-	btanks_desktop
-	btanks
-	bted)
 install=btanks.install
+source=(http://downloads.sourceforge.net/btanks/$pkgname-$pkgver.tar.bz2 
+        btanks_desktop
+        btanks
+        bted)
+
 md5sums=('f5e4076e8562f4ad54fefeceaa37870d'
          'a2ddeb1e79dff8d3fd702984c8d3aab5'
          'fd3a1f50bae8bdb49eb13d48087eae66'
@@ -20,27 +22,28 @@ md5sums=('f5e4076e8562f4ad54fefeceaa37870d'
 
 build() {
 
-  # Compile with scons
+  #Compile
   cd $srcdir/$pkgname-$pkgver
   scons || return 1
-	
-  # Copy over files
-  mkdir -p $pkgdir/usr/share
+  
+  #Install the package
+  install -d -m755 $pkgdir/usr/share
   cp -r $srcdir/$pkgname-$pkgver $pkgdir/usr/share/btanks
   
-  # Install scripts
-  mkdir -p $pkgdir/usr/bin
-  install -D -m755 $srcdir/btanks $pkgdir/usr/bin/btanks
-  install -D -m755 $srcdir/bted $pkgdir/usr/bin/bted
-
-  # Install desktop file
-  install -D -m644 $srcdir/btanks_desktop $pkgdir/usr/share/applications/btanks.desktop
-
-  # Install icon
-  install -D -m644 $srcdir/$pkgname-$pkgver/data/tiles/icon.png $pkgdir/usr/share/pixmaps/btanks.png
-
-  # Make settings saveable
+  #Make settings saveable
   touch $pkgdir/usr/share/btanks/bt.xml
   chown :games $pkgdir/usr/share/btanks/bt.xml
   chmod 664 $pkgdir/usr/share/btanks/bt.xml
+  
+  #Install the .desktop and icon files
+  install -D -m644 $srcdir/btanks_desktop $pkgdir/usr/share/applications/btanks.desktop
+  install -D -m644 $srcdir/$pkgname-$pkgver/data/tiles/icon.png $pkgdir/usr/share/pixmaps/btanks.png
+
+  #Install the bin files
+  install -d -m755 $pkgdir/usr/bin
+  install -D -m755 $srcdir/btanks $pkgdir/usr/bin/btanks
+  install -D -m755 $srcdir/bted $pkgdir/usr/bin/bted
+
 }
+
+# vim:set ts=2 sw=2 et:

@@ -1,61 +1,59 @@
 # Contributor : Lone_Wolf lonewolf@xs4all.nl
+
 pkgname=vdrift
 pkgver=2008.08.05
-_realver=2008-08-05
-_stripver=08-05-08
 pkgrel=1
 pkgdesc="A free drift racing simulator with excellent physics and graphics. (FULL version)"
-arch=('i686' 'x86_64')
 url="http://vdrift.net"
+arch=('i686' 'x86_64')
 license=('GPL')
 depends=('sdl' 'sdl_gfx' 'sdl_image' 'sdl_net' 'glew' 'libvorbis' 'freealut')
 makedepends=('scons' 'ftjam')
-source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$_realver-src.tar.bz2)
-md5sums=('9e3e3c91960146354c2a9fb65da3bd97')
 install=vdrift.install
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-2008-08-05-src.tar.bz2)
+md5sums=('9e3e3c91960146354c2a9fb65da3bd97')
 
 build() {
-	
-	cd $srcdir/$pkgname-$_stripver
-	
-	#Apply arch to scons for better compiling result
-	if [ "$CARCH" = "x86_64" ] ; then
-      _SconsArch="arch=a64"  
-    else
-      _SconsArch="arch=686"
-    fi
+  
+  #Apply arch to scons for better compiling result
+  cd $srcdir/$pkgname-08-05-08
+  if [ "$CARCH" = "x86_64" ] ; then
+    _SconsArch="arch=a64"  
+  else
+    _SconsArch="arch=686"
+  fi
 
-	#Compile bullet, the game needs it to compile
-	cd bullet-*
-	./configure
-	jam bulletcollision bulletmath || return 1
-	cd ../
-	
-	#Compile and run install, the install is buggy hence the next steps
-    scons destdir=$pkgdir datadir=share/$pkgname/data bindir=share/$pkgname/bin release=1 minimal=0 force_feedback=1 $_SconsArch || return 1
-    scons install
-    
-    #Copying stuff that the outdated scons install didn't
-    cp -r data/* $pkgdir/usr/share/$pkgname/data
-    
-    #Copying again, this time icons
-    cd data/textures/icons
-    mkdir -p $pkgdir/usr/share/icons/hicolor/{16x16,32x32,64x64}/apps
-    install -D -m644 vdrift-16x16.png $pkgdir/usr/share/icons/hicolor/16x16/apps/vdrift.png
-    install -D -m644 vdrift-32x32.png $pkgdir/usr/share/icons/hicolor/32x32/apps/vdrift.png
-    install -D -m644 vdrift-64x64.png $pkgdir/usr/share/icons/hicolor/64x64/apps/vdrift.png
-    cd ../../..    
-    
-    #And again for the .desktop file
-    cd tools/autopackage
-    mkdir -p $pkgdir/usr/share/applications
-    mv vdrift.desktop vdrift.desktop.org
-    sed 's;vdrift-64x64.png;vdrift.png;' <vdrift.desktop.org >vdrift.desktop
-    install -D -m644 vdrift.desktop $pkgdir/usr/share/applications
-    
-    #Linking the execute file to the /usr/bin directory (scons install cant install a bin file properly)
-    mkdir -p $pkgdir/usr/bin
-    cd $pkgdir/usr/bin
-    ln -s /usr/share/$pkgname/bin/vdrift
+  #Compile bullet, the game needs it to compile
+  cd bullet-*
+  ./configure
+  jam bulletcollision bulletmath || return 1
+  cd ../
+  
+  #Compile and run install, the install is buggy hence the next steps
+  scons destdir=$pkgdir datadir=share/$pkgname/data bindir=share/$pkgname/bin release=1 minimal=0 force_feedback=1 $_SconsArch || return 1
+  scons install
+  
+  #Copying stuff that the outdated scons install didn't
+  cp -r data/* $pkgdir/usr/share/$pkgname/data
+  cd data/textures/icons
+  mkdir -p $pkgdir/usr/share/icons/hicolor/{16x16,32x32,64x64}/apps
+  install -D -m644 vdrift-16x16.png $pkgdir/usr/share/icons/hicolor/16x16/apps/vdrift.png
+  install -D -m644 vdrift-32x32.png $pkgdir/usr/share/icons/hicolor/32x32/apps/vdrift.png
+  install -D -m644 vdrift-64x64.png $pkgdir/usr/share/icons/hicolor/64x64/apps/vdrift.png
+  cd ../../..  
+  
+  #Fixing the .desktop file and installing it
+  cd tools/autopackage
+  mkdir -p $pkgdir/usr/share/applications
+  mv vdrift.desktop vdrift.desktop.org
+  sed 's;vdrift-64x64.png;vdrift.png;' <vdrift.desktop.org >vdrift.desktop
+  install -D -m644 vdrift.desktop $pkgdir/usr/share/applications
+  
+  #Linking the execute file to the /usr/bin directory (scons install cant install a bin file properly)
+  mkdir -p $pkgdir/usr/bin
+  cd $pkgdir/usr/bin
+  ln -s /usr/share/$pkgname/bin/vdrift
 
 }
+
+# vim:set ts=2 sw=2 et:
