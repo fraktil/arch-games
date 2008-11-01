@@ -1,0 +1,49 @@
+# Contributor: Black Mage <vleon1@gmail.com>
+
+pkgname=fife-svn
+pkgver=2668
+pkgrel=1
+pkgdesc="The mission of the FIFE project is to create a cross platform game creation framework"
+url="http://www.fifengine.de/"
+arch=('i686' 'x86_64')
+license=('LGPL')
+depends=('boost' 'sdl_ttf' 'sdl_image' 'libvorbis' 'openal-soft' 'guichan' 'swig' 'python' 'libgl')
+makedepends=('scons' 'subversion')
+install=fife.install
+source=()
+md5sums=('')
+
+_svntrunk=http://svn9.cvsdude.com/fife/engine/trunk
+_svnmod=fife
+
+build() {
+
+  #Grab the sources with svn
+  cd $srcdir
+  if [ -d $_svnmod/.svn ]; then
+    (cd $_svnmod && svn up -r $pkgver) || return 1
+  else
+    svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod || return 1
+  fi
+  msg "SVN checkout done or server timeout"
+  msg "Starting make..."
+  rm -r "$srcdir/$_svnmod-build"
+  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
+  cd "$srcdir/$_svnmod-build"
+
+  #Build the package
+  scons ext=1 || return 1
+  scons || return 1
+
+  #Manually install the package
+  install -d -m755 $pkgdir/opt/fife
+  cp -r {clients,doc,engine} $pkgdir/opt/fife/
+
+  #Fife uses the directoy its in, so we set permissions to allow games group to use fife properly.
+  chown -R root:games $pkgdir/opt/fife || return 1
+  find $pkgdir/opt/fife -type f -exec chmod 664 {} + || return 1
+  find $pkgdir/opt/fife -type d -exec chmod 775 {} + || return 1
+  
+}
+
+# vim:set ts=2 sw=2 et:
