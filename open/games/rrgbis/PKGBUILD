@@ -1,0 +1,48 @@
+# Contributor: Jacek Poplawski <jacekpoplawski@gmail.com>
+# Contributor: Florian Walch <florian.walch@gmx.at>
+
+pkgname=rrgbis
+pkgver=1.12
+pkgrel=1
+pkgdesc="Really Rather Good Battles In Space is a free (open source) real time strategy game."
+url="http://rrgbis.sourceforge.net/"
+arch=('i686' 'x86_64')
+license=('GPL' 'custom')
+depends=('sdl' 'sdl_image' 'sdl_mixer' 'freetype2' 'libgl')
+source=(http://downloads.sourceforge.net/rrgbis/$pkgname-$pkgver-src.tar.bz2
+        http://downloads.sourceforge.net/rrgbis/$pkgname-1.11-data.tar.bz2
+        rrgbis.sh
+        rrgbis.license)
+
+noextract=(rrgbis-1.11-data.tar.bz2)
+md5sums=('14396c77f2b68cf2e5104174c135f4e4'
+         'abd55dc67686ac99e96f9db2e59b5981'
+         'f887e6010fe9a1e2131b89582a21f0ca'
+         '05c62d3c9cba182912f31e26c232d324')
+
+build() {
+
+  #Build the package
+  cd $srcdir/$pkgname/src/FTGL
+  ./configure
+  cd ../../
+  make || return 1
+
+  #Manually install the package data
+  install -d -m755 $pkgdir/usr/share
+  bsdtar -x -C $pkgdir/usr/share -f $srcdir/rrgbis-1.11-data.tar.bz2
+  install -D -m755 rrgbis $pkgdir/usr/share/rrgbis/rrgbis
+
+  #Install the .desktop and icon files
+  install -D -m644 rrgbis.png $pkgdir/usr/share/icons/rrgbis.png
+  install -D -m644 rrgbis.desktop $pkgdir/usr/share/applications/rrgbis.desktop
+
+  #Copy the license
+  install -D -m644 $srcdir/rrgbis.license $pkgdir/usr/share/licenses/rrgbis/Copying
+
+  #Install the bin file
+  install -D -m755 $srcdir/rrgbis.sh $pkgdir/usr/bin/rrgbis
+
+}
+
+# vim:set ts=2 sw=2 et:

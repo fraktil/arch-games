@@ -1,0 +1,124 @@
+Copyright and Licensing:
+=============
+
+Code:
+
+- All code not not in the "squirrel" or "FTGL" subdirectories is copyright James Gregory, and is released under the GPL, see:
+http://www.gnu.org/copyleft/gpl.html
+
+- The included source for the Squirrel scripting language (http://squirrel-lang.org) is copyright Alberto Demichelis and is licensed under the zlib/libpng licence, see:
+http://www.opensource.org/licenses/zlib-license.php
+
+- the included source for FTGL is copyright Henry Maddocks, which is licensed both under the GPL and also under an alternative "do whatever you like as long as credit is given" license
+
+- GLSDL.cpp and GLSDL.h are based on glSDL by David Olofson
+
+- GFX.cpp and GFX.h are based on SDL_gfx by Andreas Schiffler
+
+=============
+
+Art:
+
+- The following character portraits were taken with written permission from artists at deviantART (http://www.deviantart.com) and may not be reproduced or reused unless you too get the express permission of the author. They have been cropped, scaled and in some cases slightly edited to fit the needs of the game:
+
+- Caleb Manchester by *emperial http://www.deviantart.com/deviation/28556319/
+- An Admiral by *emperial http://www.deviantart.com/deviation/42667384/
+- Vengeful Spirit 2.0 by ranin http://www.deviantart.com/deviation/40518717/
+- Contemplation by melora http://www.deviantart.com/deviation/6975327/
+- mage by suprhppymgcprincesss http://www.deviantart.com/deviation/3951196/
+- Checking It Twice by Maddjuju http://www.deviantart.com/deviation/33777360/
+- Space ship engineer by NZrommel http://www.deviantart.com/deviation/39557195/
+- Don't move, buddy. by NZrommel http://www.deviantart.com/deviation/31848488/
+- Cobra Commander colors by TheQuezot http://www.deviantart.com/deviation/5625813/
+
+- All portraits with the word "windstille" in the filename are copyright Ingo Ruhnke and are licensed under the GPL, see:
+http://www.gnu.org/copyleft/gpl.html
+
+- The following nebulae and planet images are also from deviantART and again cannot be reproduced or reused unless you too get the express permission of the author:
+
+- mission1background.jpg by Andr-Sar http://andr-sar.deviantart.com/
+- dark_nebula.png by Andr-Sar http://andr-sar.deviantart.com/
+- particle_clouds.png by Andr-Sar http://andr-sar.deviantart.com/
+- Swan Nebula by hameed http://www.deviantart.com/deviation/12124361/ 
+- Co-Existence Planet Resource by `hameed http://www.deviantart.com/view/3452616/ 
+- Planet Resource v5 by hameed http://www.deviantart.com/deviation/16852528/ 
+- Telephus.png by hameed http://hameed.deviantart.com/
+- Maxuvez - planet resource by Mr-Frenzy http://www.deviantart.com/deviation/11744108/
+
+- kpovetieta_small.png is copyright notalent, and may not be reused without the author's permission
+
+- All spaceship images with the word "kasper" in the filename and the explosion animation images are copyright Kasper Hviid and are licensed under the Creative Commons Attribution-Sharealike license, see:
+http://creativecommons.org/licenses/by-sa/2.5/
+
+- The capital ship image "beholders-capital.png" is copyright Katarzyna Matylla and is also licensed under the Creative Commons Attribution-Sharealike license
+
+- Most of the icons in the game are edited versions of those from the The Tango Desktop Project (http://tango.freedesktop.org), also licensed under the Creative Commons Attribution-Sharealike license
+
+- the mouse cursors, the range circle icon, and the X-Interceptor image are copyright James Gregory, and are also released under the Creative Commons Attribution-Sharealike license
+
+- The game's galaxy icon is an image from NASA which is public domain
+
+- the included DejaVu fonts are copyright (c) 2003 by Bitstream, Inc. All Rights Reserved, the fonts may be freely used and modified according to the terms of the LICENSE file in the fonts directory
+
+=============
+
+Voice:
+
+- James Gregory
+- Simon Ko
+- Eleanor Jones
+- James Marchant
+- Paulo Morfeo
+- Laurence Abbott
+
+=============
+
+Music:
+
+All music was taken from http://ccmixter.org, the originals have been converted to ogg and in some cases cropped.
+
+- "one moment" - copyright cdk - licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 2.5 license, see:
+http://creativecommons.org/licenses/by-nc-sa/2.5/
+
+- "state of every day madness" - copyright Ghost_k - also under the Creative Commons Attribution-NonCommercial-ShareAlike 2.5 license
+
+- "43" - copyright hepepe - licensed under the Creative Commons Attribution-NonCommercial 2.5 license, see:
+http://creativecommons.org/licenses/by-nc/2.5/
+
+- "Crazy Breaks" - copyright cdk - licensed under the Creative Commons Non-Commercial Sampling Plus 1.0 license, see:
+http://creativecommons.org/licenses/nc-sampling+/1.0/
+
+- "Disrupted Melody" - copyright cdk - licensed under the Creative Commons Non-Commercial Sampling Plus 1.0 license, see:
+http://creativecommons.org/licenses/nc-sampling+/1.0/
+
+- "The Pudding" - copyright cdk - licensed under the Creative Commons Attribution-NonCommercial 2.5 license, see:
+http://creativecommons.org/licenses/by-nc/2.5/
+
+- "sevenhundredbeats" - copyright duncan_beattie - licensed under the Creative Commons Attribution 2.5 license, see:
+http://creativecommons.org/licenses/by/2.5/
+
+- "velocity" - copyright dimo - licensed under the Creative Commons Attribution 2.5 license, see:
+http://creativecommons.org/licenses/by/2.5/
+
+=============
+
+Sound effects:
+
+All sound effects were taken from http://freesound.iua.upf.edu, and have been converted to ogg and in some cases edited.
+
+- "5989_user_56891b_drum72.wav" (menu click) - copyright user 56891b
+- "18378_inferno_ftlas.ogg" (small laser) - copyright inferno
+- "18382_inferno_hvylas.ogg" (twin laser) - copyright inferno
+- "18389_inferno_medlas.ogg" (large laser) - copyright inferno
+- "18380_inferno_hvrl.ogg" (missile launch) - copyright inferno
+- "18394_inferno_rlhvyx.ogg" (drop ship launch) - copyright inferno
+- "18400_inferno_waterxplo.ogg" (torpedo explosion) - copyright inferno
+- "18401_inferno_xlaz.ogg" (planetary bombardment explosion) - copyright inferno
+- "21410_Heigh_hoo_blow_short.ogg" (small ship explosion) - copyright Heigh_hoo
+- "19105_Jace_Ship_damaged_explosions_sparks_short.ogg" (frigate explosion) - copyright Jace
+- "19105_Jace_Ship_damaged_explosions_sparks.ogg" (capital ship explosion) - copyright Jace
+
+All the sound effects are all licensed under the Creative Commons Sampling Plus license, see:
+http://creativecommons.org/licenses/sampling+/1.0/
+
+=============
