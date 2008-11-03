@@ -10,7 +10,7 @@ cat << EOF
 ==> out.
 ==>
 ==>You can test the engine out by running
-==> # cd /opt/fife/clients/rio_de_hola && python run.py
+==> # cd /usr/share/fife/clients/rio_de_hola && python run.py
 ==>
 EOF
 

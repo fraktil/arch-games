@@ -1,0 +1,43 @@
+# Contributor: Black Mage <vleon1@gmail.com>
+
+pkgname=btrl
+pkgver=demo
+pkgrel=1
+pkgdesc="Beyond the Red Line is an total conversion of FreeSpace 2, based on the reimagined TV show Battlestar Galactica"
+url="http://www.game-warden.com/bsg/"
+arch=('i686' 'x86_64')
+license=('unknown')
+depends=('fs2_open-svn')
+source=(http://files.plebian.net/uploads/bsg-btrl/BtRLDemoInstaller.tgz
+        btrl.desktop
+        btrl.sh)
+
+md5sums=('39335a19aaeb3e8c433055c3cb01cfe9'
+         '037a48e5ae4c9cf6241e49936a158911'
+         '35298dda0e0b90627f14a0e27cd31771')
+
+build () {
+
+  #Extract the files in the installer
+  cd $srcdir
+  chmod +x BtRLDemoInstaller.run
+  ./BtRLDemoInstaller.run --noexec --target btrl
+
+  #Install the package data
+  cd btrl
+  install -d -m755 $pkgdir/opt/btrl
+  bsdtar -x -C $pkgdir/opt/btrl/ -f game_data.tar
+
+  #Remove obsolute configs parameters for fs2_open (its one line because otherwise, the file created has extra spaces ^.^)
+  sed "1,1c\-cap_object_update 0 -ambient_factor 70 -spec_exp 8.2 -spec_tube 1.0 -spec_point 8.6 -spec_static 3.5 -spec -glow -mipmap -missile_lighting -dualscanlines -targetinfo -ballistic_gauge -ship_choice_3d -snd_preload" -i $pkgdir/opt/btrl/data/cmdline_fso.cfg
+
+  #Install the .desktop and icon files
+  install -D -m644 btrl.png $pkgdir/usr/share/pixmaps/btrl.png
+  install -D -m644 $srcdir/btrl.desktop $pkgdir/usr/share/applications/btrl.desktop
+
+  #Install the bin file
+  install -D -m755 $srcdir/btrl.sh $pkgdir/usr/bin/btrl
+
+}
+
+# vim:set ts=2 sw=2 et:

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+GenericName=btrl
+Name=Beyond the Red Line
+Exec=btrl
+Icon=/usr/share/pixmaps/btrl.png
+Terminal=false
+Type=Application
+Categories=Application;Game;
