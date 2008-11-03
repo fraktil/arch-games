@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=OpenAnno
+GenericName=Economy simulation game
+GenericName[ru]=Экономический симулятор
+Comment=Economy simulation game
+Comment[ru]=Экономический симулятор
+Exec=/opt/openanno/openanno.py
+Icon=/opt/openanno/openanno.png
+MimeType=application/x-python
+Categories=Game;StrategyGame;

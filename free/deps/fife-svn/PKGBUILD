@@ -9,7 +9,7 @@ arch=('i686' 'x86_64')
 license=('LGPL')
 depends=('boost' 'sdl_ttf' 'sdl_image' 'libvorbis' 'openal-soft' 'guichan' 'swig' 'python' 'libgl')
 makedepends=('scons' 'subversion')
-install=fife.install
+install=fife-svn.install
 source=()
 md5sums=('')
 
@@ -36,13 +36,8 @@ build() {
   scons || return 1
 
   #Manually install the package
-  install -d -m755 $pkgdir/opt/fife
-  cp -r {clients,doc,engine} $pkgdir/opt/fife/
-
-  #Fife uses the directoy its in, so we set permissions to allow games group to use fife properly.
-  chown -R root:games $pkgdir/opt/fife || return 1
-  find $pkgdir/opt/fife -type f -exec chmod 664 {} + || return 1
-  find $pkgdir/opt/fife -type d -exec chmod 775 {} + || return 1
+  install -d -m755 $pkgdir/usr/share/fife
+  cp -r {clients,doc,engine} $pkgdir/usr/share/fife
   
 }
 
