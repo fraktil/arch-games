@@ -1,7 +1,7 @@
 # Contributor: rabyte <rabyte__gmail>
 
 pkgname=widelands
-pkgver=12
+pkgver=13
 pkgrel=1
 pkgdesc="A realtime-strategy game inspired by Settlers II"
 url="http://www.widelands.org/"
@@ -9,10 +9,10 @@ arch=('i686' 'x86_64')
 license=('GPL2')
 depends=('sdl_mixer>=1.2.6' 'sdl_image' 'sdl_net' 'sdl_ttf>=2' 'sdl_gfx' 'gcc-libs')
 makedepends=('scons>=0.97' 'boost')
-source=(http://downloads.sourceforge.net/$pkgname/$pkgname-build-$pkgver-source.tar.bz2
+source=(http://downloads.sourceforge.net/widelands/$pkgname-Build13rc-src.tar.bz2
         widelands.desktop)
     
-md5sums=('1b551106e0f613f63abd7e6bdc9cebf6' 
+md5sums=('8639ce8e357346daa5b60a7ac905f1d9' 
          '4778247d832b78702746f3116e61156b')
 
 build() {

@@ -1,50 +1,51 @@
 # Contributor: rabyte <rabyte__gmail>
 
 pkgname=openarena
-pkgver=0.8.1 #<-- making it ready for when its out and legal again
+pkgver=0.8.1
 pkgrel=1
 pkgdesc="A completely free multiplayer FPS game based on the ioquake3 engine"
 url="http://openarena.ws/"
 arch=('i686' 'x86_64')
 license=('GPL2')
-depends=('libgl' 'sdl' 'libvorbis')
+depends=('libgl' 'sdl' 'libvorbis' 'curl')
 makedepends=('unzip')
-source=(http://download.tuxfamily.org/openarena/rel/076/oa076.zip 
-        http://download.tuxfamily.org/openarena/rel/077/oa077-patch.zip
-        http://openarena.ws/svn/source/077/openarena077scr3.tar.bz2
+source=(http://download.tuxfamily.org/openarena/rel/081/oa081.zip
+        http://openarena.ws/svn/source/081/$pkgname-engine-$pkgver-1.tar.bz2
         openarena.png
-        openarena-server.png
         openarena.desktop
-        openarena-server.desktop)
-    
-md5sums=('9feb2124b9ac8c46ff11163fd5bb1049' 
-         'e981b47dd39e3fde4af68a08cf76b7d3' 
-         'ba7c65a99f86124309f97b8b47596609' 
-         'c69f824dc500d436fc631b78b6a62dc8' 
-         '17e2f4fa060ed97ff6fe1eaff647bcfb' 
-         '229c87648c10e48b523c25d24aba8372' 
-         '00649517a4dd08cd9c6e99d6703f01f1')
+        openarena.sh
+        openarena-server.sh)
+
+md5sums=('77de293c70f033cf1ff14a1bd82dc4d3'
+         '4ee696eacc4b0350f9dbb5588dcd74a2'
+         'c69f824dc500d436fc631b78b6a62dc8'
+         '8ca6da826f35857ea1b3f4f17734843d'
+         '02e47aac0a157f07c748818afac22e5e'
+         'af298f15420dea2bf003489ac9bf825f')
 
 build() {
 
-  #Build the package  
-  cd $srcdir/${pkgname}077
+  #Build the package
+  cd $srcdir/$pkgname-engine-$pkgver
   make  DEFAULT_BASEDIR=/opt/openarena BUILD_CLIENT_SMP=0 USE_LOCAL_HEADERS=0 GENERATE_DEPENDENCIES=0 || return 1
   make COPYDIR=$pkgdir/opt/openarena copyfiles || return 1
-  
-  #Manually install the package   
-  install -d -m755 $pkgdir/usr/{bin,share/{openarena,applications,pixmaps}}
-  cp -rf ../$pkgname-0.7.6/baseoa/ $pkgdir/usr/share/openarena/
-  find $pkgdir/opt/openarena -type f -exec chmod 644 {} \;
-  
+
+  #Fix the stupid naming conversion
+  mv $pkgdir/opt/openarena/openarena* $pkgdir/opt/openarena/openarena
+  mv $pkgdir/opt/openarena/oa_ded* $pkgdir/opt/openarena/oa_ded
+
+  #Manually install the package
+  install -D -m644 $srcdir/$pkgname-$pkgver/baseoa/* $pkgdir/opt/openarena/baseoa/
+  install -D -m644 $srcdir/$pkgname-$pkgver/missionpack/* $pkgdir/opt/openarena/missionpack/
+
   #Install the .desktop and icon files
-  install -m644 ../openarena{,-server}.png $pkgdir/usr/share/pixmaps/
-  install -m644 ../openarena{,-server}.desktop $pkgdir/usr/share/applications/
-  
-  #Install the bin files  
-  install -d -m755 $pkgdir/usr/share/openarena/ioquake3.* $pkgdir/usr/bin/openarena
-  install -d -m755 $pkgdir/usr/share/openarena/ioq3ded.* $pkgdir/usr/bin/openarena-server
-  
+  install -D -m644 $srcdir/openarena.png $pkgdir/usr/share/pixmaps/openarena.png
+  install -D -m644 $srcdir/openarena.desktop $pkgdir/usr/share/applications/openarena.desktop
+
+  #Install the bin files
+  install -D -m755 $srcdir/openarena.sh $pkgdir/usr/bin/openarena
+  install -D -m755 $srcdir/openarena-server.sh $pkgdir/usr/bin/openarena-server
+
 }
 
 # vim:set ts=2 sw=2 et:

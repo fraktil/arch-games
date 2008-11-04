@@ -6,7 +6,7 @@ pkgrel=1
 pkgdesc="Beyond the Red Line is an total conversion of FreeSpace 2, based on the reimagined TV show Battlestar Galactica"
 url="http://www.game-warden.com/bsg/"
 arch=('i686' 'x86_64')
-license=('unknown')
+license=('custom:freespace2')
 depends=('fs2_open-svn')
 source=(http://files.plebian.net/uploads/bsg-btrl/BtRLDemoInstaller.tgz
         btrl.desktop
