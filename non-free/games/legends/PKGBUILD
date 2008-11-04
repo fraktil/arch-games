@@ -7,7 +7,7 @@ pkgdesc="Legends is a mulitplayer first person shooter game, similar to Tribes"
 url="http://www.legendsthegame.net"
 arch=('i686' 'x86_64')
 license=('custom')
-depends=('libxext' 'libogg' 'sdl' 'sdl_image' 'sdl_mixer' 'libpng' 'libjpeg' 'zlib' 'rsync')
+depends=('libxext' 'libogg' 'sdl_image' 'sdl_mixer' 'libpng' 'libjpeg' 'rsync')
 source=(http://run.legendsthegame.net/${pkgname}_linux-$pkgver.run
         legends.launcher
         legends.desktop)

@@ -7,8 +7,7 @@ pkgdesc="A library of C++ classes for flexible logging to files, old version for
 url="http://log4cpp.hora-obscura.de/"
 arch=('i686' 'x86_64')
 license=('LGPL')
-depends=('gcc-libs')
-makedepends=('')
+depends=()
 options=('!libtool')
 source=(http://downloads.sourceforge.net/log4cpp/log4cpp-$pkgver.tar.gz 
         log4cpp-old.patch)

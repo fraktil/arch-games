@@ -7,7 +7,7 @@ pkgdesc="Simple game similar to the classical game Marble Madness on the Amiga i
 url="http://trackballs.sourceforge.net/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('guile>=1.8.1' 'sdl_ttf' 'sdl_image' 'sdl_mixer' 'mesa')
+depends=('guile' 'sdl_ttf' 'sdl_image' 'sdl_mixer' 'mesa')
 install=trackballs.install
 source=(http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.gz
         trackballs.desktop)

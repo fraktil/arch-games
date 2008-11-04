@@ -7,7 +7,7 @@ pkgdesc="A rogue-like game in the fine tradition of NetHack and Moria but with a
 url="http://scourgeweb.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('sdl_image' 'sdl_mixer' 'sdl_net' 'sdl_ttf' 'libgl' 'mesa')
+depends=('sdl_image' 'sdl_mixer' 'sdl_net' 'sdl_ttf' 'mesa')
 source=(http://downloads.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.src.tar.gz 
         http://downloads.sourceforge.net/sourceforge/scourge/$pkgname-$pkgver.data.tar.gz 
         scourge.patch)

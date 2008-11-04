@@ -8,7 +8,7 @@ url="http://red.planetarena.org/"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('curl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl')
-makedepends=('hd2u' 'p7zip' 'unzip')
+makedepends=('hd2u' 'unzip')
 source=(http://alienarena.arcadebelgium.be/alienarena2008-linux${pkgver}.zip
         alienarena.desktop)
     

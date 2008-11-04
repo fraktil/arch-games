@@ -7,7 +7,7 @@ pkgdesc="A free cross-platform lobby client for the Spring RTS project."
 url="http://trac.springlobby.info"
 arch=('i686' 'x86_64')
 license=('GPL2')
-depends=('spring' 'wxgtk' 'libtorrent-rasterbar' 'asio' 'sdl' 'sdl_sound' 'sdl_mixer') 
+depends=('spring' 'wxgtk' 'libtorrent-rasterbar' 'asio' 'sdl_sound' 'sdl_mixer') 
 source=(http://www.springlobby.info/tarballs/$pkgname-$pkgver.tar.bz2 
         springlobby.desktop 
         springlobby.png)

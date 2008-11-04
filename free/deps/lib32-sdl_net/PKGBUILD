@@ -8,7 +8,7 @@ url="http://www.libsdl.org/projects/SDL_net/"
 arch=('x86_64')
 license=('LGPL')
 groups=('lib32')
-depends=('lib32-sdl>=1.2.12')
+depends=('lib32-sdl')
 source=(ftp://ftp.archlinux.org/extra/os/i686/sdl_net-$pkgver-$pkgrel.pkg.tar.gz)
 md5sums=('db666a8f6a92628cb8e68ba507183910')
 

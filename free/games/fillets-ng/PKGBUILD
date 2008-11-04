@@ -7,7 +7,7 @@ pkgdesc="A port of the wonderful puzzle game Fish Fillets."
 url="http://fillets.sf.net/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('lua' 'fribidi' 'sdl_mixer' 'sdl_ttf' 'sdl_image' 'gcc-libs' 'desktop-file-utils')
+depends=('lua' 'fribidi' 'sdl_mixer' 'sdl_ttf' 'sdl_image' 'desktop-file-utils')
 install=fillets-ng.install
 source=(http://downloads.sourceforge.net/fillets/$pkgname-$pkgver.tar.gz
         http://downloads.sourceforge.net/fillets/$pkgname-data-$pkgver.tar.gz

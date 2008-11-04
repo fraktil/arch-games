@@ -7,7 +7,7 @@ pkgdesc="XBlast is a multi-player arcade game inspired by the video/computer gam
 url="http://xblast.sourceforge.net/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('libpng' 'glibc' 'libx11' 'libice' 'zlib' 'libxau' 'libxdmcp')
+depends=('libpng' 'libice' 'zlib' 'libxau' 'libxdmcp')
 source=(http://prdownloads.sourceforge.net/sourceforge/xblast/$pkgname-$pkgver.tar.gz
         http://prdownloads.sourceforge.net/sourceforge/xblast/images-2005-01-06.tar.gz
         http://prdownloads.sourceforge.net/sourceforge/xblast/levels-2005-01-06.tar.gz

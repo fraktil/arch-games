@@ -7,7 +7,7 @@ pkgdesc="A multi-platform game development library"
 url="http://www.clanlib.org/"
 arch=('i686' 'x86_64')
 license=('custom: clanlib')
-depends=('libxmu' 'libxi' 'mesa' 'libjpeg' 'libpng' 'libmikmod' 'libvorbis' 'sdl_gfx>=2.0.13' 'inputproto')
+depends=('libxmu' 'libxi' 'mesa' 'libjpeg' 'libpng' 'libmikmod' 'libvorbis' 'sdl_gfx' 'inputproto')
 makedepends=('subversion')
 provides=('clanlib')
 conflicts=('clanlib')

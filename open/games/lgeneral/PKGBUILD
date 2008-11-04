@@ -9,7 +9,6 @@ url="http://lgames.sourceforge.net/index.php?project=LGeneral"
 arch=('x86_64' 'i686')
 license=('GPL' 'custom')
 depends=('sdl' 'sdl_mixer')
-
 source=(http://downloads.sourceforge.net/lgeneral/lgeneral-1.2beta-13.tar.gz
         http://downloads.sourceforge.net/lgeneral/pg-data.tar.gz
         license

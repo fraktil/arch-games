@@ -7,7 +7,7 @@ pkgdesc="Drive a toy wood engine in many levels and collect all the coaches to w
 url="http://ri-li.sourceforge.net/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('gcc-libs' 'sdl_mixer')
+depends=('sdl_mixer')
 source=(http://downloads.sourceforge.net/sourceforge/$pkgname/Ri-li-$pkgver.tar.bz2 
         http://michalm.ramtel.pl/patches/ri-li/fix_deprecated_cpp.patch 
         ri-li.desktop)

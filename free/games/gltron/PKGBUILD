@@ -7,7 +7,7 @@ pkgdesc="A tron-like lightcycle game with a nice 3D perspective."
 url="http://www.gltron.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('libgl' 'gcc-libs' 'smpeg' 'sdl_sound' 'libpng')
+depends=('libgl' 'smpeg' 'sdl_sound' 'libpng')
 source=(http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver-source.tar.gz
         gltron.patch
         gltron.desktop

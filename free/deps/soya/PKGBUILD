@@ -7,7 +7,7 @@ pkgdesc="A very high level 3D engine for Python"
 url="http://home.gna.org/oomadness/en/soya"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('python' 'freetype2' 'sdl' 'cal3d' 'glew' 'ode' 'openal' 'pil')
+depends=('python' 'freetype2' 'sdl' 'cal3d-svn' 'glew' 'ode' 'openal' 'pil')
 source=(http://download.gna.org/soya/Soya-$pkgver.tar.bz2)
 md5sums=('9fa56b14d3e9d5fcee073de650b3206f')
 

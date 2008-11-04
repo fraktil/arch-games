@@ -8,7 +8,7 @@ pkgdesc="HighMoon is an Artillery or Worms like Game - which takes place in the 
 url="http://highmoon.gerdsmeier.net/" 
 arch=('i686 x86_64')
 license=('GPL')
-depends=('sdl_image' 'gcc') 
+depends=('sdl_image') 
 source=(http://highmoon.gerdsmeier.net/$pkgname-$pkgver.tar.gz)
 md5sums=('4b16a749f844d5ca691c9774884979ec')
 

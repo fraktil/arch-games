@@ -9,7 +9,7 @@ url="http://www.libsdl.org/projects/SDL_mixer/"
 arch=('x86_64')
 license=('LGPL')
 groups=('lib32')
-depends=('lib32-sdl>=1.2.12' 'lib32-libvorbis' 'lib32-libmikmod')
+depends=('lib32-sdl' 'lib32-libvorbis' 'lib32-libmikmod')
 source=(ftp://ftp.archlinux.org/extra/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel}-i686.pkg.tar.gz)
 md5sums=('e803468212c395d38ba67280a3b7dc70')
 

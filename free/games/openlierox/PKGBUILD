@@ -8,7 +8,7 @@ pkgdesc="A real-time, excessive worms-clone"
 arch=('i686' 'x86_64')
 url="http://openlierox.sourceforge.net/"
 license=('LGPL2')
-depends=('gcc-libs' 'gd' 'hawknl' 'libxml2' 'sdl_image' 'sdl_mixer' 'libzip')
+depends=('gd' 'hawknl' 'libxml2' 'sdl_image' 'sdl_mixer' 'libzip')
 source=(http://downloads.sourceforge.net/sourceforge/openlierox/OpenLieroX_$pkgver.src.tar.bz2 
         openlierox.desktop)
     

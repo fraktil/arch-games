@@ -10,7 +10,6 @@ url="http://www.stepmania.com/"
 arch=('i686' 'x86_64')
 license=('MIT')
 depends=('ffmpeg' 'gtk2' 'libmad' 'lua' 'mesa')
-makedepends=('pkgconfig' 'make' 'patch' 'autoconf' 'automake')
 install=stepmania.install
 source=(http://downloads.sourceforge.net/$pkgname/StepMania-$pkgver-linux.tar.gz 
         http://downloads.sourceforge.net/$pkgname/StepMania-$pkgver-src.tar.gz 

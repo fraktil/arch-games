@@ -7,7 +7,7 @@ pkgdesc="Stratagus is a free cross-platform real-time strategy gaming engine"
 url="http://stratagus.sourceforge.net"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('bzip2' 'libgl' 'sdl' 'libpng' 'libvorbis' 'libmikmod' 'lua')
+depends=('libgl' 'sdl' 'libpng' 'libvorbis' 'libmikmod' 'lua')
 source=(http://downloads.sourceforge.net/sourceforge/stratagus/$pkgname-$pkgver-src.tar.gz 
         stratagus.patch)
     
