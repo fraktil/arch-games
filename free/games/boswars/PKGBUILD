@@ -10,7 +10,7 @@ license=('GPL')
 depends=('sdl' 'zlib' 'lua' 'libvorbis' 'libogg' 'libtheora' 'libmikmod')
 makedepends=('scons')
 source=(http://www.boswars.org/releases/$pkgname-$pkgver-src.tar.gz 
-        boswars 
+        boswars.sh 
         boswars.png 
         boswars.desktop 
         boswars.patch)
@@ -38,7 +38,7 @@ build() {
   install -D -m 644 $srcdir/boswars.desktop $pkgdir/usr/share/applications/boswars.desktop
   
   #Install the bin file
-  install -D -m 755 $srcdir/boswars $pkgdir/usr/bin/boswars
+  install -D -m 755 $srcdir/boswars.sh $pkgdir/usr/bin/boswars
   
 }
 

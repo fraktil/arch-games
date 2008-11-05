@@ -28,9 +28,9 @@ build() {
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
+  rm -r $srcdir/$_svnmod-build
+  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
+  cd $srcdir/$_svnmod-build
   
   #Build and install the package
   ./configure --without-java --without-perl --without-python --without-lib3ds --prefix=/usr --sysconfdir=/etc --enable-separate-debug-info=no

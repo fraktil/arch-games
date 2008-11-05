@@ -12,8 +12,8 @@ options=('!strip' 'docs')
 install=wings2.install
 source=(http://www.wings2.net/util/download.php?file=${pkgname}_${pkgver}_linux.tar.gz 
         wings2.desktop 
-        Wings 
-        Wings64)
+        Wings.sh
+        Wings64.sh)
     
 md5sums=('efeac1def8547903adf282db184ad297' 
          '6958819bc2ba835e355a5ae38f10e663' 
@@ -32,25 +32,25 @@ build() {
   #Make all needed stuff writable
   touch $pkgdir/opt/Wings2/bin/{config.xml,stdout.txt} || return 1
   chmod a+w $pkgdir/opt/Wings2/bin/{config.xml,stdout.txt} || return 1
-  chmod a+w "$pkgdir/opt/Wings2/levels/received" || return 1
+  chmod a+w $pkgdir/opt/Wings2/levels/received || return 1
   
   #remove the playlist
-  rm "$pkgdir/opt/Wings2/music/menu_music.txt" || return 1
+  rm $pkgdir/opt/Wings2/music/menu_music.txt || return 1
   
   #Install the .desktop file
-  install -D -m644 "$srcdir/wings2.desktop" "$pkgdir/usr/share/applications/wings2.desktop"
+  install -D -m644 $srcdir/wings2.desktop $pkgdir/usr/share/applications/wings2.desktop
   
   #Install thelicense
-  install -D -m644 "$pkgdir/opt/Wings2/doc/License.txt" "$pkgdir/usr/share/licenses/wings2/LICENSE"
+  install -D -m644 $pkgdir/opt/Wings2/doc/License.txt $pkgdir/usr/share/licenses/wings2/COPYING
   
   #Install for i686 or x86_64
   if [ "$CARCH" = "i686" ]; then
-  install -D -m755 "$srcdir/Wings" "$pkgdir/usr/bin/wings2" || return 1
-  chmod 775 "$pkgdir/opt/Wings2/bin/Wings" "$pkgdir/opt/Wings2/bin/Makelev" || return 1
+  install -D -m755 $srcdir/Wings.sh $pkgdir/usr/bin/wings2 || return 1
+  chmod 775 $pkgdir/opt/Wings2/bin/Wings $pkgdir/opt/Wings2/bin/Makelev || return 1
   rm $pkgdir/opt/Wings2/bin/{Wings64,Makelev64} || return 1
   elif [ "$CARCH" = "x86_64" ]; then
-  install -D -m755 "$srcdir/Wings64" "$pkgdir/usr/bin/wings2" || return 1
-  chmod 775 "$pkgdir/opt/Wings2/bin/Wings64" "$pkgdir/opt/Wings2/bin/Makelev64" || return 1
+  install -D -m755 $srcdir/Wings64.sh $pkgdir/usr/bin/wings2 || return 1
+  chmod 775 $pkgdir/opt/Wings2/bin/Wings64 $pkgdir/opt/Wings2/bin/Makelev64 || return 1
   rm $pkgdir/opt/Wings2/bin/{Wings,Makelev} || return 1
   fi
 

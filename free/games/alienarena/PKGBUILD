@@ -7,7 +7,7 @@ pkgdesc="Multiplayer retro sci-fi deathmatch game"
 url="http://red.planetarena.org/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('curl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl')
+depends=('curl' 'libjpeg' 'openal' 'sdl')
 makedepends=('hd2u' 'unzip')
 source=(http://alienarena.arcadebelgium.be/alienarena2008-linux${pkgver}.zip
         alienarena.desktop)
@@ -31,7 +31,7 @@ build() {
   install -D -m755 game.so $pkgdir/usr/lib/alienarena/arena/game.so || return 1
   install -D -m755 crx $pkgdir/usr/bin/alienarena || return 1
   install -D -m755 crx.sdl $pkgdir/usr/bin/alienarena-sdl || return 1
-  install -D -m755 crded $pkgdir/usr/bin/alienarena-server || return 1
+  install -D -m755 crded $pkgdir/usr/bin/alienarena-ded || return 1
 
   #Just in case fix Data files (can contain spaces), and install
   cd ../..

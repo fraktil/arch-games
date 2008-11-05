@@ -28,13 +28,13 @@ build() {
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
+  rm -r $srcdir/$_svnmod-build
+  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
+  cd $srcdir/$_svnmod-build
 
   #Patching building and installing the source
   patch -Np0 -i $srcdir/cal3d.patch || return 1
-  sed -i 's/AM_USE_UNITTESTCPP/# AM_USE_UNITTESTCPP/' configure.in
+  sed -i 's/AM_USE_UNITTESTCPP/# AM_USE_UNITTESTCPP/' configure.in || return 1
   autoreconf --install --force
   ./configure --prefix=$pkgdir/usr
   make || return 1

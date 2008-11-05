@@ -20,7 +20,7 @@ backup=('opt/enemy-territory/etmain/server.cfg'
 source=(http://ftp.games.skynet.be/pub/wolfenstein/et-linux-2.60.x86.run 
         http://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/et/ET-$pkgver.zip 
         enemy-territory.desktop 
-        et-ded 
+        et-ded.sh
         et-pbupdate.sh 
         et.sh 
         etded.sh)
@@ -52,7 +52,7 @@ build() {
   chown -R :games $pkgdir/opt/enemy-territory/pb
   
   #Install rc.d script
-  install -D -m755 et-ded $pkgdir/etc/rc.d/et-ded
+  install -D -m755 et-ded.sh $pkgdir/etc/rc.d/et-ded
 
   #Install desktop file and icon
   install -D -m644 enemy-territory.desktop $pkgdir/usr/share/applications/enemy-territory.desktop
@@ -63,14 +63,14 @@ build() {
   install -D -m644 $pkgdir/opt/enemy-territory/pb/PB_EULA.txt $pkgdir/usr/share/licenses/$pkgname/PB_EULA.txt
   
   #Install the bin files
-  install -D -m755 et.sh $pkgdir/usr/bin/enemy-territory
-  install -D -m755 etded.sh $pkgdir/usr/bin/enemy-territory-server
-  install -D -m755 et-pbupdate.sh $pkgdir/usr/bin/enemy-territory-pb-update
+  install -D -m755 et.sh $pkgdir/usr/bin/et
+  install -D -m755 etded.sh $pkgdir/usr/bin/et-ded
+  install -D -m755 et-pbupdate.sh $pkgdir/usr/bin/et-pb-update
  
   #If arch is x86_64 fix the bin files to include lib32 dir
   if [ "$CARCH" = "x86_64" ] ; then
-    sed "5,5c\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/enemy-territory
-    sed "5,5c\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/enemy-territory-server
+    sed "5,5c\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/et
+    sed "5,5c\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/et-ded
   fi
   
 }

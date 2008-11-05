@@ -11,9 +11,9 @@ depends=('sdl' 'sdl_image' 'openal' 'libvorbis' 'libsigc++2.0' 'libgl' 'expat' '
 makedepends=('scons')
 install=btanks.install
 source=(http://downloads.sourceforge.net/btanks/$pkgname-$pkgver.tar.bz2 
-        btanks_desktop
-        btanks
-        bted)
+        btanks.desktop
+        btanks.sh
+        bted.sh)
 
 md5sums=('f5e4076e8562f4ad54fefeceaa37870d'
          'a2ddeb1e79dff8d3fd702984c8d3aab5'
@@ -36,13 +36,12 @@ build() {
   chmod 664 $pkgdir/usr/share/btanks/bt.xml
   
   #Install the .desktop and icon files
-  install -D -m644 $srcdir/btanks_desktop $pkgdir/usr/share/applications/btanks.desktop
+  install -D -m644 $srcdir/btanks.desktop $pkgdir/usr/share/applications/btanks.desktop
   install -D -m644 $srcdir/$pkgname-$pkgver/data/tiles/icon.png $pkgdir/usr/share/pixmaps/btanks.png
 
   #Install the bin files
-  install -d -m755 $pkgdir/usr/bin
-  install -D -m755 $srcdir/btanks $pkgdir/usr/bin/btanks
-  install -D -m755 $srcdir/bted $pkgdir/usr/bin/bted
+  install -D -m755 $srcdir/btanks.sh $pkgdir/usr/bin/btanks
+  install -D -m755 $srcdir/bted.sh $pkgdir/usr/bin/bted
 
 }
 

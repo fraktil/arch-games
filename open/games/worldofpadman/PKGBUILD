@@ -35,9 +35,9 @@ build() {
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
+  rm -r $srcdir/$_svnmod-build
+  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
+  cd $srcdir/$_svnmod-build
 
   #Build the engine
   /bin/sed -i "s:i386:i686:" Makefile
@@ -45,8 +45,8 @@ build() {
 
   #Install the executables
   cd build/release-*
-  install -Dm755 wop-engine.* $pkgdir/usr/bin/worldofpadman || return 1
-  install -Dm755 wopded.* $pkgdir/usr/bin/worldofpadman-ded || return 1
+  install -Dm755 wop-engine.* $pkgdir/usr/bin/wop-engine || return 1
+  install -Dm755 wopded.* $pkgdir/usr/bin/wopded || return 1
   
   #Data dir creation
   install -d -m755 $srcdir/wop-data

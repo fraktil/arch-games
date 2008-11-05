@@ -11,9 +11,9 @@ depends=('sdl' 'curl' 'libxxf86dga' 'libjpeg' 'libvorbis' 'libxxf86vm' 'libxiner
 makedepends=('mesa' 'openal' 'unzip' 'hd2u')
 optdepends=('warsow-map-pack-v1 (A collection of maps)')
 source=(warsow.desktop 
-        warsow.launcher 
-        wsw-server.launcher 
-        wswtv-server.launcher 
+        warsow.sh
+        wsw-server.sh
+        wswtv-server.sh
         http://wahs.de/warsow/${pkgname}_${pkgver}_unified.zip
         https://launchpad.net/warsow/0.4/0.42/+download/${pkgname}_${pkgver}_sdk.zip)
     
@@ -48,9 +48,9 @@ build() {
   install -D -m 0644 $srcdir/docs/license.txt $pkgdir/usr/share/licenses/${pkgname}/license.txt
   
   # Install the bin files
-  install -D -m 0755 $srcdir/warsow.launcher $pkgdir/usr/bin/warsow
-  install -D -m 0755 $srcdir/wsw-server.launcher $pkgdir/usr/bin/wsw-server
-  install -D -m 0755 $srcdir/wswtv-server.launcher $pkgdir/usr/bin/wswtv-server
+  install -D -m 0755 $srcdir/warsow.sh $pkgdir/usr/bin/warsow
+  install -D -m 0755 $srcdir/wsw-server.sh $pkgdir/usr/bin/wsw-server
+  install -D -m 0755 $srcdir/wswtv-server.sh $pkgdir/usr/bin/wswtv-server
   
 }
 

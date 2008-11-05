@@ -11,8 +11,8 @@ makedepends=(unzip)
 depends=('wine')
 [ "$CARCH" = x86_64 ] && depends=('bin32-wine')
 options=(!strip)
-source=(generally
-        generally_track_ed 
+source=(generally.sh
+        generally_track_ed.sh
         generally_res.c
         http://generally.rscsites.org/grfiles/${pkgname}105.zip)
     
@@ -38,8 +38,8 @@ build() {
   gcc -W -Wall -pedantic -o $pkgdir/usr/bin/generally_res generally_res.c
   
   #Install the bin files
-  install -m 755 generally $pkgdir/usr/bin/generally
-  install -m 755 generally_track_ed $pkgdir/usr/bin/generally_track_ed
+  install -m 755 generally.sh $pkgdir/usr/bin/generally
+  install -m 755 generally_track_ed.sh $pkgdir/usr/bin/generally_track_ed
   
 }
 

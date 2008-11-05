@@ -31,7 +31,7 @@ build() {
   find ./ -type d | xargs chmod 755
   
   #Install the license file
-  install -m755 -D $srcdir/galaxymage.license $pkgdir/usr/share/licenses/galaxymage/copying
+  install -m755 -D $srcdir/galaxymage.license $pkgdir/usr/share/licenses/galaxymage/COPYING
   
   #Install the bin file
   install -m755 -D $srcdir/galaxymage.sh $pkgdir/usr/bin/galaxymage

@@ -31,9 +31,9 @@ build() {
   fi
   msg "CVS checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_cvsmod-build"
-  cp -r "$srcdir/$_cvsmod" "$srcdir/$_cvsmod-build"
-  cd "$srcdir/$_cvsmod-build"
+  rm -r $srcdir/$_cvsmod-build
+  cp -r $srcdir/$_cvsmod $srcdir/$_cvsmod-build
+  cd $srcdir/$_cvsmod-build
   
   #Build and install the package
   mkdir config

@@ -2,24 +2,24 @@
 # Contributor: Darwin Bautista <djclue917@gmail.com>
 
 pkgname=planeshift-svn
-pkgver=2134
+pkgver=2355
 pkgrel=1
 pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
 url="http://www.planeshift.it/"
 arch=('i686' 'x86_64')
 license=('GPL' 'custom:PlaneShift Content License')
-depends=('crystalspace-1.4branch-svn' 'cg-toolkit')
+depends=('libjpeg' 'curl' 'libmng' 'libmikmod' 'libvorbis' 'libpng' 'openal' 'freetype2' 'mesa' 'cal3d-svn' 'cg-toolkit')
 makedepends=('ftjam' 'subversion')
 provides=('planeshift')
 conflicts=('planeshift')
-install=planeshift.install
+install=planeshift-svn.install
 source=(planeshift.desktop 
         planeshiftsetup.desktop 
         planeshiftupdater.desktop 
-        license
-        psclient
-        pssetup
-        psupdater)
+        planeshift-svn.license
+        psclient.sh
+        pssetup.sh
+        psupdater.sh)
     
 md5sums=('5be27f6e51c8edff591aa1fdc668b7e9' 
          'e75381f677b5d2ae331d0e4e742ee21a' 
@@ -34,7 +34,19 @@ _svnmod=planeshift
 
 build() {
 
-  #Grab the sources with svn
+  #Grab Crystal Space with svn
+  cd $srcdir
+  if [ -d cs/.svn ]; then
+    (cd cs && svn up -r 31532) || return 1
+  else
+    svn co https://crystal.svn.sourceforge.net/svnroot/crystal/CS/branches/release/V1.4 --config-dir ./ -r 31532 cs || return 1
+  fi
+  msg "SVN checkout done or server timeout"
+  msg "Starting make..."
+  rm -r $srcdir/cs-build
+  cp -r $srcdir/cs $srcdir/cs-build
+
+  #Grab Planeshift with svn
   cd $srcdir
   if [ -d $_svnmod/.svn ]; then
     (cd $_svnmod && svn up -r $pkgver) || return 1
@@ -43,20 +55,26 @@ build() {
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
+  rm -r $srcdir/$_svnmod-build
+  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
+
+  #Build Crystal Space
+  cd $srcdir/cs-build
+  ./configure --without-java --without-perl --without-python --without-lib3ds --enable-separate-debug-info=no
+  jam -q libs staticplugins cs-config walktest_static || return 1
+  export CRYSTAL=$srcdir/cs-build
   
   #Build planeshift
+  cd $srcdir/$_svnmod-build
   ./autogen.sh
   ./configure --prefix=/opt/PlaneShift --enable-separate-debug-info=no
-  jam -q client psupdater || return 1
+  jam -q -dc client_static || return 1
   
   #Planeshift installer is broken so we install manually 
-  mkdir -p $pkgdir/opt/PlaneShift
+  install -d -m755 $pkgdir/opt/PlaneShift
   cp -rt $pkgdir/opt/PlaneShift data psclient pssetup psupdater psclient.cfg pssetup.cfg vfs.cfg || return 1
   
-  #We create a speciall config file for the updater, that tells it NOT to overwrite our binaries
+  #We create a special config file for the updater, that tells it NOT to overwrite our binaries
   echo "Update.Platform=false" > $pkgdir/opt/PlaneShift/psupdater.cfg
   
   #Planeshift uses the directoy its in, so we set permissions to allow games group to update and run planeshift.
@@ -66,18 +84,18 @@ build() {
   chmod 775 $pkgdir/opt/PlaneShift/psclient $pkgdir/opt/PlaneShift/pssetup $pkgdir/opt/PlaneShift/psupdater
   
   #Copy the icons and .desktop files
-  mkdir -p $pkgdir/opt/PlaneShift/support/icons
+  install -d -m755 $pkgdir/opt/PlaneShift/support/icons
   cp support/icons/*.png $pkgdir/opt/PlaneShift/support/icons/
   install -d -m755 $pkgdir/usr/share/applications/ 
   install -D -m644 $srcdir/*.desktop $pkgdir/usr/share/applications/
   
   #Install the License
-  install -D -m644 $srcdir/license $pkgdir/usr/share/licenses/planeshift/license
+  install -D -m644 $srcdir/planeshift-svn.license $pkgdir/usr/share/licenses/planeshift/COPYING
   
   #Copy the bin scripts
-  install -D -m755 $srcdir/psclient $pkgdir/usr/bin/planeshift
-  install -D -m755 $srcdir/pssetup $pkgdir/usr/bin/planeshift-setup
-  install -D -m755 $srcdir/psupdater $pkgdir/usr/bin/planeshift-updater
+  install -D -m755 $srcdir/psclient.sh $pkgdir/usr/bin/planeshift
+  install -D -m755 $srcdir/pssetup.sh $pkgdir/usr/bin/planeshift-setup
+  install -D -m755 $srcdir/psupdater.sh $pkgdir/usr/bin/planeshift-updater
   
 }
 

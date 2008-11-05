@@ -11,7 +11,7 @@ depends=('sdl' 'mesa' 'libjpeg' 'e2fsprogs')
 [ "$CARCH" = "x86_64" ] && depends=('lib32-sdl' 'lib32-mesa' 'lib32-libjpeg' 'lib32-e2fsprogs' 'lib32-glib2' 'lib32-pcre' 'lib32-zlib' 'lib32-freetype2' 'lib32-libxdamage')
 makedepends=('unzip')
 install=savage.install
-source=(savage.launcher 
+source=(savage.sh
         savage.desktop
         icon.xpm
         http://mnky.newerth.com/lin-client-auth-patch.zip
@@ -50,7 +50,7 @@ build() {
   install -D -m 644 $srcdir/licenses.txt $pkgdir/usr/share/licenses/$pkgname/licenses.txt
   
   #Install the launcher
-  install -D -m 755 $srcdir/savage.launcher $pkgdir/usr/bin/savage
+  install -D -m 755 $srcdir/savage.sh $pkgdir/usr/bin/savage
   
   #If arch is x86_64 fix the launcher to include lib32 dir
   if [ "$CARCH" = "x86_64" ] ; then

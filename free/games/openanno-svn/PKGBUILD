@@ -34,9 +34,9 @@ build() {
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
+  rm -r $srcdir/$_svnmod-build
+  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
+  cd $srcdir/$_svnmod-build
 
   #Install the package files
   install -d -m755 $pkgdir/opt/openanno

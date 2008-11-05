@@ -7,14 +7,14 @@ pkgdesc="A completely free multiplayer FPS game based on the ioquake3 engine"
 url="http://openarena.ws/"
 arch=('i686' 'x86_64')
 license=('GPL2')
-depends=('libgl' 'sdl' 'libvorbis' 'curl')
+depends=('openal' 'sdl' 'libvorbis' 'curl')
 makedepends=('unzip')
 source=(http://download.tuxfamily.org/openarena/rel/081/oa081.zip
         http://openarena.ws/svn/source/081/$pkgname-engine-$pkgver-1.tar.bz2
         openarena.png
         openarena.desktop
         openarena.sh
-        openarena-server.sh)
+        oa_ded.sh)
 
 md5sums=('77de293c70f033cf1ff14a1bd82dc4d3'
          '4ee696eacc4b0350f9dbb5588dcd74a2'
@@ -44,7 +44,7 @@ build() {
 
   #Install the bin files
   install -D -m755 $srcdir/openarena.sh $pkgdir/usr/bin/openarena
-  install -D -m755 $srcdir/openarena-server.sh $pkgdir/usr/bin/openarena-server
+  install -D -m755 $srcdir/oa_ded.sh $pkgdir/usr/bin/oa_ded
 
 }
 

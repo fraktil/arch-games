@@ -11,7 +11,7 @@ depends=('sdl' 'sdl_mixer' 'sdl_net' 'mesa')
 [ "$CARCH" = "x86_64" ] && depends=('lib32-sdl' 'lib32-sdl_mixer' 'lib32-sdl_net' 'lib32-mesa' 'lib32-libxdamage')
 makedepends=('tar' 'gzip')
 source=(http://www.queasygames.com/gate88/Gate88_$pkgver.tar.gz
-        gate88
+        gate88.sh
         gate88.png
         gate88.desktop)
     
@@ -40,7 +40,7 @@ build() {
   cp $srcdir/Gate88_${pkgver}/license.txt $pkgdir/usr/share/licenses/gate88
   
   #Install the bin file
-  cp $srcdir/gate88 $pkgdir/usr/bin
+  cp $srcdir/gate88.sh $pkgdir/usr/bin/gate88
   
   #If arch is x86_64 fix the launcher to include lib32 dir
   if [ "$CARCH" = "x86_64" ] ; then

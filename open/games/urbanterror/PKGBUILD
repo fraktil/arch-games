@@ -6,16 +6,16 @@ pkgrel=4
 pkgdesc="Urban Terror is a team-based tactical shooter based on the Quake 3 Engine (Stand-Alone Version)"
 url="http://www.urbanterror.net"
 arch=('i686' 'x86_64')
-license=(GPL 'custom: quake3 sdk eula')
-depends=('sdl' 'openal' 'freealut' 'curl')
+license=('GPL' 'custom: quake3-sdk-eula')
+depends=('sdl' 'openal' 'curl')
 makedepends=('unzip')
 source=(ftp://ftp.snt.utwente.nl/pub/games/urbanterror/UrbanTerror_41_FULL.zip
         http://ftp.snt.utwente.nl/pub/games/urbanterror/iourbanterror/source/complete/ioUrbanTerrorSource_2007_12_20.zip
-        urbanterror
-        urbanterror-server
+        urbanterror.sh
+        urtded.sh
         urbanterror.desktop
         urbanterror.png
-        quake3-sdk-eula)
+        urbanterror.license)
     
 md5sums=('1370306ea236f65f595e7ca70765e469' 
          '4dbe5a03a10f23138f42b5e0dc39598b'
@@ -54,11 +54,11 @@ build() {
   install -D -m644 $srcdir/urbanterror.png $pkgdir/usr/share/pixmaps/urbanterror.png
   
   #Copy the license
-  install -D -m644 $srcdir/quake3-sdk-eula $pkgdir/usr/share/licenses/urbanterror/quake3-sdk-eula
+  install -D -m644 $srcdir/urbanterror.license $pkgdir/usr/share/licenses/urbanterror/COPYING
   
   #Copy bin script
-  install -D -m755 $srcdir/urbanterror $pkgdir/usr/bin/urbanterror
-  install -D -m755 $srcdir/urbanterror-server $pkgdir/usr/bin/urbanterror-server
+  install -D -m755 $srcdir/urbanterror.sh $pkgdir/usr/bin/urbanterror
+  install -D -m755 $srcdir/urtded.sh $pkgdir/usr/bin/urtded
   
 }
 

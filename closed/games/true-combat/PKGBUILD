@@ -49,12 +49,12 @@ build() {
   
   #Install the bin scripts 
   install -D -m 755 true-combat.sh $pkgdir/usr/bin/true-combat
-  install -D -m 755 true-combatded.sh $pkgdir/usr/bin/true-combat-server
+  install -D -m 755 true-combatded.sh $pkgdir/usr/bin/true-combatded
 
   #If arch is x86_64 fix the bin files to include lib32 dir
   if [ "$CARCH" = "x86_64" ] ; then
     sed "1,1a\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/true-combat
-    sed "1,1a\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/true-combat-server
+    sed "1,1a\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i $pkgdir/usr/bin/true-combatded
   fi
     
 }

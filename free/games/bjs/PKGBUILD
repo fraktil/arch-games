@@ -10,8 +10,8 @@ license=('GPL')
 depends=('ode' 'sdl' 'sdl_image' 'sdl_mixer' 'sdl_ttf' 'sdl_gfx' 'openal' 'omniorb' 'cegui')
 makedepends=('imake')
 source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver-src.tar.gz 
-        bjs
-        bjs_server 
+        bjs.sh
+        bjs_server.sh 
         bjs.desktop 
         bjs.patch
         main_server.cpp)
@@ -48,8 +48,8 @@ build()
   install -m644 data/bitmaps/weapon3.png $pkgdir/usr/share/pixmaps/bjs.png  
   
   #Install the bin files
-  install -m755 $srcdir/bjs $pkgdir/usr/bin
-  install -m755 $srcdir/bjs_server $pkgdir/usr/bin
+  install -m755 $srcdir/bjs.sh $pkgdir/usr/bin
+  install -m755 $srcdir/bjs_server.sh $pkgdir/usr/bin
   
 }
 

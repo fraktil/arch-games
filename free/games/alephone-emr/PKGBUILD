@@ -1,0 +1,35 @@
+# Contributor: rayte <rabyte__gmail>
+
+pkgname=alephone-emr
+pkgver=3.0
+pkgrel=1
+pkgdesc="Excalibur: Morgana's Revenge is a first-person action adventure game based on the Marathon engine"
+url="http://www.excaliburworld.com/emr/emr3/"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('alephone')
+source=(http://downloads.sourceforge.net/emr3/emr-3.0-0602.tgz
+        alephone-emr.sh
+        Makefile)
+
+md5sums=('21afa8e5cca3ca474873f8cd45b8a6c1'
+         'e439ba215e8a6fd62d2f7c578176dc69'
+         '6cc824aa0ee3e93d38012c746968dc9f')
+
+build() {
+
+  #Build and install the package
+  cd $srcdir/emr-$pkgver
+  cp $srcdir/Makefile ./
+  make || return 1
+  _PREFIX=$pkgdir make install
+
+  #Fix permissions
+  find $pkgdir/usr/share/ -type f -exec chmod 644 {} \;
+
+  #Install the bin file
+  install -m755 ../alephone-emr.sh $pkgdir/usr/bin/alephone-emr
+
+}
+
+# vim:set ts=2 sw=2 et:

@@ -13,7 +13,7 @@ depends=('python' 'python-pygame' 'python-opengl' 'python-rabbyt-81')
 source=(http://joey101.net/snowballz/files/$pkgname-$pkgver.tar.gz 
         snowballz.desktop 
         snowballz.png
-        snowballz)
+        snowballz.sh)
     
 md5sums=('197e3281cc85f9fe89a45c622e08ba0d' 
          'abe4faa6864022e3274955039792e1c7'
@@ -33,7 +33,7 @@ build() {
   install -m644 $srcdir/snowballz.desktop $pkgdir/usr/share/applications/snowballz.desktop
   
   #Install the bin file
-  install -D -m755 $srcdir/snowballz $pkgdir/usr/bin/snowballz
+  install -D -m755 $srcdir/snowballz.sh $pkgdir/usr/bin/snowballz
   
 }
 

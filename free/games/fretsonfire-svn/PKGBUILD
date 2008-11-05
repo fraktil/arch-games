@@ -14,7 +14,7 @@ optdepends=('glew (Used for render-to-texture support)' 'pyogg (Used for streami
 provides=('fretsonfire' 'bin32-fretsonfire ')
 conflicts=('fretsonfire' 'bin32-fretsonfire ')
 source=(fretsonfire.desktop
-        fretsonfire.file
+        fretsonfire.sh
         fretsonfire.png)
     
 md5sums=('e792e7dfe01775c0034781393c457696' 
@@ -35,9 +35,9 @@ build() {
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
+  rm -r $srcdir/$_svnmod-build
+  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
+  cd $srcdir/$_svnmod-build
 
   #Installing The files
   install -d $pkgdir/usr/share/fretsonfire/bin $pkgdir/usr/share/fretsonfire/data || return 1
@@ -55,7 +55,7 @@ build() {
   install -D $srcdir/fretsonfire.png $pkgdir/usr/share/pixmaps/fretsonfire.png
   
   #Installing the bin file
-  install -D -m0755 $srcdir/fretsonfire.file $pkgdir/usr/bin/fretsonfire
+  install -D -m0755 $srcdir/fretsonfire.sh $pkgdir/usr/bin/fretsonfire
     
 }
 

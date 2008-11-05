@@ -11,7 +11,7 @@ license=('GPL' 'custom')
 depends=('sdl' 'sdl_mixer')
 source=(http://downloads.sourceforge.net/lgeneral/lgeneral-1.2beta-13.tar.gz
         http://downloads.sourceforge.net/lgeneral/pg-data.tar.gz
-        license
+        lgeneral.license
         lgeneral.patch
         lgeneral.desktop)
     
@@ -43,7 +43,7 @@ build() {
   install -D -m644 srcdir/lgeneral.desktop $pkgdir/usr/share/applications
   
   #Install the license
-  install -D -m644 $srcdir/license $pkgdir/usr/share/licenses/lgeneral/COPYING
+  install -D -m644 $srcdir/lgeneral.license $pkgdir/usr/share/licenses/lgeneral/COPYING
   
 }
 

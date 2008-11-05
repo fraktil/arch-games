@@ -11,11 +11,11 @@ depends=('python' 'sdl' 'sdl_mixer' 'freealut' 'graphviz' 'gigi-svn' 'log4cpp-ol
 makedepends=('subversion' 'scons')
 provides=('freeorion')
 conflicts=('freeorion')
-source=(freeorion.png 
+source=(freeorion.png
         freeorion.desktop
         freeorion-svn.patch)
-    
-md5sums=('7064e5b16d222322ce90cd4598eec64e' 
+
+md5sums=('7064e5b16d222322ce90cd4598eec64e'
          '2cb863f94d76c7d2f53a9d393b2b2660'
          '99de313465cc1fbcd4e88cea3f7a03f8')
 
@@ -33,16 +33,20 @@ build() {
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
-  
+  rm -r $srcdir/$_svnmod-build
+  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
+  cd $srcdir/$_svnmod-build
+
   #Patch, build and install the package
   patch -Np0 -i $srcdir/freeorion-svn.patch || return 1
   scons configure
   scons prefix=/usr || return 1
   scons install prefix=$pkgdir/usr
-  
+
+  #Install the icons and .desktop files
+  install -D -m644 $srcdir/freeorion.png $pkgdir/usr/share/pixmaps/freeorion.png
+  install -D -m644 $srcdir/freeorion.desktop $pkgdir/usr/share/applications/freeorion.desktop
+
 }
 
 # vim:set ts=2 sw=2 et:

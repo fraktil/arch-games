@@ -7,13 +7,13 @@ pkgdesc="A Western game using Quake3 engine."
 url="http://www.smokin-guns.net/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('sdl' 'openal' 'freealut' 'curl')
+depends=('sdl' 'openal' 'curl')
 makedepends=('subversion' 'unzip')
 source=(http://bootblock.de/wq3/wq3_b22_full.zip
         westernquake3.png
         westernquake3.desktop
-        westernquake3
-        westernquake3-server)
+        westernquake3.sh
+        westernq3ded.sh)
     
 md5sums=('6376bab9970bf4c22d40e41019a1900f'
          '9f02379e5f911b16760f28b74d9f321b'
@@ -35,9 +35,9 @@ build() {
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."
-  rm -r "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
+  rm -r $srcdir/$_svnmod-build
+  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
+  cd $srcdir/$_svnmod-build
 
   #Build the ioquake engine
   sed -i "s:/usr/local/games/quake3:$pkgdir/opt/westernquake3:" Makefile
@@ -55,8 +55,8 @@ build() {
   install -D -m644 *.cfg $pkgdir/opt/westernquake3/westernq3/
   
   #Install the binary files
-  install -m755 $srcdir/westernquake3 $pkgdir/usr/bin/westernquake3
-  install -m755 $srcdir/westernquake3-server $pkgdir/usr/bin/westernquake3-server
+  install -m755 $srcdir/westernquake3.sh $pkgdir/usr/bin/westernquake3
+  install -m755 $srcdir/westernq3ded.sh $pkgdir/usr/bin/westernq3ded
   
   #Install the desktop file and the icon
   install -m644 $srcdir/westernquake3.png $pkgdir/usr/share/pixmaps/

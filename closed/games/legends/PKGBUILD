@@ -9,7 +9,7 @@ arch=('i686' 'x86_64')
 license=('custom')
 depends=('libxext' 'libogg' 'sdl_image' 'sdl_mixer' 'libpng' 'libjpeg' 'rsync')
 source=(http://run.legendsthegame.net/${pkgname}_linux-$pkgver.run
-        legends.launcher
+        legends.sh
         legends.desktop)
     
 md5sums=('5188d8aad55b8aa71e10e414ba12ee6b'
@@ -36,7 +36,7 @@ build ()
   install -D -m644 $pkgdir/opt/legends/legends.ico $pkgdir/usr/share/pixmaps/legends.ico
   
   #Install launcher
-  install -D -m755 $srcdir/legends.launcher $pkgdir/usr/bin/legends
+  install -D -m755 $srcdir/legends.sh $pkgdir/usr/bin/legends
     
 }
 

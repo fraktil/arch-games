@@ -7,7 +7,7 @@ pkgdesc="UFO: Alien Invasion is a strategy game featuring tactical combat"
 url="http://ufoai.sourceforge.net/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('libgl' 'libjpeg' 'libpng' 'curl' 'sdl_mixer' 'sdl_ttf' 'ufoai-data')
+depends=('libjpeg' 'libpng' 'curl' 'sdl_mixer' 'sdl_ttf' 'ufoai-data')
 source=(http://downloads.sourceforge.net/sourceforge/ufoai/$pkgname-$pkgver-source.tar.bz2
         ufoai.png 
         ufoai.desktop)
