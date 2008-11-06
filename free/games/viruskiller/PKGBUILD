@@ -26,8 +26,8 @@ build() {
   make DESTDIR=$pkgdir BINDIR=$pkgdir/usr/bin/ DATADIR=$pkgdir/usr/share/viruskiller/ install || return 1
   
   #Install the .desktop and icon files
-  install -D -m 644 $startdir/$pkgname.png $pkgdir/usr/share/pixmaps/$pkgname.png
-  install -D -m 644 $srcdir/$pkgname-1.0/icons/$pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+  install -D -m 644 $srcdir/viruskiller.png $pkgdir/usr/share/pixmaps/viruskiller.png
+  install -D -m 644 $srcdir/$pkgname-1.0/icons/viruskiller.desktop $pkgdir/usr/share/applications/viruskiller.desktop
   
 }
 

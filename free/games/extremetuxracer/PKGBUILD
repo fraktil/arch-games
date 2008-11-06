@@ -23,9 +23,8 @@ build() {
   make DESTDIR=$pkgdir install 
 
   #Install the .desktop and icon files
-  install -d -m755 $startdir/pkg/usr/share/pixmaps $startdir/pkg/usr/share/applications
-  install -D -m644 $startdir/src/$pkgname-$pkgver/data/textures/splash.png $startdir/pkg/usr/share/pixmaps/extremetuxracer.png 
-  install -D -m644 $startdir/extremetuxracer.desktop  $startdir/pkg/usr/share/applications/ 
+  install -D -m644 $srcdir/$pkgname-$pkgver/data/textures/splash.png $pkgdir/usr/share/pixmaps/extremetuxracer.png 
+  install -D -m644 $srcdir/extremetuxracer.desktop  $pkgdir/usr/share/applications/extremetuxracer.desktop
 
 }
 

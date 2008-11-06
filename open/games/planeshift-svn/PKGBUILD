@@ -2,7 +2,7 @@
 # Contributor: Darwin Bautista <djclue917@gmail.com>
 
 pkgname=planeshift-svn
-pkgver=2355
+pkgver=2360
 pkgrel=1
 pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
 url="http://www.planeshift.it/"
@@ -68,7 +68,7 @@ build() {
   cd $srcdir/$_svnmod-build
   ./autogen.sh
   ./configure --prefix=/opt/PlaneShift --enable-separate-debug-info=no
-  jam -q -dc client_static || return 1
+  jam -q -d client_static || return 1
   
   #Planeshift installer is broken so we install manually 
   install -d -m755 $pkgdir/opt/PlaneShift

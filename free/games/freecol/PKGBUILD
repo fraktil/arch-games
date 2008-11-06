@@ -6,7 +6,7 @@ pkgrel=1
 pkgdesc="Turn-based strategy game based on the game Colonization"
 url="http://www.freecol.org/"
 arch=('i686' 'x86_64')
-license="GPL"
+license=('GPL')
 depends=('jre')
 source=(http://downloads.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz
         freecol.sh 
