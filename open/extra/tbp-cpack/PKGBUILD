@@ -9,7 +9,7 @@ arch=('i686' 'x86_64')
 license=('custom:freespace2')
 depends=('tbp')
 makedepends=('p7zip')
-source=($pkgname-${pkgver}.7z) #::http://www.freespacemods.net/request.php?220) #<--change the number
+source=($pkgname-${pkgver}.7z::http://www.freespacemods.net/request.php?402)
 md5sums=('5d38f414f9c8a609f11534c668477208')
 
 build() {
