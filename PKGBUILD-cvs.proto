@@ -26,8 +26,8 @@ md5sums=('sum1'
          'sum2'
          'sum3')
 
-_cvsroot="CVSROOT"
-_cvsmod="MODNAME"
+_cvsroot=CVSROOT
+_cvsmod=MODNAME
 
 build() {
 
