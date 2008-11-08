@@ -2,7 +2,7 @@
 # Contributor: Darwin Bautista <djclue917@gmail.com>
 
 pkgname=crystalspace-1.4branch-svn
-pkgver=30956
+pkgver=31532
 pkgrel=1
 pkgdesc="free and portable 3D Game Development Kit written in C++, a specific revision for planeshift-svn"
 url="http://www.crystalspace3d.org/"

@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /opt/PlaneShift
-if [ -d art ] ; then 
+if [ -e updaterinfo.xml ] ; then 
 	./psupdater
 else
 	./psupdater CheckIntegrity

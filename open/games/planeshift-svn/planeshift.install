@@ -9,16 +9,17 @@ cat << EOF
 ==> add your user to the games group:
 ==> # gpasswd -a USERNAME games
 ==> 
-==> Before you run the game, run planeshift-updater or you
+==> Before you run the game, run psupdater or you
 ==> Wont have the game data to play with! dont forget, updater
 ==> needs to be run in a terminal (unless you use the 
 ==> desktop file)
 ==>
 ==> One last warning, the updater might seem to halt because
 ==> of its unique verbosity, just dont stop the updater from
-==> running until it finished, if you happened to stop it
-==> # rm -r /opt/PlaneShift/art 
-==> and run the updater again.
+==> running, you will see its moving.
+==> If you did happen to stop the updater delete updaterinfo.xml
+==> # rm /opt/PlaneShift/updaterinfo.xml
+==> And run "psupdater" again.
 EOF
 
 }

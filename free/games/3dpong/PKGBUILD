@@ -7,7 +7,7 @@ pkgdesc="one- or two-player, three dimensional sports game, based on Pong"
 url="http://www.newbreedsoftware.com/3dpong/index2.php3"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('')
+depends=()
 source=(ftp://ftp.billsgames.com/unix/x/3dpong/src/$pkgname-$pkgver.tar.gz)
 md5sums=('91594c0fd5def93053d911e037f5a383')
 
