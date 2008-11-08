@@ -23,6 +23,9 @@ build() {
   make
   make DESTDIR="$pkgdir/" install
 
+  #Some apps expect to have libopenal.so.0
+  ln -s /usr/lib/libopenal.so.1.5.304 $pkgdir/usr/lib/libopenal.so.0
+
   #Some apps expect openal_sof and not openal for pkgconfig
   ln -s /usr/lib/pkgconfig/openal.pc $pkgdir/usr/lib/pkgconfig/openal_soft.pc
   

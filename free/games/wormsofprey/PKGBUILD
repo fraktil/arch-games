@@ -23,8 +23,8 @@ build() {
   #Patching and building the package
   cd $srcdir/wop-$pkgver
   patch -Np0 -i $srcdir/wormsofprey.patch || return 1
-  sed -i -e "s:/etc/woprc:/opt/wop/etc/woprc:g" "src/wopsettings.cpp" || return 1
-  sed -i -e "s:^data =.*$:data = /opt/wop/data:" "woprc" || return 1
+  sed -i 's:/etc/woprc:/opt/wop/etc/woprc:g' src/wopsettings.cpp || return 1
+  sed -i 's:^data =.*$:data = /opt/wop/data:' woprc || return 1
   touch {sdlwidgets,src}/Makefile.depend || return 1
   make -d || return 1
 

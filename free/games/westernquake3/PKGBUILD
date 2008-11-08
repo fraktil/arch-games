@@ -18,8 +18,8 @@ source=(http://bootblock.de/wq3/wq3_b22_full.zip
 md5sums=('6376bab9970bf4c22d40e41019a1900f'
          '9f02379e5f911b16760f28b74d9f321b'
          '8cb85c47fc906acb644521d6561bad0c'
-         '33645636a25a0325fae27452176fa968'
-         '376a40f1f177ee11aba5ef9a8906b636')
+         '2a5cfdf6f6e559a0cd62c071362cd57a'
+         'fb9283a2d2e0528070934315e9c9c236')
 
 _svntrunk=svn://svn.icculus.org/quake3/trunk
 _svnmod=ioquake3
@@ -29,9 +29,9 @@ build() {
   #Grab the svn ioquake3 sources
   cd $srcdir
   if [ -d $_svnmod/.svn ]; then
-    (cd $_svnmod && svn up -r $pkgver) || return 1
+    (cd $_svnmod && svn up) || return 1
   else
-    svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod || return 1
+    svn co $_svntrunk --config-dir ./ $_svnmod || return 1
   fi
   msg "SVN checkout done or server timeout"
   msg "Starting make..."

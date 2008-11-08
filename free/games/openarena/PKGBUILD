@@ -16,7 +16,7 @@ source=(http://download.tuxfamily.org/openarena/rel/081/oa081.zip
         openarena.sh
         oa_ded.sh)
 
-md5sums=('77de293c70f033cf1ff14a1bd82dc4d3'
+md5sums=('49006bcb02b4e8ea3d06749e8f4e4887'
          '4ee696eacc4b0350f9dbb5588dcd74a2'
          'c69f824dc500d436fc631b78b6a62dc8'
          '8ca6da826f35857ea1b3f4f17734843d'
