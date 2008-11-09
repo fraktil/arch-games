@@ -1,9 +1,7 @@
 #!/bin/sh
 
-TREM=tremded.x86
-[ "$CARCH" = "x86_64" ] && TREM=tremded.x86_64
-
 [ -f /etc/tremdedrc ] && . /etc/tremdedrc
 [ -f "$HOME/.tremdedrc" ] && . "$HOME/.tremdedrc"
+
 cd /opt/tremulous/bin
-./$TREM "$TREM_ARGS" "$@"
+./tremded "$TREM_ARGS" "$@"

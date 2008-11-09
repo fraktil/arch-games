@@ -21,7 +21,9 @@ source=(source1
         source2
         source3)
 
-noextract=(source1)
+noextract=(source1
+           source2)
+
 md5sums=('sum1'
          'sum2'
          'sum3')
