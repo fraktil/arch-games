@@ -9,7 +9,7 @@ arch=('i686' 'x86_64')
 license=('GPL2')
 depends=('openal' 'glew' 'boost' 'devil' 'libvorbis' 'libxcursor')
 makedepends=('scons>=0.98.5' 'gcc-gcj' 'zip')
-optdepends=('springlobby (A lobby client that will download maps for you)')
+optdepends=('springlobby: A lobby client that will download maps for you')
 source=(http://spring.clan-sy.com/dl/${pkgname}_${pkgver}_src.tar.bz2)
 md5sums=('3d2c3c879e4d07c1c2ca8c5181bf0a45')
 

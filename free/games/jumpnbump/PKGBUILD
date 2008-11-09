@@ -8,7 +8,7 @@ url="http://jumpbump.mine.nu"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('sdl_mixer')
-optdepends=('jumpnbump-levels (extra levels to be loaded with "jumpnbump -dat /usr/share/jumpnbump/nameoflevel.dat")')
+optdepends=('jumpnbump-levels: extra levels')
 source=(http://ftp.hu.freebsd.org/pub/linux/distributions/frugalware/frugalware-testing/source/games-extra/jumpnbump/$pkgname-$pkgver.tar.gz)
 md5sums=('165873fca1c7164eb08b4875f9e7da07')
 

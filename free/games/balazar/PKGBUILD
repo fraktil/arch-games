@@ -8,7 +8,7 @@ url="http://home.gna.org/oomadness/en/balazar/index.html"
 arch=('i686' 'x86_64')
 license=('GPL2')
 depends=('python' 'pyogg' 'pyvorbis' 'twisted' 'soya' 'python-tofu')
-[ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
+[ "$CARCH" = "i686" ] && optdepends=('psyco: Used for speed optimization')
 source=(http://download.gna.org/balazar/Balazar-$pkgver.tar.bz2)
 md5sums=('a4768910f0d7e46594364995cb6996a5')
 

@@ -9,7 +9,7 @@ url="http://home.gna.org/oomadness/en/balazar_brothers/"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('python' 'pyogg' 'pyvorbis' 'twisted' 'soya' 'python-cerealizer' 'editobj')
-[ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
+[ "$CARCH" = "i686" ] && optdepends=('psyco: Used for speed optimization')
 source=(http://download.gna.org/balazar/BalazarBrothers-$pkgver.tar.bz2)
 md5sums=('b292ea006a74668dcbe4c609936b8217')
 

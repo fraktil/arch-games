@@ -9,7 +9,7 @@ arch=('i686' 'x86_64')
 license=('GPL' 'custom:Warsow Content License')
 depends=('sdl' 'curl' 'libxxf86dga' 'libjpeg' 'libvorbis' 'libxxf86vm' 'libxinerama')
 makedepends=('mesa' 'openal' 'unzip' 'hd2u')
-optdepends=('warsow-map-pack-v1 (A collection of maps)')
+optdepends=('warsow-map-pack-v1: A collection of maps')
 source=(warsow.desktop 
         warsow.sh
         wsw-server.sh

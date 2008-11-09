@@ -9,7 +9,7 @@ url="https://gna.org/projects/tactics/"
 arch=('i686' 'x86_64')
 license=('GPL' 'custom:"galaxymage"')
 depends=('python-opengl' 'pygame' 'twisted' 'python-numeric')
-[ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
+[ "$CARCH" = "i686" ] && optdepends=('psyco: Used for speed optimization')
 source=(http://download.gna.org/tactics/$pkgname-$pkgver.tar.gz
         galaxymage.sh
         galaxymage.license)

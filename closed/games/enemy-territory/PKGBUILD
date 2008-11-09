@@ -11,7 +11,7 @@ license=('custom')
 depends=('mesa' 'libxext')
 [ "$CARCH" = "x86_64" ] && depends=('lib32-mesa' 'lib32-libxext')
 makedepends=('unzip')
-optdepends=('enemy-territory-etpro (A Mod for Enemy Territory)')
+optdepends=('enemy-territory-etpro: A Mod for Enemy Territory')
 install=enemy-territory.install 
 
 backup=('opt/enemy-territory/etmain/server.cfg'

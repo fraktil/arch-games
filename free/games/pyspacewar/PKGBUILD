@@ -8,7 +8,7 @@ url="http://mg.pov.lt/pyspacewar"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('python-pygame')
-[ "$CARCH" = "i686" ] && optdepends=('psyco (Used for speed optimization)')
+[ "$CARCH" = "i686" ] && optdepends=('psyco: Used for speed optimization')
 source=(http://mg.pov.lt/pyspacewar/$pkgname-$pkgver.tar.gz
         pyspacewar-64bit.hack)
     
