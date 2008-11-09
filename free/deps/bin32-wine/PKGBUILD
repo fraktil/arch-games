@@ -14,7 +14,7 @@ conflicts=('wine')
 source=(ftp://ftp.heanet.ie/mirrors/ftp.archlinux.org/extra/os/i686/wine-$pkgver-$pkgrel-i686.pkg.tar.gz
         binarynames)
     
-md5sums=(''
+md5sums=('0444f6f0abb126330eb7420b6070156f'
          'b0fd553e2f11fe7553ac1717797befe6')
 
 build() {
