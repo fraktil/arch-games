@@ -1,4 +1,4 @@
-#Contributor: Daenyth
+#Contributor: Daenyth <Daenyth+arch [AT] gmail [dot] com>
 
 pkgname=tremulous-updated
 pkgver=1.1.0
@@ -21,6 +21,7 @@ source=(http://downloads.sourceforge.net/sourceforge/tremulous/tremulous-1.1.0.z
         tremulous.desktop
         tremded.sh
         tremulous.sh)
+backup=('etc/tremdedrc')
 
 noextract=(mg_tremded_source_1.01.tar.gz
            mgclient_source_1.0.tar.gz)
