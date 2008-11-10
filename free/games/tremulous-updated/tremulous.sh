@@ -1,4 +1,5 @@
 #!/bin/sh
+ext=x86; [ "$CARCH" = 'x86_64' ] && ext=x86_64
 
 if [ ! -r "$HOME/.tremulous/base/vm/game.qvm" ]; then
 	echo "Cannot find game.qvm -- linking to installed version."
@@ -8,5 +9,5 @@ if [ ! -r "$HOME/.tremulous/base/vm/game.qvm" ]; then
 	ln -s /opt/tremulous/game.qvm "$HOME/.tremulous/base/vm/game.qvm" || exit 1
 fi
 
-cd /opt/tremulous/bin
-./tremulous "$@"
+cd /opt/tremulous/
+./tremulous.$ext "$@"

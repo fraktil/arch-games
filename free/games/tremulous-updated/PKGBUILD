@@ -33,41 +33,41 @@ md5sums=('3df5f7565571fb9524656308347bce1b'
          'da75a281104e79e16ebfef69b415cecb'
          'f0056120d0192a0d4d591d1114439c52'
          'aef37632a2edcf74a53503a49530bad2'
-         '5b2ab0328323e7287560fcbdea3d8abb'
-         'b1d2ea80b05202588d93d8b679d40278')
+         '63f49f4f177f265c4b90d0ca433f07c3'
+         '02b899ce7691637705eb86480155c144')
 
 build() {
+  local _SUF=x86
+  [ "$CARCH" = "x86_64" ] && _SUF=$CARCH
 
-  #Build and manually install the server
+  # Build and install the server
   bsdtar -x -C $srcdir/tremded -f $srcdir/mg_tremded_source_1.01.tar.gz
   cd $srcdir/tremded
   make || return 1
-  install -D -m755 build/release-linux-x86/tremded.* $pkgdir/opt/tremulous/bin/tremded
-  install -D -m644 $srcdir/tremdedrc $pkgdir/etc/tremdedrc
-  install -D -m644 $srcdir/game.qvm $pkgdir/opt/tremulous/game.qvm
+  install -D -m755 build/release-linux-x86/tremded.$_SUF $pkgdir/opt/tremulous/tremded.$_SUF
+  install -D -m644 $srcdir/tremdedrc                     $pkgdir/etc/tremdedrc
+  install -D -m644 $srcdir/game.qvm                      $pkgdir/opt/tremulous/game.qvm
+  install -D -m755 $srcdir/tremded.sh                    $pkgdir/usr/bin/tremded
 
-  #Build and manually install the client
+  # Build and install the client
   bsdtar -x -C $srcdir/mgclient -f $srcdir/mgclient_source_1.0.tar.gz
   cd $srcdir/mgclient
   make || return 1
-  install -Dm755 build/release-linux-x86/tremulous.* $pkgdir/opt/tremulous/bin/tremulous
+  install -Dm755 build/release-linux-x86/tremulous.$_SUF $pkgdir/opt/tremulous/tremulous.$_SUF
+  install -D -m755 $srcdir/tremulous.sh                  $pkgdir/usr/bin/tremulous
 
-  #Install additional data
+  # Install required shared data
   cd $srcdir/tremulous/base
-  install -d -m775 -g games $pkgdir/opt/tremulous/base
+  install -d -m1775 -g games $pkgdir/opt/tremulous/base
   install -D -m644 *.pk3 *.cfg $pkgdir/opt/tremulous/base/
 
-  #Install the documentation
+  # Install the documentation
   install -Dm644 $srcdir/tremulous/mg-client-manual.txt $pkgdir/usr/share/tremulous/mg-client-manual.txt
-  install -Dm644 $srcdir/tremulous/lakitu7_qvm.txt $pkgdir/usr/share/tremulous/lakitu7_qvm.txt
+  install -Dm644 $srcdir/tremulous/lakitu7_qvm.txt      $pkgdir/usr/share/tremulous/lakitu7_qvm.txt
 
-  #Install the .desktop and icon files
+  # Install the .desktop and icon files
   install -D -m644 $srcdir/tremulous/tremulous.xpm $pkgdir/usr/share/pixmaps/tremulous.xpm
-  install -D -m644 $srcdir/tremulous.desktop $pkgdir/usr/share/applications/tremulous.desktop
-
-  #Install the bin files
-  install -D -m755 $srcdir/tremded.sh $pkgdir/usr/bin/tremded
-  install -D -m755 $srcdir/tremulous.sh $pkgdir/usr/bin/tremulous
+  install -D -m644 $srcdir/tremulous.desktop       $pkgdir/usr/share/applications/tremulous.desktop
 
 }
 
