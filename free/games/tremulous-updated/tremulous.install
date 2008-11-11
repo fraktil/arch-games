@@ -1,17 +1,6 @@
+## arg 1:  the new package version
 post_install() {
-
-cat << EOF
-==>
-==> NOTE: In order to run the tremded server, you MUST put /opt/tremulous/game.qvm inside
-==> ~/.tremulous/base/vm, or it will not run, do:
-==> mkdir -p ~/.tremulous/base/vm && ln -s /opt/tremulous/game.qvm $HOME/.tremulous/base/vm/game.qvm
-==>
-EOF
-
-}
-
-post_upgrade() {
-
-post_install
-  
+  echo " - NOTE: In order to run the tremded server, you MUST put /opt/tremulous/game.qvm inside"
+  echo "   ~/.tremulous/base/vm, or it will not run"
+  echo '   do: mkdir -p ~/.tremulous/base/vm && ln -s /opt/tremulous/game.qvm "$HOME/.tremulous/base/vm/game.qvm"'
 }
