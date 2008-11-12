@@ -1,7 +1,0 @@
-#!/bin/sh
-
-TREM=tremulous.x86
-[ "$CARCH" = "x86_64" ] && TREM=tremulous.x86_64
-
-cd /opt/tremulous/bin
-./$TREM "$@"
