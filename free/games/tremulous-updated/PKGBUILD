@@ -42,6 +42,7 @@ build() {
   [ "$CARCH" = "x86_64" ] && _SUF=$CARCH
 
   # Build and install the server
+  mkdir -p $srcdir/tremded
   bsdtar -x -C $srcdir/tremded -f $srcdir/mg_tremded_source_1.01.tar.gz
   cd $srcdir/tremded
   make || return 1
@@ -51,6 +52,7 @@ build() {
   install -D -m755 $srcdir/tremded.sh                    $pkgdir/usr/bin/tremded
 
   # Build and install the client
+  mkdir -p $srcdir/mgclient
   bsdtar -x -C $srcdir/mgclient -f $srcdir/mgclient_source_1.0.tar.gz
   cd $srcdir/mgclient
   make || return 1
@@ -63,8 +65,8 @@ build() {
   install -D -m644 *.pk3 *.cfg $pkgdir/opt/tremulous/base/
 
   # Install the documentation
-  install -Dm644 $srcdir/tremulous/mg-client-manual.txt $pkgdir/usr/share/tremulous/mg-client-manual.txt
-  install -Dm644 $srcdir/tremulous/lakitu7_qvm.txt      $pkgdir/usr/share/tremulous/lakitu7_qvm.txt
+  install -Dm644 $srcdir/mg-client-manual.txt $pkgdir/usr/share/tremulous/mg-client-manual.txt
+  install -Dm644 $srcdir/lakitu7_qvm.txt      $pkgdir/usr/share/tremulous/lakitu7_qvm.txt
 
   # Install the .desktop and icon files
   install -D -m644 $srcdir/tremulous/tremulous.xpm $pkgdir/usr/share/pixmaps/tremulous.xpm
