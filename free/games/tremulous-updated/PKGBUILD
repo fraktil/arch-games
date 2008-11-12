@@ -21,8 +21,8 @@ source=(http://downloads.sourceforge.net/sourceforge/tremulous/tremulous-1.1.0.z
         tremulous.desktop
         tremded.sh
         tremulous.sh)
-backup=('etc/tremdedrc')
 
+backup=('etc/tremdedrc')
 noextract=(mg_tremded_source_1.01.tar.gz
            mgclient_source_1.0.tar.gz)
 
@@ -38,6 +38,7 @@ md5sums=('3df5f7565571fb9524656308347bce1b'
          '02b899ce7691637705eb86480155c144')
 
 build() {
+
   local _SUF=x86
   [ "$CARCH" = "x86_64" ] && _SUF=$CARCH
 
