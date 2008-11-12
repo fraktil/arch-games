@@ -1,5 +1,4 @@
 # Contributor: Marcel Wysocki <maci@satgnu.net>
-# Maintainer: Marcel Wysocki <maci@satgnu.net>
 
 pkgname=snes9x-gtk
 pkgver=1.51.56
@@ -8,8 +7,7 @@ pkgdesc="GTK+ Version of snes9x, a portable Emulator for the Super Nintento Ente
 arch=(i686 x86_64)
 url="http://snes9x.com/phpbb2/viewtopic.php?t=3703"
 license=('Freeware')
-# remove nasm on non x86 platforms
-depends=('zlib' 'libpng' 'sdl' 'nasm' 'mesa' 'gtkglext' 'portaudio' 'libxrandr')
+depends=('zlib' 'libpng' 'sdl' 'nasm' 'mesa' 'gtkglext' 'portaudio' 'libxrandr' 'libglade')
 source=(http://bearoso.googlepages.com/snes9x-1.51-src-gtk-56.tar.bz2
 	snes9x-gtk.desktop)
 build() {
