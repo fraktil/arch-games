@@ -3,7 +3,7 @@
 pkgname=wormsofprey
 pkgver=0.4.3
 pkgrel=1
-pkgdesc="Wörms of Prey is the new and free real-time Worms game."
+pkgdesc="A new and free real-time Worms game."
 url="http://www.wormsofprey.org"
 arch=('i686' 'x86_64')
 license=('GPL')

@@ -14,7 +14,7 @@ md5sums=('7cfd14d857af6aaff7210f7d00198d38')
 build() {
 
   #Build and install the package
-  cd $srcdir/$pkgname-005stable
+  cd $srcdir/$pkgname-0.0.5stable
   ./configure --prefix=/usr --sysconfdir=/etc
   make || return 1
   make DESTDIR=$pkgdir install
