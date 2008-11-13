@@ -8,6 +8,7 @@ url="http://www.asc-hq.org/"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('libsigcpp1.2' 'sdl_image' 'sdl_mixer' 'sdl_sound' 'expat' 'boost' 'freetype2' 'physfs' 'xvidcore')
+makedepends=('zip')
 source=(http://downloads.sourceforge.net/sourceforge/asc-hq/$pkgname-$pkgver.tar.bz2
         http://www.asc-hq.org/music/frontiers.ogg
         http://www.asc-hq.org/music/time_to_strike.ogg

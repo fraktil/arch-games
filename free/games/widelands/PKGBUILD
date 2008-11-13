@@ -19,7 +19,7 @@ build() {
 
   #Patch and build the package
   cd $srcdir/$pkgname
-  sed "s#/games##" -i src/wlapplication.cc
+  sed "s#/games##" -i src/wlapplication.cc || return 1
   scons prefix=/usr bindir=bin datadir=share/widelands localedir=share/widelands/locale extra_compile_flags="${CXXFLAGS}" || return 1
   utils/buildlocale.py || return 1
   

@@ -1,7 +1,7 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 pkgname=dark-oberon-cvs
-pkgver=20081011
+pkgver=20081114
 pkgrel=2
 pkgdesc="An open source real-time strategy game similar to Warcraft II"
 url="http://dark-oberon.sourceforge.net"
