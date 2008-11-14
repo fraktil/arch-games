@@ -7,7 +7,7 @@ pkgdesc="An open source real-time strategy game similar to Warcraft II"
 url="http://dark-oberon.sourceforge.net"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('glfw')
+depends=('glfw' 'sdl_mixer')
 makedepends=('cvs')
 provides=('dark-oberon')
 conflicts=('dark-oberon')
@@ -36,12 +36,13 @@ build() {
   cd $srcdir/$_cvsmod-build
   
   #Patch and build the package
+  cd src/
   export DARK_OBERON_HOME=$srcdir/dark-oberon
   sh create_makefile.sh || return 1
   cd ../
-  sed "s|LIBRARIES = |LIBRARIES = -pthread -lglfw -lGL -lX11 -lXxf86vm -lGLU -lXext |g" -i $srcdir/dark-oberon/src/Makefile
-  sed "s|CPPFLAGS = -g -Wall -O|CPPFLAGS = ${CXXFLAGS}|g" -i $srcdir/dark-oberon/src/Makefile
-  sed "s|-DDATA_DIR='\"\"'|-DDATA_DIR='\"/opt/dark-oberon/\"'|g" -i $srcdir/dark-oberon/src/Makefile
+  #sed "s|LIBRARIES = |LIBRARIES = -pthread -lglfw -lGL -lX11 -lXxf86vm -lGLU -lXext |g" -i $srcdir/dark-oberon/src/Makefile
+  #sed "s|CPPFLAGS = -g -Wall -O|CPPFLAGS = ${CXXFLAGS}|g" -i $srcdir/dark-oberon/src/Makefile
+  #sed "s|-DDATA_DIR='\"\"'|-DDATA_DIR='\"/opt/dark-oberon/\"'|g" -i $srcdir/dark-oberon/src/Makefile
   make || return 1
 
   #Install the files manually
@@ -50,11 +51,10 @@ build() {
     cp -a $src $pkgdir/opt/dark-oberon
   done
   chown -R root:root $pkgdir/*
-  chmod -R a+r  $pkgdir/*
+  chmod -R 755 $pkgdir/*
 
   #Install the dark oberon profile
-  mkdir -p $pkgdir/etc/profile.d
-  install -c $srcdir/dark-oberon.sh $pkgdir/etc/profile.d/dark-oberon.sh
+  install -D -m755 $srcdir/dark-oberon.sh $pkgdir/etc/profile.d/dark-oberon.sh
   
 }
 
