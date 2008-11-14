@@ -12,24 +12,24 @@ url='http://www.nethack.org/index.html'
 license=('custom')
 arch=('i686' 'x86_64')
 depends=('ncurses' 'gzip')
-source=(http://downloads.sourceforge.net/sourceforge/nethack/nethack-343-src.tgz \
-	nh343-menucolor.diff hpmon.diff dump-343.diff)
+source=(http://downloads.sourceforge.net/sourceforge/nethack/nethack-343-src.tgz 
+        nh343-menucolor.diff hpmon.diff dump-343.diff)
 md5sums=('21479c95990eefe7650df582426457f9' 
-	 'ade00f9cb51f1b0140557d329d56844c'
-	 'a8e5cab6a93100612d428f3973dc418f' 
-	 'a9631ce3da9b4a57b6a2e6011509ca90')
+         'ade00f9cb51f1b0140557d329d56844c'
+         'a8e5cab6a93100612d428f3973dc418f' 
+         'a9631ce3da9b4a57b6a2e6011509ca90')
 conflicts=('nethack')
 
 build(){
-  cd $startdir/src/nethack-$pkgver/
+  cd $srcdir/nethack-$pkgver/
   patch -p1 <../nh343-menucolor.diff
   patch -p1 <../hpmon.diff
   patch -p1 <../dump-343.diff
 
-  cd $startdir/src/nethack-$pkgver/sys/unix
+  cd $srcdir/nethack-$pkgver/sys/unix
   sh setup.sh
 
-  cd $startdir/src/nethack-$pkgver/include
+  cd $srcdir/nethack-$pkgver/include
   sed -e '/define HACKDIR/ s|/usr/games/lib/nethackdir|/usr/share/nethack/|' \
       -e '/^#define COMPRESS\s/ s|/usr/bin/compress|/bin/gzip|' \
       -e '/^#define COMPRESS_EXTENSION/ s|".Z"|".gz"|' \
@@ -42,7 +42,7 @@ build(){
 
   sed -e 's|^/\* \(#define LINUX\) \*/|\1|' \
       -e 's|^/\* \(#define TIMED_DELAY\) \*/|\1|' -i unixconf.h
-  cd $startdir/src/nethack-$pkgver/src
+  cd $srcdir/nethack-$pkgver/src
   sed -e 's|^# \(WINTTYLIB = -lncurses\)|\1|' \
       -e 's|^WINTTYLIB = -ltermlib|#&|' -i Makefile
   cd ..
@@ -52,8 +52,9 @@ build(){
       -e '/^SHELLDIR\s*=/ s|/games|/bin|' -i Makefile
 
   make || return 1
-  make PREFIX=$startdir/pkg/usr install
+  make PREFIX=$pkgdir/usr install
   sed -e 's|HACKDIR=.*/pkg/usr/|HACKDIR=/usr/|' \
-      -i $startdir/pkg/usr/bin/nethack
-  install -Dm644 dat/license $startdir/pkg/usr/share/licenses/nethack/license
+      -i $pkgdir/usr/bin/nethack
+  install -Dm644 dat/license $pkgdir/usr/share/licenses/nethack/license
 }
+# vim:set ts=2 sw=2 et:
