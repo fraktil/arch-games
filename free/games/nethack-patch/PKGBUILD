@@ -23,29 +23,32 @@ md5sums=('21479c95990eefe7650df582426457f9'
          'a9631ce3da9b4a57b6a2e6011509ca90')
 
 conflicts=('nethack')
+provides=("nethack=$pkgver")
 
-build(){
+build() {
 
-  #Add the patches to the source
+  # Add the patches to the source
   cd $srcdir/nethack-$pkgver
   patch -Np1 -i $srcdir/nh343-menucolor.diff
   patch -Np1 -i $srcdir/hpmon.diff
   patch -Np1 -i $srcdir/dump-343.diff
 
-  #Run the setup script
+  # Run the setup script
   cd $srcdir/nethack-$pkgver/sys/unix
   sh setup.sh
 
-  #Patch the code to compile and install later
+  # Enable the hpmon and dumplog patches    
   cd $srcdir/nethack-$pkgver/include
-  sed -e '/define HACKDIR/ s|/usr/games/lib/nethackdir|/usr/share/nethack/|' \
-      -e '/^#define COMPRESS\s/ s|/usr/bin/compress|/bin/gzip|' \
-      -e '/^#define COMPRESS_EXTENSION/ s|".Z"|".gz"|' \
-      -e 's|^/\* \(#define DLB\) \*/|\1|' -i config.h
   sed -e 's/#endif \/\* CONFIG_H \*\///' -i config.h
   echo '#define HPMON' >> config.h
   echo '#define DUMP_FN "/tmp/%n.nh"' >> config.h
   echo '#endif /* CONFIG_H */' >> config.h
+
+  # Configure the source for Arch
+  sed -e '/define HACKDIR/ s|/usr/games/lib/nethackdir|/usr/share/nethack/|' \
+      -e '/^#define COMPRESS\s/ s|/usr/bin/compress|/bin/gzip|' \
+      -e '/^#define COMPRESS_EXTENSION/ s|".Z"|".gz"|' \
+      -e 's|^/\* \(#define DLB\) \*/|\1|' -i config.h
   sed -e 's|^/\* \(#define LINUX\) \*/|\1|' \
       -e 's|^/\* \(#define TIMED_DELAY\) \*/|\1|' -i unixconf.h
   cd $srcdir/nethack-$pkgver/src
@@ -57,14 +60,14 @@ build(){
       -e '/^GAMEGRP\s*=/ s|bin|root|' \
       -e '/^SHELLDIR\s*=/ s|/games|/bin|' -i Makefile
 
-  #Build and install the package
+  # Build and install the package
   make || return 1
   make PREFIX=$pkgdir/usr install
 
-  #Install the license
+  # Install the license
   install -Dm644 dat/license $pkgdir/usr/share/licenses/nethack/COPYING
 
-  #Patch the bin script to work
+  # Patch the bin script to work
   sed -e 's|HACKDIR=.*/pkg/usr/|HACKDIR=/usr/|' -i $pkgdir/usr/bin/nethack
 
 }
