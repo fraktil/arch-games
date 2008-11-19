@@ -1,7 +1,7 @@
 # Contributor: Alexander Baldeck <alexander@archlinux.org>
 
 pkgname=dark-oberon-cvs
-pkgver=20081114
+pkgver=20081119
 pkgrel=2
 pkgdesc="An open source real-time strategy game similar to Warcraft II"
 url="http://dark-oberon.sourceforge.net"
@@ -40,15 +40,12 @@ build() {
   export DARK_OBERON_HOME=$srcdir/dark-oberon
   sh create_makefile.sh || return 1
   cd ../
-  #sed "s|LIBRARIES = |LIBRARIES = -pthread -lglfw -lGL -lX11 -lXxf86vm -lGLU -lXext |g" -i $srcdir/dark-oberon/src/Makefile
-  #sed "s|CPPFLAGS = -g -Wall -O|CPPFLAGS = ${CXXFLAGS}|g" -i $srcdir/dark-oberon/src/Makefile
-  #sed "s|-DDATA_DIR='\"\"'|-DDATA_DIR='\"/opt/dark-oberon/\"'|g" -i $srcdir/dark-oberon/src/Makefile
   make || return 1
 
   #Install the files manually
   install -d -m755 $pkgdir/opt/dark-oberon
-  for src in dark-oberon dat docs libs maps races schemes; do
-    cp -a $src $pkgdir/opt/dark-oberon
+  for _src in dark-oberon dat docs libs maps races schemes; do
+    cp -a $_src $pkgdir/opt/dark-oberon
   done
   chown -R root:root $pkgdir/*
   chmod -R 755 $pkgdir/*

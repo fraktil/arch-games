@@ -5,7 +5,7 @@
  #include "cal3d/coremodel.h"
  #include "cal3d/coresubmesh.h"
 -
-+#include <string.h>
++#include <cstring>
  
  CalCoreSkeleton::CalCoreSkeleton()
  {
@@ -17,7 +17,7 @@
  
  #include "cal3d/cal3d.h"
 -
-+#include <strings.h>
++#include <cstring>
  #define SKELETON 0
  #define MESH 1
  #define ANIMATION 2
