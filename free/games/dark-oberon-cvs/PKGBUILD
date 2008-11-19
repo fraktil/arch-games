@@ -35,7 +35,7 @@ build() {
   cp -r $srcdir/$_cvsmod $srcdir/$_cvsmod-build
   cd $srcdir/$_cvsmod-build
   
-  #Patch and build the package
+  #Build the package
   cd src/
   export DARK_OBERON_HOME=$srcdir/dark-oberon
   sh create_makefile.sh || return 1
