@@ -1,7 +1,7 @@
 # Contributor: Jonathan Frazier <eyeswide@gmail.com>
 
 pkgname=openal-soft
-pkgver=1.5.304
+pkgver=1.6.372
 pkgrel=1
 pkgdesc="a cross-platform software implementation of the OpenAL 3D audio API."
 url="http://kcat.strangesoft.net/openal.html"
@@ -13,7 +13,7 @@ provides=('openal')
 conflicts=('openal')
 replaces=('openal')
 source=(http://kcat.strangesoft.net/openal-releases/$pkgname-$pkgver.tar.bz2)
-md5sums=('1a20bf07779916bb3dfea61055782539')
+md5sums=('8dc255ba24859953335a0402a644c4ca')
  
 build() {
 
@@ -24,9 +24,9 @@ build() {
   make DESTDIR="$pkgdir/" install
 
   #Some apps expect to have libopenal.so.0
-  ln -s /usr/lib/libopenal.so.1.5.304 $pkgdir/usr/lib/libopenal.so.0
+  ln -s libopenal.so.1 $pkgdir/usr/lib/libopenal.so.0
 
   #Some apps expect openal_sof and not openal for pkgconfig
-  ln -s /usr/lib/pkgconfig/openal.pc $pkgdir/usr/lib/pkgconfig/openal_soft.pc
+  ln -s openal.pc $pkgdir/usr/lib/pkgconfig/openal_soft.pc
   
 }
