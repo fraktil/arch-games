@@ -1,9 +1,9 @@
 # Contributor: Hussam Al-Tayeb <ht990332@gmail.com>
 
-pkgname=cal3d-svn
-pkgver=495
+pkgname=cal3d-frozen-svn
+pkgver=507
 pkgrel=1
-pkgdesc="A skeletal-based 3D character animation library"
+pkgdesc="A skeletal-based 3D character animation library, revision 495 for best compatibility with the games in our repo."
 url="https://gna.org/projects/cal3d"
 arch=('i686' 'x86_64')
 license=(GPL2)
@@ -11,8 +11,8 @@ makedepends=('subversion')
 provides=('cal3d')
 conflicts=('cal3d')
 options=(!libtool)
-source=(cal3d.patch)
-md5sums=('d2ef9bbc133c0f5cccc55387df12851c')
+source=()
+md5sums=('')
      
 _svntrunk=svn://svn.gna.org/svn/cal3d/trunk/cal3d
 _svnmod=cal3d
@@ -32,8 +32,7 @@ build() {
   cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
   cd $srcdir/$_svnmod-build
 
-  #Patching building and installing the source
-  patch -Np0 -i $srcdir/cal3d.patch || return 1
+  #Patch, build and install the package
   sed -i 's/AM_USE_UNITTESTCPP/# AM_USE_UNITTESTCPP/' configure.in || return 1
   autoreconf --install --force
   ./configure --prefix=$pkgdir/usr
