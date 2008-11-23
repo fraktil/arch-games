@@ -4,3 +4,7 @@ Begin Adding game emulators like snes9x to repo
 http://aur.archlinux.org/packages.php?L=2&K=emulat&C=5&SB=v&SO=d
 --
 We need moar roguelikes
+--
+Spring is just an engine so i think it should actually move to deps and a free
+package based on spring should go to games (there are some good mods that are
+not based on ta-content).

@@ -1,7 +1,7 @@
 # Contributor: Nicholas Clarke <osymandias@gmail.com>
 
 pkgname=springlobby
-pkgver=0.0.1.10363
+pkgver=0.0.1.10366
 pkgrel=4
 pkgdesc="A free cross-platform lobby client for the Spring RTS project."
 url="http://trac.springlobby.info"
@@ -12,7 +12,7 @@ source=(http://www.springlobby.info/tarballs/$pkgname-$pkgver.tar.bz2
         springlobby.desktop 
         springlobby.png)
     
-md5sums=('2228d7ef86ecb84f6ec4efc35d5f8530'
+md5sums=('8c4526d6dfe5890ad6d01bde2969472b'
          '45f8b59d033931d02e734fe3bd7777dd'
          '1f388187539aeb0358b51995e26ed890')
      
