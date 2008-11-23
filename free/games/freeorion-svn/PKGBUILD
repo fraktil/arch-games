@@ -1,7 +1,7 @@
 # Contributor: fana-m <geminin@gmx.net>
 
 pkgname=freeorion-svn
-pkgver=2680
+pkgver=2685
 pkgrel=1
 pkgdesc="Free Clone of Master of Orion."
 url="http://www.freeorion.org/index.php/Main_Page"
@@ -12,12 +12,10 @@ makedepends=('subversion' 'scons')
 provides=('freeorion')
 conflicts=('freeorion')
 source=(freeorion.png
-        freeorion.desktop
-        freeorion-svn.patch)
+        freeorion.desktop)
 
 md5sums=('7064e5b16d222322ce90cd4598eec64e'
-         '2cb863f94d76c7d2f53a9d393b2b2660'
-         '99de313465cc1fbcd4e88cea3f7a03f8')
+         '2cb863f94d76c7d2f53a9d393b2b2660')
 
 _svntrunk=https://freeorion.svn.sourceforge.net/svnroot/freeorion/trunk/FreeOrion/
 _svnmod=freeorion
@@ -37,8 +35,7 @@ build() {
   cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
   cd $srcdir/$_svnmod-build
 
-  #Patch, build and install the package
-  patch -Np0 -i $srcdir/freeorion-svn.patch || return 1
+  #Build and install the package
   scons configure
   scons prefix=/usr || return 1
   scons install prefix=$pkgdir/usr
