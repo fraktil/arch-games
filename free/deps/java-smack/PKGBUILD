@@ -3,11 +3,10 @@ pkgname=java-smack
 pkgver=3.1.0
 pkgrel=1
 pkgdesc="Easy to use Java XMPP client library"
-arch=(any)
+arch=(i686 x86_64)
 url="http://www.igniterealtime.org/projects/smack/"
 license=(APACHE)
-depends=()
-source=(http://www.igniterealtime.org/downloadServlet?filename=smack/smack_3_1_0.tar.gz)
+source=(smack_3_1_0.tar.gz::http://www.igniterealtime.org/downloadServlet?filename=smack/smack_3_1_0.tar.gz)
 md5sums=('60364fdc8bc5d260f57e4f740b133128')
 
 build() {

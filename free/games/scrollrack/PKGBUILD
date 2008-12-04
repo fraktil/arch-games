@@ -3,7 +3,7 @@ pkgname=scrollrack
 pkgver=1.0
 pkgrel=1
 pkgdesc="A virtual tabletop on which you can play card games over a network. Designed for M:tG"
-arch=(any)
+arch=(i686 x86_64)
 url="http://scrollrack.sourceforge.net"
 license=(GPL)
 depends=(swt java-smack)
@@ -16,7 +16,7 @@ md5sums=('deee4dae3c994d9439e6cc6e504635fb'
 
 build() {
   cd $srcdir
-  rpmextract.sh $pkgname-$pkgver-1.noarch.rpm
+  rpmextract.sh $pkgname-$pkgver-1.noarch.rpm || return 1
 
   install -Dm644 usr/share/java/$pkgname-$pkgver.jar $pkgdir/usr/share/java/$pkgname/$pkgname-$pkgver.jar
   cd $pkgdir/usr/share/java/$pkgname/
