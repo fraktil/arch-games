@@ -15,7 +15,7 @@ source=(freeorion.png
         freeorion.desktop)
 
 md5sums=('7064e5b16d222322ce90cd4598eec64e'
-         '2cb863f94d76c7d2f53a9d393b2b2660')
+         'bcb518a25fe06e5522426ed5cefd1d06')
 
 _svntrunk=https://freeorion.svn.sourceforge.net/svnroot/freeorion/trunk/FreeOrion/
 _svnmod=freeorion
@@ -37,7 +37,7 @@ build() {
 
   #Build and install the package
   scons configure
-  scons prefix=/usr || return 1
+  scons prefix=/usr extra_compile_flags="${CXXFLAGS}" || return 1
   scons install prefix=$pkgdir/usr
 
   #Install the icons and .desktop files

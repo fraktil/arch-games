@@ -1,7 +1,7 @@
 # Contributor: fana-m <geminin@gmx.net>
 
 pkgname=gigi-svn
-pkgver=666
+pkgver=670
 pkgrel=1
 pkgdesc="A small, efficient, and feature-rich C++ GUI for OpenGL"
 url="http://sourceforge.net/projects/gigi/"
