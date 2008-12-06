@@ -1,5 +1,5 @@
 # Contributor: Clement Siuchung Cheung <clement.cheung@umich.edu>
-# Contributor: Mikko Seppl <t-r-a-y@mbnet.fi>
+# Contributor: Mikko Seppälä <t-r-a-y@mbnet.fi>
 
 pkgname=bin32-wine
 pkgver=1.1.10
