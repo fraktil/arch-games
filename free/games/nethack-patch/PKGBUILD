@@ -22,6 +22,7 @@ md5sums=('21479c95990eefe7650df582426457f9'
          'a8e5cab6a93100612d428f3973dc418f'
          'a9631ce3da9b4a57b6a2e6011509ca90')
 
+backup=('usr/share/nethack/record')
 conflicts=('nethack')
 provides=("nethack=$pkgver")
 
