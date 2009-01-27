@@ -1,4 +1,5 @@
 #!/bin/sh
+CARCH=`uname -m`
 ext=x86; [ "$CARCH" = 'x86_64' ] && ext=x86_64
 
 [ -f /etc/tremdedrc ] && . /etc/tremdedrc

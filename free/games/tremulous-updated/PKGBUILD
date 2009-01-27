@@ -2,7 +2,7 @@
 
 pkgname=tremulous-updated
 pkgver=1.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A free team based FPS/RTS hybrid built on the ioq3 engine. Includes community updates."
 url="http://tremulous.net"
 arch=('i686' 'x86_64')
@@ -26,14 +26,14 @@ backup=('etc/tremdedrc')
 noextract=(mg_tremded_source_1.01.tar.gz)
 
 md5sums=('3df5f7565571fb9524656308347bce1b'
-         '54dc412c71ee30d801d3ef53bfa89f7d'
+         'e0e1b6e03e7596da00a77fe638560402'
          '95e526b961f875ba66b6fdd4842c913b'
          '938bdf944dff667b74e2132a87a49780'
          '12cd29ce2380700d0e1e046f67b93b4c'
          'da75a281104e79e16ebfef69b415cecb'
          'f0056120d0192a0d4d591d1114439c52'
          'aef37632a2edcf74a53503a49530bad2'
-         '63f49f4f177f265c4b90d0ca433f07c3'
+         'b755d7c022cddc449ca2de508dfeee30'
          '8e89473f9fdb481ad44e5cea5f6f681e')
 
 build() {
