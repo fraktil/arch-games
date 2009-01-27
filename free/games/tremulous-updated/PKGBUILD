@@ -54,7 +54,7 @@ build() {
   # Build and install the client
   cd $srcdir/Release_1.011
   make || return 1
-  install -Dm755 build/release-linux-x86/tremulous.$_SUF $pkgdir/opt/tremulous/tremulous.$_SUF
+  install -Dm755 build/release-linux-$_SUF/tremulous.$_SUF $pkgdir/opt/tremulous/tremulous.$_SUF
   install -D -m755 $srcdir/tremulous.sh                  $pkgdir/usr/bin/tremulous
 
   # Install required shared data
