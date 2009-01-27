@@ -46,7 +46,7 @@ build() {
   bsdtar -x -C $srcdir/tremded -f $srcdir/mg_tremded_source_1.01.tar.gz
   cd $srcdir/tremded
   make || return 1
-  install -D -m755 build/release-linux-x86/tremded.$_SUF $pkgdir/opt/tremulous/tremded.$_SUF
+  install -D -m755 build/release-linux-$_SUF/tremded.$_SUF $pkgdir/opt/tremulous/tremded.$_SUF
   install -D -m644 $srcdir/tremdedrc                     $pkgdir/etc/tremdedrc
   install -D -m644 $srcdir/game.qvm                      $pkgdir/opt/tremulous/game.qvm
   install -D -m755 $srcdir/tremded.sh                    $pkgdir/usr/bin/tremded
