@@ -8,6 +8,7 @@ url="http://www.truecombatelite.com/"
 arch=('i686' 'x86_64')
 license=('custom')
 depends=('enemy-territory')
+[ "$CARCH" = x86_64 ] && depends=(enemy-territory lib32-libstdc++5)
 makedepends=('unzip')
 backup=('opt/enemy-territory/tcetest/server.cfg')
 source=(true-combat.desktop
