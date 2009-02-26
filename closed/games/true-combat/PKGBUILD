@@ -2,7 +2,7 @@
 
 pkgname=true-combat
 pkgver=0.49b
-pkgrel=3
+pkgrel=4
 pkgdesc="A completely free, realistic, team-based modification for Enemy Territory."
 url="http://www.truecombatelite.com/"
 arch=('i686' 'x86_64')
