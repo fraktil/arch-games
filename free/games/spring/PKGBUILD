@@ -10,7 +10,7 @@ license=('GPL2')
 depends=('openal' 'glew' 'boost' 'devil' 'libvorbis' 'libxcursor')
 makedepends=('cmake>=2.6' 'zip')
 optdepends=('springlobby: A lobby client that will download maps for you')
-source=(http://spring.clan-sy.com/dl/${pkgname}_${pkgver}_src.tar.bz2)
+source=(http://spring.clan-sy.com/dl/${pkgname}_${pkgver}_src.tar.gz)
 md5sums=('8f3dd6c79b254fde9c1b6643eca97729')
 
 build() {
