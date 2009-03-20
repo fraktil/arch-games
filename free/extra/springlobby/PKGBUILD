@@ -1,30 +1,30 @@
 # Contributor: Nicholas Clarke <osymandias@gmail.com>
 
 pkgname=springlobby
-pkgver=0.0.1.10366
-pkgrel=4
+pkgver=0.0.1.10429
+pkgrel=1
 pkgdesc="A free cross-platform lobby client for the Spring RTS project."
 url="http://trac.springlobby.info"
 arch=('i686' 'x86_64')
 license=('GPL2')
-depends=('spring' 'wxgtk' 'libtorrent-rasterbar' 'asio' 'sdl_sound' 'sdl_mixer') 
-source=(http://www.springlobby.info/tarballs/$pkgname-$pkgver.tar.bz2 
-        springlobby.desktop 
+depends=('spring' 'wxgtk' 'libtorrent-rasterbar' 'asio' 'sdl_sound' 'sdl_mixer')
+source=(http://www.springlobby.info/tarballs/$pkgname-$pkgver.tar.bz2
+        springlobby.desktop
         springlobby.png)
-    
-md5sums=('8c4526d6dfe5890ad6d01bde2969472b'
+
+md5sums=('1f41892e5c870f46fd95a2ab2179f0d0'
          '45f8b59d033931d02e734fe3bd7777dd'
          '1f388187539aeb0358b51995e26ed890')
-     
+
 build() {
 
-  #Build and install the package  
+  #Build and install the package
   cd $srcdir/$pkgname-$pkgver
   ./configure --prefix=/usr || return 1
   make && make DESTDIR=$pkgdir install || return 1
   install -D -m644 $srcdir/springlobby.desktop $pkgdir/usr/share/applications
   install -D -m644 $srcdir/springlobby.png $pkgdir/usr/share/pixmaps
-  
+
 }
 
 # vim:set ts=2 sw=2 et:
