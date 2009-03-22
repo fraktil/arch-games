@@ -1,6 +1,6 @@
 pkgname=greed
 pkgver=3.4
-pkgrel=3
+pkgrel=4
 pkgdesc='The strategy game of Greed.'
 arch=('i686' 'x86_64')
 url='http://www.catb.org/~esr/greed/'
