@@ -1,0 +1,20 @@
+pkgname=greed
+pkgver=3.4
+pkgrel=3
+pkgdesc='The strategy game of Greed.'
+arch=('i686' 'x86_64')
+url='http://www.catb.org/~esr/greed/'
+license=('GPL')
+source=(http://www.catb.org/~esr/greed/$pkgname-$pkgver.tar.gz)
+md5sums=('d5d254db1e093e0bfb51ad11c35e1093')
+backup=(usr/games/lib/greed.hs)
+
+build() {
+    cd $srcdir/$pkgname-$pkgver
+
+    make CFLAGS="$CFLAGS" || return 1
+
+    touch greed.hs
+    install -Dm755 -D greed $pkgdir/usr/bin/greed
+    install -Dm664 -g games greed.hs $pkgdir/usr/games/lib/greed.hs
+}
