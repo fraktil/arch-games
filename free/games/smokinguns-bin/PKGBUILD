@@ -12,15 +12,15 @@ depends=('openal')
 makedepends=('nasm' 'openal')
 replaces=('westernquake3')
 source=("http://downloads.sf.net/smokinguns/sg-$pkgver-svn_r48.tar.bz2"
-	"http://ftp.jeuxlinux.fr/files/Smokin_Guns_$pkgver.zip"               
-	'smokinguns'
-	'smokinguns_server'
-	"Smokin' Guns.desktop")
+        "http://ftp.jeuxlinux.fr/files/Smokin_Guns_$pkgver.zip"
+        'smokinguns'
+        'smokinguns_server'
+        "Smokin' Guns.desktop")
 md5sums=('f070b20e9d9b8d61b1d646604d4098fd'
-	 '6e6a980bd057e9241c66b7324729c7b9'         	
-	 '496e2fa0ba12c2cf4db388de633525c0'
-	 '2f79abcae984f8fff6aa8fc54196e953'
-	 '727df45967bd3827735a088435f21647')
+         '6e6a980bd057e9241c66b7324729c7b9'
+         '496e2fa0ba12c2cf4db388de633525c0'
+         '2f79abcae984f8fff6aa8fc54196e953'
+         '727df45967bd3827735a088435f21647')
 build() {
   cd "$srcdir/stable"
   make || return 1
@@ -46,3 +46,5 @@ build() {
   install -m 775 "$srcdir/stable/code/install/smokinguns" "$pkgdir/opt/SmokinGuns/smokinguns.x86"
   install -m 775 "$srcdir/stable/code/install/smokinguns_server" "$pkgdir/opt/SmokinGuns/smokinguns_server.x86"
 }
+
+# vim:set ts=2 sw=2 et:
