@@ -2,12 +2,12 @@
 
 pkgname=freecol
 pkgver=0.8.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Turn-based strategy game based on the game Colonization"
 url="http://www.freecol.org/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('jre')
+depends=(java-runtime)
 source=(http://downloads.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz
         freecol.sh
         freecol.desktop)
