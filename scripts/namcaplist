@@ -1,4 +1,4 @@
 #!/bin/bash
 
 : > namcap_errors.txt
-find . -name PKGBUILD -exec namcap {} \; | grep -v 'CVS Id' | sort +3 >> namcap_errors.txt
+find . -name PKGBUILD -exec namcap {} + | grep -v 'CVS Id' | sort -k3,4 >> namcap_errors.txt
