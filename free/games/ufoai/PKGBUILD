@@ -2,7 +2,7 @@
 
 pkgname=ufoai
 pkgver=2.2.1
-pkgrel=1
+pkgrel=2
 pkgdesc="UFO: Alien Invasion is a strategy game featuring tactical combat"
 url="http://ufoai.sourceforge.net/"
 arch=('i686' 'x86_64')
@@ -10,11 +10,12 @@ license=('GPL')
 depends=('libjpeg' 'libpng' 'curl' 'sdl_mixer' 'sdl_ttf' 'ufoai-data')
 source=(http://downloads.sourceforge.net/sourceforge/ufoai/$pkgname-$pkgver-source.tar.bz2
         ufoai.png 
-        ufoai.desktop)
+        ufoai.desktop
+        ufo.sh
+        ufoded.sh
+        ufo2map.sh)
     
-md5sums=('d3d1e45056fe87efbd9a0f000779ab17' 
-         'ae3be6e45fdd8ff584fcfc55d6a40a72' 
-         '52af75b2ed6c027d2523b3358b8f1b32')
+md5sums=()
 
 build() {
   
@@ -31,9 +32,11 @@ build() {
   #Patch the bin files
   sed -i "s|$pkgdir||" $pkgdir/usr/bin/*
 
-  # Put the binaries in the right place
-  mv $pkgdir/usr/share/ufoai/{ufo,ufoded,ufo2map} $pkgdir/usr/bin/
-  
+  # Install binary launcher scripts
+  install -Dm755 $srcdir/ufo.sh $pkgdir/usr/bin/ufo
+  install -Dm755 $srcdir/ufoded.sh $pkgdir/usr/bin/ufoded
+  install -Dm755 $srcdir/ufo2map.sh $pkgdir/usr/bin/ufo2map
+
 }
 
 # vim:set ts=2 sw=2 et:
