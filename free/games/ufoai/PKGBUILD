@@ -30,6 +30,9 @@ build() {
   
   #Patch the bin files
   sed -i "s|$pkgdir||" $pkgdir/usr/bin/*
+
+  # Put the binaries in the right place
+  mv $pkgdir/usr/share/ufoai/{ufo,ufoded,ufo2map} $pkgdir/usr/bin/
   
 }
 
