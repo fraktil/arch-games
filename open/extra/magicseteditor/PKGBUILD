@@ -1,0 +1,28 @@
+# Contributor: Daenyth <Daenyth+Arch AT gmail DOT com>
+# Contributor: Gerardo Exequiel Pozzi <vmlinuz386@yahoo.com.ar>
+
+pkgname=magicseteditor
+pkgver=0.3.8
+pkgrel=1
+pkgdesc="A program to help create Magic: the Gathering cards and sets. 32 bit binary release"
+arch=(i686)
+url="http://magicseteditor.sourceforge.net"
+license=('GPL')
+depends=(wxgtk hunspell boost)
+makedepends=(autoconf-archive)
+source=($pkgname-$pkgver.tar.gz::http://$pkgname.svn.sourceforge.net/viewvc/$pkgname/tags/releases/mse-$pkgver.tar.gz?view=tar)
+md5sums=('3e4766f19c52c60d24e62b8aedbef024')
+
+build() {
+  cd "$srcdir/mse-$pkgver"
+  chmod +x MakeAM.sh
+  rm configure
+  sed 's|hunspell|hunspell-1.2|' -i configure.ac
+  ./MakeAM.sh
+  autoreconf --force --install
+  ./configure --prefix=/usr
+  make
+  make install DESTDIR=$pkgdir
+}
+
+# vim:set ts=2 sw=2 et:
