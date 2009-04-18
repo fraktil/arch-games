@@ -4,7 +4,7 @@
 pkgname=magicseteditor
 pkgver=0.3.8
 pkgrel=1
-pkgdesc="A program to help create Magic: the Gathering cards and sets. 32 bit binary release"
+pkgdesc="A program to help create Magic: the Gathering (or other game) cards and sets"
 arch=(i686)
 url="http://magicseteditor.sourceforge.net"
 license=('GPL')
