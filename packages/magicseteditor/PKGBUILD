@@ -5,23 +5,25 @@ pkgname=magicseteditor
 pkgver=0.3.8
 pkgrel=1
 pkgdesc="A program to help create Magic: the Gathering (or other game) cards and sets"
-arch=(i686)
+arch=(i686 x86_64)
 url="http://magicseteditor.sourceforge.net"
 license=('GPL')
 depends=(wxgtk hunspell boost)
 makedepends=(autoconf-archive)
-source=($pkgname-$pkgver.tar.gz::http://$pkgname.svn.sourceforge.net/viewvc/$pkgname/tags/releases/mse-$pkgver.tar.gz?view=tar)
+source=($pkgname-$pkgver.tar.gz::http://$pkgname.svn.sourceforge.net/viewvc/$pkgname/tags/releases/mse-$pkgver.tar.gz?view=tar
+        x86_64.patch)
 md5sums=('3e4766f19c52c60d24e62b8aedbef024')
 
 build() {
   cd "$srcdir/mse-$pkgver"
+  if [ "$CARCH" = 'x86_64' ]; then patch -Np1 < x86_64.patch || return 1; fi
   chmod +x MakeAM.sh
-  rm configure
+  rm -f configure
   sed 's|hunspell|hunspell-1.2|' -i configure.ac
   ./MakeAM.sh
   autoreconf --force --install
-  ./configure --prefix=/usr
-  make
+  ./configure --prefix=/usr || return 1
+  make || return 1
   make install DESTDIR=$pkgdir
 }
 

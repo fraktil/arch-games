@@ -1,0 +1,11 @@
+--- src/gui/set/style_panel.cpp.orig    2009-04-17 21:54:11.078791639 -0300
++++ src/gui/set/style_panel.cpp 2009-04-17 21:54:17.636297440 -0300
+@@ -70,7 +70,7 @@
+        // we only need enough columns to show all items
+        int x_room = GetSize().x - editor->GetBestSize().x - 6;
+        size_t need_columns = (size_t)ceil(list->requiredWidth() / (double)x_room);
+-       size_t column_count = max(1u, min(fit_columns, need_columns));
++       size_t column_count = max(1ul, min(fit_columns, need_columns));
+        // change count
+        if (column_count != list->column_count) {
+                list->column_count = column_count;
