@@ -2,7 +2,7 @@
 
 pkgname=tremulous-updated
 pkgver=1.1.0
-pkgrel=4
+pkgrel=5
 pkgdesc="A free team based FPS/RTS hybrid built on the ioq3 engine. Includes community updates."
 url="http://tremulous.net"
 arch=('i686' 'x86_64')
@@ -15,8 +15,8 @@ source=(http://downloads.sourceforge.net/sourceforge/tremulous/tremulous-1.1.0.z
         http://releases.mercenariesguild.net/client/mg-client-manual.txt
         http://releases.mercenariesguild.net/client/mgclient_source_Release_1.011.tar.gz
         http://releases.mercenariesguild.net/tremded/mg_tremded_source_1.01.tar.gz
-        game.qvm::http://patches.mercenariesguild.net/index.php?getfile=980
-        lakitu7_qvm.txt::http://patches.mercenariesguild.net/index.php?getfile=812
+        game.qvm::http://projects.mercenariesguild.net/attachments/download/50/game.qvm
+        lakitu7_qvm.txt::http://projects.mercenariesguild.net/attachments/download/47/lakitu7_qvm.txt
         tremdedrc
         tremulous.desktop
         tremded.sh
@@ -29,8 +29,8 @@ md5sums=('3df5f7565571fb9524656308347bce1b'
          'e0e1b6e03e7596da00a77fe638560402'
          '95e526b961f875ba66b6fdd4842c913b'
          '938bdf944dff667b74e2132a87a49780'
-         '12cd29ce2380700d0e1e046f67b93b4c'
-         'da75a281104e79e16ebfef69b415cecb'
+         '90343619d140557d0c481a61ffa5756c'
+         'a0b8970b33a27798c125f9152049013c'
          'f0056120d0192a0d4d591d1114439c52'
          'aef37632a2edcf74a53503a49530bad2'
          'b755d7c022cddc449ca2de508dfeee30'
