@@ -1,15 +1,16 @@
 # Contributor: Marcel Wysocki <maci@satgnu.net>
 
 pkgname=snes9x-gtk
-pkgver=1.51.58
+pkgver=1.51.70
 pkgrel=1
 pkgdesc="GTK+ Version of snes9x, a portable Emulator for the Super Nintento Entertainment System"
 url="http://snes9x.com/phpbb2/viewtopic.php?t=3703"
 arch=('i686' 'x86_64')
 license=('custom: snes9x')
 depends=('zlib' 'libpng' 'sdl' 'nasm' 'mesa' 'gtkglext' 'portaudio' 'libxrandr' 'libglade')
-source=(http://bearoso.googlepages.com/snes9x-1.51-src-gtk-58.tar.bz2)
-md5sums=('88e3289de24a58901f42cec058d4ed5a')
+makedepends=(intltool)
+source=(http://snes9x-gtk.googlecode.com/files/snes9x-1.51-src-gtk-70.tar.bz2)
+md5sums=('9df1e5d7c059986c26a986172db58f33')
 
 build() {
 
