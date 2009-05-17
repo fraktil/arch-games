@@ -3,12 +3,12 @@
 # Contributor: Lukas Sabota <punkrockguy318@comcast.net>
 pkgname=pente
 pkgver=2.2.5
-pkgrel=3
+pkgrel=4
 pkgdesc="A five in a row game that can be played with X, curses, or text."
 arch=('i686' 'x86_64')
 license=('GPL2')
 url="http://www.igoweb.org/~wms/comp/pente/"
-depends=('ncurses' 'termcap-compat' 'libx11')
+depends=('ncurses' 'libx11')
 makedepends=('libxt')
 source=(http://www.igoweb.org/~wms/comp/pente/$pkgname-$pkgver.tar.gz)
 md5sums=('af1d851f1e2e0b41c52ea2772fbd5cc0')
