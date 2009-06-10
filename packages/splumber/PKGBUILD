@@ -1,0 +1,19 @@
+#Contributor: Jelle <jellevdwaa_@_gmail_com>
+pkgname=splumber 
+pkgver=1.1.0_rc2 
+pkgrel=1 
+pkgdesc="first-person 3d game, not much different to Doom and Quake. Reach the extraction pumps before the water level increases swamping everything." 
+arch=('i686')
+url="http://www.triptico.com/splumber/" 
+license=('GPL') 
+depends=('esd' 'libxext') 
+source=("http://triptico.com/download/splumber-1.1.0-rc2.tar.gz") 
+md5sums=('9c4059f70b16c0b3a4987eabc88bdf3c') 
+
+build() { 
+	  cd $startdir/src/$pkgname-1.1.0-rc2 
+	    ./config.sh --prefix=/usr 
+	      make || return 1 
+	        install -d $startdir/pkg/usr/{bin,share} 
+		  make DESTDIR=$startdir/pkg install 
+	  }
