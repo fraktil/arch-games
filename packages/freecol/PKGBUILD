@@ -1,7 +1,7 @@
 # Contributor: Nelson Menon <nelsonmenon@gmail.com insanatorium.wordpress.com>
 
 pkgname=freecol
-pkgver=0.8.1
+pkgver=0.8.3
 pkgrel=2
 pkgdesc="Turn-based strategy game based on the game Colonization"
 url="http://www.freecol.org/"
@@ -12,7 +12,7 @@ source=(http://downloads.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.ta
         freecol.sh
         freecol.desktop)
 
-md5sums=()
+md5sums=('8076067abe4a1f4240c61f8ce71ffa66' 'f471d4fd3624d9b45aa3e16e40f2faef' 'd0bf043f05dfc51cc9c1f5e169bc1316')
 
 build() {
 
