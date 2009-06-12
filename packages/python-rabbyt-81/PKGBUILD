@@ -1,7 +1,7 @@
 # Contributor: Andreas Zwinkau <beza1e1@web.de>
 
-pkgname=python-rabbyt-81
-pkgver=0.8.1
+pkgname=python-rabbyt
+pkgver=0.8.2
 pkgrel=1
 pkgdesc="sprite library for Python with game development in mind, a version for snoballz"
 url="http://matthewmarshall.org/projects/rabbyt/"
@@ -12,7 +12,7 @@ makedepends=('pyrex')
 provides=('python-rabbyt')
 conflicts=('python-rabbyt')
 source=("http://cheeseshop.python.org/packages/source/R/Rabbyt/Rabbyt-$pkgver.tar.gz")
-md5sums=('30c143d133a6abaf8ab2ba3516ae7fc2')
+md5sums=('b8a90d1793ce37fdac47f54aa08a94f4')
 
 
 build() {
