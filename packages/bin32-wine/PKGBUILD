@@ -2,7 +2,7 @@
 # Contributor: Mikko Seppälä <t-r-a-y@mbnet.fi>
 
 pkgname=bin32-wine
-pkgver=1.1.10
+pkgver=1.1.23
 pkgrel=1
 pkgdesc="Interpreter for the Windows 3.x and Win32 APIs"
 url="http://www.winehq.com/"
@@ -14,7 +14,7 @@ conflicts=('wine')
 source=(ftp://ftp.heanet.ie/mirrors/ftp.archlinux.org/extra/os/i686/wine-$pkgver-$pkgrel-i686.pkg.tar.gz
         binarynames)
     
-md5sums=('65f217836307346cae3c3d75bdf6662e'
+md5sums=('48d5d334ea1df09d9f180f1eddbd7676'
          'b0fd553e2f11fe7553ac1717797befe6')
 
 build() {
