@@ -2,8 +2,8 @@
 # Contributor: Lisa Denia <eiffel56@gmail.com>
 
 pkgname=openal-soft
-pkgver=1.7.411
-pkgrel=2
+pkgver=1.8.466
+pkgrel=1
 pkgdesc="a cross-platform software implementation of the OpenAL 3D audio API."
 url="http://kcat.strangesoft.net/openal.html"
 arch=('i686' 'x86_64')
@@ -12,7 +12,7 @@ makedepends=('cmake' 'alsa-lib' 'sdl')
 provides=("openal=$pkgver")
 conflicts=('openal')
 source=(http://kcat.strangesoft.net/openal-releases/$pkgname-$pkgver.tar.bz2)
-md5sums=('e8a14e6e0591b943c078c0616da0d413')
+md5sums=('28d500e0a6b0a7a824b509ad9eaba7be')
 
 build() {
 
