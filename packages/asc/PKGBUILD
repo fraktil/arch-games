@@ -1,7 +1,7 @@
 # Contributor: Eduard "bekks" Warkentin <eduard.warkentin@gmail.com>
 
 pkgname=asc
-pkgver=2.1.0.0
+pkgver=2.2.0.0
 pkgrel=1
 pkgdesc="Advance Strategy Command strategy game"
 url="http://www.asc-hq.org/"
@@ -14,7 +14,7 @@ source=(http://downloads.sourceforge.net/sourceforge/asc-hq/$pkgname-$pkgver.tar
         http://www.asc-hq.org/music/time_to_strike.ogg
         http://www.asc-hq.org/music/machine_wars.ogg)
     
-md5sums=('d76cf500bebdddd8e7d2a094b532e6af' 
+md5sums=('a5207e63109bb81b432542d0b43e9970' 
          'c27415246734d59e27e6a786ee4820d2' 
          '0f4de5275ab649f4426d110840e3e1ea' 
          'b4421ddd67a9e44d90a49a1d8bdf44c3')
