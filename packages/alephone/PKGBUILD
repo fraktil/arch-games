@@ -2,7 +2,7 @@
 # Contributor: Jacek Poplawski <jacekpoplawski.at.gmail.dot.com> 
 
 pkgname=alephone
-pkgver=20080913
+pkgver=20081226
 pkgrel=1
 pkgdesc="A free descendant of Bungie's 3D FPS Marathon 2"
 url="http://marathon.sourceforge.net/"
@@ -14,7 +14,7 @@ install=alephone.install
 source=(http://downloads.sourceforge.net/marathon/AlephOne-$pkgver.tar.bz2 
         alephone.6)
     
-md5sums=('28f0233b0cbb5a87f43b2b20cc57d52b' 
+md5sums=('7bd9e58cdf911d5db01a11d2b46c5d98' 
          'b69dd8bc7cd455b1d1649dfa1ca4976e')
 
 build() {
