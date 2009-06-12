@@ -17,21 +17,29 @@ md5sums=()
 build() {
 
   #Patch, build and install the package
-  cd $srcdir/scourge
-  patch -Np0 -i $srcdir/scourge.patch || return 1
-  autoreconf -i
-  ./configure --prefix=/usr --with-data-dir=/usr/share/scourge --enable-stencil-buffer
-  make || return 1
-  make DESTDIR=$pkgdir install
+#  cd $srcdir/scourge
+#  patch -Np0 -i $srcdir/scourge.patch || return 1
+#  autoreconf -i
+#  ./configure --prefix=/usr --with-data-dir=/usr/share/scourge --enable-stencil-buffer
+#  make || return 1
+#  make DESTDIR=$pkgdir install
 
   #Install the game data
-  install -d -m755 $pkgdir/usr/share/
-  chmod -R go+r $srcdir/scourge_data
-  chmod go+x $srcdir/scourge_data/models/character/gladius/
-  cp -pr $srcdir/scourge_data $pkgdir/usr/share/scourge
+#  install -d -m755 $pkgdir/usr/share/
+#  chmod -R go+r $srcdir/scourge_data
+#  chmod go+x $srcdir/scourge_data/models/character/gladius/
+#  cp -pr $srcdir/scourge_data $pkgdir/usr/share/scourge
 
   #Remove garbage
-  rm -r $pkgdir/usr/share/scourge/world $pkgdir/usr/share/scourge/mod/default/models/
+#  rm -r $pkgdir/usr/share/scourge/world $pkgdir/usr/share/scourge/mod/default/models/
+  cd $srcdir/scourge
+    ./configure --prefix=/usr --with-data-dir=/usr/share/scourge --enable-stencil-buffer
+      make || return 1
+        make DESTDIR=$pkgdir install
+          
+          mkdir -p $pkgdir/usr/share/
+            mv ../scourge_data $pkgdir/usr/share/scourge
+
 
 }
 
