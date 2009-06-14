@@ -1,26 +1,36 @@
-# Contributor: Berkus <berkus+arch@madfire.net>
-
-pkgname=cg-toolkit
-pkgver=2.0
+# Original Contributor: Adam Griffiths 
+# Contributor: Nick B <Shirakawasuna at gmail _dot_ com>
+pkgname=nvidia-cg-toolkit 
+pkgver=2.2
 pkgrel=1
-pkgdesc="NVIDIA Cg shader toolkit"
-url="http://developer.nvidia.com/object/cg_toolkit.html"
+pkgdesc="nVidia Cg libraries" 
 arch=('i686' 'x86_64')
-license=('NVIDIA')
-source=(http://developer.download.nvidia.com/cg/Cg_2.0/2.0.0015/Cg-${pkgver}_May2008_x86.tgz)
-noextract=(Cg-${pkgver}_May2008_x86.tgz)
-md5sums=('311069e73186b3a7837d35df08b714c8')
-[ "$CARCH" = "x86_64" ] && source=(http://developer.download.nvidia.com/cg/Cg_2.0/2.0.0015/Cg-${pkgver}_May2008_x86_64.tgz)
-[ "$CARCH" = "x86_64" ] && noextract=(Cg-${pkgver}_May2008_x86_64.tgz)
-[ "$CARCH" = "x86_64" ] && md5sums=('f0923e9fe9c0e0f1b1f49e9069c59815')
-
-build() {
-
-  cd $pkgdir
-  bsdtar -x -f $srcdir/$noextract || return 1
-  rm -r $pkgdir/usr/share
-  rm -r $pkgdir/usr/local
-  
+url="http://developer.nvidia.com/object/cg_toolkit.html" 
+license=('custom')
+depends=('glibc') 
+conflicts=('cgcompiler') # replaces cgcompiler 
+source=(http://developer.download.nvidia.com/cg/Cg_2.2/Cg-2.2_April2009_x86.tgz
+	COPYING) 
+  [ "$CARCH" = "x86_64" ] && 
+  source=(http://developer.download.nvidia.com/cg/Cg_2.2/Cg-2.2_April2009_x86_64.tgz
+	  COPYING)
+md5sums=('acb2a5e6b2b05f04be3b37cb758ae002'
+         '4d2071b0ee627e8dabbc754ffe01927c')
+  [ "$CARCH" = "x86_64" ] && 
+md5sums=('59b487d2d729d34e0696bb967f250409'
+         '4d2071b0ee627e8dabbc754ffe01927c')
+build() { 
+ install -Dm755 ${srcdir}/usr/bin/cgc ${pkgdir}/usr/bin/cgc
+ install -dm755 ${pkgdir}/usr/include/Cg
+ install -m644 ${srcdir}/usr/include/Cg/* ${pkgdir}/usr/include/Cg
+ install -dm755 ${pkgdir}/usr/lib
+ [ "$CARCH" = "i686" ] && install -m644 ${srcdir}/usr/lib/* ${pkgdir}/usr/lib
+ [ "$CARCH" = "x86_64" ] && install -m644 ${srcdir}/usr/lib64/* ${pkgdir}/usr/lib
+ install -dm755 ${pkgdir}/usr/share/man/man3
+ install -m644 ${srcdir}/usr/share/man/man3/* ${pkgdir}/usr/share/man/man3
+ install -dm755 ${pkgdir}/usr/share/man/manCg
+ install -m644 ${srcdir}/usr/share/man/manCg/* ${pkgdir}/usr/share/man/manCg/
+ install -Dm644 ${srcdir}/COPYING ${pkgdir}/usr/share/licenses/nvidia-cg-toolkit/COPYING
+ cp -r ${srcdir}/usr/local/Cg ${pkgdir}/usr/share/
+ chown -R 644 ${pkgdir}/usr/share/
 }
-
-# vim:set ts=2 sw=2 et:
