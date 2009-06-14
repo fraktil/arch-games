@@ -1,0 +1,36 @@
+# Maintainer: Hans-Kristian Arntzen <airmaker90@gmail.com>
+# Contributor: Hans-Kristian Arntzen <airmaker90@gmail.com>
+pkgname=dolphin-emu-svn
+pkgver=3200
+pkgrel=1
+pkgdesc="Dolphin is a Nintendo Gamecube emulator."
+url="http://code.google.com/p/dolphin-emu/"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('wxgtk' 'python' 'sdl' 
+'nvidia-cg-toolkit' 'libxext' 'cairo' 'libao' 'glew' 'libxxf86vm' 'wiiuse')
+makedepends=('scons' 'subversion')
+install=(dolphin-emu-svn.install)
+source=('dolphin-emu' '32bitfix.patch')
+md5sums=('e8fe0aae6bea7f4714167935ec5eb34e'
+         '2209807ef41b642dfce5add9c3e9259b')
+_svntrunk=http://dolphin-emu.googlecode.com/svn/trunk
+_svnmod=dolphin-emu-read-only
+
+build() {
+  svn checkout $_svntrunk $_svnmod -r $pkgver
+  echo "SVN checkout done or timed out ..."
+  cd $startdir/src/$_svnmod
+  if [ "$CARCH" = "i686" ]; then
+	  patch < $srcdir/32bitfix.patch || return 1
+  fi
+  scons || return 1
+  mkdir -p $pkgdir/opt/dolphin-emu/
+  cp -r Binary/Linux-$CARCH/* $pkgdir/opt/dolphin-emu/
+  
+  cd $pkgdir
+  rm -rf `find | grep .svn`
+
+  mkdir -p $pkgdir/usr/bin/ ; cp $startdir/dolphin-emu $pkgdir/usr/bin/  
+  
+ } 

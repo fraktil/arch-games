@@ -1,0 +1,21 @@
+pre_install(){
+	/bin/true
+}
+
+post_install(){
+	echo "Root most likely owns the dolphin folder. If this is not wanted,"
+	echo "please fix it your way :)"
+/bin/true
+}
+
+pre_remove(){
+	/bin/true
+}
+
+post_remove(){
+	/bin/true
+}
+post_upgrade(){
+	echo "Root most likely owns the dolphin folder. If this is not wanted,"
+	echo "please fix it your way :)"
+}
