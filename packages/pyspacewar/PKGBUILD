@@ -1,30 +1,26 @@
 # Contributor: Stefano Esposito <ragnarok@email.it>
+# Maintainer: Dany Martineau <dany.luc.martineau@gmail.com>
 
 pkgname=pyspacewar
-pkgver=0.9.3
+pkgver=0.9.5
 pkgrel=1
 pkgdesc="Open-source game, loosely inspired by Spacewar, Gravity Wars, and a bit by Star Control (I and II)."
 url="http://mg.pov.lt/pyspacewar"
+license="GPL"
 arch=('i686' 'x86_64')
-license=('GPL')
-depends=('python-pygame')
-[ "$CARCH" = "i686" ] && optdepends=('psyco: Used for speed optimization')
-source=(http://mg.pov.lt/pyspacewar/$pkgname-$pkgver.tar.gz
-        pyspacewar-64bit.hack)
-    
-md5sums=('d9515eb2584efd9fa43f6fa49b9761b2'
-         'd1f4f2522c40683c6e76c43c9f5a9205')
+depends=("python-pygame")
+source=(http://mg.pov.lt/pyspacewar/$pkgname-$pkgver.tar.gz setup.patch \
+         pyspacewar.desktop)
+md5sums=('940de69ae0198dd053626ece20cbaeff'
+         '618630e55daea125c719c32570c63bee'
+         'f837679579cddce0b2c2fed3625a74e2')
 
 build ()
 {
-
-  #Hack the game for 64bit is needed
-  cd $srcdir/$pkgname-$pkgver
-  [ "$CARCH" = "x86_64" ] && patch -Np0 -i $srcdir/pyspacewar-64bit.hack || return 1
-  
-  #Install the package
-  python setup.py install --root=$pkgdir/
-  
+	cd $startdir/src/$pkgname-$pkgver
+        patch -p1 -i ${startdir}/setup.patch || return 1
+        mkdir -p $pkgdir/usr/share/{applications,pixmaps}
+        cp src/pyspacewar/icons/pyspacewar48.png $pkgdir/usr/share/pixmaps
+        cp ${startdir}/pyspacewar.desktop $pkgdir/usr/share/applications
+	python setup.py install --root=$startdir/pkg/
 }
-
-# vim:set ts=2 sw=2 et:
