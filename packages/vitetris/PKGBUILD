@@ -1,0 +1,37 @@
+# Contributor: Jaroslav Lichtblau <dragonlord@aur.archlinux.org>
+
+pkgname=vitetris
+pkgver=0.55
+pkgrel=1
+pkgdesc="A terminal-based Tetris clone with 2-player mode."
+arch=('i686' 'x86_64')
+url="http://victornils.net/tetris"
+license=('BSD')
+depends=('ncurses')
+makedepends=('patch')
+options=(!makeflags)
+source=(http://victornils.net/tetris/$pkgname-$pkgver.tar.gz \
+        $pkgname-makefile.diff)
+
+md5sums=('d6f215d760a4aa8a76f5ead1c80f3f37'
+         '32b1a34d0815a740ed628cd0f9ad9b12')
+
+build() {
+  cd "${srcdir}/$pkgname-$pkgver"
+
+  patch -Np0 -i "${srcdir}/$pkgname-makefile.diff" || return 1
+
+# can be built without ncurses if you like
+  ./configure --prefix=${pkgdir}/usr --docdir=${pkgdir}/usr/share/$pkgname --without-x --with-ncurses || return 1
+  make || return 1
+  make gameserver || return 1
+  make install || return 1
+  install -D -m755 "gameserver" "${pkgdir}/usr/bin/$pkgname-gameserver" || return 1
+
+# add a high score file:
+  install -d -m775 ${pkgdir}/var/games/
+  install -D -g games -m664 /dev/null "${pkgdir}/var/games/vitetris/hiscores" || return 1
+
+# license
+  install -D -m644 "licence.txt" "${pkgdir}/usr/share/licenses/$pkgname/LICENSE" || return 1
+}
