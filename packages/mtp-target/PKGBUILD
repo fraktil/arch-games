@@ -1,14 +1,14 @@
-# Contributor: Jelle <jellevdwaa_at_gmail_dot_com>
+# Contributor: Nicoco <truenicoco_nospam_at_gmail_dot_com>
 pkgname=mtp-target
-pkgver=1.7
+pkgver=1.9
 pkgrel=2
 pkgdesc="Mtp Target"
 arch=(i686 x86_64)
 url="http://www.mtp-target.org"
 depends=(glibc libx11 libxxf86vm libgl gcc-libs libxcb libxext libxdamage libxfixes libdrm libxau libxdmcp)
 license=('GPL')
-source=(http://www.mtp-target.org/files/mtp-target-setup.17.tar.bz2 mtptarget mtp-target.desktop mtp-target.png)
-md5sums=('e89487d1439f3e7dedf6858c4403dcea' '75f6c1ba5281c0af9b01c92dc98b2d2e' '400935827963d94477ac3cddfc370c64' '9e7580f65a545a6c0fcd5f361beb446e')
+source=(http://www.mtp-target.org/files/mtp-target-setup.19.tar.bz2 mtptarget mtp-target.desktop mtp-target.png)
+md5sums=('1c3f1d2481678ce2d5bac7bff47b027d' '75f6c1ba5281c0af9b01c92dc98b2d2e' '400935827963d94477ac3cddfc370c64' '9e7580f65a545a6c0fcd5f361beb446e')
 
 build() {
 mkdir -p $startdir/pkg/opt/mtp-target
