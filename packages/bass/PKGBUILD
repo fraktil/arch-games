@@ -1,0 +1,24 @@
+# Maintainer: Ju Liu <liuju86 at gmail dot com>
+# Contributor: rabyte <rabyte__gmail>
+
+pkgname=bass
+pkgver=1.2
+pkgrel=9
+pkgdesc="Beaneath A Steel Sky is a 2D point-and-click science fiction thriller set in a bleak vision of the future"
+arch=('i686' 'x86_64')
+url="http://www.revolution.co.uk/_display.php?id=16"
+license=('custom')
+depends=('scummvm>=0.5')
+source=(http://downloads.sourceforge.net/scummvm/$pkgname-cd-$pkgver.zip
+        $pkgname.sh)
+md5sums=('1d4401cd663715332abe8bb5431e356d'
+         'e525ae4f94bea3322a0ea59a6fd9c07b')
+
+build() {
+    cd $srcdir/$pkgname-cd-$pkgver
+
+    install -d $pkgdir/usr/share/{licenses/,}bass
+    install -m 644 readme.txt $pkgdir/usr/share/licenses/bass/
+    install -m 644 sky.{cpt,dnr,dsk} $pkgdir/usr/share/bass/
+    install -m 755 -D $srcdir/bass.sh $startdir/pkg/usr/bin/bass
+}
