@@ -1,0 +1,15 @@
+# arg 1:  the new package version
+post_install() {
+cat << EOM
+==> Game Controls:
+==> - arrow keys - rotate the view port
+==> - z, x, c, v - turn the blocks around the 4 axis
+==> - q, esc     - exit
+==> - 1, 2, 3    - difficulty level (easy, medium, hard)
+==> - a          - auto player on/off
+EOM
+}
+
+op=$1
+shift
+[ "$(type -t "$op")" = "function" ] && $op "$@"
