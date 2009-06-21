@@ -1,0 +1,24 @@
+--- StepMania-3.9-src.orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2009-06-21 15:36:44.000000000 -0500
++++ StepMania-3.9-src/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2009-06-21 15:48:36.000000000 -0500
+@@ -36,7 +36,7 @@ extern "C"
+ }
+ #endif // HAVE_IMG_CONVERT
+-    void img_convert__(AVPicture *dst, int dst_pix_fmt,
+-                       const AVPicture *src, int pix_fmt,
++    void img_convert__(AVPicture *dst, avcodec::PixelFormat dst_pix_fmt,
++                       const AVPicture *src, avcodec::PixelFormat pix_fmt,
+                        int width, int height)
+     {
+ #ifdef HAVE_IMG_CONVERT
+--- StepMania-3.9-src.orig/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp        2009-06-21 15:36:44.000000000 -0500
++++ StepMania-3.9-src/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp     2009-06-21 15:48:36.000000000 -0500
+@@ -574,7 +574,7 @@ int URLRageFile_read( avcodec::URLContex
+        return f->Read( buf, size );
+ }
+
+-avcodec::offset_t URLRageFile_seek( avcodec::URLContext *h, avcodec::offset_t pos, int whence )
++int64_t URLRageFile_seek( avcodec::URLContext *h, int64_t pos, int whence )
+ {
+        RageFile *f = (RageFile *) h->priv_data;
+        return f->Seek( (int) pos, whence );
+
