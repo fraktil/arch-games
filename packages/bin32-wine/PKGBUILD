@@ -1,43 +1,69 @@
+# Maintainer: Devin Cofer <ranguvar@archlinux.us>
 # Contributor: Clement Siuchung Cheung <clement.cheung@umich.edu>
-# Contributor: Mikko Seppälä <t-r-a-y@mbnet.fi>
+# Contributor: Mikko SeppÃ¤lÃ¤ <t-r-a-y@mbnet.fi>
 
 pkgname=bin32-wine
-pkgver=1.1.23
+_pkgname32=wine
+pkgver=1.1.24
 pkgrel=1
+_pkgrel32=1
 pkgdesc="Interpreter for the Windows 3.x and Win32 APIs"
-url="http://www.winehq.com/"
 arch=('x86_64')
+url="http://www.winehq.org/"
 license=('LGPL')
-depends=('lib32-libx11' 'lib32-libjpeg' 'lib32-alsa-lib' 'lib32-libxxf86vm' 'lib32-mesa' 'util-linux-ng' 'lib32-freetype2' 'lib32-fontconfig' 'lib32-libxslt' 'lib32-libxml2' 'lib32-libxcb' 'lib32-libxrender')
-provides=('wine')
+
+depends=('lib32-libx11' 'lib32-libjpeg' 'lib32-alsa-lib' 'lib32-libxxf86vm' 'lib32-mesa' 'util-linux-ng' 'lib32-freetype2' 'lib32-fontconfig' 'lib32-libxslt' 'lib32-libxml2' 'lib32-libxcb' 'lib32-libxrender' 'lib32-libxdamage')
+optdepends=('lib32-nvidia-utils: Accelerated 3D on NVIDIA GPUs')
+provides=("wine=${pkgver}")
 conflicts=('wine')
-source=(ftp://ftp.heanet.ie/mirrors/ftp.archlinux.org/extra/os/i686/wine-$pkgver-$pkgrel-i686.pkg.tar.gz
-        binarynames)
-    
-md5sums=('48d5d334ea1df09d9f180f1eddbd7676'
-         'b0fd553e2f11fe7553ac1717797befe6')
+
+source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
+md5sums=('59b45cb2d55286095748bdc64cd83c50')
+install=$pkgname.install
+options=('!strip')
+
+binarynames=(widl wine wine-kthread winebuild winecpp winedump wineg++ winegcc wineserver wmc wrc)
 
 build() {
+  rm "$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz"
+  cp -rPfp * "$pkgdir"
+  install -d "$pkgdir/opt/lib32/usr/lib/"
+  mv "$pkgdir/usr/lib/libwine.so"* "$pkgdir/opt/lib32/usr/lib/"
+  cd "$pkgdir/usr/bin/"
 
-  #Moving the source files to the pkg directory and installing the libs
-  cp -rPfp $srcdir/* $pkgdir/
-  install -d $pkgdir/opt/lib32/usr/lib/
-  mv $pkgdir/usr/lib/libwine.so* $pkgdir/opt/lib32/usr/lib/
-  
-  #Making and patching all wine's run scripts to include lib32 paths
-  cd $pkgdir/usr/bin/
-  install -d $pkgdir/opt/wine/bin/ $srcdir/tempscripts/
-  for i in `cat $srcdir/binarynames` ; do
-    mv $i $pkgdir/opt/wine/bin/
-    echo -e '#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /opt/wine/bin/replacename "$@"' > $srcdir/tempscripts/$i
-    sed -re "s/replacename/$i/" -i $srcdir/tempscripts/$i
-    install -m755 $srcdir/tempscripts/$i $i
+  # DIRTY PKGBUILD TOUCHING YOUR /bin (force loading old LD_LIBRARY_PATH without moving wine binaries as they seem to break.
+  install -d "$pkgdir/opt/wine/bin/" "$srcdir/tempscripts/"
+  for i in ${binarynames[*]}; do
+    #mv "$i" "$pkgdir/opt/wine/bin/"
+    echo -e \
+      '#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /usr/bin/replacename "$@"' \
+      > "$srcdir/tempscripts/$i"
+    sed -re "s/replacename/$i/" -i "$srcdir/tempscripts/$i"
+    install -m755 "$srcdir/tempscripts/$i" "$pkgdir/opt/wine/bin/$i"
   done
+  rm -rf "$srcdir/tempscripts"
 
-  #Linking the wine folder to its true location
-  mkdir -p $pkgdir/opt/lib32/usr/share/
-  ln -s /usr/share/wine $pkgdir/opt/lib32/usr/share/wine
- 
+  # PPD fix
+  mkdir -p "$pkgdir/opt/lib32/usr/share/"
+  ln -s /usr/share/wine "$pkgdir//opt/lib32/usr/share/wine"
+
+  # These should NOT be needed! Uncomment these lines if the PKGBUILD is not working for you. Works for me.
+  # Fakeroot causes trouble for some users again?
+  #cd "$pkgdir/usr/lib/"
+  #chmod 755 wine
+  #cd wine
+  #chmod 755 *.so
+  #chmod 644 *.def *16 *.a
+  # Added /usr/share/wine workaround for some users
+  #cd "$pkgdir/usr/share/"
+  #chmod 755 wine
+  #cd wine
+  #chmod -R 644 *
+  #chmod 755 fonts
+
+  echo "export WINELOADER=/opt/wine/bin/wine" > "$srcdir/wine.sh"
+  echo '#export LD_LIBRARY_PATH="/opt/lib32/lib/:/opt/lib32/usr/lib/:$LD_LIBRARY_PATH"' >> "$srcdir/wine.sh"
+  echo 'export PATH="/opt/wine/bin:$PATH"' >> "$srcdir/wine.sh"
+  install -Dm755 "$srcdir/wine.sh" "$pkgdir/etc/profile.d/wine.sh"
 }
 
-# vim:set ts=2 sw=2 et:
