@@ -1,0 +1,33 @@
+# Maintainer: Petr Kulhavy <brain@artax.karlin.mff.cuni.cz>
+# Contributor: Bartosz Dusilo <cbreaker@tlen.pl>
+pkgname=0verkill
+pkgver=0.16
+pkgrel=5
+pkgdesc="Bloody 2D online deathmatch game created in ASCII-ART"
+arch=('i686')
+license=('GPL')
+url=("http://artax.karlin.mff.cuni.cz/~brain/0verkill/")
+source=(http://artax.karlin.mff.cuni.cz/~brain/0verkill/release/0verkill.tgz 
+        http://aur.archlinux.org/packages/0verkill/0verkill/0verkill
+     	http://aur.archlinux.org/packages/0verkill/0verkill/0verkill_server)
+depends=('glibc')
+md5sums=('814097fc21a82723a40ec8ae5dd792a7'
+         '3df375d85988923828993612c7992270'
+         '8f5a607e8115f783018b899ac669d66c')
+
+build() {
+	cd ${startdir}
+	cd ${startdir}/src/$pkgname-$pkgver
+	./configure 
+	make || return 1 
+	mkdir -p $startdir/pkg/usr/{bin,share}
+	mv -v $startdir/src/$pkgname-$pkgver/ \
+        ${startdir}/pkg/usr/share/
+	chmod 755 ${startdir}/pkg/usr/share/$pkgname-$pkgver
+	chmod 755 ${startdir}/pkg/usr/share/$pkgname-$pkgver/*
+	chmod 755 ${startdir}/pkg/usr/share/$pkgname-$pkgver/data/*
+	chmod 755 ${startdir}/pkg/usr/share/$pkgname-$pkgver/grx/*
+	chmod 755 ${startdir}/pkg/usr/share/$pkgname-$pkgver/doc/*	
+	chmod 755 ${startdir}/{0verkill,0verkill_server}
+	cp -v ${startdir}/{0verkill,0verkill_server} ${startdir}/pkg/usr/bin  
+}
