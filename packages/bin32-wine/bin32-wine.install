@@ -1,0 +1,7 @@
+post_install() {
+	echo "==> Remember to source your profile or relogin before use (for wine.sh)."
+}
+
+post_upgrade() {
+	post_install
+}
