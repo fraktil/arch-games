@@ -4,7 +4,7 @@
 
 pkgname=stepmania
 pkgver=3.9
-pkgrel=14
+pkgrel=15
 pkgdesc="An Advanced Dance Simulation Game"
 url="http://www.stepmania.com/"
 arch=('i686' 'x86_64')
@@ -13,23 +13,27 @@ depends=('ffmpeg' 'gtk2' 'libmad' 'lua' 'mesa')
 install=stepmania.install
 source=(http://downloads.sourceforge.net/$pkgname/StepMania-$pkgver-linux.tar.gz 
         http://downloads.sourceforge.net/$pkgname/StepMania-$pkgver-src.tar.gz 
-        stepmania.patch 
+        stepmania.patch
+	ffmpeg-fix.patch 
         stepmania.desktop 
         stepmania.sh 
         stepmania.xpm)
 
 md5sums=('c786dd30170e2770b6b1638f1115472b'
-     '28bbbc985788bc990fa7042e2d7320b8'
-     '477c3cfe5a9fdbe36ff468b9f3dc8f5d'
-     '8fb95933764b52ab1fe6a099c779035e'
-     '1cc95d5c33c9fac516ff1912be7e63c9'
-     '10732965e8abf53ba4b85c63377daf2e')
+         '28bbbc985788bc990fa7042e2d7320b8'
+         '477c3cfe5a9fdbe36ff468b9f3dc8f5d'
+         '8802e23987136f8b6882ba958292ec9c'
+         '8fb95933764b52ab1fe6a099c779035e'
+         '1cc95d5c33c9fac516ff1912be7e63c9'
+         '10732965e8abf53ba4b85c63377daf2e')
+
 
 build() {
 
   #Patch, build and install the package
   cd $srcdir/StepMania-$pkgver-src
   patch -Np1 -i $srcdir/stepmania.patch  || return 1
+  patch -Np1 -i $srcdir/ffmpeg-fix.patch  || return 1
   aclocal -I autoconf/m4
   autoconf
   automake
