@@ -1,0 +1,23 @@
+diff -uar jzip-2.1/Makefile jzip-2.1-patched/Makefile
+--- jzip-2.1/Makefile	2004-10-19 02:20:28.000000000 -0400
++++ jzip-2.1-patched/Makefile	2004-10-19 02:21:20.000000000 -0400
+@@ -42,7 +42,7 @@
+ # To CFLAGS: -DUSE_ZLIB   
+ # To LIBS: -lz
+ 
+-CC = cc
++CC = gcc
+ 
+ # If your compiler doesn't like this, put -O or nothing.
+ OPTIMIZE = -O2 
+@@ -51,8 +51,8 @@
+ 
+ CFLAGS = $(OPTIMIZE) -DPOSIX -DHAVE_GETOPT -DHARD_COLORS -DUSE_ZLIB
+ 
+-#LIBS = -lcurses
+-LIBS = -lz -ltermcap
++LIBS = -lz -lcurses
++#LIBS = -lz -ltermcap
+ 
+ # -------------------------------------------------------------------
+ # YOU SHOULD NOT NEED TO MODIFY BELOW HERE
