@@ -1,0 +1,38 @@
+pkgname=scid
+pkgver=3.7.3
+pkgrel=1
+pkgdesc="Chess database application"
+arch=(i686)
+url="http://prolinux.free.fr/scid/"
+license=('GPL')
+depends=(tk tcl)
+install=
+#source=(http://prolinux.free.fr/scid/download/$pkgname-$pkgver.tar.bz2 phalanx.patch)
+source=(http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.bz2 )
+
+md5sums=('25607fc9ec0e2ef7223f5e9617db494f')
+
+
+build() {
+    cd $startdir/src/$pkgname
+    #patch -Np1 < ../phalanx.patch || return 1
+    ./configure BINDIR=/usr/bin SHAREDIR=/usr/share TCL_VERSION="8.5" OPTIMIZE="-O2 -funroll-loops"
+    make || return 1
+    install -m 755 -d $startdir/pkg/usr/share
+    install -m 755 -d $startdir/pkg/usr/bin
+    install -m 755 -d $startdir/pkg/usr/share/data/
+    install -m 755 scid sc_addmove sc_epgn sc_spell sc_eco sc_import sc_remote sc_tree scidpgn pgnfix spliteco pgnscid tkscid tcscid scmerge scidlet $startdir/pkg/usr/bin
+    install -m 644 -p scid.eco $startdir/pkg/usr/share/data/
+    install -m 755 -d $startdir/pkg/usr/share/books
+    install -m 666 ./books/* $startdir/pkg/usr/share/books/
+    install -m 755 -d $startdir/pkg/usr/share/bases
+    install -m 666 ./bases/* $startdir/pkg/usr/share/bases/
+    install -m 755 -d $startdir/pkg/usr/share/html
+    cp -r ./html/* $startdir/pkg/usr/share/html/
+    chmod -R 0777 $startdir/pkg/usr/share/html/*
+    install -m 755 -d $startdir/pkg/usr/share/engines
+    install -m 755 -d $startdir/pkg/usr/share/engines/phalanx-scid
+    install ./engines/phalanx-scid/phalanx-scid $startdir/pkg/usr/share/engines/phalanx-scid
+    install -m 755 -d $startdir/pkg/usr/share/engines/togaII1.2.1a
+    install ./engines/togaII1.2.1a/src/togaII $startdir/pkg/usr/share/engines/togaII1.2.1a/
+}
