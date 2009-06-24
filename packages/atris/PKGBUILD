@@ -1,0 +1,35 @@
+# Contributor: Corrado 'bardo' Primier <corrado.primier@mail.polimi.it>
+
+pkgname=atris
+pkgver=1.0.7
+pkgrel=4
+pkgdesc="A tetris clone with a lot of cool features"
+url="http://www.wkiri.com/projects/atris/"
+license=('GPL')
+arch=('i686')
+depends=('sdl_ttf' 'desktop-file-utils' 'ttf-bitstream-vera')
+install=atris.install
+source=(http://ftp.debian.org/debian/pool/main/a/atris/${pkgname}_${pkgver}.dfsg.1.orig.tar.gz
+	atris.desktop atris.png)
+md5sums=('0634240c8dda338ae2a3ad81514ed2b5' 'cadf9af95d1f6f8da6b17f43e3f01633'
+	 'f25aa552261b40ff284e1eb27857951b')
+
+build() {
+  cd ${startdir}/src/${pkgname}-${pkgver}
+
+  sed -i 's|graphics/NewMediumNormal.ttf|/usr/share/fonts/TTF/Vera.ttf|' atris.c
+
+  sed -i 's|/games/|/share/|' configure
+  ./configure --prefix=/usr
+
+  sed -i 's|target=\$(prefix)|target=\$(DESTDIR)\$(prefix)|' Makefile
+  make || return 1
+  make DESTDIR=${startdir}/pkg install
+
+  install -Dm644 ${startdir}/src/atris.desktop \
+    ${startdir}/pkg/usr/share/applications/atris.desktop
+  
+  install -Dm644 ${startdir}/src/atris.png ${startdir}/pkg/usr/share/pixmaps/atris.png
+
+  rm ${startdir}/pkg/usr/share/atris/{graphics,styles}/Makefile{,.in} 
+}
