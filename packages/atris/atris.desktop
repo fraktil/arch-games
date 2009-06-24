@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Atris
+Comment=Tetris-like game
+Icon=atris
+TryExec=atris
+Exec=atris
+Categories=Game;

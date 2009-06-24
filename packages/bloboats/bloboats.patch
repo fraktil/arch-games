@@ -1,0 +1,101 @@
+diff -Naur bloboats-1.0.1.old/Makefile bloboats-1.0.1/Makefile
+--- bloboats-1.0.1.old/Makefile	2008-12-11 19:59:06.000000000 -0600
++++ bloboats-1.0.1/Makefile	2008-12-11 20:00:16.000000000 -0600
+@@ -7,17 +7,20 @@
+ ### Installation directory (Installation prefix)
+ # If you don't have root privileges, set this to /home/tentacleman/bloboats/
+ # for example, otherwise /. Don't use ~ or other environment variables!
+-PREFIX = /
++PREFIX = 
+ 
+ ### Or if you don't want to run make install at all, uncomments the next line
+ # and comment the line below. Compile and run with './bin/bloboats'
+ #DATADIR = data
+ 
+-DATADIR = $(PREFIX)/usr/games/bloboats/data
++DATADIR = $(PREFIX)/usr/share/bloboats
+ 
+ ### If you do make install, you may perhaps want to set these
+ BINARYDIR = $(PREFIX)/usr/bin
+ CONFIGDIR = $(PREFIX)/etc
++APPDIR = $(PREFIX)/usr/share/applications
++PIXMAPDIR = $(PREFIX)/usr/share/pixmaps
++LICENSEDIR = $(PREFIX)/usr/share/licenses/bloboats
+ 
+ PRIVATEDIR = ~/.bloboats
+ 
+@@ -155,13 +158,14 @@
+ 	echo "#define DEBUG $(DEBUG)" >> src/compiling_settings.h
+ 
+ install:
+-	mkdir -p $(BINARYDIR)/
+-	mkdir -p $(CONFIGDIR)/
+-	cp bloboats.dirs $(CONFIGDIR)/
+-	mkdir -p $(DATADIR)/
++	install -D -m 0755 bin/$(BINARY) $(BINARYDIR)/$(BINARY)
++	install -D -m 0644 bloboats.dirs $(CONFIGDIR)/bloboats.dirs
++	install -D -m 0644 bloboats.desktop $(APPDIR)/bloboats.desktop
++	install -D -m 0644 ../bloboats.png $(PIXMAPDIR)/bloboats.png
++	install -D -m 0644 license.txt $(LICENSEDIR)/license.txt
++	install -d -m 0755 $(DATADIR)
+ 	cp -R data/* $(DATADIR)/
+-	cp bin/$(BINARY) $(BINARYDIR)/
+-	chmod -R 744 $(DATADIR)
++	chmod -R 644 $(DATADIR)
+ 	chmod 755 `find $(DATADIR) -type d`
+ 
+ uninstall:
+diff -Naur bloboats-1.0.1.old/bloboats.desktop bloboats-1.0.1/bloboats.desktop
+--- bloboats-1.0.1.old/bloboats.desktop	1969-12-31 18:00:00.000000000 -0600
++++ bloboats-1.0.1/bloboats.desktop	2008-12-11 19:59:22.000000000 -0600
+@@ -0,0 +1,9 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Name=Bloboats
++Comment=A boat racing game reminiscent of Elasto Mania and X-Moto
++TryExec=/usr/bin/bloboats
++Exec=bloboats
++Icon=bloboats
++Categories=Game;ArcadeGame;
+diff -Naur bloboats-1.0.1.old/license.txt bloboats-1.0.1/license.txt
+--- bloboats-1.0.1.old/license.txt	1969-12-31 18:00:00.000000000 -0600
++++ bloboats-1.0.1/license.txt	2008-12-11 19:59:22.000000000 -0600
+@@ -0,0 +1,22 @@
++ Bloboats version 1.0.1
++ Copyright (C) 2006  Markus Kettunen
++
++ This license holds for the program itself: the source code
++ and the data files except some of the sounds files which are
++ licensed under Sampling Plus 1.0 license.
++ (http://creativecommons.org/licenses/sampling+/1.0/)
++
++
++ This program is free software; you can redistribute it and/or modify
++ it under the terms of the GNU General Public License as published by
++ the Free Software Foundation; either version 2 of the License, or
++ (at your option) any later version.
++
++ This program is distributed in the hope that it will be useful,
++ but WITHOUT ANY WARRANTY; without even the implied warranty of
++ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ GNU General Public License for more details.
++
++ You should have received a copy of the GNU General Public License along
++ with this program; if not, write to the Free Software Foundation, Inc.,
++ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+diff -Naur bloboats-1.0.1.old/src/main.cpp bloboats-1.0.1/src/main.cpp
+--- bloboats-1.0.1.old/src/main.cpp	2008-12-11 19:59:06.000000000 -0600
++++ bloboats-1.0.1/src/main.cpp	2008-12-11 19:59:57.000000000 -0600
+@@ -68,9 +68,9 @@
+ 
+ 	printf("Bloboats version 1.0.1, Copyright (C) 2006 Markus Kettunen\n");
+ 	printf("Bloboats comes with ABSOLUTELY NO WARRANTY; for details check\n");
+-	printf("file \"copying.txt\".\n");
++	printf("file /usr/share/licenses/bloboats/license.txt.\n");
+ 	printf("This is free software, and you are welcome to redistribute it\n");
+-	printf("under certain conditions; check file \"copying.txt\" for details.\n");
++	printf("under certain conditions; check file \"license.txt\" for details.\n");
+ 	printf("\n");
+ 
+ 	if (SDL_Init(SDL_INIT_VIDEO)==-1) {
