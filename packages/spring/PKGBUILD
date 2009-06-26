@@ -1,29 +1,30 @@
-# Contributor: rabyte <rabyte__gmail>
+# Maintainer: Arkham <arkham at archlinux dot us>
+# Contributor: Christoph Zeiler <archNOSPAM_at_moonblade.dot.org>
 
 pkgname=spring
-pkgver=0.79.1
+pkgver=0.79.1.2
 pkgrel=1
-pkgdesc="A free 3D game engine for the real-time-strategy (RTS) game Total Annihilation"
-url="http://spring.clan-sy.com/"
+pkgdesc='A free 3D real-time-strategy (RTS) game engine for "Total Annihilation"'
 arch=('i686' 'x86_64')
-license=('GPL2')
-depends=('openal' 'glew' 'boost' 'devil' 'libvorbis' 'libxcursor')
-makedepends=('cmake>=2.6' 'zip')
-optdepends=('springlobby: A lobby client that will download maps for you')
-source=(http://spring.clan-sy.com/dl/${pkgname}_${pkgver}_src.tar.gz)
-md5sums=('5d4f288ee40b72de3f114dfe1624dd1e')
+url="http://springrts.com/"
+license=('GPL')
+depends=('openal' 'glew' 'boost' 'devil' 'libvorbis')
+makedepends=('make' 'cmake>=2.6' 'zip' 'tar' 'lzma-utils')
+source=(http://spring.clan-sy.com/dl/${pkgname}_${pkgver}_src.tar.lzma)
+md5sums=('fe22719f1df985051584767b19261dbc')
 
 build() {
-  cd "$srcdir/spring_$pkgver"
+    bsdtar -xf ${pkgname}_${pkgver}_src.tar.lzma || return 1
 
-  cmake . -DCMAKE_INSTALL_PREFIX:PATH=/usr -DDATADIR:STRING=share/spring || return 1
-  make || return 1
-  make DESTDIR="$pkgdir" install
+    cd spring_$pkgver
 
-  install -d -m755 "$pkgdir/etc/spring"
-  echo '$HOME/.spring' > "$pkgdir/etc/spring/datadir"
+    cmake	. \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DDATADIR=share/spring
 
-  find "$pkgdir" -name '*.so' -exec chmod 644 {} \;
+    make || return 1
+    make DESTDIR=$pkgdir install || return 1
+
+    install -d $pkgdir/etc/spring
+    echo '$HOME/.spring' > $pkgdir/etc/spring/datadir
 }
-
-# vim:set ts=2 sw=2 et:
