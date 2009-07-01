@@ -1,0 +1,43 @@
+# Contributor: damir <damir@archlinux.org>
+# Contributor: Orelien <aurelien.foret@wanadoo.fr>
+# Maintainer:  zoulnix <z[o]ulnix.borkedduck.c[o]m>
+pkgname=clanlib
+pkgver=1.0.0
+pkgrel=3
+pkgdesc="A multi-platform game development library."
+arch=('i686' 'x86_64')
+url="http://clanlib.org/"
+license=('custom:"ClanLib"')
+depends=('alsa-lib' 'libjpeg' 'libmikmod' 'libpng' \
+	 'libvorbis' 'libxi' 'libxmu' 'mesa' 'sdl_gfx')
+makedepends=('gcc' 'make' 'patch' 'pkgconfig')
+options=('!libtool')
+source=(http://clanlib.org/download/releases-1.0/ClanLib-${pkgver}.tgz \
+	${pkgname}-gcc440.patch)
+md5sums=('281e64a463155474d0f1270686286811' 'ff5f3567a496e9d5c723853640963d5d')
+
+build() { 
+  cd ${srcdir}/ClanLib-${pkgver}
+  install -d ${pkgdir}/usr/share/licenses/${pkgname} || return 1
+
+  # Applying Patch*
+  patch -Np1 -i ../${pkgname}-gcc440.patch || return 1
+
+  ./configure --prefix=/usr \
+	      --sysconfdir=/etc \
+	      --localstatedir=/var \
+	      --disable-static \
+	      --enable-clanDisplay \
+	      --enable-clanSDL \
+	      --enable-clanGL \
+	      --enable-clanSound \
+	      --enable-clanNetwork \
+	      --enable-clanGUI \
+	      --enable-clanMikMod \
+	      --enable-clanVorbis
+
+  make || return 1
+  make DESTDIR=${pkgdir} install || return 1
+
+  install -m644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/ || return 1
+}

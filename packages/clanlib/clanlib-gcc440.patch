@@ -1,0 +1,39 @@
+diff -cBr ClanLib-1.0.0/Sources/GL/GLX/input_device_linuxevent.cpp ClanLib-1.0.0-gcc-4.4.0/Sources/GL/GLX/input_device_linuxevent.cpp
+*** ClanLib-1.0.0/Sources/GL/GLX/input_device_linuxevent.cpp	2007-10-21 02:14:01.000000000 +0200
+--- ClanLib-1.0.0-gcc-4.4.0/Sources/GL/GLX/input_device_linuxevent.cpp	2009-05-21 14:14:52.303587075 +0200
+***************
+*** 35,40 ****
+--- 35,41 ----
+  #include <iostream>
+  #include <errno.h>
+  #include <cstring>
++ #include <cstdio>
+  
+  #include "API/Core/System/error.h"
+  #include "API/Core/System/clanstring.h"
+diff -cBr ClanLib-1.0.0/Sources/GL/GLX/input_device_xinput.cpp ClanLib-1.0.0-gcc-4.4.0/Sources/GL/GLX/input_device_xinput.cpp
+*** ClanLib-1.0.0/Sources/GL/GLX/input_device_xinput.cpp	2007-10-21 02:14:01.000000000 +0200
+--- ClanLib-1.0.0-gcc-4.4.0/Sources/GL/GLX/input_device_xinput.cpp	2009-05-21 14:15:35.683641867 +0200
+***************
+*** 29,34 ****
+--- 29,35 ----
+  
+  #include <iostream>
+  #include <cstring>
++ #include <cstdio>
+  #include "API/Core/System/log.h"
+  #include "API/Display/input_device.h"
+  #include "API/Display/input_event.h"
+diff -cBr ClanLib-1.0.0/Sources/GL/canvas_opengl.cpp ClanLib-1.0.0-gcc-4.4.0/Sources/GL/canvas_opengl.cpp
+*** ClanLib-1.0.0/Sources/GL/canvas_opengl.cpp	2007-10-21 02:14:01.000000000 +0200
+--- ClanLib-1.0.0-gcc-4.4.0/Sources/GL/canvas_opengl.cpp	2009-05-21 14:14:02.583517972 +0200
+***************
+*** 48,53 ****
+--- 48,54 ----
+  #include "graphic_context_opengl.h"
+  #include "surface_target_opengl.h"
+  #include <cstring>
++ #include <cstdio>
+  
+  /////////////////////////////////////////////////////////////////////////////
+  // CL_Canvas_OpenGL construction:
