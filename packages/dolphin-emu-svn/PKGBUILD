@@ -1,7 +1,7 @@
 # Maintainer: Hans-Kristian Arntzen <airmaker90@gmail.com>
 # Contributor: Hans-Kristian Arntzen <airmaker90@gmail.com>
 pkgname=dolphin-emu-svn
-pkgver=3200
+pkgver=3538
 pkgrel=1
 pkgdesc="Dolphin is a Nintendo Gamecube emulator."
 url="http://code.google.com/p/dolphin-emu/"
