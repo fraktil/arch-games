@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Frets on Fire (FoFiX)
+Comment=A great Guitar Hero clone!
+Exec=fretsonfire
+Encoding=UTF-8
+Icon=/usr/share/pixmaps/fretsonfire.png
+Categories=Game;ArcadeGame;
+Terminal=false
+StartupNotify=false
