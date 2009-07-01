@@ -3,14 +3,14 @@
 # Contributor: fana-m <geminin at gmx dot net>
 
 pkgname=freeorion
-pkgver=rev3102
+pkgver=0.3.13
 pkgrel=1
 pkgdesc="Free Clone of Master of Orion. Static linked version."
 arch=('i686')
 url="http://freeorion.org/"
 license=('GPL')
-depends=('boost' 'fmod' 'sdl' 'openal' 'libvorbis')
-source=(http://freeorion.psitronic.de/download/${pkgname}_${pkgver}_i386_static.tar.gz
+depends=('sdl')
+source=(http://freeorion.psitronic.de/download/FreeOrion-$pkgver-Linux-i386.tar.gz
         freeorion.png 
         freeorion.desktop)
 md5sums=('6cb23f104ce89c15b61b8bd88bca24c8'
