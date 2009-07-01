@@ -1,0 +1,23 @@
+# Contributor: Angelo Theodorou <encelo@users.sourceforge.net>
+# Contributor: Darwin Bautista <djclue917@gmail.com>
+# Contributor: Jakub Luzny <limoto94@gmail.com>
+pkgname=netpanzer
+pkgver=0.8.2
+pkgrel=3
+pkgdesc="An Online Multiplayer Tactical Warfare Game"
+arch=('i686' 'x86_64')
+url="http://netpanzer.berlios.de/"
+license="GPL"
+depends=('gcc' 'physfs' 'sdl_mixer')
+makedepends=('ftjam')
+source=(http://download.berlios.de/netpanzer/${pkgname}-${pkgver}.tar.bz2 netpanzer-0.8.2-gcc43.patch)
+md5sums=('3f446403ac7e72ed0ff9e093517c83d3' '9517af8dc2533dcc24d074db3eb86e8d')
+
+build() {
+  cd $srcdir/${pkgname}-${pkgver}/
+  patch -p1 < "$srcdir/netpanzer-0.8.2-gcc43.patch"
+
+  ./configure --prefix=/usr --disable-debug --without-wx-config
+  jam || return 1
+  jam -sprefix=$pkgdir/usr install
+}
