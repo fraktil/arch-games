@@ -1,14 +1,14 @@
 # Maintainer: Hans-Kristian Arntzen <airmaker90@gmail.com>
 # Contributor: Hans-Kristian Arntzen <airmaker90@gmail.com>
 pkgname=dolphin-emu-svn
-pkgver=3538
+pkgver=3626
 pkgrel=1
 pkgdesc="Dolphin is a Nintendo Gamecube emulator."
 url="http://code.google.com/p/dolphin-emu/"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('wxgtk' 'python' 'sdl' 
-'nvidia-cg-toolkit' 'libxext' 'cairo' 'libao' 'glew' 'libxxf86vm' 'wiiuse')
+'cg-toolkit' 'libxext' 'cairo' 'libao' 'glew' 'libxxf86vm' 'wiiuse')
 makedepends=('scons' 'subversion')
 install=(dolphin-emu-svn.install)
 source=('dolphin-emu' '32bitfix.patch')
