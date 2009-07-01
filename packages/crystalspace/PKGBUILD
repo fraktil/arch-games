@@ -1,0 +1,21 @@
+#Contributor: Matt McDonald <metzen@gmail.com>
+# Maintainer: Martin Sandsmark <sandsmark@iskrembilen.com>
+
+pkgname=crystalspace
+pkgver=1.2.1
+pkgrel=1
+pkgdesc="Free and portable 3D Game Development Kit written in C++"
+url="http://www.crystalspace3d.org"
+license="LGPL"
+depends=('wxgtk' 'libmng' 'sdl' 'libvorbis' 'libmikmod' 'lcms')
+makedepends=('boost' 'ftjam')
+arch=('i686' 'x86_64')
+source=(http://www.crystalspace3d.org/downloads/release/${pkgname}-src-${pkgver}.tar.bz2)
+md5sums=('a6c4f1d0782b1ea2ee483376400f4779')
+
+build() {
+  cd $startdir/src/crystalspace-src-${pkgver}
+  ./configure --prefix=/usr --sysconfdir=/etc --with-java --without-python
+  jam || return 1
+  jam DESTDIR=$startdir/pkg install
+}
