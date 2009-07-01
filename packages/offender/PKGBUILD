@@ -1,0 +1,20 @@
+#contributor: Dominika Solarz <dominikasolarz@gmail.com>
+
+pkgname=offender
+pkgver=0.2
+pkgrel=2
+pkgdesc="An entertaining 2d space shooter."
+license="GPL"
+url="http://offender.sourceforge.net"
+depends=("gtk")
+install=()
+source=("http://downloads.sourceforge.net/offender/offender-0.2.tar.gz")
+md5sums=("f65ff48b54fdff76170ec7c823fe120c") 
+
+build() {
+	cd $startdir/src/offender-0.2
+	./configure
+	make
+	mkdir -p $startdir/pkg/usr/bin
+	cp $startdir/src/offender-0.2/src/offender $startdir/pkg/usr/bin 
+}
