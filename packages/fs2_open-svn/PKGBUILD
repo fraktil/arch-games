@@ -1,7 +1,7 @@
 # Contributor: Lone_Wolf <lonewolf@xs4all.nl>
 
 pkgname=fs2_open-svn
-pkgver=4933
+pkgver=5384
 pkgrel=1
 pkgdesc="An enhancement of the original Freespace 2 engine - SVN version"
 url="http://scp.indiegames.us"
