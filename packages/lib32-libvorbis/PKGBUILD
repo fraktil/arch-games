@@ -2,16 +2,16 @@
 # Contributor: mightyjaym <jm.ambrosino@free.fr>
 
 pkgname=lib32-libvorbis
-pkgver=1.2.0
-pkgrel=1
+pkgver=1.2.1rc1
+pkgrel=2
 pkgdesc="Vorbis codec library"
 url="http://www.xiph.org/ogg/vorbis/"
 arch=('x86_64')
 license=('custom')
 groups=('lib32')
 depends=('lib32-libogg')
-source=(ftp://ftp.archlinux.org/extra/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel}.pkg.tar.gz)
-md5sums=('410168e98c3ff5f11a25795a554f6cf7')
+source=(ftp://ftp.archlinux.org/extra/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel}-i686.pkg.tar.gz)
+md5sums=('74becdea22ad68f099aaf216d5daae76')
 
 build() {
 
