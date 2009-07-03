@@ -35,6 +35,8 @@ aurcmp () {
     if [[ -n "$ONLYVER" ]]; then
         AURVER="$(echo $AURVER | sed -e 's/-.*$//')"
         REPOVER="$(echo $REPOVER | sed -e 's/-.*$//')"
+    else
+
     fi
     RESULT=$(vercmp "$REPOVER" "$AURVER")
 
@@ -93,7 +95,7 @@ fi
 REPO=${REPO:-"arch-games"}
 
 # Main loop
-for pkg in $(pacman -Sl $REPO | awk '{print $2}'); do 
+for pkg in $(pacman -Slq $REPO); do 
     aurcmp "$pkg"
 done
 
