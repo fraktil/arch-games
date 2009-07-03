@@ -15,23 +15,13 @@ usage () {
     echo
 }
 
-clean () {
-    if [[ -e PKGBUILD ]]; then
-        rm -f PKGBUILD
-    fi
-    exit 1
-}
-
 aurcmp () {
 
-    # Set a trap to clean leftover files
-    trap clean INT TERM EXIT
-
-    # Download temporary PKGBUILD
+    # Create temporary url 
     pkgname="$1"
     url="http://aur.archlinux.org/packages/$pkgname/$pkgname/PKGBUILD"
 
-    wget -q "$url" || {
+    PKGBUILD=$(wget -q -O - "$url") || {
     
         # Package not found in AUR
         if [[ "$VERBOSE" == "true" ]]; then
@@ -45,11 +35,11 @@ aurcmp () {
     }
 
     # Compare versions
-    aurver="$(source PKGBUILD &>/dev/null; echo $pkgver-$pkgrel)" || true
-    repover="$(LANG=C pacman -Si $pkgname | awk '/^Version/ {print $3}')"
+    aurver="$(eval "$PKGBUILD" &>/dev/null; echo "$pkgver-$pkgrel")" || true
+    repover="$(LANG=C pacman -Si "$pkgname" | awk '/^Version/ {print $3}')"
     if [[ "$ONLYVER" == "true" ]]; then
-        aurver="$(echo $aurver | cut -d'-' -f1)"
-        repover="$(echo $repover | cut -d'-' -f1)"
+        aurver="$(echo "$aurver" | cut -d'-' -f1)"
+        repover="$(echo "$repover" | cut -d'-' -f1)"
     fi
 
     result=$(vercmp "$repover" "$aurver") || true
@@ -65,12 +55,6 @@ aurcmp () {
             echo "$pkgname: up to date"
         fi
     fi
-
-    # Remove temporary file
-    rm -f PKGBUILD
-
-    # Unset trap
-    trap - INT TERM EXIT
 }
 
 # Set some bash safety options
@@ -120,16 +104,11 @@ while getopts ":bchor:v" opt; do
     esac
 done
 
-# Backup pre-existent PKGBUILD
-if [[ -e PKGBUILD ]]; then
-    mv PKGBUILD{,.bak}
-fi
-
 # Set default repo
 REPO=${REPO:-"arch-games"}
 
 # Main loop
-for pkg in "$(pacman -Slq $REPO)"; do 
+for pkg in $(pacman -Slq $REPO); do 
     aurcmp "$pkg"
 done
 
