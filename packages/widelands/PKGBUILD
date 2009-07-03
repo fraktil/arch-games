@@ -1,39 +1,45 @@
-# Contributor: rabyte <rabyte__gmail>
+# Maintainer: Arkham <arkham at archlinux dot us>
+# Contributor: Christoph Zeiler <rabyte*gmail>
 
 pkgname=widelands
-pkgver=13rc
-pkgrel=1
-pkgdesc="A realtime-strategy game inspired by Settlers II"
-url="http://www.widelands.org/"
+pkgver=13
+pkgrel=3
+pkgdesc="A realtime strategy game with emphasis on economy and transport"
 arch=('i686' 'x86_64')
-license=('GPL2')
-depends=('sdl_mixer' 'sdl_image' 'sdl_net' 'sdl_ttf' 'sdl_gfx')
-makedepends=('scons' 'boost')
-source=(http://downloads.sourceforge.net/widelands/$pkgname-Build13rc-src.tar.bz2
-        widelands.desktop)
-    
-md5sums=('8639ce8e357346daa5b60a7ac905f1d9' 
-         '4778247d832b78702746f3116e61156b')
+url="http://widelands.org/"
+license=('GPL')
+depends=('sdl_mixer>=1.2.6' 'sdl_image' 'sdl_net' 'sdl_ttf>=2' 'sdl_gfx' 'gcc-libs')
+makedepends=('scons>=0.97' 'boost')
+source=(http://downloads.sourceforge.net/$pkgname/Widelands-Build$pkgver-src.tar.bz2
+        $pkgname.desktop
+        $pkgname.sh)
+md5sums=('5e39f80b668d303abf693c48afa0c4bc'
+         '4778247d832b78702746f3116e61156b'
+         '7cae50aba5ed0cd2cfeea79124637b46')
 
 build() {
+    cd $srcdir/$pkgname-b$pkgver
 
-  #Patch and build the package
-  cd $srcdir/$pkgname
-  sed "s#/games##" -i src/wlapplication.cc || return 1
-  scons prefix=/usr bindir=bin datadir=share/widelands localedir=share/widelands/locale extra_compile_flags="${CXXFLAGS}" || return 1
-  utils/buildlocale.py || return 1
-  
-  #Install the data
-  mkdir -p $pkgdir/usr/share/widelands
-  cp -rf campaigns/ fonts/ locale/ maps/ music/ pics/ sound/ tribes/ txts/ worlds/ $pkgdir/usr/share/widelands/
-  
-  #Install the .desktop and icon files
-  install -m644 -D pics/wl-ico-128.png $pkgdir/usr/share/pixmaps/widelands.png
-  install -m644 -D ../widelands.desktop $pkgdir/usr/share/applications/widelands.desktop
-  
-  #Install the bin file
-  install -m755 -D widelands $pkgdir/usr/bin/widelands
-  
+    # Compile
+    scons prefix=/usr install_prefix=$pkgdir/usr bindir=bin \
+        datadir=share/$pkgname localedir=/usr/share/$pkgname/locale \
+        extra_compile_flags="${CXXFLAGS}" \
+        build=release \
+        prefer_localdata=False \
+        || return 1
+
+    # Copy data and fix permissions
+    install -d $pkgdir/usr/share/$pkgname
+    cp -rf campaigns/ fonts/ locale/ maps/ music/ pics/ sound/ tribes/ txts/ worlds/ \
+        $pkgdir/usr/share/$pkgname/
+
+    find $pkgdir/usr/share -type f -exec chmod 644 {} +
+    install -m 755 $pkgname $pkgdir/usr/share/$pkgname/$pkgname
+
+    # Install bin, icon and desktop file
+    install -Dm 755 $srcdir/$pkgname.sh $pkgdir/usr/bin/$pkgname
+    install -Dm 644 pics/wl-ico-128.png $pkgdir/usr/share/pixmaps/$pkgname.png
+    install -Dm 644 $srcdir/$pkgname.desktop \
+        $pkgdir/usr/share/applications/$pkgname.desktop
 }
 
-# vim:set ts=2 sw=2 et:
