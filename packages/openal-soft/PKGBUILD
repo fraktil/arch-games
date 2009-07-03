@@ -2,24 +2,26 @@
 # Contributor: Lisa Denia <eiffel56@gmail.com>
 
 pkgname=openal-soft
-pkgver=1.8.466
-pkgrel=1
+pkgver=1.7.411
+pkgrel=2
 pkgdesc="a cross-platform software implementation of the OpenAL 3D audio API."
 url="http://kcat.strangesoft.net/openal.html"
 arch=('i686' 'x86_64')
 license=('LGPL2')
+depends=()
 makedepends=('cmake' 'alsa-lib' 'sdl')
-provides=("openal=$pkgver")
+provides=(openal\=$pkgver)
 conflicts=('openal')
+replaces=('openal')
 source=(http://kcat.strangesoft.net/openal-releases/$pkgname-$pkgver.tar.bz2)
-md5sums=('28d500e0a6b0a7a824b509ad9eaba7be')
-
+md5sums=('e8a14e6e0591b943c078c0616da0d413')
+ 
 build() {
 
   #Build and install the package
   cd "$srcdir/$pkgname-$pkgver"
   cmake . -DCMAKE_INSTALL_PREFIX:PATH=/usr || return 1
-  make || return 1
+  make
   make DESTDIR="$pkgdir/" install
 
   #Some apps expect to have libopenal.so.0
@@ -27,7 +29,5 @@ build() {
 
   #Some apps expect openal_soft and not openal for pkgconfig
   ln -s openal.pc $pkgdir/usr/lib/pkgconfig/openal_soft.pc
-
+  
 }
-
-# vim:set ts=2 sw=2 et:
