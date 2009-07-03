@@ -1,7 +1,6 @@
 #!/bin/bash
 # aurcmp, Arkham 
 
-
 usage () {
     echo "aurcmp: compare package versions between repo and AUR"
     echo "usage: aurcmp [OPTIONS]"
@@ -16,50 +15,72 @@ usage () {
     echo
 }
 
+clean () {
+    if [[ -e PKGBUILD ]]; then
+        rm -f PKGBUILD
+    fi
+    exit 1
+}
+
 aurcmp () {
 
-    # Download temporary PKGBUILD
-    PKGNAME="$1"
-    URL="http://aur.archlinux.org/packages/$PKGNAME/$PKGNAME/PKGBUILD"
-    wget -q "$URL"
+    # Set a trap to clean leftover files
+    trap clean INT TERM EXIT
 
-    # Package not found in AUR
-    if [[ ! -e PKGBUILD ]]; then
-        if [[ -n "$VERBOSE" ]]; then
-            if [[ -n "$COLOR" ]]; then
-                echo -e  "$PKGNAME: \e[1;31mnot found in AUR\e[0m"
+    # Download temporary PKGBUILD
+    pkgname="$1"
+    url="http://aur.archlinux.org/packages/$pkgname/$pkgname/PKGBUILD"
+
+    wget -q "$url" || {
+    
+        # Package not found in AUR
+        if [[ "$VERBOSE" == "true" ]]; then
+            if [[ "$COLOR" == "true" ]]; then
+                echo -e "$pkgname: \e[1;31mnot found in AUR\e[0m"
             else
-                echo "$PKGNAME: not found in AUR"
+                echo "$pkgname: not found in AUR"
             fi
         fi
         return 0
-    fi
+    }
 
     # Compare versions
-    AURVER="$(source PKGBUILD &>/dev/null; echo $pkgver-$pkgrel)"
-    REPOVER="$(LANG=C pacman -Si $PKGNAME | awk '/^Version/ {print $3}')"
-    if [[ -n "$ONLYVER" ]]; then
-        AURVER="$(echo $AURVER | sed -e 's/-.*$//')"
-        REPOVER="$(echo $REPOVER | sed -e 's/-.*$//')"
+    aurver="$(source PKGBUILD &>/dev/null; echo $pkgver-$pkgrel)" || true
+    repover="$(LANG=C pacman -Si $pkgname | awk '/^Version/ {print $3}')"
+    if [[ "$ONLYVER" == "true" ]]; then
+        aurver="$(echo $aurver | cut -d'-' -f1)"
+        repover="$(echo $repover | cut -d'-' -f1)"
     fi
 
-    RESULT=$(vercmp "$REPOVER" "$AURVER")
+    result=$(vercmp "$repover" "$aurver") || true
 
-    if [[ "$RESULT" < 0 ]]; then
-        if [[ -n "$COLOR" ]]; then
-            echo -e "$PKGNAME: \e[1;32m$REPOVER => $AURVER\e[0m"
+    if [[ "$result" < 0 ]]; then
+        if [[ "$COLOR" == "true" ]]; then
+            echo -e "$pkgname: \e[1;32m$repover => $aurver\e[0m"
         else
-            echo "$PKGNAME: $REPOVER => $AURVER"
+            echo "$pkgname: $repover => $aurver"
         fi
     else
-        if [[ -n "$VERBOSE" ]]; then
-            echo "$PKGNAME: up to date"
+        if [[ "$VERBOSE" == "true" ]]; then
+            echo "$pkgname: up to date"
         fi
     fi
 
     # Remove temporary file
-    rm PKGBUILD
+    rm -f PKGBUILD
+
+    # Unset trap
+    trap - INT TERM EXIT
 }
+
+# Set some bash safety options
+set -o nounset
+set -o errexit
+
+# Initialize flags
+COLOR="false"
+ONLYVER="false"
+VERBOSE="false"
 
 # Read CLI options
 while getopts ":bchor:v" opt; do
@@ -67,7 +88,7 @@ while getopts ":bchor:v" opt; do
         "b")    
             ;;
         "c")
-            COLOR="yes"
+            COLOR="true"
             ;;
         "h")    
             usage
@@ -94,11 +115,12 @@ while getopts ":bchor:v" opt; do
             ;;
         *)
             echo "Unknown error while processing options." >&2
+            exit 1
             ;;
     esac
 done
 
-# Backup preexistent PKGBUILD
+# Backup pre-existent PKGBUILD
 if [[ -e PKGBUILD ]]; then
     mv PKGBUILD{,.bak}
 fi
@@ -107,7 +129,7 @@ fi
 REPO=${REPO:-"arch-games"}
 
 # Main loop
-for pkg in $(pacman -Slq $REPO); do 
+for pkg in "$(pacman -Slq $REPO)"; do 
     aurcmp "$pkg"
 done
 
