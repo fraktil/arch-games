@@ -35,9 +35,11 @@ aurcmp () {
     if [[ -n "$ONLYVER" ]]; then
         AURVER="$(echo $AURVER | sed -e 's/-.*$//')"
         REPOVER="$(echo $REPOVER | sed -e 's/-.*$//')"
-    else
-
+    else 
+	    # Do nothing
+	    return 0
     fi
+
     RESULT=$(vercmp "$REPOVER" "$AURVER")
 
     if [[ "$RESULT" < 0 ]]; then
