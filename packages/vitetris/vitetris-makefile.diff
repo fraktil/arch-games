@@ -1,27 +1,14 @@
---- Makefile.orig	2008-09-13 11:45:37.000000000 +0200
-+++ Makefile	2008-10-03 09:25:41.000000000 +0200
-@@ -1,8 +1,8 @@
- include config.mk
- 
+--- Makefile.orig	2009-06-20 20:57:31.000000000 +0200
++++ Makefile		2009-06-20 20:57:31.000000000 +0200
+@@ -3 +3 @@
 -PROGNAME = tetris$(EXE)
 +PROGNAME = vitetris$(EXE)
- 
- # Uncomment to change the default.  (Only used in Unix-like systems.)
+@@ -6 +6 @@
 -#HISCORE_FILENAME = /var/games/vitetris-hiscores
 +HISCORE_FILENAME = /var/games/vitetris/hiscores
- 
- INSTALL = install -oroot -groot
-@@ -57,5 +57,5 @@
- 	$(INSTALL) -d $(bindir) $(docdir)
- 	$(INSTALL) -m755 $(PROGNAME) $(bindir)
--	$(INSTALL) -m644 README licence.txt $(docdir)
-+	$(INSTALL) -m644 README $(docdir)
- 	if [ -n "$(ALLEGRO)" ]; then \
-   $(INSTALL) -d $(datadir); \
-@@ -68,5 +68,5 @@
- install-hiscores:
- 	@HS_FN=$(HISCORE_FILENAME); \
+@@ -59 +59 @@
+-	$(INSTALL) -m644 README licence.txt $(DESTDIR)$(docdir)
++	$(INSTALL) -m644 README $(DESTDIR)$(docdir)
+@@ -75 +75 @@
 -	if [ -z "$$HS_FN" ]; then HS_FN=/var/games/vitetris-hiscores; fi; \
 +	if [ -z "$$HS_FN" ]; then HS_FN=/var/games/vitetris/hiscores; fi; \
- 	echo touch $$HS_FN; \
- 	touch "$$HS_FN"; \
