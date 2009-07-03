@@ -7,10 +7,11 @@ usage () {
     echo
     echo "OPTIONS:"
     echo " -b:      compare both pkgver and pkgrel <default>"
+    echo " -c:      colorful output"
     echo " -h:      show this help and quit"
     echo " -o:      ignore pkgrel, compare only pkgver"
     echo " -r REPO: compare packages from selected REPO"
-    echo " -v:      verbose output (display also not found/updated)"
+    echo " -v:      verbose output (display also up to date/not found)"
     echo
 }
 
@@ -24,7 +25,11 @@ aurcmp () {
     # Package not found in AUR
     if [[ ! -e PKGBUILD ]]; then
         if [[ -n "$VERBOSE" ]]; then
-            echo "$PKGNAME: not found in AUR"
+            if [[ -n "$COLOR" ]]; then
+                echo -e  "$PKGNAME: \e[1;31mnot found in AUR\e[0m"
+            else
+                echo "$PKGNAME: not found in AUR"
+            fi
         fi
         return 0
     fi
@@ -35,15 +40,16 @@ aurcmp () {
     if [[ -n "$ONLYVER" ]]; then
         AURVER="$(echo $AURVER | sed -e 's/-.*$//')"
         REPOVER="$(echo $REPOVER | sed -e 's/-.*$//')"
-    else 
-	    # Do nothing
-	    return 0
     fi
 
     RESULT=$(vercmp "$REPOVER" "$AURVER")
 
     if [[ "$RESULT" < 0 ]]; then
-        echo "$PKGNAME: $REPOVER => $AURVER"
+        if [[ -n "$COLOR" ]]; then
+            echo -e "$PKGNAME: \e[1;32m$REPOVER => $AURVER\e[0m"
+        else
+            echo "$PKGNAME: $REPOVER => $AURVER"
+        fi
     else
         if [[ -n "$VERBOSE" ]]; then
             echo "$PKGNAME: up to date"
@@ -55,9 +61,12 @@ aurcmp () {
 }
 
 # Read CLI options
-while getopts ":bhor:v" opt; do
+while getopts ":bchor:v" opt; do
     case "$opt" in
         "b")    
+            ;;
+        "c")
+            COLOR="yes"
             ;;
         "h")    
             usage
