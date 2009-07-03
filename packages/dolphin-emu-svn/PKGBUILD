@@ -1,36 +1,50 @@
-# Maintainer: Hans-Kristian Arntzen <airmaker90@gmail.com>
-# Contributor: Hans-Kristian Arntzen <airmaker90@gmail.com>
+# Maintainer:  Devin Cofer <ranguvar@archlinux.us>
+# Contributor: Hans-Kristian Arntzen <maister@archlinux.us>
+
 pkgname=dolphin-emu-svn
-pkgver=3626
+pkgver=3664
 pkgrel=1
-pkgdesc="Dolphin is a Nintendo Gamecube emulator."
-url="http://code.google.com/p/dolphin-emu/"
+pkgdesc="A GameCube and Wii emulator, SVN version"
 arch=('i686' 'x86_64')
-license=('GPL')
-depends=('wxgtk' 'python' 'sdl' 
-'cg-toolkit' 'libxext' 'cairo' 'libao' 'glew' 'libxxf86vm' 'wiiuse')
-makedepends=('scons' 'subversion')
-install=(dolphin-emu-svn.install)
-source=('dolphin-emu' '32bitfix.patch')
-md5sums=('e8fe0aae6bea7f4714167935ec5eb34e'
+url="http://www.dolphin-emu.com/"
+license=('GPL2')
+
+makedepends=('subversion' 'scons>=0.98')
+depends=('sdl' 'openal' 'libao' 'wxgtk>=2.8' 'wxgtk<2.9' 'wiiuse' 'nvidia-cg-toolkit' 'glew')
+provides=('dolphin-emu')
+conflicts=('dolphin-emu' 'dolphin-emu-svn-bin')
+
+source=('dolphin-emu.desktop'
+        '32bitfix.patch')
+md5sums=('f64ef9e8441db64c62710667eb0db578'
          '2209807ef41b642dfce5add9c3e9259b')
+install=$pkgname.install
 _svntrunk=http://dolphin-emu.googlecode.com/svn/trunk
 _svnmod=dolphin-emu-read-only
 
 build() {
-  svn checkout $_svntrunk $_svnmod -r $pkgver
-  echo "SVN checkout done or timed out ..."
-  cd $startdir/src/$_svnmod
-  if [ "$CARCH" = "i686" ]; then
-	  patch < $srcdir/32bitfix.patch || return 1
-  fi
-  scons || return 1
-  mkdir -p $pkgdir/opt/dolphin-emu/
-  cp -r Binary/Linux-$CARCH/* $pkgdir/opt/dolphin-emu/
-  
-  cd $pkgdir
-  rm -rf `find | grep .svn`
+	if [ -d "$_svnmod/.svn" ]; then
+		(cd "$_svnmod" && svn up --config-dir . -r $pkgver "$_svnmod")
+	else
+		svn co "$_svntrunk" --config-dir . -r $pkgver "$_svnmod"
+	fi
 
-  mkdir -p $pkgdir/usr/bin/ ; cp $startdir/dolphin-emu $pkgdir/usr/bin/  
-  
- } 
+	cp -r "$_svnmod" "$_svnmod-build" 
+	cd "$_svnmod-build"
+	if [ "$CARCH" == "i686" ]; then # Fix 32-bit build
+		patch -i "$srcdir/32bitfix.patch" || return 1
+	fi
+
+	scons || return 1
+	mkdir -p "$pkgdir/opt/dolphin-emu"
+	cp -r "Binary/Linux-$CARCH/"* "$pkgdir/opt/dolphin-emu/" 
+	for svndir in $(find "$pkgdir" -name '.svn' -type d); do rm -r $svndir; done || return 1 # Remove SVN leftovers
+
+	mkdir -p "$pkgdir/usr/bin"
+	echo -e "#! /bin/sh\ncd /opt/dolphin-emu ; ./Dolphin" > "$pkgdir/usr/bin/dolphin-emu"
+	chmod +x "$pkgdir/usr/bin/dolphin-emu"
+	ln -s "/opt/dolphin-emu/dsptool" "$pkgdir/usr/bin/dsptool" || return 1
+	install -Dm644 "$srcdir/dolphin-emu.desktop" "$pkgdir/usr/share/applications/dolphin-emu.desktop" || return 1
+
+	rm -r "$srcdir/$_svnmod-build"
+}
