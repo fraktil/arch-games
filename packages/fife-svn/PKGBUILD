@@ -1,7 +1,7 @@
 # Contributor: Black Mage <vleon1@gmail.com>
 
 pkgname=fife-svn
-pkgver=2943
+pkgver=2944
 pkgrel=1
 pkgdesc="The mission of the FIFE project is to create a cross platform game creation framework"
 url="http://www.fifengine.de/"
