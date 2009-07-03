@@ -1,48 +1,57 @@
-# Contributor: Paul Bredbury <brebs@sent.com>
-
+# Contributur Jelle van der Waa <jellevdwaa AT gmail DOT com>
 pkgname=alienarena
-pkgver=20081016
+pkgver=20090616
 pkgrel=1
 pkgdesc="Multiplayer retro sci-fi deathmatch game"
-url="http://red.planetarena.org/"
 arch=('i686' 'x86_64')
+url="http://alienenforcer.com/alienarena/rpa/"
 license=('GPL')
-depends=('curl' 'libjpeg' 'openal' 'sdl')
-makedepends=('hd2u' 'unzip')
-source=(http://alienarena.arcadebelgium.be/alienarena2008-linux${pkgver}.zip
-        alienarena.desktop)
-    
-md5sums=('14f27c8494b849572690482232148e23'
-         '46bbe3e3a93b2e5009ffd663ad462915')
+depends=('curl' 'libgl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl' 'openal')
+makedepends=('hd2u' 'p7zip' 'unzip')
+source=(http://cor.planetquake.gamespy.com/files/alienarena2009-linux${pkgver}.zip
+  alienarena.desktop)
 
+md5sums=('c2b81552f6bab7810b36097fe2207c11' '46bbe3e3a93b2e5009ffd663ad462915')
+ 
+_datadir="/usr/share/${pkgname}"
+_libdir="/usr/lib/${pkgname}"
+ 
 build() {
+    cd $startdir/src/${pkgname}2009
+ 
+    # Remove pre-compiled libs
+    rm {arena,data1}/game.so
+ 
+    cd source
+    # Arch isn't multilib
+    sed -i -e "s:lib64:lib:" Makefile || return 1
+ 
+    make PREFIX=/usr \
+  WITH_DATADIR=yes WITH_LIBDIR=yes \
+  DATADIR="${_datadir}" LIBDIR="${_libdir}" \
+     || return 1
+ 
+    #Binary
+    pwd
 
-  #Remove pre-compiled libs
-  cd $srcdir/${pkgname}2008
-  rm {arena,data1}/game.so
+    install -D -m755 release/game.so $startdir/pkg/${_libdir}/arena/game.so || return 1
+    install -D -m755 release/crx $startdir/pkg/usr/bin/${pkgname} || return 1
+    install -D -m755 release/crded $startdir/pkg/usr/bin/${pkgname}-ded || return 1
+ 
+    cd ..
 
-  #Patch, build and install the engine
-  cd source
-  sed -i -e "s:lib64:lib:" Makefile || return 1
-  make PREFIX=/usr WITH_DATADIR=yes WITH_LIBDIR=yes DATADIR="/opt/alienarena" LIBDIR="/usr/lib/alienarena" || return 1
-
-  #Install the binaries
-  cd release
-  install -D -m755 game.so $pkgdir/usr/lib/alienarena/arena/game.so || return 1
-  install -D -m755 crx $pkgdir/usr/bin/alienarena || return 1
-  install -D -m755 crx.sdl $pkgdir/usr/bin/alienarena-sdl || return 1
-  install -D -m755 crded $pkgdir/usr/bin/alienarena-ded || return 1
-
-  #Just in case fix Data files (can contain spaces), and install
-  cd ../..
-  find arena botinfo data1 -type f | while read _f ; do
-    install -D -m644 "$_f" "$pkgdir/$_datadir/$_f" || return 1
-  done
-
-  #Install the .desktop file and icon
-  install -D -m644 aa.png $pkgdir/usr/share/pixmaps/${pkgname}.png || return 1
-  install -D -m644 $srcdir/${pkgname}.desktop $pkgdir/usr/share/applications/${pkgname}.desktop || return 1
-
+    # Data files
+    find arena botinfo data1 -type f | while read _f ; do
+    install -D -m644 "$_f" "$startdir/pkg/$_datadir/$_f" || return 1
+    done
+ 
+    # Desktop entry
+    install -D -m644 aa.png $startdir/pkg/usr/share/pixmaps/${pkgname}.png || return 1
+    install -D -m644 $startdir/src/${pkgname}.desktop $startdir/pkg/usr/share/applications/${pkgname}.desktop || return 1
+ 
+    # Docs
+    cd docs
+    dos2unix README.txt
+    mkdir -p $startdir/pkg/usr/share/doc/$pkgname
+    install -m644 -t $startdir/pkg/usr/share/doc/${pkgname}/ {license,README}.txt || return 1
 }
-
-# vim:set ts=2 sw=2 et:
