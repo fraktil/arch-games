@@ -1,6 +1,7 @@
 #!/bin/bash
 # aurcmp, Arkham 
 
+
 usage () {
     echo "aurcmp: compare package versions between repo and AUR"
     echo "usage: aurcmp [OPTIONS]"
