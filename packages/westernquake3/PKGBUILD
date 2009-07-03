@@ -1,8 +1,8 @@
 # Contributor: H.Gökhan SARI <hsa2@difuzyon.net>
 
 pkgname=westernquake3
-pkgver=2.2_beta1
-pkgrel=3
+pkgver=1579
+pkgrel=1
 pkgdesc="A Western game using Quake3 engine."
 url="http://www.smokin-guns.net/"
 arch=('i686' 'x86_64')
