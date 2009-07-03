@@ -1,34 +1,40 @@
+# Maintainer: Laurent Carlier <lordheavym@gmail.com>
 # Contributor: Juan Matias Granda <insulae@gmail.com>
 
 pkgname=goonies
-pkgver=1.0.1
+pkgver=1.4.1528
 pkgrel=1
 pkgdesc="A remake of the MSX Goonies game"
+arch=(i686 x86_64)
 url="http://goonies.jorito.net/"
-arch=('i686' 'x86_64')
-license=(GPL)
-depends=('sdl_image' 'sdl_mixer' 'sdl_sound' 'libgl')
-source=(http://goonies.jorito.net/download/goonies_r1-0-1.tgz)
-md5sums=('1b949eda5cc57ebe2cb95ede67bfb467')
+license=('none')
+md5sums=('7c220958a0766fb716d2d0081c81e8bd')
+depends=('sdl_image' 'sdl_mixer' 'libgl')
+makedepends=('')
+
+source=(http://braingames.jorito.net/goonies/downloads/$pkgname.src_$pkgver.tgz)
 
 build() {
+  cd ${srcdir}/${pkgname}-${pkgver}
 
-  #Build the package
-  cd $srcdir/goonies_r1-0-1/src
-  cp ../build/linux/Makefile ./
   make || return 1
+
+  install -d ${pkgdir}/usr/share/goonies/
+  install -d ${pkgdir}/usr/bin/
+  install -d ${pkgdir}/usr/share/applications/
+
+  install -D goonies ${pkgdir}/usr/share/goonies/
+  cp -r graphics maps sound ${pkgdir}/usr/share/goonies/
+  cat build/linux/goonies.desktop | \
+    sed s#goonies.png#/usr/share/pixmaps/goonies.png#g > \
+    ${pkgdir}/usr/share/applications/goonies.desktop
+  install -D build/linux/goonies.png \
+    ${pkgdir}/usr/share/pixmaps/goonies.png
   
-  #Manually install the package
-  install -d -m755 $pkgdir/usr/share/goonies/ mkdir -p $pkgdir/usr/bin/
-  cp goonies $pkgdir/usr/share/goonies/
-  cp -r ../graphics ../mapeditor ../maps ../sound $pkgdir/usr/share/goonies/
-  
-  #Install the bin file
-  echo "#!/bin/bash" > $pkgdir/usr/bin/goonies
-  echo "cd /usr/share/goonies/" >> $pkgdir/usr/bin/goonies
-  echo "exec /usr/share/goonies/goonies" >> $pkgdir/usr/bin/goonies
-  chmod 755 $pkgdir/usr/bin/goonies
-  
+  echo "#!/bin/bash" > ${pkgdir}/usr/bin/goonies
+  echo "cd /usr/share/goonies/" >> ${pkgdir}/usr/bin/goonies
+  echo "exec /usr/share/goonies/goonies" >> ${pkgdir}/usr/bin/goonies
+  chmod 755 ${pkgdir}/usr/bin/goonies
 }
 
-# vim:set ts=2 sw=2 et:
+
