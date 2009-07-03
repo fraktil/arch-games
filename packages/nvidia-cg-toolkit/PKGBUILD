@@ -32,5 +32,6 @@ build() {
  install -m644 ${srcdir}/usr/share/man/manCg/* ${pkgdir}/usr/share/man/manCg/
  install -Dm644 ${srcdir}/COPYING ${pkgdir}/usr/share/licenses/nvidia-cg-toolkit/COPYING
  cp -r ${srcdir}/usr/local/Cg ${pkgdir}/usr/share/
- chown -R 644 ${pkgdir}/usr/share/
+ find $pkgdir/usr/share/ -type d -exec chmod -R 755 '{}' ';'
+ find $pkgdir/usr/share/ -type f -exec chmod -R 644 '{}' ';' 
 }
