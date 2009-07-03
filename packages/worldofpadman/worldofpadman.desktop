@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=World of Padman
-Comment=Cartoon-style multiplayer first person shooter
-Icon=worldofpadman
+Comment=Cartoon-style multiplayer first-person shooter
 Exec=worldofpadman
-Terminal=false
+Icon=worldofpadman
 Categories=Game;ActionGame;
+Terminal=false
