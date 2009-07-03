@@ -2,7 +2,7 @@
 # Contributor: Florian Walch <florian.walch@gmx.at>
 
 pkgname=rrgbis
-pkgver=1.12
+pkgver=1.13
 pkgrel=1
 pkgdesc="Really Rather Good Battles In Space is a free (open source) real time strategy game."
 url="http://rrgbis.sourceforge.net/"
@@ -10,13 +10,13 @@ arch=('i686' 'x86_64')
 license=('GPL' 'custom')
 depends=('sdl' 'sdl_image' 'sdl_mixer' 'freetype2' 'libgl')
 source=(http://downloads.sourceforge.net/rrgbis/$pkgname-$pkgver-src.tar.bz2
-        http://downloads.sourceforge.net/rrgbis/$pkgname-1.11-data.tar.bz2
+        http://downloads.sourceforge.net/rrgbis/$pkgname-1.13-data.tar.bz2
         rrgbis.sh
         rrgbis.license)
 
-noextract=(rrgbis-1.11-data.tar.bz2)
-md5sums=('14396c77f2b68cf2e5104174c135f4e4'
-         'abd55dc67686ac99e96f9db2e59b5981'
+noextract=(rrgbis-1.13-data.tar.bz2)
+md5sums=('8759f801077bfd96796bb902683e7f33'
+         'bfce20dae3b114e67bc2f6196f1248f0'
          'f887e6010fe9a1e2131b89582a21f0ca'
          '05c62d3c9cba182912f31e26c232d324')
 
