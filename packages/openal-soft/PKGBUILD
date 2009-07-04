@@ -12,7 +12,6 @@ depends=()
 makedepends=('cmake' 'alsa-lib' 'sdl')
 provides=(openal\=$pkgver)
 conflicts=('openal')
-replaces=('openal')
 source=(http://kcat.strangesoft.net/openal-releases/$pkgname-$pkgver.tar.bz2)
 md5sums=('e8a14e6e0591b943c078c0616da0d413')
  
