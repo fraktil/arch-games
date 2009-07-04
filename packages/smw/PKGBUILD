@@ -1,8 +1,8 @@
 # Contributor: Evangelos Foutras <foutrelis@gmail.com>
 
 pkgname=smw
-pkgver=1.7
-pkgrel=4
+pkgver=1.7.afe
+pkgrel=3
 pkgdesc="A Super Mario multiplayer game"
 arch=('i686' 'x86_64')
 url="http://smw.72dpiarmy.com/"
