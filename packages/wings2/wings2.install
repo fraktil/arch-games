@@ -1,10 +1,5 @@
-post_remove() {
-
-cat << EOF
-==>
-==> Please note that some data in /opt/Wings2 was not removed
-==> remove it manually by:
-==> # rm -r /opt/Wings2
-EOF
-
+post_install() {
+  echo -n "Updating desktop and mime database ..."
+  update-desktop-database -q
+  echo "done."
 }
