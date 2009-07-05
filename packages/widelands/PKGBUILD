@@ -42,4 +42,3 @@ build() {
     install -Dm 644 $srcdir/$pkgname.desktop \
         $pkgdir/usr/share/applications/$pkgname.desktop
 }
-
