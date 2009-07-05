@@ -1,4 +1,3 @@
-# Contributur Jelle van der Waa <jellevdwaa AT gmail DOT com>
 pkgname=alienarena
 pkgver=20090616
 pkgrel=1
@@ -9,7 +8,7 @@ license=('GPL')
 depends=('curl' 'libgl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl' 'openal')
 makedepends=('hd2u' 'p7zip' 'unzip')
 source=(http://cor.planetquake.gamespy.com/files/alienarena2009-linux${pkgver}.zip
-  alienarena.desktop)
+	alienarena.desktop)
 
 md5sums=('c2b81552f6bab7810b36097fe2207c11' '46bbe3e3a93b2e5009ffd663ad462915')
  
@@ -27,8 +26,8 @@ build() {
     sed -i -e "s:lib64:lib:" Makefile || return 1
  
     make PREFIX=/usr \
-  WITH_DATADIR=yes WITH_LIBDIR=yes \
-  DATADIR="${_datadir}" LIBDIR="${_libdir}" \
+	WITH_DATADIR=yes WITH_LIBDIR=yes \
+	DATADIR="${_datadir}" LIBDIR="${_libdir}" \
      || return 1
  
     #Binary
