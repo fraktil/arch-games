@@ -9,8 +9,7 @@ url="http://illusions.hu/4dtris/index.html"
 license=('GPL')
 depends=('freeglut')
 install=$pkgname.install
-source=(http://illusions.hu/4dtris/downloads/4DTRIS.$pkgver.src.tar)
-
+source=(http://dtris.sourceforge.net/downloads/4DTRIS.$pkgver.src.tar)
 md5sums=('95f14cbc0b55a15393685c4b74faa36c')
 
 build() {
