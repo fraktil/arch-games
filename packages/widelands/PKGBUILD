@@ -14,7 +14,7 @@ source=(http://downloads.sourceforge.net/$pkgname/Widelands-Build$pkgver-src.tar
         $pkgname.desktop
         $pkgname.sh)
 md5sums=('5e39f80b668d303abf693c48afa0c4bc'
-         '4778247d832b78702746f3116e61156b'
+         '15820bf099fd6f16251fe70a75c534bb'
          '7cae50aba5ed0cd2cfeea79124637b46')
 
 build() {
