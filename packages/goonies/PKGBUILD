@@ -8,7 +8,7 @@ pkgdesc="A remake of the MSX Goonies game"
 arch=(i686 x86_64)
 url="http://goonies.jorito.net/"
 license=('none')
-md5sums=('7c220958a0766fb716d2d0081c81e8bd')
+
 depends=('sdl_image' 'sdl_mixer' 'libgl')
 makedepends=('')
 
@@ -37,4 +37,4 @@ build() {
   chmod 755 ${pkgdir}/usr/bin/goonies
 }
 
-
+md5sums=('7c220958a0766fb716d2d0081c81e8bd')

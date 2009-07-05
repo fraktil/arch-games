@@ -1,0 +1,4 @@
+2009-06-15  Laurent Carlier <lordheavym@gmail.com>
+
+	* Update to Goonies version 1.4.1528
+	* Remove unneeded sdl_sound dependency
