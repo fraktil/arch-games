@@ -1,0 +1,40 @@
+# Contributor: Georgij Kondratjev <smpuj@bk.ru>
+pkgname=et-sdl-sound
+pkgver=29
+pkgrel=3
+pkgdesc="Replacement for standard OSS sound system of Wolfenstein, Enemy Territory and Quake 3; for i686 only"
+arch=(i686 x86_64)
+url="http://nullkey.ath.cx/~stuff/et-sdl-sound/"
+license=('GPL')
+depends=(gcc-libs sdl)
+makedepends=(gcc)
+install=
+source=(http://nullkey.ath.cx/~stuff/et-sdl-sound/archive/$pkgname-r$pkgver.tar.gz
+	x86_64.patch
+	enemy-territory.sh true-combat.sh quake3.sh wolf.launcher wolfsp.launcher wolfmp.launcher)
+md5sums=('77c2433fc757e5ffb08ec2c78a9853b3'
+         'f0fd5ca54659a9a5774617253245d766'
+         'd2598b43ae2ada618cad8e302ce0a700'
+         '0a5b3421161b701f0f06b1b7c2c10c20'
+         '36fcfa8e1de4d59fc950716e773db658'
+         'c9419ed21e27fc53bbb132ba82aa5120'
+         '4236efdcb7275554dfe59ea0a533a2ff'
+         'c9419ed21e27fc53bbb132ba82aa5120')
+
+build() {
+	cd $startdir/src/$pkgname
+	patch -Np1 -i ../x86_64.patch
+	make || return 1
+	if [ "$CARCH" = "x86_64" ]; then
+		sed -i "s:IOQ3_BINARY:ioquake3.x86_64:" ../quake3.sh
+	else
+		sed -i "s:IOQ3_BINARY:ioquake3.i386:" ../quake3.sh
+	fi
+	install -Dm755 $pkgname.so $startdir/pkg/usr/lib/$pkgname.so
+	install -Dm755 ../enemy-territory.sh $startdir/pkg/usr/bin/enemy-territory.alsa
+	install -Dm755 ../true-combat.sh $startdir/pkg/usr/bin/true-combat.alsa
+	install -Dm755 ../quake3.sh $startdir/pkg/usr/bin/quake3.sdl
+	install -Dm755 ../wolf.launcher $startdir/pkg/usr/bin/wolf.sdl
+	install -Dm755 ../wolfsp.launcher $startdir/pkg/usr/bin/wolfsp.sdl
+	install -Dm755 ../wolfmp.launcher $startdir/pkg/usr/bin/wolfmp.sdl
+}
