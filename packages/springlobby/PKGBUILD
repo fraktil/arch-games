@@ -1,7 +1,7 @@
 # Maintainer: DuGi <dugi@irc.pl>
 
 pkgname=springlobby
-pkgver=0.0.1.10492
+pkgver=0.0.1.10494
 pkgrel=1
 pkgdesc="A free cross-platform lobby client for the Spring RTS project."
 arch=('i686' 'x86_64')
