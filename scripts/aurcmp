@@ -18,6 +18,10 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+badarg () {
+    echo "aurcmp: Try \`aurcmp -h' for more information." >&2
+}
+
 usage () {
     echo "aurcmp: compare package versions between repo and AUR"
     echo "usage: aurcmp [OPTIONS]"
@@ -27,7 +31,7 @@ usage () {
     echo " -c:      colorful output [default]"
     echo " -h:      show this help and quit"
     echo " -n:      nocolor, plain and simple output"
-    echo " -o:      ignore pkgrel, compare only pkgver"
+    echo " -o:      compare only pkgver ignoring pkgrel"
     echo " -q:      quiet, display only updates"
     echo " -r REPO: compare packages from selected REPO"
     echo " -v:      verbose, display all packages [default]"
@@ -36,15 +40,15 @@ usage () {
 
 aurcmp () {
 
-    # Create temporary url 
+    # Create temporary url and get PKGBUILD
     pkgname="$1"
     url="http://aur.archlinux.org/packages/$pkgname/$pkgname/PKGBUILD"
 
-    PKGBUILD=$(wget -q -O - "$url" | grep -E '^(pkgver|pkgrel)') || {
+    PKGBUILD=$(wget -q -O - "$url" | grep -E '^(pkgver|pkgrel)=') || {
         # Package not found in AUR
         if [[ "$VERBOSE" == "true" ]]; then
             if [[ "$COLOR" == "true" ]]; then
-                echo -e "$pkgname: \e[1;31mnot found in AUR\e[0m"
+                echo -e "$pkgname: ${RED}not found in AUR${NC}"
             else
                 echo "$pkgname: not found in AUR"
             fi
@@ -65,36 +69,42 @@ aurcmp () {
     # Main switch
     if [[ "$result" < 0 ]]; then
         if [[ "$COLOR" == "true" ]]; then
-            echo -e "$pkgname: \e[1;32m$repover => $aurver\e[0m"
+            echo -e "$pkgname: ${GREEN}$repover => $aurver${NC}"
         else
             echo "$pkgname: $repover => $aurver"
         fi
-    elif [[ "$result" > 0 ]]; then
-        if [[ "$COLOR" == "true" ]]; then
-            echo -e "$pkgname: (\e[1;31mrepo=$repover \e[0maur=$aurver)"
+    elif [[ "$VERBOSE" == "true" ]]; then
+        if [[ "$result" > 0 ]]; then
+            if [[ "$COLOR" == "true" ]]; then
+                echo -e "$pkgname: (${RED}repo=$repover ${NC}aur=$aurver)"
+            else
+                echo "$pkgname: (repo=$repover aur=$aurver)"
+            fi
         else
-            echo "$pkgname: (repo=$repover aur=$aurver)"
-        fi
-    else
-        if [[ "$VERBOSE" == "true" ]]; then
             echo "$pkgname: up to date"
         fi
     fi
 }
 
-# Set some bash safety options
+# Safety options:
+# - no unset variables
 set -o nounset
+# - no errors in return values
 set -o errexit
 
-# Initialize flags
+# Flags default values
 COLOR="true"
 ONLYVER="false"
 VERBOSE="true"
+# Colors
+RED='\e[1;31m'
+GREEN='\e[1;32m'
+NC='\e[0m'
 
-# Read CLI options
 while getopts ":bchnoqr:v" opt; do
     case "$opt" in
         "b")
+            ONLYVER="false"
             ;;
         "c")
             COLOR="true"
@@ -120,23 +130,23 @@ while getopts ":bchnoqr:v" opt; do
             ;;
         "?")
             echo "aurcmp: invalid option: -$OPTARG" >&2
-            echo "aurcmp: Try \`aurcmp -h' for more information." >&2
+            badarg
             exit 1
             ;;
         ":")
             echo "aurcmp: option -$OPTARG requires an argument." >&2
-            echo "aurcmp: Try \`aurcmp -h' for more information." >&2
+            badarg
             exit 1
             ;;
         *)
             echo "aurcmp: unknown error while processing options." >&2
-            echo "aurcmp: Try \`aurcmp -h' for more information." >&2
+            badarg
             exit 1
             ;;
     esac
 done
 
-# Set default repo
+# [arch-games] ftw!
 REPO=${REPO:-"arch-games"}
 
 # Main loop
