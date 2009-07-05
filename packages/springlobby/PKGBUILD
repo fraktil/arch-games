@@ -24,6 +24,6 @@ build() {
   mkdir -p $startdir/pkg/usr/share/pixmaps
   cp $startdir/src/springlobby.png $startdir/pkg/usr/share/pixmaps
 }
-md5sums=('947d601b37f0a2257f9fdcd56580b356'
+md5sums=('0e2c9a10eb58720b0250e234f608a22b'
          '45f8b59d033931d02e734fe3bd7777dd'
          '1f388187539aeb0358b51995e26ed890')
