@@ -1,17 +1,36 @@
 #!/bin/bash
-# aurcmp, Arkham 
+
+#   aurcmp - compare package versions between repo and AUR
+#
+#   Copyright (c) 2009 by Arkham <arkham at archlinux dot us>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 usage () {
     echo "aurcmp: compare package versions between repo and AUR"
     echo "usage: aurcmp [OPTIONS]"
     echo
     echo "OPTIONS:"
-    echo " -b:      compare both pkgver and pkgrel <default>"
-    echo " -c:      colorful output"
+    echo " -b:      compare both pkgver and pkgrel [default]"
+    echo " -c:      colorful output [default]"
     echo " -h:      show this help and quit"
+    echo " -n:      nocolor, plain and simple output"
     echo " -o:      ignore pkgrel, compare only pkgver"
+    echo " -q:      quiet, display only updates"
     echo " -r REPO: compare packages from selected REPO"
-    echo " -v:      verbose output (display also up to date/not found)"
+    echo " -v:      verbose, display all packages [default]"
     echo
 }
 
@@ -21,8 +40,7 @@ aurcmp () {
     pkgname="$1"
     url="http://aur.archlinux.org/packages/$pkgname/$pkgname/PKGBUILD"
 
-    PKGBUILD=$(wget -q -O - "$url") || {
-    
+    PKGBUILD=$(wget -q -O - "$url" | grep -E '^(pkgver|pkgrel)') || {
         # Package not found in AUR
         if [[ "$VERBOSE" == "true" ]]; then
             if [[ "$COLOR" == "true" ]]; then
@@ -44,11 +62,18 @@ aurcmp () {
 
     result=$(vercmp "$repover" "$aurver") || true
 
+    # Main switch
     if [[ "$result" < 0 ]]; then
         if [[ "$COLOR" == "true" ]]; then
             echo -e "$pkgname: \e[1;32m$repover => $aurver\e[0m"
         else
             echo "$pkgname: $repover => $aurver"
+        fi
+    elif [[ "$result" > 0 ]]; then
+        if [[ "$COLOR" == "true" ]]; then
+            echo -e "$pkgname: (\e[1;31mrepo=$repover \e[0maur=$aurver)"
+        else
+            echo "$pkgname: (repo=$repover aur=$aurver)"
         fi
     else
         if [[ "$VERBOSE" == "true" ]]; then
@@ -62,43 +87,50 @@ set -o nounset
 set -o errexit
 
 # Initialize flags
-COLOR="false"
+COLOR="true"
 ONLYVER="false"
-VERBOSE="false"
+VERBOSE="true"
 
 # Read CLI options
-while getopts ":bchor:v" opt; do
+while getopts ":bchnoqr:v" opt; do
     case "$opt" in
-        "b")    
+        "b")
             ;;
         "c")
             COLOR="true"
             ;;
-        "h")    
+        "h")
             usage
             exit 0
             ;;
-        "o")    
+        "n")
+            COLOR="false"
+            ;;
+        "o")
             ONLYVER="true"
             ;;
-        "r")  
+        "q")
+            VERBOSE="false"
+            ;;
+        "r")
             REPO="$OPTARG"
             ;;
-        "v")  
+        "v")
             VERBOSE="true"
             ;;
         "?")
-            echo "Invalid option: -$OPTARG" >&2
-            usage
+            echo "aurcmp: invalid option: -$OPTARG" >&2
+            echo "aurcmp: Try \`aurcmp -h' for more information." >&2
             exit 1
             ;;
         ":")
-            echo "Option -$OPTARG requires an argument." >&2
-            usage
+            echo "aurcmp: option -$OPTARG requires an argument." >&2
+            echo "aurcmp: Try \`aurcmp -h' for more information." >&2
             exit 1
             ;;
         *)
-            echo "Unknown error while processing options." >&2
+            echo "aurcmp: unknown error while processing options." >&2
+            echo "aurcmp: Try \`aurcmp -h' for more information." >&2
             exit 1
             ;;
     esac
