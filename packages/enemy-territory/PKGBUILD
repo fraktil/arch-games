@@ -6,10 +6,11 @@ pkgname=enemy-territory
 pkgver=2.60b
 pkgrel=9
 pkgdesc="Wolfenstein: Enemy Territory is a completely free, standalone, team-based, multiplayer FPS."
-arch=('i686')
+arch=('i686' 'x86_64')
 url="http://www.planetwolfenstein.com/"
 license=('custom')
-depends=('libgl' 'libxext' 'et-sdl-sound')
+depends=('mesa' 'libxext' 'et-sdl-sound')
+[[ "$CARCH" == "x86_64" ]] && depends=('lib32-mesa' 'lib32-libxext' 'et-sdl-sound')
 makedepends=('unzip')
 backup=(opt/enemy-territory/etmain/server.cfg
         opt/enemy-territory/etmain/punkbuster.cfg)
@@ -39,6 +40,12 @@ build() {
 
     # Copy game EULA to main directory
     cp $pkgname/Docs/EULA_Wolfenstein_Enemy_Territory.txt $pkgname
+
+    # Patch for x86_64 compatibility
+    if [[ "$CARCH" == "x86_64" ]]; then
+        sed "5,5c\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i et.sh
+        sed "5,5c\export LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:\$LD_LIBRARY_PATH" -i etded.sh
+    fi
 
     # Place scripts in main directory
     install -Dm 755 et.sh $pkgname/et
