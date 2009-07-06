@@ -23,8 +23,8 @@ build() {
   
   #Manually install the package
   install -d -m755 $pkgdir/usr/{bin,share/{OpenLieroX,applications}}
-  cp bin/openlierox $pkgdir/usr/bin
-  cp -r share/gamedir/* $pkgdir/usr/share/OpenLieroX/
+  cp $srcdir/OpenLieroX/bin/openlierox $pkgdir/usr/bin
+  cp -r $srcdir/OpenLieroX/share/gamedir/* $pkgdir/usr/share/OpenLieroX/
   cp $srcdir/openlierox.desktop $pkgdir/usr/share/applications
   
 }
