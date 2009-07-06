@@ -12,7 +12,7 @@ install=${pkgname}.install
 license=('GPL')
 groups=('games')
 depends=('sqlite3' 'freetype2' 'libjpeg' 'python' 'libogg' 'sdl' 'sdl_image' 'sdl_ttf' 'libvorbis' 'mesa' 'bash')
-if [ `uname -m` = "x86_64" ]; then   # On 64 bit machines
+if [ "$CARCH" == "x86_64" ]; then   # On 64 bit machines
 md5sums=('ba8d4dbc63d3bff4fa74180540b0a0f4' 'b20f965ce7c366f7c1b2bbdc97d24e1e' 'f9655e9c5cc911e7c00b5c173c3dbf7b')
 bit=64
 else   # On 32 bit machines
