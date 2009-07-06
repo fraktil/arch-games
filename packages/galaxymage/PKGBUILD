@@ -21,13 +21,14 @@ md5sums=('c65ac4e255043d699e98a355fb595a20'
 build() {
 
   #Install the package
-  cd $srcdir/$pkgname-$pkgver
   install -d -m755 $pkgdir/usr/share/{licenses/,}galaxymage
+
+  cd $srcdir/$pkgname-$pkgver
   cp -r GalaxyMage.py data/ locale/ src/ $pkgdir/usr/share/galaxymage/
 
   #Remove junk and fix permissions
   cd $pkgdir/usr/share/galaxymage
-  rm -rf src/test
+  rm -rf $srcdir/$pkgname-$pkgver/src/test
   find ./ -type d | xargs chmod 755
   
   #Install the license file
