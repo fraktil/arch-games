@@ -2,7 +2,7 @@
 # Contributor: Hans-Kristian Arntzen <maister@archlinux.us>
 
 pkgname=dolphin-emu-svn
-pkgver=3675
+pkgver=3693
 pkgrel=1
 pkgdesc="A GameCube and Wii emulator, SVN version"
 arch=('i686' 'x86_64')
@@ -37,7 +37,7 @@ build() {
 
 	scons || return 1
 	mkdir -p "$pkgdir/opt/dolphin-emu"
-	cp -r "Binary/Linux-$CARCH/"* "$pkgdir/opt/dolphin-emu/" 
+	cp -r "/Binary/Linux-$CARCH"/* "$pkgdir/opt/dolphin-emu/" 
 	for svndir in $(find "$pkgdir" -name '.svn' -type d); do rm -r $svndir; done || return 1 # Remove SVN leftovers
 
 	mkdir -p "$pkgdir/usr/bin"
