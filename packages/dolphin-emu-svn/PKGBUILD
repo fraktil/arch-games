@@ -2,7 +2,7 @@
 # Contributor: Hans-Kristian Arntzen <maister@archlinux.us>
 
 pkgname=dolphin-emu-svn
-pkgver=3664
+pkgver=3675
 pkgrel=1
 pkgdesc="A GameCube and Wii emulator, SVN version"
 arch=('i686' 'x86_64')
