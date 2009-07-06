@@ -8,6 +8,7 @@ url="http://etpro.anime.net/"
 arch=('i686' 'x86_64')
 license=('unknown')
 depends=('enemy-territory')
+optdepends=('for nvidia card install lib32-nvidia-utils')
 backup=('opt/enemy-territory/etpro/server.cfg')
 source=(http://etpro.anime.net/etpro-3_2_6.zip 
         et-pro.sh
