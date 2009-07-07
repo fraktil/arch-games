@@ -1,3 +1,4 @@
+# Maintainer: Arkham <arkham at archlinux dot us>
 # Contributor: Marcelo Cavalcante / Kalib <kalib@archlinux-br.org>
 # Contributor: Matthias Maennich <arch@maennich.net>
 # Contributor: Andrea Scarpino <bash.lnx@gmail.com>
@@ -12,63 +13,63 @@ _arch="x86"
 [ "${CARCH}" = "x86_64" ] && _arch="x64"
 url="http://www.planeshift.it/"
 license=('GPL' 'custom:PlaneShift Content License')
-depends=( 'libgl' 'libsm' 'libxmu' 'libxpm' 'openal')
+depends=( 'mesa' 'openal' 'speex' 'libvorbis' 'alsa-lib' 'libpng' 'libmng')
 options=('emptydirs')
-install=planeshift.install
-source=(http://psmirror.org/PlaneShift-v${pkgver}-${_arch}.bin \
-	planeshift.desktop \
-	planeshiftsetup.desktop \
-	planeshiftupdater.desktop \
-	license.txt
-	scriptfix.patch)
-md5sums=('7412c12e164eab2de5a320b0da0ce512'
-	'5be27f6e51c8edff591aa1fdc668b7e9'
-	'e75381f677b5d2ae331d0e4e742ee21a'
-	'4e8d4876b9c99db92d6dcb3e0c22128e'
-	'dbac9cf5bfb63463bcb2b5ea09b00586'
-	'52294da6a00190be91c32244c0700643')
+install=$pkgname.install
+source=(http://psmirror.org/PlaneShift-v${pkgver}-${_arch}.bin
+    	planeshift.desktop
+	    planeshiftsetup.desktop
+    	planeshiftupdater.desktop
+    	license.txt
+    	scriptfix.patch)
+md5sums=('bfa294eed54d477dff65739bc4b45349'
+         '5be27f6e51c8edff591aa1fdc668b7e9'
+         'e75381f677b5d2ae331d0e4e742ee21a'
+         '4e8d4876b9c99db92d6dcb3e0c22128e'
+         'dbac9cf5bfb63463bcb2b5ea09b00586'
+         '52294da6a00190be91c32244c0700643')
 [ "${CARCH}" = "x86_64" ] &&
-md5sums[0]='7412c12e164eab2de5a320b0da0ce512'
+    md5sums[0]='7412c12e164eab2de5a320b0da0ce512'
 
 build() {
-  cd $startdir/src
+    cd $srcdir
 
-  # Make the install executable
-  chmod +x PlaneShift-v${pkgver}-${_arch}.bin
+    # Make the install executable
+    chmod +x PlaneShift-v${pkgver}-${_arch}.bin
 
-  # Extract the files
-  ./PlaneShift-v${pkgver}-${_arch}.bin \
-  --mode unattended \
-  --syswide yes \
-  --prefix ${startdir}/pkg/opt
+    # Extract the files
+    ./PlaneShift-v${pkgver}-${_arch}.bin \
+        --mode unattended \
+        --syswide yes \
+        --prefix $pkgdir/opt
 
-  # Set correct permissions for files and folders
-  find $startdir/pkg/opt/PlaneShift -type f -exec chmod 660 {} +
-  find $startdir/pkg/opt/PlaneShift -type d -exec chmod 770 {} +
+    # Set correct permissions for files and folders
+    find $pkgdir/opt/PlaneShift -type f -exec chmod 664 {} +
+    find $pkgdir/opt/PlaneShift -type d -exec chmod 775 {} +
+    chmod -R root:root $pkgdir/opt
 
-  cd $startdir/pkg/opt/PlaneShift
+    cd $pkgdir/opt/PlaneShift
 
-  # Set correct permissions for executables
-  chmod 770 psclient.bin pssetup.bin psupdater.bin
+    # Set correct permissions for executables
+    chmod 775 psclient.bin pssetup.bin psupdater.bin
 
-  # Install scripts to proper directory
-  #mkdir -p $startdir/pkg/usr/bin/
-  install -D -m755 psclient $startdir/pkg/usr/bin/$pkgname
-  install -D -m755 pssetup $startdir/pkg/usr/bin/$pkgname-setup
-  install -D -m755 psupdater $startdir/pkg/usr/bin/$pkgname-updater
+    # Install scripts to proper directory
+    install -Dm 755 psclient $pkgdir/usr/bin/$pkgname
+    install -Dm 755 pssetup $pkgdir/usr/bin/$pkgname-setup
+    install -Dm 755 psupdater $pkgdir/usr/bin/$pkgname-updater
 
-  # Remove innecessary files
-  rm uninstall unscript.sh $pkgname $pkgname-setup $pkgname-updater psclient pssetup psupdater
+    # Remove innecessary files
+    rm uninstall unscript.sh $pkgname $pkgname-setup $pkgname-updater psclient pssetup psupdater
 
-  cd $startdir/pkg/usr/bin/
+    cd $pkgdir/usr/bin/
 
-  #fix script
-  patch -Np0 < $startdir/src/scriptfix.patch || return 1
+    #fix script
+    patch -Np0 -i $srcdir/scriptfix.patch || return 1
 
-  # Install shortcuts
-  mkdir -p $startdir/pkg/usr/share/applications
-  install -D -m644 $startdir/src/*.desktop $startdir/pkg/usr/share/applications/
+    # Install shortcuts
+    mkdir -p $pkgdir/usr/share/applications
+    install -Dm 644 $srcdir/*.desktop $pkgdir/usr/share/applications/
 
-  # Install the PlaneShift Content License
-  install -D -m644 $startdir/src/license.txt $startdir/pkg/usr/share/licenses/$pkgname/LICENSE
+    # Install the PlaneShift Content License
+    install -Dm 644 $srcdir/license.txt $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
