@@ -5,7 +5,7 @@ pkgver=0.3.1
 pkgrel=1
 pkgdesc="A simple frontend for various game emulators, including XMAME, SDLMAME, Snes9x an ZSNES."
 url="http://loemu.pegueroles.com/"
-license="GPL"
+license=('GPL')
 arch=('i686' 'x86_64')
 depends=('pygtk>=2.6' 'libglade' 'libxslt')
 makedepends=('intltool')
