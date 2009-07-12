@@ -15,7 +15,7 @@ build() {
 	cd $startdir/src/OpenLieroX
 	./compile.sh || return 1
 	mkdir -p $pkgdir/usr/{bin,share/{OpenLieroX,applications}}
-	cp bin/openlierox $pkgdir/usr/bin
-	cp -r share/gamedir/* $pkgdir/usr/share/OpenLieroX/
+	cp $srcdir/OpenLieroX/bin/openlierox $pkgdir/usr/bin
+	cp -r $srcdir/OpenLieroX/share/gamedir/* $pkgdir/usr/share/OpenLieroX/
 	cp $startdir/openlierox.desktop $pkgdir/usr/share/applications
 }
