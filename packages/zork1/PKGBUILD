@@ -10,7 +10,7 @@ depends=(jzip)
 source=(http://www.csd.uwo.ca/Infocom/Download/$pkgname.zip LICENSE)
 md5sums=('f6dd915ea7315985536efb39154f3433' '961576a5d7de0363d40ccdb3f08512b3')
 arch=('i686' 'x86_64')
-license="custom"
+license=('custom')
 
 build() {
 #  cd $startdir/src/$pkgname-$pkgver
