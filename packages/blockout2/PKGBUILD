@@ -17,10 +17,9 @@ depends=('libgl')
 [ "$CARCH" = "x86_64" ] && depends=('lib32-libgl')
 
 build() {
-    local dstdir=$startdir/pkg/usr/share/games/$pkgname
-    install -d $dstdir
-    cp -R $startdir/src/bl2/* $dstdir
-    rm $dstdir/blockout_oldlibc
+    install -d $pkgdir/usr/share/games/$pkgname
+    cp -R $startdir/src/bl2/* $pkgdir/usr/share/games/$pkgname
+    rm $pkgdir/usr/share/games/$pkgname/blockout_oldlibc
     
     install -D -m644 $startdir/blockout2.desktop \
             $pkgdir/usr/share/applications/blockout2.desktop
