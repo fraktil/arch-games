@@ -12,6 +12,7 @@ url="http://www.nethack.org/index.html"
 license=('custom: nethack')
 arch=('i686' 'x86_64')
 depends=('ncurses' 'gzip')
+makedepends=(flex bison)
 source=(http://downloads.sourceforge.net/sourceforge/nethack/nethack-343-src.tgz
         nh343-menucolor.diff
         hpmon.diff
