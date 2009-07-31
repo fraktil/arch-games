@@ -4,7 +4,7 @@
 
 pkgname=bin32-wine
 _pkgname32=wine
-pkgver=1.1.25
+pkgver=1.1.26
 pkgrel=1
 _pkgrel32=1
 pkgdesc="Interpreter for the Windows 3.x and Win32 APIs"
@@ -18,7 +18,7 @@ provides=("wine=${pkgver}")
 conflicts=('wine')
 
 source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-md5sums=('bd6cf0d0011a05dd242e613614563325')
+md5sums=('0156aeaa8b4c83c23c88b9cc8e6cc638')
 install=$pkgname.install
 options=('!strip')
 
