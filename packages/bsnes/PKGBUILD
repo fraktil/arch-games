@@ -1,0 +1,42 @@
+# Contributor: [vEX] <niechift.dot.vex.at.gmail.dot.com>
+pkgname=bsnes
+pkgver=0.048
+pkgrel=2
+pkgdesc="Super Nintendo Entertainment System (SNES) emulator"
+arch=('i686' 'x86_64')
+url="http://byuu.org/bsnes/"
+license=('custom: bsnes (TM) Reference License')
+depends=('libao' 'libgl' 'libxv' 'openal' 'sdl' 'qt>=4.5.0')
+optdepends=('libxtst')
+makedepends=('pkgconfig')
+source=("${pkgname}_v048.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v048.tar.bz2" \
+        "fix_black_lines.patch")
+md5sums=('a2951fef4ad999c32e8d5f21d86399e5' '622781b615f28c6411e60a8a67797d86')
+
+build() {
+  cd "${srcdir}/src"
+
+  patch -p0 < "${srcdir}/fix_black_lines.patch" || return 1
+
+  # This _might_ help gaining some extra speed by allowing processor specific
+  # optimizations, (ie SSE/SSE2), needs gcc >= 4.2.0
+  GCC_VER=`gcc --version | grep gcc | cut -d ' ' -f 3`
+  GCC_MAJOR=`echo $GCC_VER | cut -d '.' -f 1`
+  GCC_MINOR=`echo $GCC_VER | cut -d '.' -f 2`
+  if [ $GCC_MAJOR -ge 4 -a $GCC_MINOR -ge 2 ]; then
+    msg "gcc version greater than 4.2 found, enabling -mtune=native optimizations"
+    sed -e 's|flags := -O3 |flags := -O3 -mtune=native |' \
+        -i "${srcdir}/src/Makefile" || return 1
+  fi
+
+  # Makefile hacks
+  # If the help message is printed something went wrong and it should exit with
+  # an error code
+  echo "	@exit 1" >> $srcdir/src/Makefile
+  # Disable pulseaudio.
+  sed -e 's|audio.pulseaudio ||' -i "${srcdir}/src/Makefile" || return 1
+
+  # Build and install it
+  make enable_gzip=true enable_jma=true || return 1
+  make install DESTDIR=$pkgdir prefix=/usr || return 1
+}

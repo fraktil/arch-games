@@ -1,0 +1,13 @@
+--- lib/ruby/video/xv.cpp	2009-07-14 19:53:02.000000000 +0200
++++ lib/ruby/video/xv.cpp	2009-07-14 19:52:21.000000000 +0200
+@@ -316,8 +316,8 @@
+ 
+     for(unsigned y = 0; y < height; y++) {
+       memcpy(output, input, width * 4);
+-      input  += 1024 - width;
+-      output += 1024 - width;
++      input  += 1024;
++      output += 1024;
+     }
+   }
+ 
