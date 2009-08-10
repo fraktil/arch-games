@@ -1,44 +1,32 @@
-# Contributor: Black Mage <vleon1@gmail.com>
-
+# Contributor: Thomas Kinnen <thomas.kinnen@gmail.com>
 pkgname=fife-svn
-pkgver=2954
-pkgrel=1
+provides="fife"
+conflicts="fife"
 pkgdesc="The mission of the FIFE project is to create a cross platform game creation framework"
 url="http://www.fifengine.de/"
+pkgver=2966
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('LGPL')
-depends=('boost' 'sdl_ttf' 'sdl_image' 'libvorbis' 'openal-soft' 'guichan' 'swig' 'python' 'libgl')
+depends=('sdl' 'boost' 'sdl_ttf' 'sdl_image' 'libvorbis' 'libogg' 'openal-soft' 'guichan' 'swig' 'python' 'zlib' 'libgl' 'libpng')
 makedepends=('scons' 'subversion')
-install=fife-svn.install
+_svntrunk="http://svn9.cvsdude.com/fife/engine/trunk"
+_svnmod="fife"
 source=()
-md5sums=('')
-
-_svntrunk=http://svn9.cvsdude.com/fife/engine/trunk
-_svnmod=fife
-
+md5sums=()
 build() {
+	cd $srcdir
+	if [ -d ./$_svnmod ]; then
+		cd fife
+		svn up
+	else
+		svn co $_svntrunk $_svnmod
+	fi
+	cd $srcdir/$_svnmod
+	scons prefix=$pkgdir/usr debug=0 log=0 opengl=0 || return 1
 
-  #Grab the sources with svn
-  cd $srcdir
-  if [ -d $_svnmod/.svn ]; then
-    (cd $_svnmod && svn up -r $pkgver) || return 1
-  else
-    svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod || return 1
-  fi
-  msg "SVN checkout done or server timeout"
-  msg "Starting make..."
-  rm -r $srcdir/$_svnmod-build
-  cp -r $srcdir/$_svnmod $srcdir/$_svnmod-build
-  cd $srcdir/$_svnmod-build
-
-  #Build the package
-  scons ext=1 || return 1
-  scons || return 1
-
-  #Manually install the package
-  install -d -m755 $pkgdir/usr/share/fife
-  cp -r {clients,doc,engine} $pkgdir/usr/share/fife
-  
+	mkdir -p $pkgdir/usr/lib/python2.6/site-packages/
+	cp -r engine/extensions/* $pkgdir/usr/lib/python2.6/site-packages/
+	cp engine/swigwrappers/python/{_fife.so,fife.py} $pkgdir/usr/lib/python2.6/site-packages/
+	find $pkgbuild -depth -type d -name ".svn" -exec rm -rf {} \;
 }
-
-# vim:set ts=2 sw=2 et:
