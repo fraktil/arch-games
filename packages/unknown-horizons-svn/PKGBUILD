@@ -1,8 +1,8 @@
 # Contributor: Thomas Kinnen <thomas.kinnen@gmail.com>
 
 pkgname=unknown-horizons-svn
-pkgver=2458
-pkgrel=2
+pkgver=2584
+pkgrel=1
 pkgdesc="A 2D realtime strategy simulation with an emphasis on economy and city building"
 arch=('i686' 'x86_64')
 url="http://unknown-horizons.org/"
