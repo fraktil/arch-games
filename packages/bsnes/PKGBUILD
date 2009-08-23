@@ -1,7 +1,7 @@
 # Contributor: [vEX] <niechift.dot.vex.at.gmail.dot.com>
 pkgname=bsnes
-pkgver=0.048
-pkgrel=2
+pkgver=0.049
+pkgrel=1
 pkgdesc="Super Nintendo Entertainment System (SNES) emulator"
 arch=('i686' 'x86_64')
 url="http://byuu.org/bsnes/"
@@ -9,14 +9,11 @@ license=('custom: bsnes (TM) Reference License')
 depends=('libao' 'libgl' 'libxv' 'openal' 'sdl' 'qt>=4.5.0')
 optdepends=('libxtst')
 makedepends=('pkgconfig')
-source=("${pkgname}_v048.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v048.tar.bz2" \
-        "fix_black_lines.patch")
-md5sums=('a2951fef4ad999c32e8d5f21d86399e5' '622781b615f28c6411e60a8a67797d86')
+source=("${pkgname}_v049.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v049.tar.bz2")
+md5sums=('a1f70edc3aeb798d280cb478c9f2a9db')
 
 build() {
   cd "${srcdir}/src"
-
-  patch -p0 < "${srcdir}/fix_black_lines.patch" || return 1
 
   # This _might_ help gaining some extra speed by allowing processor specific
   # optimizations, (ie SSE/SSE2), needs gcc >= 4.2.0
