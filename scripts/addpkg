@@ -22,8 +22,8 @@ else
     touch $LOCK
 fi
 
-find $GAMEDIR -regex ".*$PKGNAME-[^-]*-[^-]*\.pkg\.tar\.gz" -exec rm -i '{}' \;
-mv -i $PKG $GAMEDIR || exit 1
+find $GAMEDIR -regex ".*$PKGNAME-[^-]*-[^-]*-[^-]*\.pkg\.tar\.gz" -exec rm -i '{}' \;
+mv -i $1 $GAMEDIR || exit 1
 repo-add $GAMEDIR/arch-games.db.tar.gz $GAMEDIR/$PKG || exit 1
 
 rm $LOCK
