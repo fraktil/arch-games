@@ -1,69 +1,63 @@
-# Maintainer: Devin Cofer <ranguvar@archlinux.us>
+# Maintainer:  Devin Cofer <ranguvar@archlinux.us>
 # Contributor: Clement Siuchung Cheung <clement.cheung@umich.edu>
-# Contributor: Mikko SeppÃ¤lÃ¤ <t-r-a-y@mbnet.fi>
+# Contributor: Mikko Seppälä <t-r-a-y@mbnet.fi>
 
 pkgname=bin32-wine
 _pkgname32=wine
-pkgver=1.1.27
+pkgver=1.1.28
 pkgrel=1
 _pkgrel32=1
-pkgdesc="Interpreter for the Windows 3.x and Win32 APIs"
+pkgdesc="Win32 and Windows 3.x API interpreter, enabling one to run Windows apps on Linux"
 arch=('x86_64')
 url="http://www.winehq.org/"
 license=('LGPL')
 
-depends=('lib32-libx11' 'lib32-libjpeg' 'lib32-alsa-lib' 'lib32-libxxf86vm' 'lib32-mesa' 'util-linux-ng' 'lib32-freetype2' 'lib32-fontconfig' 'lib32-libxslt' 'lib32-libxml2' 'lib32-libxcb' 'lib32-libxrender' 'lib32-libxdamage')
-optdepends=('lib32-nvidia-utils: Accelerated 3D on NVIDIA GPUs')
-provides=("wine=${pkgver}")
-conflicts=('wine')
+depends=('lib32-fontconfig' 'lib32-libldap' 'lib32-libxslt' 'lib32-lcms' 'lib32-libxcursor'
+         'lib32-libxrandr' 'lib32-libxdamage' 'lib32-mesa')
+#olddepends=(lib32-libjpeg' 'lib32-libpng' 'lib32-alsa-lib' 'lib32-libxxf86vm' 'lib32-mesa' 'util-linux-ng' 'lib32-freetype2' 'lib32-fontconfig' 'lib32-libxslt' 'lib32-libxml2' 'lib32-libxcb' 'lib32-libxrender' 'lib32-libxdamage')
+optdepends=('lib32-alsa-lib: ALSA driver'
+            'lib32-nvidia-utils: Accelerated 3D with the NVIDIA binary blob video driver'
+            'lib32-catalyst-utils: Accelerated 3D with the AMD/ATI binary blob video driver (Catalyst, aka fglrx)')
+provides=("wine=$pkgver")
+conflicts=('wine' 'wine-stable')
 
-source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-md5sums=('9addec681638d5c163944ebc02608d2a')
-install=$pkgname.install
+#source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
+#md5sums=('9addec681638d5c163944ebc02608d2a')
+#sha256sums=('7cdc524f576cf087ab2977991d93b05ccf6e28958a763807c5484f1c67917f54')
+source=("http://download267.mediafire.com/zcwtb9ohdjug/9tjbdljl21e/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
+md5sums=('a320d5241bba2def0100823aa5254a50')
+sha256sums=('415dc1c362cfdf97a89726197a4b43cdd510254a24782e4fd99e193390cf252f')
+
+install="$pkgname".install
 options=('!strip')
 
 binarynames=(widl wine wine-kthread winebuild winecpp winedump wineg++ winegcc wineserver wmc wrc)
 
 build() {
-  rm "$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz"
-  cp -rPfp * "$pkgdir"
-  install -d "$pkgdir/opt/lib32/usr/lib/"
-  mv "$pkgdir/usr/lib/libwine.so"* "$pkgdir/opt/lib32/usr/lib/"
-  cd "$pkgdir/usr/bin/"
+	rm "$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz" || return 1  # Delete symbolic link to the now-extracted source that we don't want to copy
+	cp -rfpP * "$pkgdir" || return 1  # Copy 32-bit files
+	install -d "$pkgdir/opt/lib32/usr/lib/"
+	mv "$pkgdir/usr/lib/libwine.so"* "$pkgdir/opt/lib32/usr/lib/" || return 1
+	cd "$pkgdir/usr/bin/"
 
-  # DIRTY PKGBUILD TOUCHING YOUR /bin (force loading old LD_LIBRARY_PATH without moving wine binaries as they seem to break.
-  install -d "$pkgdir/opt/wine/bin/" "$srcdir/tempscripts/"
-  for i in ${binarynames[*]}; do
-    #mv "$i" "$pkgdir/opt/wine/bin/"
-    echo -e \
-      '#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /usr/bin/replacename "$@"' \
-      > "$srcdir/tempscripts/$i"
-    sed -re "s/replacename/$i/" -i "$srcdir/tempscripts/$i"
-    install -m755 "$srcdir/tempscripts/$i" "$pkgdir/opt/wine/bin/$i"
-  done
-  rm -rf "$srcdir/tempscripts"
+	# DIRTY PKGBUILD TOUCHING YOUR /bin (force loading old LD_LIBRARY_PATH without moving wine binaries as they seem to break.
+	install -d "$pkgdir/opt/wine/bin/" "$srcdir/tempscripts/"
+	for i in ${binarynames[*]}; do
+		#mv "$i" "$pkgdir/opt/wine/bin/"
+		echo -e \
+			'#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /usr/bin/replacename "$@"' \
+			> "$srcdir/tempscripts/$i" || return 1
+		sed -re "s/replacename/$i/" -i "$srcdir/tempscripts/$i" || return 1
+		install -m755 "$srcdir/tempscripts/$i" "$pkgdir/opt/wine/bin/$i" || return 1
+	done
+	rm -rf "$srcdir/tempscripts"
 
-  # PPD fix
-  mkdir -p "$pkgdir/opt/lib32/usr/share/"
-  ln -s /usr/share/wine "$pkgdir//opt/lib32/usr/share/wine"
+	# PPD fix
+	mkdir -p "$pkgdir/opt/lib32/usr/share/"
+	ln -s /usr/share/wine "$pkgdir//opt/lib32/usr/share/wine" || return 1
 
-  # These should NOT be needed! Uncomment these lines if the PKGBUILD is not working for you. Works for me.
-  # Fakeroot causes trouble for some users again?
-  #cd "$pkgdir/usr/lib/"
-  #chmod 755 wine
-  #cd wine
-  #chmod 755 *.so
-  #chmod 644 *.def *16 *.a
-  # Added /usr/share/wine workaround for some users
-  #cd "$pkgdir/usr/share/"
-  #chmod 755 wine
-  #cd wine
-  #chmod -R 644 *
-  #chmod 755 fonts
-
-  echo "export WINELOADER=/opt/wine/bin/wine" > "$srcdir/wine.sh"
-  echo '#export LD_LIBRARY_PATH="/opt/lib32/lib/:/opt/lib32/usr/lib/:$LD_LIBRARY_PATH"' >> "$srcdir/wine.sh"
-  echo 'export PATH="/opt/wine/bin:$PATH"' >> "$srcdir/wine.sh"
-  install -Dm755 "$srcdir/wine.sh" "$pkgdir/etc/profile.d/wine.sh"
+	echo "export WINELOADER=/opt/wine/bin/wine" > "$srcdir/wine.sh" || return 1
+	echo '#export LD_LIBRARY_PATH="/opt/lib32/lib/:/opt/lib32/usr/lib/:$LD_LIBRARY_PATH"' >> "$srcdir/wine.sh" || return 1
+	echo 'export PATH="/opt/wine/bin:$PATH"' >> "$srcdir/wine.sh" || return 1
+	install -Dm755 "$srcdir/wine.sh" "$pkgdir/etc/profile.d/wine.sh" || return 1
 }
-
