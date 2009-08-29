@@ -5,7 +5,7 @@
 pkgname=bin32-wine
 _pkgname32=wine
 pkgver=1.1.28
-pkgrel=1
+pkgrel=3
 _pkgrel32=1
 pkgdesc="Win32 and Windows 3.x API interpreter, enabling one to run Windows apps on Linux"
 arch=('x86_64')
@@ -13,7 +13,7 @@ url="http://www.winehq.org/"
 license=('LGPL')
 
 depends=('lib32-fontconfig' 'lib32-libldap' 'lib32-libxslt' 'lib32-lcms' 'lib32-libxcursor'
-         'lib32-libxrandr' 'lib32-libxdamage' 'lib32-mesa')
+         'lib32-libxrandr' 'lib32-libxdamage' 'lib32-mesa' 'lib32-util-linux-ng')
 #olddepends=(lib32-libjpeg' 'lib32-libpng' 'lib32-alsa-lib' 'lib32-libxxf86vm' 'lib32-mesa' 'util-linux-ng' 'lib32-freetype2' 'lib32-fontconfig' 'lib32-libxslt' 'lib32-libxml2' 'lib32-libxcb' 'lib32-libxrender' 'lib32-libxdamage')
 optdepends=('lib32-alsa-lib: ALSA driver'
             'lib32-nvidia-utils: Accelerated 3D with the NVIDIA binary blob video driver'
@@ -24,9 +24,9 @@ conflicts=('wine' 'wine-stable')
 #source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
 #md5sums=('9addec681638d5c163944ebc02608d2a')
 #sha256sums=('7cdc524f576cf087ab2977991d93b05ccf6e28958a763807c5484f1c67917f54')
-source=("http://download267.mediafire.com/zcwtb9ohdjug/9tjbdljl21e/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-md5sums=('a320d5241bba2def0100823aa5254a50')
-sha256sums=('415dc1c362cfdf97a89726197a4b43cdd510254a24782e4fd99e193390cf252f')
+source=("http://blog.morrigan.ch/downloads/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
+md5sums=('2e07cb2390bfde2a945f4432bf2ac0a9')
+sha256sums=('3c67989341b307822afab9b3677d46bd66728bb53b188dbbcc03ccfedcadb86b')
 
 install="$pkgname".install
 options=('!strip')
