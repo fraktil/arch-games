@@ -1,6 +1,6 @@
 # Contributor: [vEX] <niechift.dot.vex.at.gmail.dot.com>
 pkgname=bsnes
-pkgver=0.049
+pkgver=0.050
 pkgrel=1
 pkgdesc="Super Nintendo Entertainment System (SNES) emulator"
 arch=('i686' 'x86_64')
