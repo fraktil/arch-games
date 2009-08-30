@@ -1,34 +1,34 @@
 # Contributor: Nagy Gabor <ngaba@@bibl..u-szeged..hu>
-
 pkgname=enigma_sdl
 pkgver=1.01
-pkgrel=3
+pkgrel=8
 pkgdesc="Puzzle game inspired by Oxyd on the Atari ST and Rock'n'Roll on the Amiga."
 url="http://www.nongnu.org/enigma/"
-arch=('i686' 'x86_64')
+depends=('enet' 'libpng' 'sdl_image' 'sdl_mixer' 'sdl_ttf' 'xerces-c')
+source=(http://download.berlios.de/enigma-game/enigma-$pkgver.tar.gz
+	enigma-1.01-enet.patch
+	enigma-1.01-gcc43.patch
+	enigma-1.01-gcc44.patch
+	enigma-1.01-xerces-c.patch)
+md5sums=('d3804534ac03425051ebfd383ed1b4ee'
+	'11267448b45dd0081e4bcab6a1995048'
+	'719e856a141448aac837e380b4adcf10'
+	'473d7c2fd3dae153f7d2218a3cc0f4d0'
+	'8a28973ea03b7bedcff2126cb7455f62')
 license=('GPL')
-depends=('libpng' 'sdl' 'sdl_image' 'sdl_mixer' 'sdl_ttf' 'xerces-c' 'zlib')
-source=(http://download.berlios.de/enigma-game/enigma-$pkgver-64bit.tar.gz
-        enigma_sdl.patch)
-    
-md5sums=('d58af8a7201601dabc45dcedae5e2e91' 
-         '719e856a141448aac837e380b4adcf10')
+arch=('i686' 'x86_64')
 
 build() {
-
-  #Patch, build and install the package
-  cd $srcdir/enigma-$pkgver
-  patch -Np0 -i $srcdir/enigma_sdl.patch || return 1
+  cd $startdir/src/enigma-$pkgver
+  patch -p0 -i ../enigma-1.01-enet.patch || return 1
+  patch -p0 -i ../enigma-1.01-gcc43.patch || return 1
+  patch -p0 -i ../enigma-1.01-gcc44.patch || return 1
+  patch -p0 -i ../enigma-1.01-xerces-c.patch || return 1
+  touch NEWS ChangeLog || return 1
+  autoreconf --install || return 1
   ./configure --prefix=/usr --program-suffix=_sdl --sysconfdir=/etc --disable-sdltest --enable-optimize
   make || return 1
-  make DESTDIR=$pkgdir install
-  
-  #Remove garbage
-  rm -R $pkgdir/usr/share/icons $pkgdir/usr/include $pkgdir/usr/lib
-  
-  #Patch the .desktop file
-  sed -i s/Exec=enigma/Exec=enigma_sdl/ $pkgdir/usr/share/applications/enigma.desktop
-  
+  make DESTDIR=$startdir/pkg install
+  rm -R $startdir/pkg/usr/share/icons
+  sed -i s/Exec=enigma/Exec=enigma_sdl/ $startdir/pkg/usr/share/applications/enigma.desktop
 }
-
-# vim:set ts=2 sw=2 et:

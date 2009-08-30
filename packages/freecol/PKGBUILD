@@ -1,35 +1,29 @@
+# Maintainer:  TDY <tdy@gmx.com>
 # Contributor: Nelson Menon <nelsonmenon@gmail.com insanatorium.wordpress.com>
 
 pkgname=freecol
 pkgver=0.8.4
-pkgrel=2
-pkgdesc="Turn-based strategy game based on the game Colonization"
-url="http://www.freecol.org/"
+pkgrel=1
+pkgdesc="A turn-based strategy game based on Colonization"
 arch=('i686' 'x86_64')
+url="http://www.freecol.org/"
 license=('GPL')
-depends=(java-runtime)
-source=(http://downloads.sourceforge.net/sourceforge/freecol/$pkgname-$pkgver.tar.gz
-        freecol.sh
-        freecol.desktop)
-
-md5sums=('f6cca8ea64c86ad41d0952930651566a' 'd0bf043f05dfc51cc9c1f5e169bc1316' 'f471d4fd3624d9b45aa3e16e40f2faef' )
+depends=('java-runtime')
+source=(http://downloads.sourceforge.net/freecol/freecol-$pkgver.tar.gz
+        fc.desktop fc.launcher)
+md5sums=('f6cca8ea64c86ad41d0952930651566a'
+         '55594d770904af3e3e3852d375085357'
+         'ae473cd1d86f8f764250ee00b6fda90b')
 
 build() {
+  cd "$srcdir/freecol"
+  install -Dm644 FreeCol.jar "$pkgdir/usr/share/java/freecol/FreeCol.jar"
+  install -Dm644 FreeCol.pdf "$pkgdir/usr/share/doc/freecol/FreeCol.pdf"
+  install -Dm644 freecol.xpm "$pkgdir/usr/share/pixmaps/freecol.xpm"
+  install -Dm644 ../fc.desktop "$pkgdir/usr/share/applications/freecol.desktop"
+  install -Dm755 ../fc.launcher "$pkgdir/usr/bin/freecol"
 
-  #Install the package
-  cd $srcdir/$pkgname
-  install -D -m644 FreeCol.jar $pkgdir/usr/share/java/freecol/FreeCol.jar
-  cp -R jars $pkgdir/usr/share/java/freecol
-  install -d -m755 $pkgdir/usr/share/freecol
-  cp -R data $pkgdir/usr/share/freecol
-
-  #Install the .desktop and icon files
-  install -D -m644 $startdir/src/freecol/freecol.xpm $pkgdir/usr/share/pixmaps/freecol.xpm
-  install -D -m644 $startdir/src/freecol.desktop $pkgdir/usr/share/applications/freecol.desktop
-
-  #Install the bin files
-  install -D -m755 $startdir/src/freecol.sh $pkgdir/usr/bin/freecol
-
+  cp -r data jars "$pkgdir/usr/share/java/freecol/"
+  find "$pkgdir/usr/share/java/freecol" -type d -exec chmod 755 '{}' \;
+  find "$pkgdir/usr/share/java/freecol" -type f -exec chmod 644 '{}' \;
 }
-
-# vim:set ts=2 sw=2 et:

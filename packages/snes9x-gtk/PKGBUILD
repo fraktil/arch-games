@@ -7,10 +7,10 @@ pkgdesc="GTK+ Version of snes9x, a portable Emulator for the Super Nintento Ente
 url="http://snes9x.com/phpbb2/viewtopic.php?t=3703"
 arch=('i686' 'x86_64')
 license=('custom: snes9x')
-depends=('zlib' 'libpng' 'sdl' 'nasm' 'mesa' 'gtkglext' 'portaudio' 'libxrandr' 'libglade')
+depends=('libxtst' 'sdl' 'nasm' 'mesa' 'gtkglext' 'portaudio' 'libglade')
 makedepends=(intltool)
-source=(http://snes9x-gtk.googlecode.com/files/snes9x-1.51-src-gtk-73.tar.bz2)
-md5sums=('300834e5852d15fc06773153a5fae71c')
+source=(http://snes9x-gtk.googlecode.com/files/snes9x-1.51-src-gtk-74.tar.bz2)
+md5sums=('d104d1668ac39d6de822ff43feb979fb')
  
 build() {
  
