@@ -6,17 +6,17 @@
 
 pkgname=planeshift
 pkgver=0.4.03
-pkgrel=2
+pkgrel=3
 pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
 arch=('i686' 'x86_64')
 _arch="x86"
 [ "${CARCH}" = "x86_64" ] && _arch="x64"
 url="http://www.planeshift.it/"
 license=('GPL' 'custom:PlaneShift Content License')
-depends=( 'mesa' 'openal' 'speex' 'libvorbis' 'alsa-lib' 'libpng' 'libmng')
+depends=('mesa' 'openal' 'speex' 'libvorbis' 'alsa-lib' 'libpng' 'libmng' 'panda3d')
 options=('emptydirs')
 install=$pkgname.install
-source=(http://psmirror.org/PlaneShift-v${pkgver}-${_arch}.bin
+source=(http://planeshift.clevertech.net/linux32/PlaneShift-v$pkgver-$_arch.bin
     	planeshift.desktop
 	    planeshiftsetup.desktop
     	planeshiftupdater.desktop
@@ -29,7 +29,7 @@ md5sums=('bfa294eed54d477dff65739bc4b45349'
          'dbac9cf5bfb63463bcb2b5ea09b00586'
          '52294da6a00190be91c32244c0700643')
 [ "${CARCH}" = "x86_64" ] &&
-    md5sums[0]='7412c12e164eab2de5a320b0da0ce512'
+    md5sums[0]='e2b7c8e2395884781692e70390265bb1'
 
 build() {
     cd $srcdir
@@ -73,3 +73,5 @@ build() {
     # Install the PlaneShift Content License
     install -Dm 644 $srcdir/license.txt $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
+
+# vim:set ts=2 sw=2 et:
