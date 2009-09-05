@@ -1,49 +1,64 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
+# Contributor: Babets
+# Contributor: Vain
 
 pkgname=warsow
-pkgver=0.42
-pkgrel=2
+pkgver=0.5
+pkgrel=3
 pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
 url="http://www.warsow.net/"
 license=('GPL' 'custom:Warsow Content License')
 arch=('i686' 'x86_64') 
-depends=('sdl' 'curl' 'libxxf86dga' 'libjpeg' 'libvorbis' 'libxxf86vm' 'libxinerama')
-makedepends=('mesa' 'openal' 'unzip' 'hd2u')
+depends=('curl' 'libjpeg' 'libvorbis' 'libxinerama' 'libxxf86dga' 'libxxf86vm' 'sdl')
+makedepends=('mesa' 'openal' 'unzip')
 source=('warsow.desktop' 'warsow.launcher' 'wsw-server.launcher' 'wswtv-server.launcher' \
-"http://www.derchris.net/warsow/warsow_${pkgver}_unified.zip" \
-"https://launchpad.net/warsow/0.4/0.42/+download/warsow_${pkgver}_sdk.zip")
+"http://www.derchris.eu/warsow/warsow_${pkgver}_unified.zip" \
+"http://www.derchris.eu/warsow/warsow_${pkgver}_sdk.zip")
 md5sums=('f9bf60c80820237f7097c4e50a9582cd'
          'ec00081d81ad9802a8ca42fc2eac5498'
          'f73e10c26197178df71b941b10bf83d7'
          'd7e4a69835bbcf801e58307e9d6b951e'
-         'cba5fe9b8af01b378e685959098fa84f'
-         '94c9bb2a48ac6f2687b38809e003f3b9')
+         'd0cb961256bbc1b93bf240b8bcf8eff5'
+         'acd0244435cc63967b0eb3468c21c454')
+noextract=("warsow_${pkgver}_unified.zip" "warsow_${pkgver}_sdk.zip")
 
 build() {
-    cd $srcdir/warsow_${pkgver}_unified
+    cd $srcdir/
+
+    # Extract Game Data
+    unzip -o warsow_${pkgver}_unified.zip -d $srcdir/warsow
+
+    # Extract Game Source Code
+    unzip -o warsow_${pkgver}_sdk.zip -d $srcdir/warsow-src
 
     # Create Destination Directories
     install -d $pkgdir/opt/warsow/
 
-    # Delete Pre-Built Binaries/Libraries
-    rm {warsow,warsow.i386,warsow.x86_64,warsow_x86.exe,warsow_x64.exe,wsw_portable_x86.exe} wsw_server* wswtv_server* libs/*
-
     # Move Data to Destination Directory
-    cp -r $srcdir/warsow_${pkgver}_unified/basewsw $pkgdir/opt/warsow
-    
+    cp -r $srcdir/warsow/basewsw $pkgdir/opt/warsow
+
+    # Patch Makefile to use correct program to query for system information
+    sed -i 's:openal-config:pkg-config:g' $srcdir/warsow-src/source/Makefile
+
+    # Patch Sound Code to point to base openal library
+    sed -i 's:libopenal.so.0:libopenal.so:g' $srcdir/warsow-src/source/snd_openal/snd_main.c
+
+    # Patch AngelScript so it compiles correctly on i686
+    if [ "$CARCH" == "i686" ]; then
+        sed -i 's:CXXFLAGS = \(.*\):CXXFLAGS = -march=i686 \1:' \
+            $srcdir/warsow-src/libsrcs/angelscript/angelSVN/sdk/angelscript/projects/gnuc/makefile
+    fi
+
     # Compile Warsow
-    cd $srcdir/warsow_${pkgver}_src/source/
-    make || return 1
+    cd $srcdir/warsow-src/source/
+    make -j1 || return 1
 
     # Move Compiled Data to Destination Directory
-    cp -r $srcdir/warsow_${pkgver}_src/source/release/* \
+    cp -r $srcdir/warsow-src/source/release/* \
         $pkgdir/opt/warsow
 
-    # Fix File Format on Created Scripts
-    /usr/bin/dos2unix --d2u $pkgdir/opt/warsow/{warsow,wsw_server,wswtv_server}
-
     # Install Custom License: Warsow Content License
-    install -D -m 0644 $srcdir/docs/license.txt \
+    install -D -m 0644 $srcdir/warsow/docs/license.txt \
         $pkgdir/usr/share/licenses/${pkgname}/license.txt
 
     # Install Client Game Launcher
@@ -63,6 +78,6 @@ build() {
         $pkgdir/usr/share/applications/warsow.desktop
 
     # Install Icon
-    install -D -m 0644 $srcdir/warsow_${pkgver}_src/source/win32/warsow.ico \
+    install -D -m 0644 $srcdir/warsow-src/source/win32/warsow.ico \
         $pkgdir/usr/share/pixmaps/warsow.ico
 }
