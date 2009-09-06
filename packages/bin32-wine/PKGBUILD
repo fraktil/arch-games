@@ -12,7 +12,7 @@ arch=('x86_64')
 url="http://www.winehq.org/"
 license=('LGPL')
 
-depends=('lib32-fontconfig' 'lib32-libldap' 'lib32-libxslt' 'lib32-lcms' 'lib32-libxcursor'
+depends=('lib32-libxml2' 'lib32-fontconfig' 'lib32-libldap' 'lib32-libxslt' 'lib32-lcms' 'lib32-libxcursor'
          'lib32-libxrandr' 'lib32-libxdamage' 'lib32-mesa' 'lib32-util-linux-ng')
 #olddepends=(lib32-libjpeg' 'lib32-libpng' 'lib32-alsa-lib' 'lib32-libxxf86vm' 'lib32-mesa' 'util-linux-ng' 'lib32-freetype2' 'lib32-fontconfig' 'lib32-libxslt' 'lib32-libxml2' 'lib32-libxcb' 'lib32-libxrender' 'lib32-libxdamage')
 optdepends=('lib32-alsa-lib: ALSA driver'
@@ -21,11 +21,9 @@ optdepends=('lib32-alsa-lib: ALSA driver'
 provides=("wine=$pkgver")
 conflicts=('wine' 'wine-stable')
 
-#source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-#md5sums=('9addec681638d5c163944ebc02608d2a')
-#sha256sums=('7cdc524f576cf087ab2977991d93b05ccf6e28958a763807c5484f1c67917f54')
-source=("$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-md5sums=('5bc7a5d4b2f35ad1c9ee1f740603d509')
+source=("http://rang.twilightlair.net/pkgs/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
+md5sums=('e32bf0bfc91e7efdd10e6da2c4ad5c86')
+
 
 install="$pkgname".install
 options=('!strip')
