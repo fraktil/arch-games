@@ -1,9 +1,10 @@
+# Contributor: Kaos <gianlucaatlas (at) gmail dot com>
 # Contributor: qwak <qwak@w8.pl>
 # Contributor: mightyjaym <jm.ambrosino@free.fr>
 
 pkgname=lib32-libvorbis
-pkgver=1.2.1rc1
-pkgrel=2
+pkgver=1.2.3
+pkgrel=1
 pkgdesc="Vorbis codec library"
 url="http://www.xiph.org/ogg/vorbis/"
 arch=('x86_64')
@@ -11,13 +12,13 @@ license=('custom')
 groups=('lib32')
 depends=('lib32-libogg')
 source=(ftp://ftp.archlinux.org/extra/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel}-i686.pkg.tar.gz)
-md5sums=('74becdea22ad68f099aaf216d5daae76')
+md5sums=('4275c7ee164d6b68ede30fba6f0708b8')
 
 build() {
 
-  mkdir -p $pkgdir/opt/lib32/usr/lib/
-  cp -R $srcdir/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib
-  
+mkdir -p ${pkgdir}/opt/lib32/usr/lib/
+cp -R ${srcdir}/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib
+
 }
 
 # vim:set ts=2 sw=2 et:
