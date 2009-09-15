@@ -1,3 +1,3 @@
 #!/bin/sh
-export ALEPHONE_DATA=/usr/share/alephone:/usr/share/alephone/scenarios/emr
-/usr/bin/alephone $*
+
+ALEPHONE_DATA=/usr/share/alephone/scenarios/emr exec /usr/bin/alephone "$@"

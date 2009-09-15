@@ -32,7 +32,7 @@ DOCDIR=$(DATADIR)/doc
 EMRDOCDIR=$(DOCDIR)/emr
 
 # The directory where man pages are installed.
-MANDIR=$(PREFIX)/man
+MANDIR=$(PREFIX)/share/man
 MAN6DIR=$(MANDIR)/man6
 
 # ----------------
