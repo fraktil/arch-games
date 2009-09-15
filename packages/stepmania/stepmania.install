@@ -1,8 +1,4 @@
 post_install() {
-
-#Add 'games' group if not already there
-getent group games > /dev/null || /usr/sbin/groupadd -g 50 games
-
 cat << EOF
 ==> To be able to save your setting and stats
 ==> and also to add more content (songs, characters, etc.),
@@ -13,22 +9,14 @@ cat << EOF
 ==> Please refer to the StepMania documentation to learn
 ==> about adding content to your StepMania installation.
 EOF
-
 }
 
-post_upgrade() {
-
-post_install
-  
+pre_remove() {
+  # delete old cache
+  rm -rf /opt/stepmania/Cache
 }
 
-post_remove() {
+op=$1
+shift
 
-cat << EOF
-==>
-==> Please note that the some of the package data was not removed
-==> remove them manually by:
-==> # rm -r /opt/stepmania
-EOF
-
-}
+$op $*
