@@ -1,0 +1,37 @@
+# Contributor: Alexander Rødseth <rodseth@gmail.com>
+pkgname=shedskin
+pkgver=0.2
+pkgrel=1
+pkgdesc="A Python to C++ compiler"
+arch=('i686' 'x86_64')
+url="http://code.google.com/p/shedskin/"
+license=('GPL2')
+depends=('pcre' 'gc' 'python')
+conflicts=('shedskin-svn')
+md5sums=('ca444ecc7f6e5ef42926f007ce39d96d')
+source=('http://shedskin.googlecode.com/files/shedskin-0.2.tgz')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  # Copy the shedskin files to /usr/lib
+  mkdir -p "$pkgdir/usr/lib/$pkgname-$pkgver"
+  cp *.py "$pkgdir/usr/lib/$pkgname-$pkgver"
+  cp -r lib "$pkgdir/usr/lib/$pkgname-$pkgver"
+  cp FLAGS "$pkgdir/usr/lib/$pkgname-$pkgver"
+
+  # Create the shedskin wrapperscript
+  msg "Creating wrapperscript..."
+  mkdir -p "$pkgdir/usr/bin"
+  echo '#!/bin/sh' > "$pkgdir/usr/bin/shedskin"
+  echo -n 'SHEDSKIN_ROOT="/usr/lib/' >> "$pkgdir/usr/bin/shedskin"
+  echo -n $pkgname-$pkgver >> "$pkgdir/usr/bin/shedskin"
+  echo -n '" /usr/bin/python "/usr/lib/' >> "$pkgdir/usr/bin/shedskin"
+  echo -n $pkgname-$pkgver >> "$pkgdir/usr/bin/shedskin"
+  echo '/ss.py" $*' >> "$pkgdir/usr/bin/shedskin"
+  chmod +x "$pkgdir/usr/bin/shedskin"
+
+  # Install the license
+  install -D -m 644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+# vim:set ts=2 sw=2 et:
