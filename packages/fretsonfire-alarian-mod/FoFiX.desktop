@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=3.120
+Type=Application
+Name=FoFiX
+Comment=A great Guitar Hero clone!
+Exec=/usr/bin/FoFiX
+Encoding=UTF-8
+Icon=/usr/share/pixmaps/FoFiX.png
+Categories=Game;ArcadeGame;
+Terminal=false
+StartupNotify=false
