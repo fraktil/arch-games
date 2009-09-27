@@ -1,16 +1,19 @@
 # Contributor: [vEX] <niechift.dot.vex.at.gmail.dot.com>
 pkgname=bsnes
-pkgver=0.050
+pkgver=0.051
 pkgrel=1
 pkgdesc="Super Nintendo Entertainment System (SNES) emulator"
 arch=('i686' 'x86_64')
 url="http://byuu.org/bsnes/"
-license=('custom: bsnes (TM) Reference License')
+license=('GPL2')
 depends=('libao' 'libgl' 'libxv' 'openal' 'sdl' 'qt>=4.5.0')
-optdepends=('libxtst')
+optdepends=(
+  'libxtst' 
+  'snesreader: support for compressed files'
+)
 makedepends=('pkgconfig')
-source=("${pkgname}_v049.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v049.tar.bz2")
-md5sums=('a1f70edc3aeb798d280cb478c9f2a9db')
+source=("${pkgname}_v051.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v051.tar.bz2")
+md5sums=('1c9545c9d24a9fc3bfa5c0ab1f4d2990')
 
 build() {
   cd "${srcdir}/src"
@@ -34,6 +37,6 @@ build() {
   sed -e 's|audio.pulseaudio ||' -i "${srcdir}/src/Makefile" || return 1
 
   # Build and install it
-  make enable_gzip=true enable_jma=true || return 1
+  make || return 1
   make install DESTDIR=$pkgdir prefix=/usr || return 1
 }
