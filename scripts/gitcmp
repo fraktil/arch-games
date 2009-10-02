@@ -81,6 +81,17 @@ gitcmp () {
     fi
 }
 
+gitcheck () {
+    pkgname="$1"
+    pacman -Ss $pkgname | grep "^$REPO/$pkgname " &>/dev/null || {
+        if [[ "$COLOR" == "true" ]]; then
+            echo -e "$pkgname: ${YELLOW}not found in pacman repo${NC}"
+        else
+            echo "$pkgname: not found in pacman repo"
+        fi
+    }
+}
+
 # Safety options:
 # - no unset variables
 set -o nounset
@@ -146,21 +157,15 @@ done
 REPO=${REPO:-"arch-games"}
 PKGDIR="../packages"
 
-# Check repo
+# Compare pacman repo and git repo
 for pkg in $(pacman -Slq $REPO); do
     gitcmp "$pkg"
 done
 
-# Check git
+# Check if git packages exist in repo
 cd $PKGDIR
 for pkgname in *; do
-    pacman -Ss $pkgname | grep "^$REPO/$pkgname " &>/dev/null || {
-        if [[ "$COLOR" == "true" ]]; then
-            echo -e "$pkgname: ${YELLOW}not found in pacman repo${NC}"
-        else
-            echo "$pkgname: not found in pacman repo"
-        fi
-    }
+    gitcheck "$pkgname"
 done
 
 exit 0

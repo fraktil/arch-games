@@ -3,7 +3,7 @@
 
 pkgname=noegnud
 pkgver=0.8.5
-pkgrel=1
+pkgrel=2
 pkgdesc="An alternate ascii/2D/3D UI for nethack using SDL and OpenGL."
 arch=('i686' 'x86_64')
 url="http://www.happypenguin.org/show?noeGNUd"
@@ -15,4 +15,13 @@ md5sums=('518f676a5e8529d089838aec111be3a7')
 build() {
     cd $srcdir/$pkgname-$pkgver
     make INSTALLDIR=$pkgdir/usr home
+
+    # Fix permissions
+    chgrp -R games $pkgdir/usr/lib/noegnud
+
+    # Fix broken bins
+    sed -i 's|^HACKDIR=.*|HACKDIR=/usr/lib/noegnud/nethack|' \
+        $pkgdir/usr/bin/noegnud-nethack
+    sed -i 's|^HACKDIR=.*|HACKDIR=/usr/lib/noegnud/slashem|' \
+            $pkgdir/usr/bin/noegnud-slashem
 }
