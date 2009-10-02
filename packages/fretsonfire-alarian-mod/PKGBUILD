@@ -1,59 +1,49 @@
 # Maintainer: doorknob60 <doorknob60@gmail.com>
 
 pkgname=fretsonfire-alarian-mod
-pkgver=3.100
-basepkgver=3.100
+pkgver=3.120
 pkgrel=1
-pkgdesc="A highly modded version of Frets on Fire, giving it more features to make it more fun and similar to Rock Band and Guitar Hero. It's now called FoFiX. This version only includes the Megalight themes, more are availiable at http://tinyurl.com/fof-themes"
-arch=(i686 x86_64)
-conflicts=('bin32-fretsonfire' 'fretsonfire')
-url="http://fofix.googlecode.com"
-install=${pkgname}.install
+pkgdesc="fretsonfire X. Get more themes (like GH and RB themes) at http://tinyurl.com/fof-themes"
+url="http://code.google.com/p/fofix"
+arch=('i686' 'x86_64')
 license=('GPL')
+install=${pkgname}.install
 groups=('games')
-depends=('sqlite3' 'freetype2' 'libjpeg' 'python' 'libogg' 'sdl' 'sdl_image' 'sdl_ttf' 'libvorbis' 'mesa' 'bash')
-if [ "$CARCH" == "x86_64" ]; then   # On 64 bit machines
-md5sums=('ba8d4dbc63d3bff4fa74180540b0a0f4' 'b20f965ce7c366f7c1b2bbdc97d24e1e' 'f9655e9c5cc911e7c00b5c173c3dbf7b')
-bit=64
-else   # On 32 bit machines
-md5sums=('05960092d8d524478ef025bc2a8ae7f3' 'b20f965ce7c366f7c1b2bbdc97d24e1e' 'f9655e9c5cc911e7c00b5c173c3dbf7b')
-bit=32
-fi
-source=(http://fofix.googlecode.com/files/FoFiX-${basepkgver}-Full-GNULinux-${bit}bit.tar.bz2 fretsonfire.desktop fretsonfire.png) # Patch url: http://fofix.googlecode.com/files/FoFiX-${pkgver}-Patch-GNULinux-${bit}bit.tar.bz2
-noextract=(FoFiX-${basepkgver}-Full-GNULinux-${bit}bit.tar.bz2 fretsonfire.desktop fretsonfire.png FoFiX-${pkgver}-Patch-GNULinux-${bit}bit.tar.bz2)
+conflicts=('fofix-svn' 'fretsonfire' 'bin32-fretsonfire' 'fofix-svn-bin32')
+depends=('python' 'python-pygame' 'python-opengl' 'python-numpy' 'python-numeric' 'pil' 'pyogg' 'pyvorbis' 'python-pysqlite' 'pyxml' 'cx_freeze' 'libffi')
+source=('http://fofix.googlecode.com/files/fofix-3.120.tar.gz' 'makefilefix.diff' 'FoFiX.desktop' 'FoFiX.png')
+md5sums=('b5a57a5fb6d948282c26eb9ec0f55fe2' '27442db82e4e706ef94a5bc6ca687a21' '0bb8ee1df87de661ccba48a505b8990c' 'f886a7fdfa7592b50aa9f62901910e03')
 
 
 build() {
+cd fofix-3.120/
+msg "Patching Makefile (thanks antzek9)"
+patch ./Makefile $srcdir/makefilefix.diff
 
-# Install base
-msg "Installing base (${basepkgver})"
-tar -xf FoFiX-${basepkgver}-Full-GNULinux-${bit}bit.tar.bz2
-install -d $pkgdir/opt/
-cp -R FoFiX-${basepkgver}-Full-GNULinux-${bit}bit ${pkgdir}/opt/FoFiX
+msg "Compiling"
+make dist
+mv data dist/
 
-# Install icon and menu entry
+msg "Creating menu entry"
 install -d $pkgdir/usr/
 install -d $pkgdir/usr/share/
 install -d $pkgdir/usr/share/applications/
 install -d $pkgdir/usr/share/pixmaps/
-cp fretsonfire.desktop ${pkgdir}/usr/share/applications/
-cp fretsonfire.png ${pkgdir}/usr/share/pixmaps/
-
-# Make binary run script
-echo '#/bin/sh' > fretsonfire
-echo 'taskset -c 0 /opt/FoFiX/FretsOnFire' >> fretsonfire
-chmod +x fretsonfire
 install -d $pkgdir/usr/bin/
-cp fretsonfire $pkgdir/usr/bin/
+install -d $pkgdir/opt/
+cd ${srcdir}
+cp ${startdir}/FoFiX.desktop ${pkgdir}/usr/share/applications/
+cp ${startdir}/FoFiX.png ${pkgdir}/usr/share/pixmaps/
+mv ${srcdir}/fofix-3.120/dist $pkgdir/opt/FoFiX
+cd $pkgdir/usr/bin/
+msg "Creating launcher script"
+echo "#/bin/sh" > FoFiX
+echo "cd /opt/FoFiX/" >> FoFiX
+echo "# Taskset -c 0 tells the CPU to only use the first core, which can mean increased performance and stability" >> FoFiX
+echo "taskset -c 0 ./FoFiX" >> FoFiX
+msg "Setting permissions"
+chmod +x FoFiX
+chmod -R 777 $pkgdir/opt/FoFiX
 
-# Copy copyright info to appropriate folder
-install -d $pkgdir/usr/share/licenses/
-install -d $pkgdir/usr/share/licenses/fretsonfire-alarian-mod/
-cp $pkgdir/opt/FoFiX/doc/copyright.txt $pkgdir/usr/share/licenses/fretsonfire-alarian-mod/copyright.txt
 
-# Patch to latest version (not needed in this release)
-#msg "Patching to ${pkgver}"
-#tar -xf FoFiX-${pkgver}-Patch-GNULinux-${bit}bit.tar.bz2
-#cd FoFiX-${pkgver}-Patch-GNULinux-${bit}bit
-#cp -f -r --target-directory=${pkgdir}/opt/FoFiX/ *
 }

@@ -1,0 +1,171 @@
+#!/bin/bash
+
+#   gitcmp - compare package versions between pacman repo and git repo
+#
+#   Copyright (c) 2009 by Arkham <arkham at archlinux dot us>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+badarg () {
+    echo "gitcmp: Try \`gitcmp -h' for more information." >&2
+}
+
+usage () {
+    echo "gitcmp: compare package versions between pacman repo and git repo"
+    echo "usage: gitcmp [OPTIONS]"
+    echo
+    echo "OPTIONS:"
+    echo " -b:      compare both pkgver and pkgrel [default]"
+    echo " -c:      colorful output [default]"
+    echo " -h:      show this help and quit"
+    echo " -n:      nocolor, plain and simple output"
+    echo " -o:      compare only pkgver ignoring pkgrel"
+    echo " -q:      quiet, display only updates"
+    echo " -r REPO: compare packages from selected REPO"
+    echo " -v:      verbose, display all packages [default]"
+    echo
+}
+
+gitcmp () {
+
+    # Get PKGBUILD
+    pkgname="$1"
+    PKGBUILD=$(grep -E '^(pkgver|pkgrel)=' "$PKGDIR/$pkgname/PKGBUILD" 2>/dev/null) || {
+        if [[ "$COLOR" == "true" ]]; then
+            echo -e "$pkgname: ${YELLOW}not found in git repo${NC}"
+        else
+            echo "$pkgname: not found in git repo"
+        fi
+        return 0
+    }
+
+    # Compare versions
+    gitver="$(eval "$PKGBUILD" &>/dev/null; echo "$pkgver-$pkgrel")" || true
+    repover="$(LANG=C pacman -Si "$pkgname" | awk '/^Version/ {print $3}' | tail -1)"
+    if [[ "$ONLYVER" == "true" ]]; then
+        gitver="$(echo "$gitver" | cut -d'-' -f1)"
+        repover="$(echo "$repover" | cut -d'-' -f1)"
+    fi
+
+    result=$(vercmp "$repover" "$gitver") || true
+
+    # Main switch
+    if [[ "$result" < 0 ]]; then
+        if [[ "$COLOR" == "true" ]]; then
+            echo -e "$pkgname: (${RED}pac=$repover ${GREEN}git=$gitver${NC})"
+        else
+            echo "$pkgname: (pac=$repover git=$gitver)"
+        fi
+    elif [[ "$result" > 0 ]]; then
+        if [[ "$COLOR" == "true" ]]; then
+            echo -e "$pkgname: (${GREEN}pac=$repover ${RED}git=$gitver${NC})"
+        else
+            echo "$pkgname: (pac=$repover git=$gitver)"
+        fi
+    else
+        if [[ "$VERBOSE" == "true" ]]; then
+            echo "$pkgname: up to date"
+        fi
+    fi
+}
+
+gitcheck () {
+    pkgname="$1"
+    pacman -Ss $pkgname | grep "^$REPO/$pkgname " &>/dev/null || {
+        if [[ "$COLOR" == "true" ]]; then
+            echo -e "$pkgname: ${YELLOW}not found in pacman repo${NC}"
+        else
+            echo "$pkgname: not found in pacman repo"
+        fi
+    }
+}
+
+# Safety options:
+# - no unset variables
+set -o nounset
+# - no errors in return values
+set -o errexit
+
+# Flags default values
+COLOR="true"
+ONLYVER="false"
+VERBOSE="true"
+# Colors
+RED='\e[1;31m'
+GREEN='\e[1;32m'
+YELLOW='\e[1;33m'
+NC='\e[0m'
+
+while getopts ":bchnoqr:v" opt; do
+    case "$opt" in
+        "b")
+            ONLYVER="false"
+            ;;
+        "c")
+            COLOR="true"
+            ;;
+        "h")
+            usage
+            exit 0
+            ;;
+        "n")
+            COLOR="false"
+            ;;
+        "o")
+            ONLYVER="true"
+            ;;
+        "q")
+            VERBOSE="false"
+            ;;
+        "r")
+            REPO="$OPTARG"
+            ;;
+        "v")
+            VERBOSE="true"
+            ;;
+        "?")
+            echo "gitcmp: invalid option: -$OPTARG" >&2
+            badarg
+            exit 1
+            ;;
+        ":")
+            echo "gitcmp: option -$OPTARG requires an argument." >&2
+            badarg
+            exit 1
+            ;;
+        *)
+            echo "gitcmp: unknown error while processing options." >&2
+            badarg
+            exit 1
+            ;;
+    esac
+done
+
+# [arch-games] ftw!
+REPO=${REPO:-"arch-games"}
+PKGDIR="../packages"
+
+# Compare pacman repo and git repo
+for pkg in $(pacman -Slq $REPO); do
+    gitcmp "$pkg"
+done
+
+# Check if git packages exist in repo
+cd $PKGDIR
+for pkgname in *; do
+    gitcheck "$pkgname"
+done
+
+exit 0

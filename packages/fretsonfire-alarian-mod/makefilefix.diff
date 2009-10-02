@@ -1,0 +1,17 @@
+59c59
+< xml.sax.drivers2.drv_pyexpat,\
+---
+> xml,\
+62,63c62
+< 	-cp /usr/lib/libpython2.4.so.1.0 \
+<            /usr/lib/libSDL_ttf-2.0.so.0 \
+---
+> 	-cp /usr/lib/libSDL_ttf-2.0.so.0 \
+70c69
+<            /usr/lib/liblapack.so.3gf \
+---
+>            /usr/lib/liblapack.so.3 \
+72c71
+<            /usr/lib/libblas.so.3gf \
+---
+>            /usr/lib/libblas.so.3 \

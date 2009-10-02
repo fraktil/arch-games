@@ -1,7 +1,7 @@
 # Contributor: Marcel Wysocki <maci@satgnu.net>
  
 pkgname=snes9x-gtk
-pkgver=1.51.76
+pkgver=1.51.77
 pkgrel=1
 pkgdesc="GTK+ Version of snes9x, a portable Emulator for the Super Nintento Entertainment System"
 url="http://snes9x.com/phpbb2/viewtopic.php?t=3703"
