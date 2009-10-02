@@ -38,68 +38,57 @@ usage () {
     echo
 }
 
-aurcmp () {
+get_pkgver_from_aur () {
+    local pkgname="$1"
 
-    # Create temporary url and get PKGBUILD
-    pkgname="$1"
-    url="http://aur.archlinux.org/packages/$pkgname/$pkgname/PKGBUILD"
+    local url="http://aur.archlinux.org/packages/$pkgname/$pkgname/PKGBUILD"
 
-    PKGBUILD=$(wget -q -O - "$url" | grep -E '^(pkgver|pkgrel)=') || {
-        # Package not found in AUR
+    local PKGBUILD=$(wget -q -O - "$url" | grep -E '^(pkgver|pkgrel)=') || {
         if [[ "$VERBOSE" == "true" ]]; then
-            if [[ "$COLOR" == "true" ]]; then
                 echo -e "$pkgname: ${RED}not found in AUR${NC}"
-            else
-                echo "$pkgname: not found in AUR"
-            fi
         fi
         return 0
     }
 
     # Compare versions
-    aurver="$(eval "$PKGBUILD" &>/dev/null; echo "$pkgver-$pkgrel")" || true
-    repover="$(LANG=C pacman -Si "$pkgname" | awk '/^Version/ {print $3}')"
-    if [[ "$ONLYVER" == "true" ]]; then
-        aurver="$(echo "$aurver" | cut -d'-' -f1)"
-        repover="$(echo "$repover" | cut -d'-' -f1)"
-    fi
+    local aurver="$(eval "$PKGBUILD" &>/dev/null; echo "$pkgver-$pkgrel")" || true
+    [ "$ONLYVER" = 'true' ] && aurver=$(echo $aurver | cut -d- -f1)
 
-    result=$(vercmp "$repover" "$aurver") || true
+    echo $aurver
+}
 
-    # Main switch
-    if [[ "$result" < 0 ]]; then
-        if [[ "$COLOR" == "true" ]]; then
-            echo -e "$pkgname: ${GREEN}$repover => $aurver${NC}"
-        else
-            echo "$pkgname: $repover => $aurver"
-        fi
-    elif [[ "$VERBOSE" == "true" ]]; then
-        if [[ "$result" > 0 ]]; then
-            if [[ "$COLOR" == "true" ]]; then
-                echo -e "$pkgname: (${RED}repo=$repover ${NC}aur=$aurver)"
-            else
-                echo "$pkgname: (repo=$repover aur=$aurver)"
-            fi
-        else
-            echo "$pkgname: up to date"
-        fi
-    fi
+get_pkgver_from_pacman () {
+    local pkgname="$1"
+
+    local repover="$(LANG=C pacman -Si $pkgname | awk '/^Version/ {print $3}')"
+    [ "$ONLYVER" = 'true' ] && repover=$(echo $repover | cut -d- -f1)
+
+    echo $repover
+}
+
+aurcmp () {
+    local pkgname="$1"
+
+    aurver="$(get_pkgver_from_aur $pkgname)" || true
+    repover="$(get_pkgver_from_pacman $pkgname)" || true
+
+    result=$(vercmp $repover $aurver) || true
+
+    case $result in
+        '-1')   echo -e "$pkgname: ${RED}$repover${NC} => ${GREEN}$aurver${NC}"   ;;
+         '0')   [ "$VERBOSE" = 'true' ] && echo "$pkgname: up to date" ;;
+         '1')   [ "$VERBOSE" = 'true' ] && echo -e "$pkgname: (${RED}repo=$repover ${NC}aur=$aurver)" ;;
+    esac
 }
 
 # Safety options:
-# - no unset variables
+# - don't allow unset variables
 set -o nounset
-# - no errors in return values
-set -o errexit
 
 # Flags default values
 COLOR="true"
 ONLYVER="false"
 VERBOSE="true"
-# Colors
-RED='\e[1;31m'
-GREEN='\e[1;32m'
-NC='\e[0m'
 
 while getopts ":bchnoqr:v" opt; do
     case "$opt" in
@@ -146,6 +135,17 @@ while getopts ":bchnoqr:v" opt; do
     esac
 done
 
+# Colors
+if [ "$COLOR" = 'true' ]; then
+    RED='\e[1;31m'
+    GREEN='\e[1;32m'
+    NC='\e[0m'
+else
+    RED=''
+    GREEN=''
+    NC=''
+fi
+
 # [arch-games] ftw!
 REPO=${REPO:-"arch-games"}
 
@@ -155,3 +155,5 @@ for pkg in $(pacman -Slq $REPO); do
 done
 
 exit 0
+
+# vim: set ts=4 sw=4 et :
