@@ -20,7 +20,7 @@ md5sums=('3cfb78bd9ac89bbf28130ec825187933')
 build() {
   cd $srcdir || return 1
   install -d $pkgdir/opt/lib32/usr/lib || return 1
-  cp -dp usr/lib/*.so* $pkgdir/opt/lib32/usr/lib || return 1
+  cp -dp $srcdir/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib || return 1
   rm -f $pkgdir/opt/lib32/usr/lib/libjpeg.so || return 1
 
   install -Dm644 $startdir/LICENSE \
