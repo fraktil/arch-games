@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Name=Battle Just Started
-Exec=/usr/bin/bjs
-Icon=/usr/share/pixmaps/bjs.png
-Path=
-Type=Application
-Terminal=0
-Categories=Game;ArcadeGame;
