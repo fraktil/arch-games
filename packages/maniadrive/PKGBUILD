@@ -3,61 +3,38 @@
 
 pkgname=maniadrive
 pkgver=1.2
-pkgrel=1
+pkgrel=8
 pkgdesc="Arcade car game on acrobatic tracks with quick and nervous gameplay"
+arch=(i686)
 url="http://maniadrive.raydium.org/"
-arch=('i686' 'x86_64')
-license=('GPL' 'CCPL')
-depends=('freealut' 'mesa' 'curl' 'glew')
-makedepends=('bison' 'flex')
-source=(http://downloads.sourceforge.net/maniadrive/ManiaDrive-$pkgver-data.tar.gz
-        maniadrive.png
-        maniadrive.desktop
-        mania_drive.sh
-        mania_server.sh
-        mania2.sh)
-
-md5sums=('a49a2fbb4714d2931f5e5f04ad760519'
-         'c050f721db74ab131f8f92eec2d4a50b'
-         'f98a34ee127808497cc86600590e2031'
-         'deb8f6786c1c56657519f5061b634c9c'
-         '30572f01bcd2a7f68bb4f5fdab8c1b19'
-         '6bf7cd57e165a73a2c6823045cda23fc')
+license=('GPL' 'custom:CC by-sa 2.0')
+depends=('alsa-lib' 'libgl' 'mesa')
+source=(http://dl.sourceforge.net/sourceforge/${pkgname}/ManiaDrive-${pkgver}-linux-i386.tar.gz \
+        maniadrive.png \
+        maniadrive.desktop \
+        license.txt)
+md5sums=('5592eaf4b8c4012edcd4f0fc6e54c09c' 'c050f721db74ab131f8f92eec2d4a50b'\
+         '9e901db6d128953ae4392600794c6b70' 'afa5fac56d01430e904dd6716d84f4bf')
 
 build() {
+  cd ${startdir}/src/ManiaDrive-${pkgver}-linux-i386/
 
-  #Get the raydium svn nightly tarball
-  if [ ! -e raydium_nightly_svn.tar.gz ] ; then
-    wget http://freeway.raydium.org/data/raydium_nightly_svn.tar.gz
-  fi
-  bsdtar -x -f raydium_nightly_svn.tar.gz
+  # Fix paths in scripts
+  sed -e 's|game|/opt/maniadrive|' -i *.sh
 
-  #Patch and build raydium
-  cd $srcdir/raydium-*
-  ./configure || return 1
-  make || return 1
-  sed -i '7,7d' ocomp.sh || return 1
-  sed -i '13,13d' ocomp.sh || return 1
-  sed -i 's/test/${1\/\/.c}/' ocomp.sh || return 1
-  ./ocomp.sh mania_drive.c || return 1
-  ./ocomp.sh mania_server.c || return 1
-  ./ocomp.sh mania2.c || return 1
+  # Install scripts (without the .sh extension)
+  for _script in *.sh; do
+    install -D -m755 ${_script} ${startdir}/pkg/usr/bin/${_script%.sh}
+  done
 
-  #Manually install the data and binaries
-  install -D -m755 mania_drive $pkgdir/usr/share/maniadrive/mania_drive
-  install -D -m755 mania_server $pkgdir/usr/share/maniadrive/mania_server
-  install -D -m755 mania2 $pkgdir/usr/share/maniadrive/mania2
-  cp -pr $srcdir/ManiaDrive-1.2-data/game/* $pkgdir/usr/share/maniadrive/
-  
-  #Install the .desktop and icon files
-  install -D -m644 $srcdir/maniadrive.png $pkgdir/usr/share/pixmaps/maniadrive.png
-  install -D -m644 $srcdir/maniadrive.desktop $pkgdir/usr/share/applications/maniadrive.desktop
+  # Install data files
+  mkdir -p ${startdir}/pkg/opt/${pkgname}
+  mv game/* ${startdir}/pkg/opt/${pkgname}/
 
-  #Install the bin files
-  install -D -m755 $srcdir/mania_drive.sh $pkgdir/usr/bin/mania_drive
-  install -D -m755 $srcdir/mania_server.sh $pkgdir/usr/bin/mania_server
-  install -D -m755 $srcdir/mania2.sh $pkgdir/usr/bin/mania2
+  # Install icon and shortcut
+  install -D -m644 ${startdir}/src/${pkgname}.png ${startdir}/pkg/usr/share/pixmaps/${pkgname}.png
+  install -D -m644 ${startdir}/src/${pkgname}.desktop ${startdir}/pkg/usr/share/applications/${pkgname}.desktop
 
+  # Install Creative Commons license
+  install -D -m644 ${startdir}/src/license.txt ${startdir}/pkg/usr/share/licenses/${pkgname}/license.txt
 }
-
-# vim:set ts=2 sw=2 et:
