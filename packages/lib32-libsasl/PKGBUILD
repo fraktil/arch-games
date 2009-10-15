@@ -4,8 +4,8 @@
 
 pkgname=lib32-libsasl
 pkgver=2.1.23
-pkgrel32=1
-pkgrel=2
+pkgrel32=2
+pkgrel=3
 pkgdesc="Cyrus Simple Authentication Service Layer (SASL) library"
 arch=('x86_64')
 url="http://asg.web.cmu.edu/cyrus/download/"
@@ -13,7 +13,7 @@ depends=('lib32-glibc')
 license=('custom')
 groups=lib32
 source=(ftp://ftp.archlinux.org/core/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel32}-i686.pkg.tar.gz)
-md5sums=('d68fa0dad62d96c2aaebc8b099168c16')
+md5sums=('30331edfa9e7bbdbe3a22a64650b05a5')
 
 build() {
   install -d ${pkgdir}/opt/lib32/usr/lib
