@@ -1,9 +1,9 @@
 # Contributor: Nick B <Shirakawasuna at gmail _dot_com>
 pkgname=biniax2
 pkgver=1.30
-pkgrel=1
+pkgrel=3
 pkgdesc="An innovative game with unique gameplay and a bright, colorful interface."
-arch=('i686')
+arch=('i686' 'x86_64')
 url="http://biniax.com/index2.html"
 license=('custom')
 depends=('sdl_mixer' 'sdl_image')
