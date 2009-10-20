@@ -1,6 +1,6 @@
 # Contributor: [vEX] <niechift.dot.vex.at.gmail.dot.com>
 pkgname=bsnes
-pkgver=0.052
+pkgver=0.054
 pkgrel=1
 pkgdesc="Super Nintendo Entertainment System (SNES) emulator"
 arch=('i686' 'x86_64')
@@ -12,8 +12,8 @@ optdepends=(
   'snesreader: support for compressed files'
 )
 makedepends=('pkgconfig')
-source=("${pkgname}_v052.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v052.tar.bz2")
-md5sums=('aa221cd5977852012ebc0d54fd606a63')
+source=("${pkgname}_v054.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v054.tar.bz2")
+md5sums=('499e1665c2cabda399fd0f60c69d0ecd')
 
 build() {
   cd "${srcdir}/src"
