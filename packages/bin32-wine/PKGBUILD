@@ -4,10 +4,10 @@
 
 pkgname=bin32-wine
 _pkgname32=wine
-pkgver=1.1.31
+pkgver=1.1.32
 pkgrel=1
 _pkgrel32=1
-pkgdesc="Win32 and Windows 3.x API interpreter, enabling one to run Windows apps on Linux"
+pkgdesc="Windows (incl. DirectX) API interpreter, enabling one to run Windows apps on GNU/Linux"
 arch=('x86_64')
 url="http://www.winehq.org/"
 license=('LGPL')
@@ -17,22 +17,23 @@ depends=('lib32-fontconfig' 'lib32-libldap' 'lib32-libxslt' 'lib32-lcms' 'lib32-
 optdepends=('lib32-alsa-lib: ALSA audio driver'
             'lib32-esound: EsounD audio driver'
             'lib32-nvidia-utils: Accelerated 3D with the NVIDIA binary blob video driver'
-            'lib32-catalyst-utils: Accelerated 3D with the AMD/ATI binary blob video driver (Catalyst, aka fglrx)')
+            'lib32-catalyst-utils: Accelerated 3D with the AMD/ATI binary blob video driver')
 provides=("wine=$pkgver")
 conflicts=('wine' 'wine-stable')
 
 source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-md5sums=('580edb5c9afb2b68f580a29220a145ab')
-sha256sums=('fda8b1c8b68ee2292c33e7eeb54c057f2f4ace2802e46bd663fd98d03488a158')
+md5sums=('1b9497fd295c3436c5f130596602d751')
+sha256sums=('b12557fda98aa82fc1387337266e2cbc7f1cf16a93922fb6e0cded75307586ef')
 #source=("http://rang.twilightlair.net/pkgs/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
 #md5sums=('45af668fcbffdd3820dc29e22bb716e1')
 #sha256sums=('a3cbd1b61093691374c4292eea2eb952bed0b0bc388bbd1ce804b0b5621a9916')
 
 install="$pkgname.install"
+
+_binnames=(widl wine wine-kthread winebuild winecpp winedump wineg++ winegcc wineserver wmc wrc)
+
+# Don't strip the package, that was already decided on packaging of the original package
 options=('!strip')
-
-binnames=(widl wine wine-kthread winebuild winecpp winedump wineg++ winegcc wineserver wmc wrc)
-
 build() {
 	rm "$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz" || return 1  # Delete symbolic link to the now-extracted source that we don't want to copy
 	cp -rfpP * "$pkgdir" || return 1  # Copy 32-bit files
@@ -42,7 +43,7 @@ build() {
 
 	# DIRTY PKGBUILD TOUCHING YOUR /bin (force loading old LD_LIBRARY_PATH without moving wine binaries as they seem to break)
 	install -d "$pkgdir/opt/wine/bin/" "$srcdir/tempscripts/"
-	for i in ${binnames[*]}; do
+	for i in ${_binnames[*]}; do
 		#mv "$i" "$pkgdir/opt/wine/bin/"
 		echo -e \
 			'#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /usr/bin/replacename "$@"' \
