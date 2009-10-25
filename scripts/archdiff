@@ -65,14 +65,14 @@ LIST="$(wget -q -O - $REPOURL/i686/ )" || {
     echo "Retrieval of i686 repo failed"
     exit 1
 }
-echo "$LIST" | awk '/href.*pkg/ {print $3}' | sed -e 's/^[^>]*>//;s/-[^-]*$//' > i686.list
+echo "$LIST" | sed -nr 's/.*href="(.*)-(i686|x86_64)\.pkg\.tar\.gz".*/\1/p' > i686.list
 
 LIST="$(wget -q -O - $REPOURL/x86_64/ )" || { 
     echo "Retrieval of x86_64 repo failed"
     rm -f i686.list
     exit 1
 }
-echo "$LIST" | awk '/href.*pkg/ {print $3}' | sed -e 's/^[^>]*>//;s/-[^-]*$//' > x86_64.list
+echo "$LIST" | sed -nr 's/.*href="(.*)-(i686|x86_64)\.pkg\.tar\.gz".*/\1/p' > x86_64.list
 
 # Output diff
 if [[ "$VIM" == "true" ]]; then
