@@ -1,22 +1,25 @@
+# Contributor: damian01w <damian01w@gmail.com>
+
 pkgname=alienarena
-pkgver=20090616
-pkgrel=1
+pkgver=20091016
+pkgrel=3
+gamever=7_32
 pkgdesc="Multiplayer retro sci-fi deathmatch game"
 arch=('i686' 'x86_64')
-url="http://alienenforcer.com/alienarena/rpa/"
+url='http://icculus.org/alienarena/rpa/'
 license=('GPL')
 depends=('curl' 'libgl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl' 'openal')
 makedepends=('hd2u' 'p7zip' 'unzip')
-source=(http://cor.planetquake.gamespy.com/files/alienarena2009-linux${pkgver}.zip
-	alienarena.desktop)
+source=(http://mirror.arcadepro.org/alienarena-linux${pkgver}.zip
+	'alienarena.desktop')
 
-md5sums=('c2b81552f6bab7810b36097fe2207c11' '46bbe3e3a93b2e5009ffd663ad462915')
+md5sums=('b5f2bc1e2bb92b02983d36f02533053e' '46bbe3e3a93b2e5009ffd663ad462915')
  
 _datadir="/usr/share/${pkgname}"
 _libdir="/usr/lib/${pkgname}"
  
 build() {
-    cd $startdir/src/${pkgname}2009
+    cd $startdir/src/${pkgname}${gamever}
  
     # Remove pre-compiled libs
     rm {arena,data1}/game.so
