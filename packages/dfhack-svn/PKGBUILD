@@ -1,0 +1,49 @@
+# Contributor: Daenyth <Daenyth+Arch AT gmail DOT com>
+pkgname=dfhack-svn
+pkgver=53
+pkgrel=1
+pkgdesc="A cross-platform library for accessing Dwarf Fortress memory"
+arch=(i686)
+url="http://sourceforge.net/projects/dfhack/"
+license=('custom:zlib')
+depends=()
+makedepends=(cmake subversion)
+conflicts=(dfhack)
+provides=(dfhack)
+source=()
+md5sums=()
+
+_svntrunk=https://dfhack.svn.sourceforge.net/svnroot/dfhack/trunk
+_svnmod=dfhack
+
+build() {
+  cd "$srcdir"
+
+  if [ -d $_svnmod/.svn ]; then
+    (cd $_svnmod && svn up -r $pkgver)
+  else
+    svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+  fi
+
+  msg "SVN checkout done or server timeout"
+  msg "Starting make..."
+
+  rm -rf "$srcdir/$_svnmod-build"
+  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
+  cd "$srcdir/$_svnmod-build"
+
+  #
+  # BUILD
+  #
+
+  cd build
+  cmake .. -DCMAKE_BUILD_TYPE:string=Release -DCMAKE_INSTALL_PREFIX=$pkgdir/usr -DMEMXML_DATA_PATH:path=/usr/share/dfhack|| return 1
+  # cmake .. -DCMAKE_BUILD_TYPE:string=Debug -DCMAKE_INSTALL_PREFIX=$pkgdir/usr -DMEMXML_DATA_PATH:path=/usr/share/dfhack|| return 1
+  make || return 1
+  make install
+
+  cd ..
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/dfhack/LICENCE"
+}
+
+# vim:set ts=2 sw=2 et:
