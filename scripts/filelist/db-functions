@@ -1,0 +1,129 @@
+#!/bin/bash
+
+# Random integrity things
+[ "$UID" = "" ] && UID=$(uid)
+
+# Useful functions
+
+UMASK=""
+set_umask () {
+	[ "$UMASK" == "" ] && UMASK="$(umask)"
+	umask 002
+}
+
+restore_umask () {
+	umask $UMASK
+}
+
+repo_lock () { #repo_lock repo-name arch
+	LOCKFILE="$TMPDIR/.repolock.$1.$2"
+	if [ -f "$LOCKFILE" ]; then
+		owner="$(/usr/bin/stat -c %U $LOCKFILE)"
+		echo "error: db generation is already in progress (started by $owner)"
+		exit 1
+	else
+		/bin/touch "$LOCKFILE"
+		if [ ! -f "$LOCKFILE" ]; then
+			echo "error: could not create repo lock... something went wrong!"
+		fi
+		set_umask
+	fi
+}
+
+repo_unlock () { #repo_unlock repo-name arch
+	LOCKFILE="$TMPDIR/.repolock.$1.$2"
+	if [ ! -f "$LOCKFILE" ]; then
+		echo "error: repo lock doesn't exist... something went terribly wrong!"
+	else
+		rm -f "$LOCKFILE"
+	fi
+	restore_umask
+}
+
+# usage: _grep_pkginfo pkgfile pattern
+_grep_pkginfo() {
+	local _ret
+
+	_ret="$(/usr/bin/bsdtar -xOqf "$1" .PKGINFO | /bin/grep -m 1 -E "$2" | /bin/sed 's|\w*\s*=\s*\(.*\)|\1|')"
+	echo "$_ret"
+}
+
+
+# Get the package base or name as fallback
+getpkgbase() {
+	local _base
+
+	_base="$(_grep_pkginfo "$1" "^pkgbase")"
+	if [ -z "$_base" ]; then
+		getpkgname "$1"
+	fi
+
+	echo "$_base"
+}
+
+# Get the package name
+getpkgname() {
+	local _name
+
+	_name="$(_grep_pkginfo "$1" "^pkgname")"
+	if [ -z "$_name" ]; then
+		echo "ERROR: Package '$1' has no pkgname in the PKGINFO. Fail!"
+		exit 1
+	fi
+
+	echo "$_name"
+}
+
+# Get the pkgver-pkgrel of this package
+getpkgver() {
+	local _ver
+
+	_ver="$(_grep_pkginfo "$1" "^pkgver")"
+	if [ -z "$_ver" ]; then
+		echo "ERROR: Package '$1' has no pkgver in the PKGINFO. Fail!"
+		exit 1
+	fi
+
+	echo "$_ver"
+}
+
+check_pkg_arch () { #check_pkg_arch pkgfile arch
+	local _arch
+	_arch="$(_grep_pkginfo "$1" "^arch")"
+
+	if [ -z "$_arch" ]; then
+		echo "ERROR: Package '$1' has no arch in the PKGINFO. Fail!"
+		return 1
+	fi
+	if [ "$_arch" = "$2" ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+get_repos_for_host() {
+	if [ "$(hostname)" = "sigurd" ]; then
+		echo "community community-testing"
+	else
+		echo "core extra testing"
+	fi
+}
+
+#usage: chk_license ${license[@]}"
+chk_license() {
+    local l
+    for l in "$@"; do
+        l="$(echo $l | tr '[:upper:]' '[:lower:]')"
+        for allowed in ${ALLOWED_LICENSES[@]}; do
+            allowed="$(echo $allowed | tr '[:upper:]' '[:lower:]')"
+            if [ "$l" = "$allowed" ]; then
+                return 0
+            fi
+        done
+    done
+
+    return 1
+}
+
+# vim: set ts=4 sw=4 noet ft=sh:
