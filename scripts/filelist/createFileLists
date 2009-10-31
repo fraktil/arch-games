@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 set -o nounset
 shopt -s nullglob
 umask 022
@@ -33,32 +33,33 @@ esac
 
 FILESEXT="${DBEXT//db/files}"
 
-cd $reposdir
 for repo in $repos; do
-    REPO_DB_FILE=${repo}$FILESEXT
+    REPO_DB_FILE="${repo}$FILESEXT"
     for arch in ${ARCHES[@]}; do
+        cd "$reposdir"
+
         repodir=games/${arch}/
         cached="no"
 
         # extract old file archive
-        if [ -f ${targetdir}${repodir}${REPO_DB_FILE} ]; then
-            mkdir -p ${CACHEDIR}/${repodir}
-            bsdtar -xf ${targetdir}${repodir}${REPO_DB_FILE} -C ${CACHEDIR}/${repodir}
+        if [ -f "${targetdir}/${repodir}/${REPO_DB_FILE}" ]; then
+            mkdir -p "${CACHEDIR}/${repodir}"
+            bsdtar -xf "${targetdir}/${repodir}/${REPO_DB_FILE}" -C "${CACHEDIR}/${repodir}"
             cached="yes"
         fi
 
         # create file lists
         for pkg in $repodir*${PKGEXT}; do
-            pkgname=$(getpkgname $pkg)
-            tmppkgdir=${TMPDIR}/${repodir}${pkgname}/
-            mkdir -p $tmppkgdir
-            if [ -f "${CACHEDIR}/${repodir}${pkgname}/files" ]; then
-                #echo "cache: $pkgname"
-                mv ${CACHEDIR}/${repodir}${pkgname}/files ${tmppkgdir}files
+            pkgname=$(getpkgname "$pkg")
+            tmppkgdir="${TMPDIR}/${repodir}/${pkgname}/"
+            mkdir -p "$tmppkgdir"
+            if [ -f "${CACHEDIR}/${repodir}/${pkgname}/files" ]; then
+#               echo "cache: $pkgname"
+                mv "${CACHEDIR}/${repodir}/${pkgname}/files" "${tmppkgdir}/files"
             else
-                #echo "$repo/$arch: $pkgname"
-                echo '%FILES%' > ${tmppkgdir}files
-                bsdtar --exclude=.* -tf $pkg >> ${tmppkgdir}files
+#               echo "$repo/$arch: $pkgname"
+                echo '%FILES%' > "${tmppkgdir}/files"
+                bsdtar --exclude=.* -tf "$pkg" >> "${tmppkgdir}/files"
                 cached="no"
             fi
         done
@@ -67,20 +68,18 @@ for repo in $repos; do
         if [ "$cached" == "no" ]; then
             # at least one package has changed, so let's rebuild the archive
 #           echo "creating ${REPO_DB_FILE}/${arch}"
-            pkgdir=${targetdir}${repodir}
-            mkdir -p $pkgdir
-            cd ${TMPDIR}/${repodir}
-            [ -f "${pkgdir}${REPO_DB_FILE}.old" ] && rm "${pkgdir}${REPO_DB_FILE}.old"
-            [ -f "${pkgdir}${REPO_DB_FILE}" ] && mv "${pkgdir}${REPO_DB_FILE}" "${pkgdir}${REPO_DB_FILE}.old"
-            bsdtar --exclude=*${DBEXT//\.db/} -c${TAR_OPT}f ${pkgdir}${REPO_DB_FILE} *
+            pkgdir="${targetdir}/${repodir}"
+            mkdir -p "$pkgdir"
+            cd "${TMPDIR}/${repodir}"
+            [ -f "${pkgdir}/${REPO_DB_FILE}.old" ] && rm "${pkgdir}/${REPO_DB_FILE}.old"
+            [ -f "${pkgdir}/${REPO_DB_FILE}" ] && mv "${pkgdir}/${REPO_DB_FILE}" "${pkgdir}/${REPO_DB_FILE}.old"
+            bsdtar --exclude=*${DBEXT//\.db/} -c${TAR_OPT}f "${pkgdir}/${REPO_DB_FILE}" *
         fi
-
-        cd $reposdir
     done
 done
 
 cd - >/dev/null
-rm -rf $TMPDIR || exit 1
-rm -rf $CACHEDIR || exit 1
+rm -rf "$TMPDIR" || exit 1
+rm -rf "$CACHEDIR" || exit 1
 rm -f "/tmp/createFileList.lock" || exit 1
 # echo 'done'
