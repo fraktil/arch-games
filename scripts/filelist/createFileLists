@@ -54,10 +54,10 @@ for repo in $repos; do
             tmppkgdir=${TMPDIR}/${repodir}${pkgname}/
             mkdir -p $tmppkgdir
             if [ -f "${CACHEDIR}/${repodir}${pkgname}/files" ]; then
-               echo "cache: $pkgname"
+                #echo "cache: $pkgname"
                 mv ${CACHEDIR}/${repodir}${pkgname}/files ${tmppkgdir}files
             else
-               echo "$repo/$arch: $pkgname"
+                #echo "$repo/$arch: $pkgname"
                 echo '%FILES%' > ${tmppkgdir}files
                 bsdtar --exclude=.* -tf $pkg >> ${tmppkgdir}files
                 cached="no"
