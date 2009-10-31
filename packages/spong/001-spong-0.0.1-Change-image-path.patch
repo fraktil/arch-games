@@ -1,0 +1,209 @@
+Change image path.
+Making the image path absolute will allow us to run
+the program from any directory.
+
+Loui Chang <louipc.ist@gmail.com>
+
+diff -ur spong-0.0.1/spong.c src/spong-0.0.1/spong.c
+--- spong-0.0.1/spong.c	2001-08-28 14:23:43.000000000 -0400
++++ src/spong-0.0.1/spong.c	2009-06-08 22:07:48.000000000 -0400
+@@ -834,7 +834,7 @@
+ void loadGraphics(void) {
+ 	SDL_Surface *temp;
+ 
+-	temp = SDL_LoadBMP("img/starting_in.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/starting_in.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load starting_in.bmp\n");
+ 		exit(1);
+@@ -842,7 +842,7 @@
+ 	starting_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/resuming_in.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/resuming_in.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load resuming_in.bmp\n");
+ 		exit(1);
+@@ -850,7 +850,7 @@
+ 	resume_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/paused.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/paused.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load paused.bmp\n");
+ 		exit(1);
+@@ -858,7 +858,7 @@
+ 	paused_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/paddle.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/paddle.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load paddle.bmp\n");
+ 		exit(1);
+@@ -867,7 +867,7 @@
+ 	right_paddle.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/go.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/go.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load go.bmp\n");
+ 		exit(1);
+@@ -875,7 +875,7 @@
+ 	go_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/game_over.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/game_over.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load game_over.bmp\n");
+ 		exit(1);
+@@ -883,7 +883,7 @@
+ 	gameover_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/about.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/about.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load about.bmp\n");
+ 		exit(1);
+@@ -891,7 +891,7 @@
+ 	about_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/gamemenu_about_new.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/gamemenu_about_new.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load gamemenu_about_new.bmp\n");
+ 		exit(1);
+@@ -899,7 +899,7 @@
+ 	gmanew_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/gamemenu_about_about.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/gamemenu_about_about.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load gamemenu_about_about.bmp\n");
+ 		exit(1);
+@@ -907,7 +907,7 @@
+ 	gmaabout_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/gamemenu_about_quit.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/gamemenu_about_quit.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load gamemenu_about_quit.bmp\n");
+ 		exit(1);
+@@ -915,7 +915,7 @@
+ 	gmaquit_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/game_menu_new.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/game_menu_new.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load game_menu_new.bmp\n");
+ 		exit(1);
+@@ -923,7 +923,7 @@
+ 	gmnew_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/game_menu_resume.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/game_menu_resume.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load game_menu_resume.bmp\n");
+ 		exit(1);
+@@ -931,7 +931,7 @@
+ 	gmresume_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/game_menu_quit.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/game_menu_quit.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load game_menu_quit.bmp\n");
+ 		exit(1);
+@@ -939,7 +939,7 @@
+ 	gmquit_text.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/centerline.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/centerline.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load centerline.bmp\n");
+ 		exit(1);
+@@ -947,7 +947,7 @@
+ 	centerline.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/ball.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/ball.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load ball.bmp\n");
+ 		exit(1);
+@@ -955,7 +955,7 @@
+ 	ball.img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/0.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/0.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load 0.bmp\n");
+ 		exit(1);
+@@ -963,7 +963,7 @@
+ 	scores[0].img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/1.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/1.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load 1.bmp\n");
+ 		exit(1);
+@@ -971,7 +971,7 @@
+ 	scores[1].img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/2.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/2.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load 2.bmp\n");
+ 		exit(1);
+@@ -979,7 +979,7 @@
+ 	scores[2].img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/3.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/3.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load 3.bmp\n");
+ 		exit(1);
+@@ -987,7 +987,7 @@
+ 	scores[3].img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/4.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/4.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load 4.bmp\n");
+ 		exit(1);
+@@ -995,7 +995,7 @@
+ 	scores[4].img = SDL_DisplayFormat(temp);
+ 	SDL_FreeSurface(temp);
+ 
+-	temp = SDL_LoadBMP("img/5.bmp");
++	temp = SDL_LoadBMP(DATA_PATH"/img/5.bmp");
+ 	if (temp == NULL) {
+ 		fprintf(stderr, "unable to load 5.bmp\n");
+ 		exit(1);
+diff -ur spong-0.0.1/spong.h src/spong-0.0.1/spong.h
+--- spong-0.0.1/spong.h	2001-08-28 14:23:51.000000000 -0400
++++ src/spong-0.0.1/spong.h	2009-06-08 21:57:47.000000000 -0400
+@@ -28,6 +28,7 @@
+ #define SCREEN_H          480
+ #define PI                3.141592654
+ #define TOTAL_POINTS      5
++#define DATA_PATH         "/usr/share/spong"
+ 
+ #define INIT_BALL_SPEED   4
+ 
