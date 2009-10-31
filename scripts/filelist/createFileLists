@@ -49,7 +49,6 @@ for repo in $repos; do
 
         # create file lists
         for pkg in $repodir*${PKGEXT}; do
-            basename=$(basename $pkg)
             pkgname=$(getpkgname $pkg)
             tmppkgdir=${TMPDIR}/${repodir}${pkgname}/
             mkdir -p $tmppkgdir
