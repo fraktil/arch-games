@@ -1,0 +1,23 @@
+#  Maintainer: Loui Chang <louipc dot ist at gmail company>
+# Contributor: rabyte <rabyte__gmail>
+
+pkgname=tintin
+pkgver=1.99.8
+pkgrel=1
+pkgdesc="A console-based MUD client"
+arch=('i686' 'x86_64')
+url="http://tintin.sourceforge.net/"
+license=('GPL2')
+depends=('zlib' 'pcre')
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz)
+
+build() {
+  cd $srcdir/tt/src
+  sh configure --prefix=/usr --enable-big5
+  make || return 1
+
+  install -m755 -D tt++ $pkgdir/usr/bin/tt++
+  ln -sf tt++ $pkgdir/usr/bin/tintin
+}
+
+md5sums=('700314e08d41ef5deb0884bfb17baab8')
