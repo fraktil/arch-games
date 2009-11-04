@@ -1,8 +1,7 @@
-# $Id$
-# Maintainer: webjdm <web.jdm@gmail.com>
+# Contributor: Andreas Schönfelder <passtschu at freenet dot de>
 
 pkgname=lib32-libldap
-pkgver=2.4.18
+pkgver=2.4.19
 pkgrel32=1
 pkgrel=1
 pkgdesc="LDAP client libraries"
@@ -12,7 +11,7 @@ depends=('lib32-libsasl' 'lib32-openssl')
 license=('custom')
 groups=lib32
 source=(ftp://ftp.archlinux.org/core/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel32}-i686.pkg.tar.gz)
-md5sums=('0d8694cf2a1b9e4725d16ad8544ee049')
+md5sums=('b778fa44b598e8efd9c315a83b3a9723')
 
 build() {
   mkdir -p ${startdir}/pkg/opt/lib32/usr/lib
