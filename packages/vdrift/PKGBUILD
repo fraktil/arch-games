@@ -1,7 +1,7 @@
 # Contributor : Lone_Wolf lonewolf@xs4all.nl
 
-pkgname=vdrift
-pkgver=2008.08.05
+pkgname="vdrift"
+pkgver=2009.06.15
 pkgrel=1
 pkgdesc="A free drift racing simulator with excellent physics and graphics. (FULL version)"
 url="http://vdrift.net"
