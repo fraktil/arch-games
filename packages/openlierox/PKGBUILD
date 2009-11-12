@@ -1,21 +1,44 @@
+# Contributor: Anton Bazhenov <anton.bazhenov at gmail>
 # Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
 
 pkgname=openlierox
-pkgver=0.57_beta8
-pkgrel=3
-pkgdesc="A real-time, excessive worms-clone"
+pkgver=0.57_rc1
+pkgrel=1
+pkgdesc="A real-time excessive Worms-clone"
 arch=('i686' 'x86_64')
-url="http://openlierox.sourceforge.net/"
-license=('LGPL2')
-depends=('gcc-libs' 'gd' 'hawknl' 'libxml2' 'sdl_image' 'sdl_mixer' 'libzip')
-source=(http://downloads.sourceforge.net/sourceforge/openlierox/OpenLieroX_$pkgver.src.tar.bz2 openlierox.desktop)
-md5sums=('f83b5e8eec8dae77f04280420c848807' '136be76151864d154051455d75dc813e')
+url="http://www.openlierox.net/"
+license=('LGPL')
+depends=('gcc-libs' 'sdl_image' 'sdl_mixer' 'gd' 'hawknl' 'libxml2' 'libzip')
+optdepends=('bash: for scripts support'
+            'python: for scripts support')
+conflicts=('openlierox-beta' 'openlierox-svn')
+source=(http://downloads.sourceforge.net/$pkgname/OpenLieroX_$pkgver.src.tar.bz2)
+md5sums=('2c31eee74f21f8d2907d14e31a7617d3')
 
 build() {
-	cd $startdir/src/OpenLieroX
-	./compile.sh || return 1
-	mkdir -p $pkgdir/usr/{bin,share/{OpenLieroX,applications}}
-	cp $srcdir/OpenLieroX/bin/openlierox $pkgdir/usr/bin
-	cp -r $srcdir/OpenLieroX/share/gamedir/* $pkgdir/usr/share/OpenLieroX/
-	cp $startdir/openlierox.desktop $pkgdir/usr/share/applications
+  cd "$srcdir"/OpenLieroX
+
+  # compile
+  sed -i "s/grep_param()/grep_param/" compile.sh
+  ./compile.sh || return 1
+
+  # install binary
+  install -Dm755 bin/$pkgname "$pkgdir"/usr/bin/$pkgname
+
+  # install data
+  install -m755 -d "$pkgdir"/usr/share/OpenLieroX
+  cp -r share/gamedir/* "$pkgdir"/usr/share/OpenLieroX/
+  find "$pkgdir"/usr/share/OpenLieroX -type d -exec chmod 755 {} +
+  find "$pkgdir"/usr/share/OpenLieroX -type f -exec chmod 644 {} +
+
+  # install manual
+  install -Dm644 doc/$pkgname.6 "$pkgdir"/usr/share/man/man6/$pkgname.6
+
+  # install icon
+  install -Dm644 share/OpenLieroX.svg \
+    "$pkgdir"/usr/share/pixmaps/OpenLieroX.svg
+
+  # install .desktop file
+  install -Dm644 share/$pkgname-$pkgname.desktop \
+    "$pkgdir"/usr/share/applications/$pkgname.desktop
 }
