@@ -1,10 +1,10 @@
 # Contributor: Thomas Kinnen <thomas.kinnen@gmail.com>
 pkgname=fife-svn
-provides="fife"
-conflicts="fife"
+provides=("fife")
+conflicts=("fife")
 pkgdesc="The mission of the FIFE project is to create a cross platform game creation framework"
 url="http://www.fifengine.de/"
-pkgver=3058
+pkgver=3064
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('LGPL')
