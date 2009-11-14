@@ -21,10 +21,7 @@ optdepends=('lib32-alsa-lib: ALSA audio driver'
 provides=("wine=$pkgver")
 conflicts=('wine' 'wine-stable')
 
-#source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-#sha256sums=('b12557fda98aa82fc1387337266e2cbc7f1cf16a93922fb6e0cded75307586ef')
 source=("http://rang.twilightlair.net/pkgs/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-sha256sums=('04e8ee69d23ab75bb7ff1ded22b12855d9cab1d4bfb2794a8fe347682c86d497')
 
 install="$pkgname.install"
 
@@ -60,3 +57,4 @@ build() {
 	echo 'export PATH="/opt/wine/bin:$PATH"' >> "$srcdir/wine.sh" || return 1
 	install -Dm755 "$srcdir/wine.sh" "$pkgdir/etc/profile.d/wine.sh" || return 1
 }
+md5sums=('57aea7460783e2d26305f5ec3f4c7ecb')
