@@ -8,7 +8,7 @@ pkgdesc="A fun RTS game featuring snowball fights with penguins."
 url="http://joey101.net/snowballz/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('python' 'python-pygame' 'python-opengl' 'python-rabbyt-81')
+depends=('python' 'python-pygame' 'python-opengl' 'python-rabbyt')
 [ "$CARCH" = "i686" ] && optdepends=('psyco: Used for speed optimization')
 source=(http://joey101.net/snowballz/files/$pkgname-$pkgver.tar.gz 
         snowballz.desktop 
