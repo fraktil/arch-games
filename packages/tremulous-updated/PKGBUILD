@@ -15,8 +15,8 @@ source=(http://downloads.sourceforge.net/sourceforge/tremulous/tremulous-1.1.0.z
         http://releases.mercenariesguild.net/client/mg-client-manual.txt
         http://releases.mercenariesguild.net/client/mgclient_source_Release_1.011.tar.gz
         http://releases.mercenariesguild.net/tremded/mg_tremded_source_1.01.tar.gz
-        game.qvm::http://projects.mercenariesguild.net/attachments/download/50/game.qvm
-        lakitu7_qvm.txt::http://projects.mercenariesguild.net/attachments/download/47/lakitu7_qvm.txt
+        http://projects.mercenariesguild.net/attachments/download/50/game.qvm
+        http://projects.mercenariesguild.net/attachments/download/47/lakitu7_qvm.txt
         tremdedrc
         tremulous.desktop
         tremded.sh
