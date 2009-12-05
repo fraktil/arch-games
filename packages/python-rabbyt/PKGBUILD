@@ -2,19 +2,19 @@
 # Contributor: Angel 'angvp' Velasquez <angvp[at]archlinux.com.ve>
 
 pkgname=python-rabbyt
-pkgver=0.8.2
-pkgrel=2
+pkgver=0.8.3
+pkgrel=1
 pkgdesc="A sprite library for Python targeting game development"
 arch=('i686' 'x86_64')
 url="http://matthewmarshall.org/projects/rabbyt/"
 license=('LGPL')
 depends=('python' 'libgl' 'mesa')
 makedepends=('pyrex' 'setuptools')
-source=(http://cheeseshop.python.org/packages/source/R/Rabbyt/Rabbyt-$pkgver.tar.gz)
-md5sums=('b8a90d1793ce37fdac47f54aa08a94f4')
+source=(http://cheeseshop.python.org/packages/source/R/Rabbyt/Rabbyt-$pkgver.zip)
 
 build() {
   cd Rabbyt-$pkgver
   python setup.py build || return 1
-  python setup.py install --root "$pkgdir"
+  python setup.py install --root "$pkgdir" || return 1
 }
+md5sums=('bb603a5cb02f3a8bb2e674f60e62de2c')
