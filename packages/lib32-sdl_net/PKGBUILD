@@ -2,15 +2,15 @@
 
 pkgname=lib32-sdl_net
 pkgver=1.2.7
-pkgrel=2
+pkgrel=3
 pkgdesc="A small sample cross-platform networking library"
 url="http://www.libsdl.org/projects/SDL_net/"
 arch=('x86_64')
 license=('LGPL')
 groups=('lib32')
 depends=('lib32-sdl')
-source=(ftp://ftp.archlinux.org/extra/os/i686/sdl_net-$pkgver-$pkgrel.pkg.tar.gz)
-md5sums=('db666a8f6a92628cb8e68ba507183910')
+source=(ftp://ftp-stud.hs-esslingen.de/pub/Mirrors/archlinux/extra/os/i686/sdl_net-$pkgver-$pkgrel-i686.pkg.tar.gz)
+md5sums=('993d7c986df0b8352d69ddce926fa8b8')
 
 build() {
 
