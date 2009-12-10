@@ -8,6 +8,7 @@ url="http://tremulous.net"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('sdl' 'openal>=1.7.411' 'libgl' "tremulous-data=$pkgver")
+makedepends=(mesa)
 provides=('tremulous=1.1.0')
 conflicts=('tremulous')
 replaces=('trem-backport')

@@ -8,7 +8,7 @@ arch=(i686 x86_64)
 url="http://tremulous.net"
 license=('GPL')
 depends=('tremulous-data=1.1.0' 'sdl' 'openal>=1.7.411')
-conflicts=()
+makedepends=(mesa)
 source=(http://downloads.sourceforge.net/tremulous/$pkgname$pkgver.zip
         tremulous.launcher tremded.launcher tremulous.desktop)
 md5sums=('70a32d6e587e4ac67bdfd0be7d6edc2f'
