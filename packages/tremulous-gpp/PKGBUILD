@@ -2,7 +2,7 @@
 
 pkgname=tremulous-gpp
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="The Gameplay Preview (beta) for Tremulous 1.2"
 arch=(i686 x86_64)
 url="http://tremulous.net"
@@ -12,8 +12,8 @@ makedepends=(mesa)
 source=(http://downloads.sourceforge.net/tremulous/$pkgname$pkgver.zip
         tremulous.launcher tremded.launcher tremulous.desktop)
 md5sums=('70a32d6e587e4ac67bdfd0be7d6edc2f'
-         'f29398b3dabe8915ce55445a1755a67b'
-         '214bda27bfad16899bab729e496b70ce'
+         '5956668857a27d7a4c45686a4a697034'
+         '37f98a905e63759526a62b07b613786b'
          '7023a343ca51d438b710d4e8e804a368')
 
 build() {
