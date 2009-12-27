@@ -1,4 +1,4 @@
-# Maintainer: Arkham <liuju86 at gmail dot com>
+# Maintainer: Arkham <arkham at archlinux dot us>
 # Contributor: Nathan Jones <nathanj@insightbb.com>
 # Contributor: Javier "Phrodo_00" Aravena <phrodo.00 at gmail dot com>
 # Contributor: angvp <angvp at archlinux dot us>
@@ -8,33 +8,22 @@
 # Contributor: Asher256 <achrafcherti at gmail dot com>
 
 pkgname=desmume
-pkgver=0.9.4
-pkgrel=2
+pkgver=0.9.5
+pkgrel=1
 pkgdesc="Nintendo DS emulator"
 arch=('i686' 'x86_64')
 license=('GPL')
 url="http://desmume.org/"
-depends=('sdl' 'gtkglext' 'libglade' 'mesa' 'libgl')
+depends=('sdl' 'gtkglext' 'libglade' 'mesa' 'libgl' 'agg')
 makedepends=('intltool' 'perlxml' 'automake')
 source=(http://downloads.sourceforge.net/desmume/$pkgname-$pkgver.tar.gz)
-md5sums=('0e877fe4b99d99502173efa6efae05b1')
+md5sums=('aca40a8507d4104626da7086d451037b')
 
 build() {
     cd $startdir/src/$pkgname-$pkgver
 
     ./configure --prefix=/usr
 
-    # Fix format errors
-    sed -i "s/format/fmt/" $srcdir/desmume-0.9.4/src/texcache.h
-    sed -i "s/format/fmt/" $srcdir/desmume-0.9.4/src/texcache.cpp
-    sed -i "s/TexCache_TexFormat fmt/TexCache_TexFormat format/" \
-        $srcdir/desmume-0.9.4/src/texcache.h
-
     make || return 1
     make prefix=$startdir/pkg/usr install
-
-    # Fix .desktop file
-    cd $startdir/pkg/usr/share/applications
-    sed -i -e "s# (Gtk)##" -e "s#.xpm##" -e "s#Application;##" \
-        -e "s#Version=0.8##" desmume.desktop
 }
