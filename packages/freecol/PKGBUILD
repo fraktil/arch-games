@@ -2,28 +2,28 @@
 # Contributor: Nelson Menon <nelsonmenon@gmail.com insanatorium.wordpress.com>
 
 pkgname=freecol
-pkgver=0.8.4
+pkgver=0.9.0
 pkgrel=1
 pkgdesc="A turn-based strategy game based on Colonization"
 arch=('i686' 'x86_64')
 url="http://www.freecol.org/"
 license=('GPL')
 depends=('java-runtime')
-source=(http://downloads.sourceforge.net/freecol/freecol-$pkgver.tar.gz
-        fc.desktop fc.launcher)
-md5sums=('f6cca8ea64c86ad41d0952930651566a'
+source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz
+        fc.desktop fc.sh)
+md5sums=('b8c085658254bb7a510c85bd6608199f'
          '55594d770904af3e3e3852d375085357'
          'ae473cd1d86f8f764250ee00b6fda90b')
 
 build() {
-  cd "$srcdir/freecol"
-  install -Dm644 FreeCol.jar "$pkgdir/usr/share/java/freecol/FreeCol.jar"
-  install -Dm644 FreeCol.pdf "$pkgdir/usr/share/doc/freecol/FreeCol.pdf"
-  install -Dm644 freecol.xpm "$pkgdir/usr/share/pixmaps/freecol.xpm"
-  install -Dm644 ../fc.desktop "$pkgdir/usr/share/applications/freecol.desktop"
-  install -Dm755 ../fc.launcher "$pkgdir/usr/bin/freecol"
+  cd "$srcdir/$pkgname"
+  install -Dm644 FreeCol.jar "$pkgdir/usr/share/java/$pkgname/FreeCol.jar"
+  install -Dm644 FreeCol.pdf "$pkgdir/usr/share/doc/$pkgname/FreeCol.pdf"
+  install -Dm644 $pkgname.xpm "$pkgdir/usr/share/pixmaps/$pkgname.xpm"
+  install -Dm644 ../fc.desktop "$pkgdir/usr/share/applications/$pkgname.desktop"
+  install -Dm755 ../fc.sh "$pkgdir/usr/bin/$pkgname"
 
-  cp -r data jars "$pkgdir/usr/share/java/freecol/"
-  find "$pkgdir/usr/share/java/freecol" -type d -exec chmod 755 '{}' \;
-  find "$pkgdir/usr/share/java/freecol" -type f -exec chmod 644 '{}' \;
+  cp -r data jars "$pkgdir/usr/share/java/$pkgname/"
+  find "$pkgdir/usr/share/java/$pkgname" -type d -exec chmod 755 '{}' \;
+  find "$pkgdir/usr/share/java/$pkgname" -type f -exec chmod 644 '{}' \;
 }
