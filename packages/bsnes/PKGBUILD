@@ -1,6 +1,6 @@
 # Contributor: [vEX] <niechift.dot.vex.at.gmail.dot.com>
 pkgname=bsnes
-pkgver=0.058
+pkgver=0.059
 pkgrel=1
 pkgdesc="Super Nintendo Entertainment System (SNES) emulator focused on accuracy."
 arch=('i686' 'x86_64')
@@ -14,8 +14,8 @@ optdepends=(
   'supergameboy: Super Game Boy support'
 )
 makedepends=('pkgconfig')
-source=("${pkgname}_v057.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v057.tar.bz2")
-md5sums=('859d4f21da5c8b36a2c2771922e6447c')
+source=("${pkgname}_v059.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v059.tar.bz2")
+md5sums=('c34785e6c57dfb7b223f453780b3fde6')
 
 build() {
   cd "${srcdir}/src"
@@ -36,7 +36,9 @@ build() {
   # an error code
   echo "	@exit 1" >> $srcdir/src/Makefile
   # Disable pulseaudio.
-  sed -e 's|audio.pulseaudio ||' -i "${srcdir}/src/Makefile" || return 1
+  sed -e 's|audio.pulseaudio ||' \
+      -e 's|audio.pulseaudiosimple ||' \
+      -i "${srcdir}/src/Makefile" || return 1
 
   # Build and install it
   make || return 1
