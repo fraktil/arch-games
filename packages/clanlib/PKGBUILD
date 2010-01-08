@@ -1,9 +1,9 @@
 # Contributor: damir <damir@archlinux.org>
 # Contributor: Orelien <aurelien.foret@wanadoo.fr>
-# Maintainer:  zoulnix <z[o]ulnix.borkedduck.c[o]m>
+# Maintainer:  zoulnix <z[o]ulnix.borke[dd]uck.c[o]m>
 pkgname=clanlib
 pkgver=1.0.0
-pkgrel=3
+pkgrel=4
 pkgdesc="A multi-platform game development library."
 arch=('i686' 'x86_64')
 url="http://clanlib.org/"

@@ -1,10 +1,11 @@
+# Contributor: s4msung <s4msung@exigen.org>
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
 # Contributor: Babets
 # Contributor: Vain
 
-pkgname=warsow
+pkgname=('warsow' 'warsow-server' 'warsow-common')
 pkgver=0.5
-pkgrel=3
+pkgrel=4
 pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
 url="http://www.warsow.net/"
 license=('GPL' 'custom:Warsow Content License')
@@ -23,61 +24,60 @@ md5sums=('f9bf60c80820237f7097c4e50a9582cd'
 noextract=("warsow_${pkgver}_unified.zip" "warsow_${pkgver}_sdk.zip")
 
 build() {
-    cd $srcdir/
-
-    # Extract Game Data
-    unzip -o warsow_${pkgver}_unified.zip -d $srcdir/warsow
-
-    # Extract Game Source Code
-    unzip -o warsow_${pkgver}_sdk.zip -d $srcdir/warsow-src
-
-    # Create Destination Directories
-    install -d $pkgdir/opt/warsow/
-
-    # Move Data to Destination Directory
-    cp -r $srcdir/warsow/basewsw $pkgdir/opt/warsow
+    cd "$srcdir"
+    unzip -o warsow_${pkgver}_unified.zip -d "$srcdir"/warsow
+    unzip -o warsow_${pkgver}_sdk.zip -d "$srcdir"/warsow-src
 
     # Patch Makefile to use correct program to query for system information
     sed -i 's:openal-config:pkg-config:g' $srcdir/warsow-src/source/Makefile
-
     # Patch Sound Code to point to base openal library
     sed -i 's:libopenal.so.0:libopenal.so:g' $srcdir/warsow-src/source/snd_openal/snd_main.c
-
     # Patch AngelScript so it compiles correctly on i686
     if [ "$CARCH" == "i686" ]; then
         sed -i 's:CXXFLAGS = \(.*\):CXXFLAGS = -march=i686 \1:' \
-            $srcdir/warsow-src/libsrcs/angelscript/angelSVN/sdk/angelscript/projects/gnuc/makefile
+            "$srcdir"/warsow-src/libsrcs/angelscript/angelSVN/sdk/angelscript/projects/gnuc/makefile
     fi
 
-    # Compile Warsow
-    cd $srcdir/warsow-src/source/
+    cd "$srcdir"/warsow-src/source/
     make -j1 || return 1
-
-    # Move Compiled Data to Destination Directory
-    cp -r $srcdir/warsow-src/source/release/* \
-        $pkgdir/opt/warsow
-
-    # Install Custom License: Warsow Content License
-    install -D -m 0644 $srcdir/warsow/docs/license.txt \
-        $pkgdir/usr/share/licenses/${pkgname}/license.txt
-
-    # Install Client Game Launcher
-    install -D -m 0755 $srcdir/warsow.launcher \
-        $pkgdir/usr/bin/warsow
-
-    # Install Server Game Launcher
-    install -D -m 0755 $srcdir/wsw-server.launcher \
-        $pkgdir/usr/bin/wsw-server
-
-    # Install WSWTV Server Launcher
-    install -D -m 0755 $srcdir/wswtv-server.launcher \
-        $pkgdir/usr/bin/wswtv-server
-
-    # Install Client Desktop Shortcut
-    install -D -m 0644 $srcdir/warsow.desktop \
-        $pkgdir/usr/share/applications/warsow.desktop
-
-    # Install Icon
-    install -D -m 0644 $srcdir/warsow-src/source/win32/warsow.ico \
-        $pkgdir/usr/share/pixmaps/warsow.ico
 }
+
+package_warsow() {
+  depends=('warsow-common' 'curl' 'libjpeg' 'libvorbis' 'libxinerama' 'libxxf86dga' 'libxxf86vm' 'sdl')
+  pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
+  install -D -m 0755 $srcdir/warsow.launcher \
+      $pkgdir/usr/bin/warsow
+  install -D -m 0644 $srcdir/warsow.desktop \
+      $pkgdir/usr/share/applications/warsow.desktop
+  install -d $pkgdir/opt/warsow/
+  cp $srcdir/warsow-src/source/release/warsow* \
+    $pkgdir/opt/warsow
+}
+
+package_warsow-server() {
+  pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
+  depends=('warsow-common' 'curl')
+  install -D -m 0755 $srcdir/wsw-server.launcher \
+      $pkgdir/usr/bin/wsw-server
+  install -D -m 0755 $srcdir/wswtv-server.launcher \
+      $pkgdir/usr/bin/wswtv-server
+  install -d $pkgdir/opt/warsow/
+  cp $srcdir/warsow-src/source/release/wsw_server* \
+     $srcdir/warsow-src/source/release/wswtv_server* \
+    $pkgdir/opt/warsow
+}
+
+package_warsow-common() {
+  pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
+  depends=()
+  install -D -m 0644 $srcdir/warsow/docs/license.txt \
+      $pkgdir/usr/share/licenses/${pkgname}/license.txt
+  install -D -m 0644 $srcdir/warsow-src/source/win32/warsow.ico \
+      $pkgdir/usr/share/pixmaps/warsow.ico
+  install -d $pkgdir/opt/warsow/
+  cp -r $srcdir/warsow/basewsw $pkgdir/opt/warsow
+  cp -r $srcdir/warsow-src/source/release/basewsw \
+        $srcdir/warsow-src/source/release/libs \
+      $pkgdir/opt/warsow
+}
+

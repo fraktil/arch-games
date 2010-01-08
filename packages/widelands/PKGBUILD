@@ -2,23 +2,25 @@
 # Contributor: Christoph Zeiler <rabyte*gmail>
 
 pkgname=widelands
-pkgver=14RC
+pkgver=14
 pkgrel=1
 pkgdesc="A realtime strategy game with emphasis on economy and transport"
 arch=('i686' 'x86_64')
 url="http://widelands.org/"
 license=('GPL')
 depends=('sdl_mixer>=1.2.6' 'sdl_image' 'sdl_net' 'sdl_ttf>=2' 'sdl_gfx' 'gcc-libs' 'ggz-client-libs' 'libggz')
-makedepends=('scons>=0.97' 'boost')
-source=(http://downloads.sourceforge.net/$pkgname/Widelands-Build$pkgver-src.tar.bz2
+makedepends=('scons>=1' 'boost>=1.35' 'p7zip')
+source=(http://downloads.sourceforge.net/$pkgname/Widelands-Build$pkgver-src.7z
         $pkgname.desktop
         $pkgname.sh)
-md5sums=('767e22f66401fa98eab8c31fa183dc68'
+md5sums=('06d63783b82b68af7af26198bc0a5afa'
          '15820bf099fd6f16251fe70a75c534bb'
          '7cae50aba5ed0cd2cfeea79124637b46')
 
 build() {
-    cd $srcdir/$pkgname
+    cd $srcdir
+    7z x Widelands-Build$pkgver-src.7z
+    cd $pkgname
 
     # Compile
     scons prefix=/usr install_prefix=$pkgdir/usr bindir=bin \

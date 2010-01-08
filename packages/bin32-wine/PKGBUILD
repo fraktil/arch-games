@@ -4,53 +4,57 @@
 
 pkgname=bin32-wine
 _pkgname32=wine
-pkgver=1.1.34
+pkgver=1.1.35
 pkgrel=1
 _pkgrel32=1
-pkgdesc="Windows (incl. DirectX) API interpreter, enabling one to run Windows apps on GNU/Linux"
+pkgdesc="Windows API implementation and interpreter, enabling the use of Windows apps in other OSes"
 arch=('x86_64')
 url="http://www.winehq.org/"
 license=('LGPL')
-depends=('lib32-fontconfig' 'lib32-libldap' 'lib32-libxslt' 'lib32-lcms' 'lib32-libxcursor'
-         'lib32-libxrandr' 'lib32-libxdamage' 'lib32-mesa' 'lib32-util-linux-ng')
+
+depends=('lib32-fontconfig' 'lib32-libldap' 'lib32-libxslt' 'lib32-lcms' 'lib32-mesa'
+         'lib32-libxcursor' 'lib32-libxrandr' 'lib32-libxdamage' 'lib32-jack-audio-connection-kit')
 optdepends=('lib32-alsa-lib: ALSA audio driver'
             'lib32-esound: EsounD audio driver'
             'lib32-nvidia-utils: Accelerated 3D with the NVIDIA binary blob video driver'
             'lib32-catalyst-utils: Accelerated 3D with the AMD/ATI binary blob video driver')
 provides=("wine=$pkgver")
-conflicts=('wine' 'wine-stable')
-source=("$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
+
+source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
+sha256sums=('a12b1a595cb7471eaf13e7bfefb7ca3e63b78c36191b81bf4b1e5188ffb345cc')
+#source=("http://rang.twilightlair.net/pkgs/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
+#sha256sums=('0921615a35369d6e82f258ac55cc1aca4bb4eed28eeec8e77d349e6d0bcbd03c')
+
 install="$pkgname.install"
+
 _binnames=(widl wine wine-kthread winebuild winecpp winedump wineg++ winegcc wineserver wmc wrc)
 
 # Don't strip the package, that was already decided on packaging of the original package
 options=('!strip')
 build() {
 	rm "$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz" || return 1  # Delete symbolic link to the now-extracted source that we don't want to copy
-	cp -rfpP * "$pkgdir" || return 1  # Copy 32-bit files
-	install -d "$pkgdir/opt/lib32/usr/lib/"
-	mv "$pkgdir/usr/lib/libwine.so"* "$pkgdir/opt/lib32/usr/lib/" || return 1
-	cd "$pkgdir/usr/bin/"
+	cp -rfpP * "$pkgdir" || return 1        # Copy 32-bit files
+	install -d "$pkgdir"/opt/lib32/usr/lib/
+	mv "$pkgdir"/usr/lib/libwine.so* "$pkgdir"/opt/lib32/usr/lib/ || return 1
+	cd "$pkgdir"/usr/bin/
 
-	# DIRTY PKGBUILD TOUCHING YOUR /bin (force loading old LD_LIBRARY_PATH without moving wine binaries as they seem to break)
-	install -d "$pkgdir/opt/wine/bin/" "$srcdir/tempscripts/"
-	for i in ${_binnames[*]}; do
-		#mv "$i" "$pkgdir/opt/wine/bin/"
+	# DIRTY PKGBUILD TOUCHING YOUR /bin (force loading old LD_LIBRARY_PATH without moving wine binaries, as they seem to break)
+	install -d "$pkgdir"/opt/wine/bin/ "$srcdir"/tmpscripts/
+	for binfile in ${_binnames[*]}; do
 		echo -e \
 			'#!/bin/sh\n#wrapper for replacename\nPATH="/opt/wine/bin/:$PATH"\nLD_LIBRARY_PATH="/opt/lib32/usr/lib/:/opt/lib32/lib/:$LD_LIBRARY_PATH" linux32 /usr/bin/replacename "$@"' \
-			> "$srcdir/tempscripts/$i" || return 1
-		sed -re "s/replacename/$i/" -i "$srcdir/tempscripts/$i" || return 1
-		install -m755 "$srcdir/tempscripts/$i" "$pkgdir/opt/wine/bin/$i" || return 1
+			> "$srcdir/tmpscripts/$binfile" || return 1
+		sed -re "s/replacename/$binfile/" -i "$srcdir/tmpscripts/$binfile" || return 1
+		install -m755 "$srcdir/tmpscripts/$binfile" "$pkgdir/opt/wine/bin/$binfile" || return 1
 	done
-	rm -rf "$srcdir/tempscripts"
+	rm -rf "$srcdir"/tmpscripts
 
 	# PPD fix
-	mkdir -p "$pkgdir/opt/lib32/usr/share/"
-	ln -s /usr/share/wine "$pkgdir//opt/lib32/usr/share/wine" || return 1
+	mkdir -p "$pkgdir"/opt/lib32/usr/share/
+	ln -s /usr/share/wine "$pkgdir"/opt/lib32/usr/share/wine || return 1
 
-	echo "export WINELOADER=/opt/wine/bin/wine" > "$srcdir/wine.sh" || return 1
-	echo '#export LD_LIBRARY_PATH="/opt/lib32/lib/:/opt/lib32/usr/lib/:$LD_LIBRARY_PATH"' >> "$srcdir/wine.sh" || return 1
-	echo 'export PATH="/opt/wine/bin:$PATH"' >> "$srcdir/wine.sh" || return 1
-	install -Dm755 "$srcdir/wine.sh" "$pkgdir/etc/profile.d/wine.sh" || return 1
+	echo "export WINELOADER=/opt/wine/bin/wine" > "$srcdir"/wine.sh || return 1
+	echo '#export LD_LIBRARY_PATH="/opt/lib32/lib/:/opt/lib32/usr/lib/:$LD_LIBRARY_PATH"' >> "$srcdir"/wine.sh || return 1
+	echo 'export PATH="/opt/wine/bin:$PATH"' >> "$srcdir"/wine.sh || return 1
+	install -Dm755 "$srcdir"/wine.sh "$pkgdir"/etc/profile.d/wine.sh || return 1
 }
-md5sums=('abc7c2093d3209e2683dd863c28e4610')

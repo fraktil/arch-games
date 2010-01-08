@@ -3,7 +3,7 @@ post_install() {
 ==> It will likely be necessary for you to change the ownership of /opt/dolphin-emu/
 ==>  before anything useful (or fun) can be done with this program.
 ==>  It may be sufficient to just own the User/ subdirectory.
-==> Ex: chown -R youruser:users /opt/dolphin-emu/User
+==> Ex: chown -R $USER:users /opt/dolphin-emu/User
 _EOF
 }
 
