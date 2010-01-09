@@ -13,8 +13,6 @@ post_upgrade() {
   cat << EOF
 ==>
 ==> Updating PlaneShift before running it is recommended.
-==> If you get errors concerning missing libs,
-==> please run /opt/PlaneShift/fixlibs.sh
 ==>
 ==> If the fonts are garbled or ugly, try doing this:
 ==> Open up /opt/PlaneShift/data/config/r3dopengl.cfg in

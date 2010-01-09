@@ -1,13 +1,14 @@
 # Contributor: rabyte <rabyte__gmail>
+# Contributor: maintainer <jellevdwaa__gmail>
 
 pkgname=krank
 pkgver=0.7
-pkgrel=1
+pkgrel=2
 pkgdesc="A billiard-golf-breakout mix"
 arch=('i686' 'x86_64')
 url="http://krank.sourceforge.net/"
 license=('custom:"Public Domain"')
-depends=('python-pygame')
+depends=('python-pygame' 'python-numpy')
 source=(http://oxygen4.free.fr/dl/$pkgname-$pkgver.tar.bz2 \
 	$pkgname-linux-config.patch \
 	$pkgname.sh)

@@ -3,12 +3,12 @@
 pkgname=blobby2
 pkgver=0.8a
 _pathver=8
-pkgrel=1
+pkgrel=2
 pkgdesc="Blobby Volley is one of the most popular freeware (now open source!) games."
 #url="http://blobby.sourceforge.net/"
 url="http://sourceforge.net/projects/blobby/"
 license=('GPL')
-depends=('sdl' 'unzip' 'physfs' 'boost' 'mesa')
+depends=('sdl' 'unzip' 'physfs')
 makedepends=('cmake' 'zip')
 conflicts=('blobby2-svn')
 arch=(i686 x86_64)
@@ -16,6 +16,9 @@ source=(http://downloads.sourceforge.net/project/blobby/Blobby%20Volley%202%20%2
 	$pkgname.desktop
         $pkgname.png)
 
+md5sums=('75e7d46039d5e8fe1ed2d174244143a9'
+         'ab05bed794ee78db693fd3036393275a'
+         'c1bc427b41a0a3facd771ac83c7fb412')
 
 build() {
   cd $srcdir/blobby-alpha-$_pathver
@@ -28,6 +31,3 @@ build() {
   install -m644 $srcdir/$pkgname.desktop $pkgdir/usr/share/applications
   install -m644 $srcdir/$pkgname.png $pkgdir/usr/share/pixmaps
 }
-md5sums=('75e7d46039d5e8fe1ed2d174244143a9'
-         'ab05bed794ee78db693fd3036393275a'
-         'c1bc427b41a0a3facd771ac83c7fb412')
