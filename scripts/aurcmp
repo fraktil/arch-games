@@ -43,12 +43,13 @@ get_pkgver_from_aur () {
 
     local url="http://aur.archlinux.org/packages/$pkgname/$pkgname/PKGBUILD"
 
-    local PKGBUILD=$(wget -q -O - "$url" | grep -E '^(pkgver|pkgrel)=') || {
+    local PKGBUILD=$(wget -q -O - "$url" | grep -E '^(pkgver|pkgrel)=')
+    if [ -z "$PKGBUILD" ]; then
         if [[ "$VERBOSE" == "true" ]]; then
-                echo -e "$pkgname: ${RED}not found in AUR${NC}"
+                echo -e "${RED}not found in AUR${NC}"
         fi
         return 0
-    }
+    fi
 
     # Compare versions
     local aurver="$(eval "$PKGBUILD" &>/dev/null; echo "$pkgver-$pkgrel")" || true
