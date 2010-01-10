@@ -1,7 +1,7 @@
 # Contributor: Andreas Schönfelder <passtschu at freenet dot de>
 
 pkgname=lib32-libldap
-pkgver=2.4.20
+pkgver=2.4.21
 pkgrel32=1
 pkgrel=1
 pkgdesc="LDAP client libraries"
@@ -11,7 +11,7 @@ depends=('lib32-libsasl' 'lib32-openssl')
 license=('custom')
 groups=lib32
 source=(ftp://ftp.archlinux.org/core/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel32}-i686.pkg.tar.gz)
-md5sums=('eab44a95c87eeee144a1d3197ba4b59b')
+md5sums=('d7280fe1a84678134fbcb97f7a8c0d1c')
 
 build() {
   mkdir -p ${startdir}/pkg/opt/lib32/usr/lib
