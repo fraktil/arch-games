@@ -1,0 +1,94 @@
+#!/bin/bash
+# archdiff, Arkham
+
+usage() {
+    echo "archdiff: compare i686 and x86_864 package lists"
+    echo "usage: archdiff [OPTIONS]"
+    echo
+    echo "OPTIONS:"
+    echo " -h:      show this help and quit"
+    echo " -o:      show only differences"
+    echo " -r REPO: compare packages from selected REPO (URL needed)"
+    echo " -v:      use vimdiff"
+    echo
+}
+
+# Set some bash safety options
+set -o nounset
+set -o errexit
+
+# Initiliaze flags
+ONLYDIFF="false"
+VIM="false"
+
+# Read CLI options
+while getopts ":hor:v" opt; do
+    case "$opt" in
+        "h")
+            usage
+            exit 0
+            ;;
+        "o")
+            ONLYDIFF="true"
+            ;;
+        "r")
+            REPOURL="$OPTARG"
+            ;;
+        "v")
+            VIM="true"
+            ;;
+        "?")
+            echo "Invalid option: -$OPTARG" >&2
+            usage
+            exit 1
+            ;;
+        ":")
+            echo "Option -$OPTARG requires an argument." >&2
+            usage
+            exit 1
+            ;;
+        *)
+            echo "Unknown error while processing options." >&2
+            exit 1
+            ;;
+    esac
+done
+
+# Set default repo URL
+REPOURL=${REPOURL:-"http://arch.twilightlair.net/games"}
+
+# Set trap to clean leftover files
+trap "rm -f i686.list x86_64.list; exit" INT TERM EXIT
+
+# Download list of packages from the repo
+LIST="$(wget -q -O - $REPOURL/i686/ )" || { 
+    echo "Retrieval of i686 repo failed"
+    exit 1
+}
+echo "$LIST" | sed -nr 's/.*href="(.*)-(i686|x86_64)\.pkg\.tar\.gz".*/\1/p' > i686.list
+
+LIST="$(wget -q -O - $REPOURL/x86_64/ )" || { 
+    echo "Retrieval of x86_64 repo failed"
+    rm -f i686.list
+    exit 1
+}
+echo "$LIST" | sed -nr 's/.*href="(.*)-(i686|x86_64)\.pkg\.tar\.gz".*/\1/p' > x86_64.list
+
+# Output diff
+if [[ "$VIM" == "true" ]]; then
+    vimdiff i686.list x86_64.list
+else
+    echo "================================================================================================="
+    echo "i686                                                            x86_64"
+    echo "-------------------------------------------------------------------------------------------------"
+    if [[ "$ONLYDIFF" == "true" ]]; then
+        sdiff -s i686.list x86_64.list
+    else
+        sdiff i686.list x86_64.list
+    fi
+fi
+
+# Clean and exit
+rm -f i686.list x86_64.list
+trap - INT TERM EXIT
+exit 0
