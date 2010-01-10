@@ -17,6 +17,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+PKGDIR="../packages"
 
 badarg () {
     echo "gitcmp: Try \`gitcmp -h' for more information." >&2
@@ -33,6 +34,7 @@ usage () {
     echo " -n:      nocolor, plain and simple output"
     echo " -o:      compare only pkgver ignoring pkgrel"
     echo " -q:      quiet, display only updates"
+    echo " -s:      source, the git repo location"
     echo " -r REPO: compare packages from selected REPO"
     echo " -v:      verbose, display all packages [default]"
     echo
@@ -108,7 +110,7 @@ GREEN='\e[1;32m'
 YELLOW='\e[1;33m'
 NC='\e[0m'
 
-while getopts ":bchnoqr:v" opt; do
+while getopts ":bchnoqrs:v" opt; do
     case "$opt" in
         "b")
             ONLYVER="false"
@@ -131,6 +133,9 @@ while getopts ":bchnoqr:v" opt; do
             ;;
         "r")
             REPO="$OPTARG"
+            ;;
+        "s")
+            PKGDIR="$OPTARG"
             ;;
         "v")
             VERBOSE="true"
@@ -155,7 +160,6 @@ done
 
 # [arch-games] ftw!
 REPO=${REPO:-"arch-games"}
-PKGDIR="../packages"
 
 # Compare pacman repo and git repo
 for pkg in $(pacman -Slq $REPO); do
