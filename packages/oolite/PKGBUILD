@@ -8,6 +8,7 @@ arch=('i686')
 url="http://oolite-linux.berlios.de"
 license=('GPL')
 depends=('gnustep-base' 'gnustep-gui' 'sdl_mixer' 'sdl_image' 'mesa' 'gcc')
+makedepends=('gcc-objc')
 install=oolite.install
 source=(http://download.berlios.de/oolite-linux/$pkgname-$pkgver-src.tar.gz http://download.berlios.de/oolite-linux/$pkgname-$pkgver-data.tar.gz oolite playing.txt)
 noextract=()
