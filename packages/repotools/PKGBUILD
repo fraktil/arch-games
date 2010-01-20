@@ -1,0 +1,21 @@
+pkgname="repotools"
+pkgver="1.0"
+pkgrel=1
+pkgdesc="A package for generic repo checking"
+arch=('any')
+url="http://arch-games.twilightlair.net"
+depends=('bash')
+license=('GPL')
+source=('aurcmp' 'archdiff' 'gitcmp' 'namcaplist' 'addpkg')
+build() {
+  cd "$srcdir"
+  mkdir -p $pkgdir/usr/bin
+  install -m 755 $srcdir/{aurcmp,gitcmp,namcaplist,addpkg,archdiff} \
+    "$pkgdir/usr/bin"
+}
+
+md5sums=('5cd831b182e097edc1dcb93b8011709f'
+         'd0d6dddbdaefa18b5928aca06bc401d5'
+         'ece4c398cc4d2a64898c5e18098ce438'
+         'b355a3d8e266ac961bd440bd42ce9ea1'
+         '37b0bee43252c214032ffc0783907340')

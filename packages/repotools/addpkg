@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [[ -z $1 ]]; then
+    echo "usage: $(basename $0) <package>"
+    exit 1
+fi
+
+set -o nounset
+set -o errexit
+
+PKG="$(basename $1)"
+PKGNAME="$(echo $PKG | sed -e 's/\(.*\)-[^-]*-[^-]*-[^-]*\.pkg\.tar\.gz/\1/')"
+ARCH="$(echo $PKG | sed -e 's/.*-[^-]*-[^-]*-\([^-]*\)\.pkg\.tar\.gz/\1/')"
+GAMEDIR="/srv/files/arch/games/$ARCH"
+LOCK="$GAMEDIR/addpkg.lock"
+
+if [[ -f $LOCK ]]; then
+    echo "Error: repo is locked!"
+    echo "Remove $LOCK if you still wish to continue."
+    exit 1
+else
+    touch $LOCK
+fi
+
+find $GAMEDIR -regex ".*$PKGNAME-[^-]*-[^-]*-[^-]*\.pkg\.tar\.gz" -exec rm -i '{}' \;
+mv -i $1 $GAMEDIR || exit 1
+repo-add $GAMEDIR/arch-games.db.tar.gz $GAMEDIR/$PKG || exit 1
+
+rm $LOCK
+
+exit 0

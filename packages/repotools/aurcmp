@@ -1,0 +1,160 @@
+#!/bin/bash
+
+#   aurcmp - compare package versions between repo and AUR
+#
+#   Copyright (c) 2009 by Arkham <arkham at archlinux dot us>
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+badarg () {
+    echo "aurcmp: Try \`aurcmp -h' for more information." >&2
+}
+
+usage () {
+    echo "aurcmp: compare package versions between repo and AUR"
+    echo "usage: aurcmp [OPTIONS]"
+    echo
+    echo "OPTIONS:"
+    echo " -b:      compare both pkgver and pkgrel [default]"
+    echo " -c:      colorful output [default]"
+    echo " -h:      show this help and quit"
+    echo " -n:      nocolor, plain and simple output"
+    echo " -o:      compare only pkgver ignoring pkgrel"
+    echo " -q:      quiet, display only updates"
+    echo " -r REPO: compare packages from selected REPO"
+    echo " -v:      verbose, display all packages [default]"
+    echo
+}
+
+get_pkgver_from_aur () {
+    local pkgname="$1"
+
+    local url="http://aur.archlinux.org/packages/$pkgname/$pkgname/PKGBUILD"
+
+    local PKGBUILD=$(wget -q -O - "$url" | grep -E '^(pkgver|pkgrel)=')
+    if [ -z "$PKGBUILD" ]; then
+        if [[ "$VERBOSE" == "true" ]]; then
+                echo -e "${RED}not found in AUR${NC}"
+        fi
+        return 0
+    fi
+
+    # Compare versions
+    local aurver="$(eval "$PKGBUILD" &>/dev/null; echo "$pkgver-$pkgrel")" || true
+    [ "$ONLYVER" = 'true' ] && aurver=$(echo $aurver | cut -d- -f1)
+
+    echo $aurver
+}
+
+get_pkgver_from_pacman () {
+    local pkgname="$1"
+
+    local repover="$(LANG=C pacman -Si $pkgname | awk '/^Version/ {print $3}')"
+    [ "$ONLYVER" = 'true' ] && repover=$(echo $repover | cut -d- -f1)
+
+    echo $repover
+}
+
+aurcmp () {
+    local pkgname="$1"
+
+    aurver="$(get_pkgver_from_aur $pkgname)" || true
+    repover="$(get_pkgver_from_pacman $pkgname)" || true
+
+    result=$(vercmp $repover $aurver) || true
+
+    case $result in
+        '-1')   echo -e "$pkgname: ${RED}$repover${NC} => ${GREEN}$aurver${NC}"   ;;
+         '0')   [ "$VERBOSE" = 'true' ] && echo "$pkgname: up to date" ;;
+         '1')   [ "$VERBOSE" = 'true' ] && echo -e "$pkgname: (${RED}repo=$repover ${NC}aur=$aurver)" ;;
+    esac
+}
+
+# Safety options:
+# - don't allow unset variables
+set -o nounset
+
+# Flags default values
+COLOR="true"
+ONLYVER="false"
+VERBOSE="true"
+
+while getopts ":bchnoqr:v" opt; do
+    case "$opt" in
+        "b")
+            ONLYVER="false"
+            ;;
+        "c")
+            COLOR="true"
+            ;;
+        "h")
+            usage
+            exit 0
+            ;;
+        "n")
+            COLOR="false"
+            ;;
+        "o")
+            ONLYVER="true"
+            ;;
+        "q")
+            VERBOSE="false"
+            ;;
+        "r")
+            REPO="$OPTARG"
+            ;;
+        "v")
+            VERBOSE="true"
+            ;;
+        "?")
+            echo "aurcmp: invalid option: -$OPTARG" >&2
+            badarg
+            exit 1
+            ;;
+        ":")
+            echo "aurcmp: option -$OPTARG requires an argument." >&2
+            badarg
+            exit 1
+            ;;
+        *)
+            echo "aurcmp: unknown error while processing options." >&2
+            badarg
+            exit 1
+            ;;
+    esac
+done
+
+# Colors
+if [ "$COLOR" = 'true' ]; then
+    RED='\e[1;31m'
+    GREEN='\e[1;32m'
+    NC='\e[0m'
+else
+    RED=''
+    GREEN=''
+    NC=''
+fi
+
+# [arch-games] ftw!
+REPO=${REPO:-"arch-games"}
+
+# Main loop
+for pkg in $(pacman -Slq $REPO); do 
+    aurcmp "$pkg"
+done
+
+exit 0
+
+# vim: set ts=4 sw=4 et :

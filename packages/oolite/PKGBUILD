@@ -1,0 +1,49 @@
+# Contributor: Augusto Born de Oliveira <augustoborn@gmail.com>
+# Contributor: Lone_Wolf <lonewolf@xs4all.nl>
+pkgname=oolite
+pkgver=1.65
+pkgrel=9
+pkgdesc="A space-sim based on the classic Elite"
+arch=('i686')
+url="http://oolite-linux.berlios.de"
+license=('GPL')
+depends=('gnustep-base' 'gnustep-gui' 'sdl_mixer' 'sdl_image' 'mesa' 'gcc')
+makedepends=('gcc-objc')
+install=oolite.install
+source=(http://download.berlios.de/oolite-linux/$pkgname-$pkgver-src.tar.gz http://download.berlios.de/oolite-linux/$pkgname-$pkgver-data.tar.gz oolite playing.txt)
+noextract=()
+md5sums=('d2c36dc886919547543ee4baedfba4a4' '321538d43ea21a8dea637a720a8d3076' '763c3ad39f86b139e5687053c1f129b7' 'a7a7838f47c8bd9bd67769b4a2c0d226')
+
+
+build() {
+# setting up directories
+    mkdir -p $startdir/pkg/usr/bin
+    mkdir -p $startdir/pkg/usr/share/{$pkgname.app,applications,pixmaps}
+
+
+
+    cd $startdir/src/$pkgname-$pkgver-src
+
+# edit makefiles to compile correctly
+    cp GNUmakefile.postamble GNUmakefile.postamble.org
+    sed 's;shared_obj;obj;' <GNUmakefile.postamble.org >GNUmakefile.postamble
+
+# compile
+    source /opt/GNUstep/System/Library/Makefiles/GNUstep.sh
+    make debug=no strip=yes || return 1
+    cp -r $pkgname.app/* $startdir/pkg/usr/share/$pkgname.app/
+
+
+# copy short instructions
+    install -D -m 644 $startdir/src/playing.txt $startdir/pkg/usr/share/oolite.app/playing.txt
+
+#install shellscript and icon
+    install -D -m755 $startdir/src/oolite $startdir/pkg/usr/bin/oolite
+    install -D -m644 $startdir/src/$pkgname-$pkgver-src/FreeDesktop/oolite-icon.png $startdir/pkg/usr/share/pixmaps/oolite.png
+
+# correct and copy .desktop file
+    cd FreeDesktop
+    cp oolite.desktop oolite.desktop.org
+    sed 's;Icon=oolite-icon.png;Icon=oolite;' <oolite.desktop.org >oolite.desktop
+    install -D -m644 $startdir/src/$pkgname-$pkgver-src/FreeDesktop/oolite.desktop $startdir/pkg/usr/share/applications/oolite.desktop
+}
