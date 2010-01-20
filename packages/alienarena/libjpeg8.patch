@@ -1,0 +1,22 @@
+Index: ref_gl/r_image.c
+===================================================================
+--- ref_gl/r_image.c	(revision 1640)
++++ ref_gl/r_image.c	(working copy)
+@@ -602,7 +602,7 @@
+ 		Com_Printf("Premature end of JPEG data\n");
+ }
+ 
+-void jpeg_mem_src(j_decompress_ptr cinfo, byte *mem, int len)
++void jpeg_load_raw(j_decompress_ptr cinfo, byte *mem, int len)
+ {
+     cinfo->src = (struct jpeg_source_mgr *)(*cinfo->mem->alloc_small)((j_common_ptr) cinfo, JPOOL_PERMANENT, sizeof(struct jpeg_source_mgr));
+     cinfo->src->init_source = jpg_null;
+@@ -650,7 +650,7 @@
+ 	jpeg_create_decompress(&cinfo);
+ 
+ 	// Feed JPEG memory into the libJpeg Object
+-	jpeg_mem_src(&cinfo, rawdata, rawsize);
++	jpeg_load_raw(&cinfo, rawdata, rawsize);
+ 
+ 	// Process JPEG header
+ 	jpeg_read_header(&cinfo, true); // bombs out here

@@ -1,19 +1,21 @@
 # Contributor: damian01w <damian01w@gmail.com>
 
 pkgname=alienarena
-pkgver=20091016
-pkgrel=3
-gamever=7_32
+pkgver=20091227
+pkgrel=1
+gamever=7_33
 pkgdesc="Multiplayer retro sci-fi deathmatch game"
 arch=('i686' 'x86_64')
 url='http://icculus.org/alienarena/rpa/'
 license=('GPL')
-depends=('curl' 'libgl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl' 'openal')
-makedepends=('hd2u' 'p7zip' 'unzip')
-source=(http://mirror.arcadepro.org/alienarena-linux${pkgver}.zip
-	'alienarena.desktop')
+depends=('curl' 'libgl' 'libjpeg>=8' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl' 'openal' 'libvorbis')
+makedepends=('hd2u' 'unzip')
+source=(http://icculus.org/alienarena/Files/alienarena${gamever}-linux${pkgver}.zip
+	'alienarena.desktop' 'libjpeg8.patch')
+md5sums=('d1106130fdcef6c2d4cf039c933213d7'
+         '46bbe3e3a93b2e5009ffd663ad462915'
+         '4dd28fac527e9bb6fcb66989fcbe3322')
 
-md5sums=('b5f2bc1e2bb92b02983d36f02533053e' '46bbe3e3a93b2e5009ffd663ad462915')
  
 _datadir="/usr/share/${pkgname}"
 _libdir="/usr/lib/${pkgname}"
@@ -27,14 +29,19 @@ build() {
     cd source
     # Arch isn't multilib
     sed -i -e "s:lib64:lib:" Makefile || return 1
+
+    # Needed to compile fine with new versions of xf86dgaproto (Thanks Calimero)
+    sed -i "s/xf86dga.h/Xxf86dga.h/g" unix/gl_glx.c
  
+    # Fix for libjpeg8
+    patch -Np0 -i $srcdir/libjpeg8.patch || return 1
+
     make PREFIX=/usr \
 	WITH_DATADIR=yes WITH_LIBDIR=yes \
 	DATADIR="${_datadir}" LIBDIR="${_libdir}" \
      || return 1
  
     #Binary
-    pwd
 
     install -D -m755 release/game.so $startdir/pkg/${_libdir}/arena/game.so || return 1
     install -D -m755 release/crx $startdir/pkg/usr/bin/${pkgname} || return 1
