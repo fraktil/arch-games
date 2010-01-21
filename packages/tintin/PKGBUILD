@@ -2,7 +2,7 @@
 # Contributor: rabyte <rabyte__gmail>
 
 pkgname=tintin
-pkgver=1.99.8
+pkgver=1.99.9
 pkgrel=1
 pkgdesc="A console-based MUD client"
 arch=('i686' 'x86_64')
@@ -10,14 +10,15 @@ url="http://tintin.sourceforge.net/"
 license=('GPL2')
 depends=('zlib' 'pcre')
 source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz)
+md5sums=('a78f01a340749b0835563103a7b442ce')
 
 build() {
   cd $srcdir/tt/src
-  sh configure --prefix=/usr --enable-big5
+  sh configure --prefix=/usr --enable-big5 || return 1
   make || return 1
 
   install -m755 -D tt++ $pkgdir/usr/bin/tt++
   ln -sf tt++ $pkgdir/usr/bin/tintin
 }
 
-md5sums=('700314e08d41ef5deb0884bfb17baab8')
+# vim:set ts=2 sw=2 et:
