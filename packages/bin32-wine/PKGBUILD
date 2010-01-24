@@ -4,7 +4,7 @@
 
 pkgname=bin32-wine
 _pkgname32=wine
-pkgver=1.1.36
+pkgver=1.1.37
 pkgrel=1
 _pkgrel32=1
 pkgdesc="Windows API implementation and interpreter, enabling the use of Windows apps in other OSes"
@@ -21,7 +21,7 @@ optdepends=('lib32-alsa-lib: ALSA audio driver'
 provides=("wine=$pkgver")
 
 source=("ftp://locke.suu.edu/linux/dist/archlinux/extra/os/i686/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
-sha256sums=('c919ac77bff28a526c7956bbb59d773e24adeca98940c024ff27b891cfde0ede')
+sha256sums=('7be7386ebface47f4ef0d498c8de66ed898d77197eaa6a02d4180ff0ce5df805')
 #source=("http://rang.twilightlair.net/pkgs/$_pkgname32-$pkgver-$_pkgrel32-i686.pkg.tar.gz")
 #sha256sums=('0921615a35369d6e82f258ac55cc1aca4bb4eed28eeec8e77d349e6d0bcbd03c')
 
