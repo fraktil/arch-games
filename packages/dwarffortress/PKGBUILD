@@ -1,0 +1,29 @@
+# Maintainer: Daenyth
+# Contributor: djnm <nmihalich [at} gmail dott com>
+pkgname=dwarffortress
+pkgver=v0.28.181.40d16
+pkgrel=2
+pkgdesc="A single-player fantasy game. You control a dwarven outpost or an adventurer in a randomly generated, persistent world."
+arch=('i686')
+url="http://www.bay12games.com/dwarves/"
+license=('custom:dwarffortress')
+depends=('gtk2' 'mesa' 'sdl_image' 'libgl' 'libjpeg6')
+source=(http://www.bay12games.com/dwarves/df_28_181_40d16_linux.tar.bz2 dwarffortress)
+md5sums=('9af4261919293a8b5812a6db720b269a'
+         '3ad0017869f5e8937aca2916b2a6a644')
+
+build() {
+  cd $srcdir/df_linux
+  install -dm755 $pkgdir/opt/
+  cp -r $srcdir/df_linux/ $pkgdir/opt/
+  find $pkgdir/opt/df_linux -type d -exec chmod 755 {} +
+  find $pkgdir/opt/df_linux -type f -exec chmod 644 {} +
+  rm -f $pkgdir/opt/df_linux/libs/libSDL*
+
+  install -Dm755 $srcdir/dwarffortress $pkgdir/usr/bin/dwarffortress
+
+  chmod 755 $pkgdir/opt/df_linux/dwarfort.exe
+
+  install -Dm644 $srcdir/df_linux/readme.txt $pkgdir/usr/share/licenses/dwarffortress/readme.txt
+}
+# vim:set ts=2 sw=2 et:
