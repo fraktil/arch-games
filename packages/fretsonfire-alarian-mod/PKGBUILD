@@ -2,7 +2,7 @@
 
 pkgname=fretsonfire-alarian-mod
 pkgver=3.120
-pkgrel=1
+pkgrel=2
 pkgdesc="fretsonfire X. Get more themes (like GH and RB themes) at http://tinyurl.com/fof-themes"
 url="http://code.google.com/p/fofix"
 arch=('i686' 'x86_64')
