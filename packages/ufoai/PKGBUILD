@@ -2,7 +2,7 @@
 
 pkgname=ufoai
 pkgver=2.2.1
-pkgrel=2
+pkgrel=3
 pkgdesc="UFO: Alien Invasion is a strategy game featuring tactical combat"
 url="http://ufoai.sourceforge.net/"
 arch=('i686' 'x86_64')
