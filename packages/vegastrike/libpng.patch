@@ -1,0 +1,142 @@
+Only in ../vegastrike-source-0.5.0/boost/1_28/src/converter: .deps
+Only in ../vegastrike-source-0.5.0/boost/1_28/src: .deps
+Only in ../vegastrike-source-0.5.0/boost/1_28/src/object: .deps
+Only in ../vegastrike-source-0.5.0/boost/1_31/src/converter: .deps
+Only in ../vegastrike-source-0.5.0/boost/1_31/src: .deps
+Only in ../vegastrike-source-0.5.0/boost/1_31/src/object: .deps
+Only in ../vegastrike-source-0.5.0/boost/1_33/src/converter: .deps
+Only in ../vegastrike-source-0.5.0/boost/1_33/src: .deps
+Only in ../vegastrike-source-0.5.0/boost/1_33/src: .dirstamp
+Only in ../vegastrike-source-0.5.0/boost/1_33/src/object: .deps
+Only in ../vegastrike-source-0.5.0/: config.h
+Only in ../vegastrike-source-0.5.0/: config.log
+Only in ../vegastrike-source-0.5.0/: config.status
+Only in ../vegastrike-source-0.5.0/: libnetlowlevel.a
+Only in ../vegastrike-source-0.5.0/: Makefile
+diff -crB vegastrike-source-0.5.0/objconv/basemaker/base_maker_texture.cpp ../vegastrike-source-0.5.0/objconv/basemaker/base_maker_texture.cpp
+*** vegastrike-source-0.5.0/objconv/basemaker/base_maker_texture.cpp	2008-04-26 12:00:37.000000000 +0200
+--- ../vegastrike-source-0.5.0/objconv/basemaker/base_maker_texture.cpp	2010-01-29 10:12:59.334283099 +0100
+***************
+*** 73,79 ****
+  		png_set_palette_to_rgb(png_ptr);
+  
+  	if (ctype == PNG_COLOR_TYPE_GRAY && data->bpp < 8)
+! 		png_set_gray_1_2_4_to_8(png_ptr);
+  
+  	png_set_expand (png_ptr);
+  	png_read_update_info (png_ptr,info_ptr);
+--- 73,80 ----
+  		png_set_palette_to_rgb(png_ptr);
+  
+  	if (ctype == PNG_COLOR_TYPE_GRAY && data->bpp < 8)
+!             png_set_expand_gray_1_2_4_to_8(png_ptr);
+! 
+  
+  	png_set_expand (png_ptr);
+  	png_read_update_info (png_ptr,info_ptr);
+***************
+*** 211,217 ****
+  		unsigned char sig[8];
+  		fread(sig, sizeof(char), 8, fp);
+  		fseek(fp,0,SEEK_SET);
+! 		if (png_check_sig(sig, 8)) {
+  			return FORMAT_PNG;
+  		}
+  	}
+--- 212,218 ----
+  		unsigned char sig[8];
+  		fread(sig, sizeof(char), 8, fp);
+  		fseek(fp,0,SEEK_SET);
+!                 if (png_sig_cmp(sig, 0, 8)) {
+  			return FORMAT_PNG;
+  		}
+  	}
+Only in ../vegastrike-source-0.5.0/objconv/basemaker: .deps
+Only in ../vegastrike-source-0.5.0/objconv: .deps
+Only in ../vegastrike-source-0.5.0/objconv/mesher: .deps
+Only in ../vegastrike-source-0.5.0/objconv/MeshParse: .deps
+Only in ../vegastrike-source-0.5.0/setup/src/c: .deps
+Only in ../vegastrike-source-0.5.0/setup/src/include: .deps
+Only in ../vegastrike-source-0.5.0/src/aldrv: .deps
+Only in ../vegastrike-source-0.5.0/src/cmd/ai: .deps
+Only in ../vegastrike-source-0.5.0/src/cmd/collide2/csgeom2: .deps
+Only in ../vegastrike-source-0.5.0/src/cmd/collide2: .deps
+Only in ../vegastrike-source-0.5.0/src/cmd/collide2/Ice: .deps
+Only in ../vegastrike-source-0.5.0/src/cmd: .deps
+Only in ../vegastrike-source-0.5.0/src/cmd/script/c_alike: .deps
+Only in ../vegastrike-source-0.5.0/src/cmd/script: .deps
+Only in ../vegastrike-source-0.5.0/src/common: .deps
+Only in ../vegastrike-source-0.5.0/src: .deps
+Only in ../vegastrike-source-0.5.0/src/gfx: .deps
+Only in ../vegastrike-source-0.5.0/src/gfx/nav: .deps
+diff -crB vegastrike-source-0.5.0/src/gfx/vsimage.cpp ../vegastrike-source-0.5.0/src/gfx/vsimage.cpp
+*** vegastrike-source-0.5.0/src/gfx/vsimage.cpp	2008-04-26 12:00:33.000000000 +0200
+--- ../vegastrike-source-0.5.0/src/gfx/vsimage.cpp	2010-01-29 10:11:42.521448026 +0100
+***************
+*** 147,153 ****
+  	unsigned char sig[8];
+  	file->Begin();
+  	file->Read(sig, 8);
+! 	if (!png_check_sig(sig, 8))
+  		ret = BadFormat;
+  	
+  	return ret;
+--- 147,153 ----
+  	unsigned char sig[8];
+  	file->Begin();
+  	file->Read(sig, 8);
+! 	if (!png_sig_cmp(sig, 0, 8))
+  		ret = BadFormat;
+  	
+  	return ret;
+***************
+*** 349,355 ****
+  		png_set_palette_to_rgb(png_ptr);
+  		   
+  	if (this->img_color_type == PNG_COLOR_TYPE_GRAY && this->img_depth < 8)
+! 		png_set_gray_1_2_4_to_8(png_ptr);
+  
+  	png_set_expand (png_ptr);
+  	png_read_update_info (png_ptr,info_ptr);
+--- 349,355 ----
+  		png_set_palette_to_rgb(png_ptr);
+  		   
+  	if (this->img_color_type == PNG_COLOR_TYPE_GRAY && this->img_depth < 8)
+! 		png_set_expand_gray_1_2_4_to_8(png_ptr);
+  
+  	png_set_expand (png_ptr);
+  	png_read_update_info (png_ptr,info_ptr);
+Only in ../vegastrike-source-0.5.0/src/gldrv: .deps
+Only in ../vegastrike-source-0.5.0/src/gui: .deps
+Only in ../vegastrike-source-0.5.0/src: Makefile
+Only in ../vegastrike-source-0.5.0/src/networking: .deps
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: .deps
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: .dirstamp
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: netbuffer.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: netui.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: packetmem.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: packet.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_address.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_clientstate.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_cmd.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_debug.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_dloadenum.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_dloadmgr.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_notify.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_oss.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_parsecmd.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_pipe.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_serversocket.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_socketbase.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_socketflags.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_sockethttp.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_socket.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_socketset.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_sockettcp.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_socketudp.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_thread_non.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_thread_p.o
+Only in ../vegastrike-source-0.5.0/src/networking/lowlevel: vsnet_thread_sdl.o
+Only in ../vegastrike-source-0.5.0/src/python: .deps
+Only in ../vegastrike-source-0.5.0/: stamp-h1
+Only in ../vegastrike-source-0.5.0/tools: .deps

@@ -4,12 +4,9 @@
 # Freecraft is deprecated and you should use stratagus with wargus ( http://wargus.sourceforge.net/ ) instead!
 # Biggest difference from wargus is that you don't need original Warcraft 2 game to play Freecraft.
 
-# TODO:
-# - unsure about dependencies
-
 pkgname=freecraft
 pkgver=1.18
-pkgrel=4
+pkgrel=5
 pkgdesc="Warcraft2 clone - now deprecated and replaced by Stratagus/Wargus. You can also play Original WarCraft 1 or 2 in DosBox. But you don't need files from original W2 to play FreeCraft!"
 arch=('i686' 'x86_64')
 license=('GPL')

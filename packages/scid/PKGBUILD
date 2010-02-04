@@ -1,5 +1,5 @@
 pkgname=scid
-pkgver=4.1
+pkgver=4.2.2
 pkgrel=1
 pkgdesc="Chess database application"
 arch=(i686)
@@ -10,7 +10,7 @@ install=
 #source=(http://prolinux.free.fr/scid/download/$pkgname-$pkgver.tar.bz2 phalanx.patch)
 source=(http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.bz2 )
 
-md5sums=('cc9eb40ae24e2c7962a89c886c860306')
+md5sums=('198d8a48f1381e03f4f231f35ae29407')
 
 
 build() {

@@ -2,7 +2,7 @@
 
 pkgname=vegastrike
 pkgver=0.5.0
-pkgrel=5
+pkgrel=6
 pkgdesc="An Open Source 3D Action-Space-Sim allowing players to trade and bounty hunt in a vast universe."
 arch=('i686' 'x86_64')
 url="http://vegastrike.sourceforge.net/"
@@ -16,15 +16,15 @@ conflicts=('vegastrike-svn')
 options=('!makeflags')
 install=$pkgname.install
 source=(http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-src-$pkgver.tar.bz2 \
-        $pkgname-gcc44.diff)
-
-md5sums=('8cfd7d1691173652e14fc89e4da97d1a'
-         'efaea71b852eb2d4001f429c41bd5db2')
+        $pkgname-gcc44.diff
+        libpng.patch)
 
 build() {
   cd ${srcdir}/$pkgname-source-$pkgver
 
   patch -Np1 -i ${srcdir}/$pkgname-gcc44.diff || return 1
+  echo "patching libpng"
+  patch  -Np1 -i  ${srcdir}/libpng.patch || return 1
 
   ./configure --prefix=/usr --with-data-dir=/usr/share/vegastrike
   make || return 1
@@ -35,4 +35,9 @@ build() {
   mv -f ${pkgdir}/usr/objconv ${pkgdir}/usr/share/$pkgname/objconv || return 1
   mv ${pkgdir}/usr/bin/replace ${pkgdir}/usr/bin/vsreplace || return 1
 }
-
+md5sums=('8cfd7d1691173652e14fc89e4da97d1a'
+         'efaea71b852eb2d4001f429c41bd5db2'
+         '7ccc12f06ddad96534ee377f1089f8e1')
+md5sums=('8cfd7d1691173652e14fc89e4da97d1a'
+         'efaea71b852eb2d4001f429c41bd5db2'
+         '246222858f7847a20de65f935ed18563')

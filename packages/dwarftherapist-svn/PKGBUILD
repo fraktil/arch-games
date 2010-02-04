@@ -1,9 +1,9 @@
 # Contributor: Daenyth <Daenyth+Arch AT gmail DOT com>
 pkgname=dwarftherapist-svn
 pkgver=296
-pkgrel=1
+pkgrel=2
 pkgdesc="An extension application for the fantastic game Dwarf Fortress"
-arch=(i686)
+arch=('i686' 'x86_64')
 url="http://code.google.com/p/dwarftherapist/"
 license=(MIT)
 depends=(qt)
