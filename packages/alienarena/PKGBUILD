@@ -8,21 +8,21 @@ pkgdesc="Multiplayer retro sci-fi deathmatch game"
 arch=('i686' 'x86_64')
 url='http://icculus.org/alienarena/rpa/'
 license=('GPL')
-depends=('curl' 'libgl' 'libjpeg>=8' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl' 'openal' 'libvorbis')
+depends=('curl' 'libgl' 'libjpeg' 'libxxf86dga' 'libxxf86vm' 'mesa' 'sdl' 'openal')
 makedepends=('hd2u' 'unzip')
 source=(http://icculus.org/alienarena/Files/alienarena${gamever}-linux${pkgver}.zip
-	'alienarena.desktop' 'libjpeg8.patch')
-md5sums=('d1106130fdcef6c2d4cf039c933213d7'
-         '46bbe3e3a93b2e5009ffd663ad462915'
-         '4dd28fac527e9bb6fcb66989fcbe3322')
+	'alienarena.desktop')
 
+md5sums=('d1106130fdcef6c2d4cf039c933213d7' '46bbe3e3a93b2e5009ffd663ad462915')
  
 _datadir="/usr/share/${pkgname}"
 _libdir="/usr/lib/${pkgname}"
  
+ 
 build() {
     cd $startdir/src/${pkgname}${gamever}
- 
+    
+
     # Remove pre-compiled libs
     rm {arena,data1}/game.so
  
@@ -32,10 +32,9 @@ build() {
 
     # Needed to compile fine with new versions of xf86dgaproto (Thanks Calimero)
     sed -i "s/xf86dga.h/Xxf86dga.h/g" unix/gl_glx.c
- 
-    # Fix for libjpeg8
-    patch -Np0 -i $srcdir/libjpeg8.patch || return 1
 
+    patch -Np0 -i $startdir/libjpeg8.patch $startdir/src/${pkgname}${gamever}/source/ref_gl/r_image.c  || return 1
+ 
     make PREFIX=/usr \
 	WITH_DATADIR=yes WITH_LIBDIR=yes \
 	DATADIR="${_datadir}" LIBDIR="${_libdir}" \

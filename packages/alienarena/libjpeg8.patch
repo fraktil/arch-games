@@ -1,7 +1,3 @@
-Index: ref_gl/r_image.c
-===================================================================
---- ref_gl/r_image.c	(revision 1640)
-+++ ref_gl/r_image.c	(working copy)
 @@ -602,7 +602,7 @@
  		Com_Printf("Premature end of JPEG data\n");
  }
