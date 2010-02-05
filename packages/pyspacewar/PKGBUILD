@@ -3,13 +3,13 @@
 
 pkgname=pyspacewar
 pkgver=0.9.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Open-source game, loosely inspired by Spacewar, Gravity Wars, and a bit by Star Control (I and II)."
 url="http://mg.pov.lt/pyspacewar"
-license=('GPL')
+license="GPL"
 arch=('i686' 'x86_64')
 depends=("python-pygame")
-source=(http://mg.pov.lt/pyspacewar/$pkgname-$pkgver.tar.gz setup.patch \
+source=(http://mg.pov.lt/pyspacewar/${pkgname}-${pkgver}.tar.gz setup.patch \
          pyspacewar.desktop)
 md5sums=('940de69ae0198dd053626ece20cbaeff'
          '618630e55daea125c719c32570c63bee'
@@ -17,10 +17,10 @@ md5sums=('940de69ae0198dd053626ece20cbaeff'
 
 build ()
 {
-	cd $startdir/src/$pkgname-$pkgver
-        patch -p1 -i ${startdir}/setup.patch || return 1
-        mkdir -p $pkgdir/usr/share/{applications,pixmaps}
-        cp src/pyspacewar/icons/pyspacewar48.png $pkgdir/usr/share/pixmaps
-        cp ${startdir}/pyspacewar.desktop $pkgdir/usr/share/applications
-	python setup.py install --root=$startdir/pkg/
+	cd ${srcdir}/${pkgname}-${pkgver}
+        patch -p1 -i ${srcdir}/setup.patch || return 1
+        mkdir -p ${pkgdir}/usr/share/{applications,pixmaps}
+        cp src/pyspacewar/icons/pyspacewar48.png ${pkgdir}/usr/share/pixmaps
+        cp ${srcdir}/pyspacewar.desktop ${pkgdir}/usr/share/applications
+	python setup.py install --root=${pkgdir}
 }
