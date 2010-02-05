@@ -4,11 +4,12 @@
 pkgname=offender
 pkgver=0.2
 pkgrel=4
-arch=('i686' 'x86_64')
+arch=('any')
 pkgdesc="An entertaining 2d space shooter."
 license="GPL"
 url="http://offender.sourceforge.net"
 depends=('gtk')
+makedepends=('automake' )
 source=(http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz)
 md5sums=('f65ff48b54fdff76170ec7c823fe120c')
 
