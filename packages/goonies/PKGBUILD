@@ -3,7 +3,7 @@
 
 pkgname=goonies
 pkgver=1.4.1528
-pkgrel=1
+pkgrel=2
 pkgdesc="A remake of the MSX Goonies game"
 arch=(i686 x86_64)
 url="http://goonies.jorito.net/"
@@ -16,6 +16,9 @@ source=(http://braingames.jorito.net/goonies/downloads/$pkgname.src_$pkgver.tgz)
 
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
+
+  # remove debugging messages in home directory
+  sed -i '4d' ${srcdir}/${pkgname}-${pkgver}/src/debug.h || return 1
 
   make || return 1
 
