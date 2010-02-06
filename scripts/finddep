@@ -1,42 +1,34 @@
 #!/bin/bash
-#
-# finddeps - find packages that depend on a given depname
-#
-
-if [ "$1" = "" ]; then
-    echo "usage: finddeps <depname>"
-    echo ""
-    echo "Find packages that depend on a given depname."
-    echo "Run this script from the top-level directory of your ABS tree."
-    echo ""
-    exit 0
-fi
-
-match=$1
-tld=$(pwd)
-
-for d in $(find . -type d); do
-    cd $d
-    if [ -f PKGBUILD ]; then
-        unset pkgname depends makedepends
-        . PKGBUILD
-        for dep in "${depends[@]}"; do
-            # lose the version comaparator, if any
-            depname=${dep%%[<>=]*}
-            if [ "$depname" = "$match" ]; then
-                echo "$d (depends)"
-            fi
-        done
-        for dep in "${makedepends[@]}"; do
-            # lose the version comaparator, if any
-            depname=${dep%%[<>=]*}
-            if [ "$depname" = "$match" ]; then
-                echo "$d (makedepends)"
-            fi
-        done
+# run this script in your packages dir
+for dir in $(ls)
+  do
+  if [ -e $dir/PKGBUILD ]; then
+  source $dir/PKGBUILD
+  
+  # find deps
+  len=${#depends[@]}
+  for ((i=0; i<$len; i++));
+    do
+    if [ $1 == ${depends[i]} ]; then
+      echo dep: $pkgname
     fi
-    cd $tld
-done
+    done
+  # find makedeps
+  if [ -n ${makedepends} ]; then
+    len=${#makedepends[@]}
+    for ((i=0; i<$len; i++));
+    do
+        if [ "$1" == "${makedepends[i]}" ]; then
+            echo $pkgname
+        fi
+    done
+  fi
+  fi
+  done
+  #erase for non depending packages
+  depends={""}
+  #erase makedepends for PKGBUILDs that don't have it
+  makedepends={""}
 
-# vim:ft=sh:ts=4:sw=4:et:
+
 
