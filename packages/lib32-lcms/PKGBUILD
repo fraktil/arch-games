@@ -3,24 +3,14 @@
 pkgname=lib32-lcms
 pkgname32=${pkgname/lib32-/}
 pkgver=1.18
-pkgrel=2
-pkgrel32=2
+pkgrel=3
+pkgrel32=3
 pkgdesc="Lightweight color management development library/engine"
 arch=(x86_64)
 url="http://www.littlecms.com/"
 license=('GPL')
-groups=()
-depends=(lib32-libtiff)
-makedepends=()
-provides=()
-conflicts=()
-replaces=()
-backup=()
-options=()
-install=
 source=(ftp://ftp.archlinux.org/extra/os/i686/${pkgname32}-${pkgver}-${pkgrel32}-i686.pkg.tar.gz)
-noextract=()
-md5sums=('94fdf2d3b638a53d910d5bdc9fc8065d')
+md5sums=('912e28e7af7d980cb88ba87a394ff2dd')
 
 build() {
   mkdir -p $startdir/pkg/opt/lib32/usr/
