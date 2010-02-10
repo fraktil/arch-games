@@ -1,3 +1,11 @@
+2010-02-08 [vEX] <niechift.dot.vex.at.gmail.dot.com>
+
+	* 0.060-1 :
+	New upstream release.
+	Removed the optdepends list as they are now part of the same source 
+	tarball and have been integrated into the PKGBUILD. You may remove those
+	plugins you don't want.
+	
 2010-01-07 [vEX] <niechift.dot.vex.at.gmail.dot.com>
 
 	* 0.059-1 :
