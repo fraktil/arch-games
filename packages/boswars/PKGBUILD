@@ -2,24 +2,19 @@
 
 pkgname=boswars
 pkgver=2.5
-pkgrel=2
+pkgrel=3
 pkgdesc="Bos Wars is a futuristic real-time strategy game."
 url="http://www.boswars.org/"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('sdl' 'zlib' 'lua' 'libvorbis' 'libogg' 'libtheora' 'libmikmod')
 makedepends=('scons')
-source=(http://www.boswars.org/releases/$pkgname-$pkgver-src.tar.gz 
+source=(http://www.boswars.org/dist/releases/boswars-2.5-src.tar.gz
         boswars.sh 
         boswars.png 
         boswars.desktop 
         boswars.patch)
     
-md5sums=('9d280d086ccf81119f40bde98eb9a795' 
-         '70bdaf9ec5284751ba29a33cee79490e' 
-         'ab92e1da36939b8dc69003f5d6045f96' 
-         '9dd495a2f125c5b97a9523257397c492' 
-         'cf2f90772f73f26f97a43586dc2651fe')
 
 build() {
 
@@ -41,5 +36,9 @@ build() {
   install -D -m 755 $srcdir/boswars.sh $pkgdir/usr/bin/boswars
   
 }
-
+md5sums=('9d280d086ccf81119f40bde98eb9a795'
+         '70bdaf9ec5284751ba29a33cee79490e'
+         'ab92e1da36939b8dc69003f5d6045f96'
+         '9dd495a2f125c5b97a9523257397c492'
+         'b79d6fed6ad73ea7ced09be67bb9e481')
 # vim:set ts=2 sw=2 et:
