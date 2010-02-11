@@ -1,21 +1,16 @@
 # Contributor: [vEX] <niechift.dot.vex.at.gmail.dot.com>
 pkgname=bsnes
-pkgver=0.059
+pkgver=0.060
 pkgrel=1
 pkgdesc="Super Nintendo Entertainment System (SNES) emulator focused on accuracy."
 arch=('i686' 'x86_64')
 url="http://byuu.org/bsnes/"
-license=('GPL2')
+license=('GPL2' 'LGPL' 'zlib' 'custom:unrar')
 depends=('libao' 'libgl' 'libxv' 'openal' 'sdl' 'qt>=4.5.0')
-optdepends=(
-  'libxtst' 
-  'snesfilter: support for output filters'
-  'snesreader: support for compressed files'
-  'supergameboy: Super Game Boy support'
-)
 makedepends=('pkgconfig')
-source=("${pkgname}_v059.tar.bz2::http://byuu.org/download.php?file=${pkgname}_v059.tar.bz2")
-md5sums=('c34785e6c57dfb7b223f453780b3fde6')
+replaces=('snesfilter' 'snesreader' 'supergameboy')
+source=("http://bsnes.googlecode.com/files/${pkgname}_v060.tar.bz2")
+md5sums=('db779d53d6ac21a5b414fbf3b93dde47')
 
 build() {
   cd "${srcdir}/src"
@@ -43,4 +38,42 @@ build() {
   # Build and install it
   make || return 1
   make install DESTDIR=$pkgdir prefix=/usr || return 1
+  
+  ##
+  # Now lets build and install the plugins, you can remove any of the below if 
+  # you don't want/need them.
+  ##
+  # snesfilter :: output filters
+  ##
+  msg "Building snesfilter plugin"
+  cd "${srcdir}/snesfilter"
+  sed -e 's|\(libsnesfilter.*\) $(DESTDIR)$(prefix)/lib|\1 $(DESTDIR)$(prefix)/lib/\1|' \
+      -i "${srcdir}/snesfilter/Makefile" || return 1
+  make || return 1
+  make install DESTDIR=$pkgdir prefix=/usr || return 1
+  chmod 644 "${pkgdir}/usr/lib/libsnesfilter.a" || return 1
+  ##
+  # snesreader :: handle compressed files
+  ##
+  msg "Building snesreader plugin"
+  cd "${srcdir}/snesreader"
+  sed -e 's|\(libsnesreader.*\) $(DESTDIR)$(prefix)/lib|\1 $(DESTDIR)$(prefix)/lib/\1|' \
+      -i "${srcdir}/snesreader/Makefile" || return 1
+  make || return 1
+  make install DESTDIR=$pkgdir prefix=/usr || return 1
+  chmod 644 "${pkgdir}/usr/lib/libsnesreader.a" || return 1
+  # Licenses
+  mkdir -p "${pkgdir}/usr/share/licenses/bsnes"
+  install -m644 "${srcdir}/snesreader/7z_C/lzma.txt" "${pkgdir}/usr/share/licenses/bsnes/license-7zip.txt"
+  install -m644 "${srcdir}/snesreader/unrar/license.txt" "${pkgdir}/usr/share/licenses/bsnes/license-unrar.txt"
+  ##
+  # supergameboy :: Super Game Boy support
+  ##
+  msg "Building supergameboy plugin"
+  cd "${srcdir}/supergameboy"
+  sed -e 's|\(libsupergameboy.*\) $(DESTDIR)$(prefix)/lib|\1 $(DESTDIR)$(prefix)/lib/\1|' \
+      -i "${srcdir}/supergameboy/Makefile" || return 1
+  make || return 1
+  make install DESTDIR=$pkgdir prefix=/usr || return 1
+  chmod 644 "${pkgdir}/usr/lib/libsupergameboy.a" || return 1
 }

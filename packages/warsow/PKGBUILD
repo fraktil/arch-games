@@ -5,7 +5,7 @@
 
 pkgname=('warsow' 'warsow-server' 'warsow-common')
 pkgver=0.5
-pkgrel=4
+pkgrel=5
 pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
 url="http://www.warsow.net/"
 license=('GPL' 'custom:Warsow Content License')
@@ -14,13 +14,15 @@ depends=('curl' 'libjpeg' 'libvorbis' 'libxinerama' 'libxxf86dga' 'libxxf86vm' '
 makedepends=('mesa' 'openal' 'unzip')
 source=('warsow.desktop' 'warsow.launcher' 'wsw-server.launcher' 'wswtv-server.launcher' \
 "http://www.derchris.eu/warsow/warsow_${pkgver}_unified.zip" \
-"http://www.derchris.eu/warsow/warsow_${pkgver}_sdk.zip")
+"http://www.derchris.eu/warsow/warsow_${pkgver}_sdk.zip"
+'libjpeg.patch')
 md5sums=('f9bf60c80820237f7097c4e50a9582cd'
          'ec00081d81ad9802a8ca42fc2eac5498'
          'f73e10c26197178df71b941b10bf83d7'
          'd7e4a69835bbcf801e58307e9d6b951e'
          'd0cb961256bbc1b93bf240b8bcf8eff5'
-         'acd0244435cc63967b0eb3468c21c454')
+         'acd0244435cc63967b0eb3468c21c454'
+         '5ddc729ba2f7475691d3b9d1869588b8')
 noextract=("warsow_${pkgver}_unified.zip" "warsow_${pkgver}_sdk.zip")
 
 build() {
@@ -28,6 +30,7 @@ build() {
     unzip -o warsow_${pkgver}_unified.zip -d "$srcdir"/warsow
     unzip -o warsow_${pkgver}_sdk.zip -d "$srcdir"/warsow-src
 
+    patch -p0 < $srcdir/libjpeg.patch
     # Patch Makefile to use correct program to query for system information
     sed -i 's:openal-config:pkg-config:g' $srcdir/warsow-src/source/Makefile
     # Patch Sound Code to point to base openal library
