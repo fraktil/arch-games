@@ -2,23 +2,27 @@
 # Contributor: djnm <nmihalich [at} gmail dott com>
 pkgname=dwarffortress
 pkgver=v0.28.181.40d17
-pkgrel=1
+pkgrel=2
 pkgdesc="A single-player fantasy game. You control a dwarven outpost or an adventurer in a randomly generated persistent world."
 arch=(i686)
 # Current FotF: http://www.bay12games.com/forum/index.php?topic=44829.0
 url="http://www.bay12games.com/dwarves/"
 license=('custom:dwarffortress')
 depends=(gtk2 mesa sdl_image libjpeg6 libsndfile openal)
-source=(http://www.bay12games.com/dwarves/df_28_181_40d17_linux.tar.bz2 dwarffortress)
+source=(http://www.bay12games.com/dwarves/df_28_181_40d17_linux.tar.bz2 dwarffortress icu38.tar.gz)
 md5sums=('d12eb0ba9bbadf68d8c7b3a43fe8c9d2'
-         'c7259bdd79e49e53e5d31a6ef12e8fae')
+         'c7259bdd79e49e53e5d31a6ef12e8fae'
+         'af90966ea2c67ed1c2bfa924aa57ae5e')
 
 build() {
   cd $srcdir/df_linux
   install -dm755 $pkgdir/opt/
   cp -r $srcdir/df_linux/ $pkgdir/opt/
 
-  # Yay for static builds!
+  # Their outdated libboost_regex is linked against outdated icu
+  install -m755 $srcdir/icu38/* $pkgdir/opt/df_linux/libs/
+
+  # Yay for precompiled stuff with junk permissions! :D
   find $pkgdir/opt/df_linux -type d -exec chmod 755 {} +
   find $pkgdir/opt/df_linux -type f -exec chmod 644 {} +
 
