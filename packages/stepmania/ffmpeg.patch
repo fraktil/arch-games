@@ -1,0 +1,12 @@
+diff -aur StepMania-3.9-src.pristine/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp StepMania-3.9-src.new/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+--- StepMania-3.9-src.pristine/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2010-02-13 20:54:21.138816372 +0100
++++ StepMania-3.9-src.new/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp	2010-02-13 20:54:54.801310618 +0100
+@@ -45,7 +45,7 @@
+ 		  0x0000FF00,
+ 		  0x000000FF,
+ 		  0xFF000000 },
+-		avcodec::PIX_FMT_RGBA32,
++		avcodec::PIX_FMT_RGBA,
+ 		true,
+ 		false
+ 	},
