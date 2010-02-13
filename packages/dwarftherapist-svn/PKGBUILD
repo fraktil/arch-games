@@ -1,15 +1,16 @@
 # Contributor: Daenyth <Daenyth+Arch AT gmail DOT com>
 pkgname=dwarftherapist-svn
-pkgver=296
-pkgrel=2
+pkgver=344
+pkgrel=1
 pkgdesc="An extension application for the fantastic game Dwarf Fortress"
 arch=('i686' 'x86_64')
 url="http://code.google.com/p/dwarftherapist/"
 license=(MIT)
 depends=(qt)
 makedepends=(subversion)
-source=(fix_file_path.diff)
-md5sums=('5d9e493dcf6cf686e5d5d7f14db76879')
+source=(fix_file_path.diff linux-qmake-update.diff)
+md5sums=('5d9e493dcf6cf686e5d5d7f14db76879'
+         '11d9a6f12f9ae9dba73bf36cbddf3111')
 
 _svntrunk=http://dwarftherapist.googlecode.com/svn/trunk/
 _svnmod=${pkgname%-svn}-read-only
@@ -32,6 +33,9 @@ build() {
 
   # Change stupid hardcoded path to slightly less stupid hardcoded path.
   patch -Np1 < "$srcdir/fix_file_path.diff" || return 1
+
+  # Fix r344 to compile
+  patch -Np0 < "$srcdir/linux-qmake-update.diff" || return 1
 
   # Build
   qmake dwarftherapist.pro || return 1

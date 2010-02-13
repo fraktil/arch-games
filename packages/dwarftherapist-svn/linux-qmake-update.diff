@@ -1,0 +1,127 @@
+Index: dwarftherapist.pri
+===================================================================
+--- dwarftherapist.pri	(revision 344)
++++ dwarftherapist.pri	(working copy)
+@@ -15,6 +15,7 @@
+     ./inc/aboutdialog.h \
+     ./inc/gridviewdialog.h \
+     ./inc/importexportdialog.h \
++    ./inc/scriptdialog.h \
+     ./inc/optionsmenu.h \
+     ./inc/grid_view/columntypes.h \
+     ./inc/grid_view/idlecolumn.h \
+@@ -23,6 +24,9 @@
+     ./inc/grid_view/skillcolumn.h \
+     ./inc/grid_view/spacercolumn.h \
+     ./inc/grid_view/viewcolumn.h \
++    ./inc/grid_view/traitcolumn.h \
++    ./inc/grid_view/attributecolumn.h \
++    ./inc/grid_view/militarypreferencecolumn.h \
+     ./inc/grid_view/gridview.h \
+     ./inc/statetableview.h \
+     ./inc/grid_view/viewcolumnset.h \
+@@ -46,6 +50,7 @@
+     ./inc/stonevectorsearchjob.h \
+     ./inc/translationvectorsearchjob.h \
+     ./inc/customprofession.h \
++    ./inc/militarypreference.h \
+     ./inc/dfinstance.h \
+     ./inc/dfinstancewindows.h \
+     ./inc/dwarf.h \
+@@ -79,6 +84,7 @@
+     ./src/dwarfdetailswidget.cpp \
+     ./src/aboutdialog.cpp \
+     ./src/gridviewdialog.cpp \
++    ./src/scriptdialog.cpp \
+     ./src/importexportdialog.cpp \
+     ./src/optionsmenu.cpp \
+     ./src/grid_view/idlecolumn.cpp \
+@@ -87,6 +93,9 @@
+     ./src/grid_view/skillcolumn.cpp \
+     ./src/grid_view/spacercolumn.cpp \
+     ./src/grid_view/viewcolumn.cpp \
++    ./src/grid_view/traitcolumn.cpp \
++    ./src/grid_view/attributecolumn.cpp \
++    ./src/grid_view/militarypreferencecolumn.cpp \
+     ./src/grid_view/gridview.cpp \
+     ./src/statetableview.cpp \
+     ./src/grid_view/viewcolumnset.cpp \
+@@ -122,6 +131,7 @@
+     ./ui/dwarfdetailsdock.ui \
+     ./ui/dwarfdetailswidget.ui \
+     ./ui/gridviewdialog.ui \
++    ./ui/scriptdialog.ui \
+     ./ui/gridviewdock.ui \
+     ./ui/importexportdialog.ui \
+     ./ui/mainwindow.ui \
+Index: dwarftherapist.pro
+===================================================================
+--- dwarftherapist.pro	(revision 344)
++++ dwarftherapist.pro	(working copy)
+@@ -7,9 +7,9 @@
+ CONFIG:release {
+ 	DESTDIR = ./bin/release
+ }
+-QT += network
++QT += network script
+ INCLUDEPATH += ./thirdparty/qtcolorpicker-2.6 \
+-	./thirdparty/libqxt-0.5.0 \
++    ./thirdparty/libqxt-0.5.0 \
+     ./inc \
+     ./inc/models \
+     ./inc/grid_view \
+@@ -20,7 +20,7 @@
+ include(dwarftherapist.pri)
+ 
+ win32 {
+-	message(Setting up for Windows)
++    message(Setting up for Windows)
+     DEFINES += _WINDOWS QT_LARGEFILE_SUPPORT QT_DLL QT_NETWORK_LIB
+     INCLUDEPATH += $$(QTDIR)/mkspecs/win32-msvc2008
+     HEADERS += ./inc/dfinstancewindows.h
+@@ -28,19 +28,19 @@
+     LIBS += -lpsapi
+ }
+ linux-g++|linux-g++-32 {
+-	message(Setting up for Linux)
+-	CFLAGS=-m32
+-    	DEFINES += _LINUX BUILD_QXT
+-    	INCLUDEPATH += $$(QTDIR)/mkspecs/linux-g++
+-	HEADERS += ./inc/dfinstancelinux.h
+-	SOURCES += ./src/dfinstancelinux.cpp
++    message(Setting up for Linux)
++    CFLAGS=-m32
++    DEFINES += _LINUX BUILD_QXT
++    INCLUDEPATH += $$(QTDIR)/mkspecs/linux-g++
++    HEADERS += ./inc/dfinstancelinux.h
++    SOURCES += ./src/dfinstancelinux.cpp
+ }
+ macx {
+-	message(Setting up for OSX)
+-	DEFINES += _OSX BUILD_QXT
+-	INCLUDEPATH += $$(QTDIR)/mkspecs/macx-xcode
+-	HEADERS += ./inc/dfinstanceosx.h
+-	SOURCES += ./src/dfinstanceosx.cpp
++    message(Setting up for OSX)
++    DEFINES += _OSX BUILD_QXT
++    INCLUDEPATH += $$(QTDIR)/mkspecs/macx-xcode
++    HEADERS += ./inc/dfinstanceosx.h
++    SOURCES += ./src/dfinstanceosx.cpp
+ }
+ 
+ DEPENDPATH += .
+Index: inc/models/dwarfmodel.h
+===================================================================
+--- inc/models/dwarfmodel.h	(revision 344)
++++ inc/models/dwarfmodel.h	(working copy)
+@@ -91,8 +91,8 @@
+ 	int selected_col() const {return m_selected_col;}
+ 	void filter_changed(const QString &);
+ 
+-    QModelIndex DwarfModel::findOne(const QVariant &needle, int role = Qt::DisplayRole, int column = 0, const QModelIndex &start_index = QModelIndex());
+-    QList<QPersistentModelIndex> DwarfModel::findAll(const QVariant &needle, int role = Qt::DisplayRole, int column = 0, QModelIndex start_index = QModelIndex());
++    QModelIndex findOne(const QVariant &needle, int role = Qt::DisplayRole, int column = 0, const QModelIndex &start_index = QModelIndex());
++    QList<QPersistentModelIndex> findAll(const QVariant &needle, int role = Qt::DisplayRole, int column = 0, QModelIndex start_index = QModelIndex());
+ 
+ 	public slots:
+ 		void build_row(const QString &key);
