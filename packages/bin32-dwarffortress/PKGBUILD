@@ -1,18 +1,20 @@
 # Maintainer: Daenyth <Daenyth+Arch [AT] gmail [DOT] com>
+# Contributor: Pnevma <Klavious@gmail.com>
 # Contributor: djnm <nmihalich [at} gmail dott com>
-pkgname=dwarffortress
+# Contributor: ignus <m.a.lukasiewicz at gmail>
+
+pkgname=bin32-dwarffortress
 pkgver=v0.28.181.40d17
-pkgrel=4
+pkgrel=1
 pkgdesc="A single-player fantasy game. You control a dwarven outpost or an adventurer in a randomly generated persistent world."
-arch=(i686)
+arch=('x86_64')
 # Current FotF: http://www.bay12games.com/forum/index.php?topic=44829.0
 url="http://www.bay12games.com/dwarves/"
 license=('custom:dwarffortress')
-depends=(gtk2 mesa sdl_image libjpeg6 libsndfile openal)
-source=(http://www.bay12games.com/dwarves/df_28_181_40d17_linux.tar.bz2 dwarffortress http://brage.info/~svein/df-40d17-head.tar.bz2)
-md5sums=('d12eb0ba9bbadf68d8c7b3a43fe8c9d2'
-         'c7259bdd79e49e53e5d31a6ef12e8fae'
-         'c616f21f8ee4f828b63924a447b66406')
+provides=('dwarffortress')
+depends=(lib32-glibc lib32-gtk2 lib32-sdl_image lib32-libgl lib32-alsa-lib lib32-mesa lib32-libxdamage)
+optdepends=('lib32-nvidia-utils: If you have nvidia graphics' 'lib32-catalyst-utils: If you have ATI graphics')
+source=(http://www.bay12games.com/dwarves/df_28_181_40d16_linux.tar.bz2 dwarffortress http://brage.info/~svein/df-40d17-head.tar.bz2)
 
 build() {
   cd $srcdir/df_linux
@@ -28,6 +30,9 @@ build() {
 
   chmod 755 $pkgdir/opt/df_linux/dwarfort.exe
 
+  # I don't know why this is here but the old bin32-df package had it. /shrug
+  sed -i 's/WINDOWED:PROMPT/WINDOWED:YES/g' $pkgdir/opt/df_linux/data/init/init.txt
+
   # This probably is overkill, but I don't know what specific files df needs permission for in here.
   chown -R root:games $pkgdir/opt/df_linux/data
   find $pkgdir/opt/df_linux/data -type d -exec chmod 775 {} +
@@ -35,4 +40,5 @@ build() {
 
   install -Dm644 $srcdir/df_linux/readme.txt $pkgdir/usr/share/licenses/dwarffortress/readme.txt
 }
+
 # vim:set ts=2 sw=2 et:
