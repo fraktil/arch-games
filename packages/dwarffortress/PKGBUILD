@@ -19,9 +19,6 @@ build() {
   install -dm755 $pkgdir/opt/
   cp -r $srcdir/df_linux/ $pkgdir/opt/
 
-  # Their outdated libboost_regex is linked against outdated icu
-  install -m755 $srcdir/icu38/* $pkgdir/opt/df_linux/libs/
-
   # Yay for precompiled stuff with junk permissions! :D
   find $pkgdir/opt/df_linux -type d -exec chmod 755 {} +
   find $pkgdir/opt/df_linux -type f -exec chmod 644 {} +
