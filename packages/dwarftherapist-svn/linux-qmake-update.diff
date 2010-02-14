@@ -1,7 +1,6 @@
-Index: dwarftherapist.pri
-===================================================================
---- dwarftherapist.pri	(revision 344)
-+++ dwarftherapist.pri	(working copy)
+diff -ruN dwarftherapist-read-only/dwarftherapist.pri dwarftherapist-read-only-build/dwarftherapist.pri
+--- dwarftherapist-read-only/dwarftherapist.pri	2010-02-13 11:56:52.000000000 -0600
++++ dwarftherapist-read-only-build/dwarftherapist.pri	2010-02-13 12:25:32.000000000 -0600
 @@ -15,6 +15,7 @@
      ./inc/aboutdialog.h \
      ./inc/gridviewdialog.h \
@@ -54,10 +53,9 @@ Index: dwarftherapist.pri
      ./ui/gridviewdock.ui \
      ./ui/importexportdialog.ui \
      ./ui/mainwindow.ui \
-Index: dwarftherapist.pro
-===================================================================
---- dwarftherapist.pro	(revision 344)
-+++ dwarftherapist.pro	(working copy)
+diff -ruN dwarftherapist-read-only/dwarftherapist.pro dwarftherapist-read-only-build/dwarftherapist.pro
+--- dwarftherapist-read-only/dwarftherapist.pro	2010-02-13 11:56:52.000000000 -0600
++++ dwarftherapist-read-only-build/dwarftherapist.pro	2010-02-13 12:28:02.000000000 -0600
 @@ -7,9 +7,9 @@
  CONFIG:release {
  	DESTDIR = ./bin/release
@@ -70,7 +68,7 @@ Index: dwarftherapist.pro
      ./inc \
      ./inc/models \
      ./inc/grid_view \
-@@ -20,7 +20,7 @@
+@@ -20,27 +20,27 @@
  include(dwarftherapist.pri)
  
  win32 {
@@ -79,16 +77,17 @@ Index: dwarftherapist.pro
      DEFINES += _WINDOWS QT_LARGEFILE_SUPPORT QT_DLL QT_NETWORK_LIB
      INCLUDEPATH += $$(QTDIR)/mkspecs/win32-msvc2008
      HEADERS += ./inc/dfinstancewindows.h
-@@ -28,19 +28,19 @@
+     SOURCES += ./src/dfinstancewindows.cpp
      LIBS += -lpsapi
  }
- linux-g++|linux-g++-32 {
+-linux-g++|linux-g++-32 {
 -	message(Setting up for Linux)
 -	CFLAGS=-m32
 -    	DEFINES += _LINUX BUILD_QXT
 -    	INCLUDEPATH += $$(QTDIR)/mkspecs/linux-g++
 -	HEADERS += ./inc/dfinstancelinux.h
 -	SOURCES += ./src/dfinstancelinux.cpp
++linux-g++|linux-g++-32|unix {
 +    message(Setting up for Linux)
 +    CFLAGS=-m32
 +    DEFINES += _LINUX BUILD_QXT
@@ -110,10 +109,9 @@ Index: dwarftherapist.pro
  }
  
  DEPENDPATH += .
-Index: inc/models/dwarfmodel.h
-===================================================================
---- inc/models/dwarfmodel.h	(revision 344)
-+++ inc/models/dwarfmodel.h	(working copy)
+diff -ruN dwarftherapist-read-only/inc/models/dwarfmodel.h dwarftherapist-read-only-build/inc/models/dwarfmodel.h
+--- dwarftherapist-read-only/inc/models/dwarfmodel.h	2010-02-13 11:56:48.000000000 -0600
++++ dwarftherapist-read-only-build/inc/models/dwarfmodel.h	2010-02-13 12:25:32.000000000 -0600
 @@ -91,8 +91,8 @@
  	int selected_col() const {return m_selected_col;}
  	void filter_changed(const QString &);

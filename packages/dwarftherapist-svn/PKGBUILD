@@ -10,7 +10,7 @@ depends=(qt)
 makedepends=(subversion)
 source=(fix_file_path.diff linux-qmake-update.diff http://www.filebin.org/upload/updated_offsets_d17.zip)
 md5sums=('5d9e493dcf6cf686e5d5d7f14db76879'
-         '11d9a6f12f9ae9dba73bf36cbddf3111'
+         '1d162e2bd25685ee6b98ad25b965fad8'
          '0b5934482ca7e45bf6d9388f5fe7e772')
 
 _svntrunk=http://dwarftherapist.googlecode.com/svn/trunk/
@@ -36,7 +36,7 @@ build() {
   patch -Np1 < "$srcdir/fix_file_path.diff" || return 1
 
   # Fix r344 to compile
-  patch -Np0 < "$srcdir/linux-qmake-update.diff" || return 1
+  patch -Np1 < "$srcdir/linux-qmake-update.diff" || return 1
 
   # Build
   qmake dwarftherapist.pro || return 1
