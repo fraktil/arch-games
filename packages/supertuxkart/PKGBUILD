@@ -11,7 +11,7 @@ url="http://supertuxkart.sourceforge.net/"
 license=('GPL2')
 depends=('sdl>=1.2' 'libvorbis' 'freealut' 'libgl' 'freeglut')
 makedepends=('plib>=1.8.4')
-source=(http://downloads.sourceforge.net/project/$pkgname/SuperTuxKart/$pkgver/$pkgname-$pkgver-src.tar.bz2)
+source=(http://downloads.sourceforge.net/project/$pkgname/SuperTuxKart/0.6.2/$pkgname-$pkgver-src.tar.bz2)
 md5sums=('1672795016cc4964506706ac3287621e')
 
 build() {
