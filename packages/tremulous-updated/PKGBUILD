@@ -2,14 +2,14 @@
 
 pkgname=tremulous-updated
 pkgver=1.1.0
-pkgrel=6
+pkgrel=7
 pkgdesc="A free team based FPS/RTS hybrid built on the ioq3 engine. Includes community updates."
 url="http://tremulous.net"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('sdl' 'openal>=1.7.411' 'libgl' "tremulous-data=$pkgver")
 makedepends=(mesa)
-provides=('tremulous=1.1.0')
+provides=('tremulous=1.1.0-7')
 conflicts=('tremulous')
 replaces=('trem-backport')
 source=(http://releases.mercenariesguild.net/client/mg-client-manual.txt

@@ -69,7 +69,6 @@ package_warsow-server() {
      $srcdir/warsow-src/source/release/wswtv_server* \
     $pkgdir/opt/warsow
 }
-
 package_warsow-common() {
   pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
   depends=()
@@ -83,4 +82,3 @@ package_warsow-common() {
         $srcdir/warsow-src/source/release/libs \
       $pkgdir/opt/warsow
 }
-

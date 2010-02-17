@@ -5,29 +5,28 @@
 # Maintainer: M Rawash <mrawash@gmail.com>
 
 pkgname=planeshift
-pkgver=0.5.0
+pkgver=0.5.1
 pkgrel=1
 pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
 arch=('i686' 'x86_64')
 _arch="x86"
-_linarch="linux32"
-[ "${CARCH}" = "x86_64" ] && _arch="x64" && _linarch="linux64"
+[ "${CARCH}" = "x86_64" ] && _arch="x64"
 url="http://www.planeshift.it/"
 license=('GPL' 'custom:PlaneShift Content License')
 depends=( 'libgl' 'libsm' 'libxmu' 'libxpm' 'openal')
 options=('emptydirs')
 install=planeshift.install
-source=(http://planeshift.clevertech.net/downloads/${_linarch}/PlaneShift-v${pkgver}-${_arch}.bin \
+source=(http://www.psde.de/files/arcane/PlaneShift-v${pkgver}-${_arch}.bin \
 	planeshift.desktop \
 	planeshiftsetup.desktop \
 	license.txt
   scriptfix.patch)
-md5sums=('317cf32011a01f03bf0b4855bd6f8912'
+md5sums=('f3eef6e90b36beb98ec5d61dfcbc00ba'
 	'5be27f6e51c8edff591aa1fdc668b7e9'
 	'e75381f677b5d2ae331d0e4e742ee21a'
 	'dbac9cf5bfb63463bcb2b5ea09b00586'
   '9f9b8d4033fd1b2c7ef33c5e04207abb')
-[ "${CARCH}" = "x86_64" ] && md5sums[0]='3f1b1fd6d08ed5f887cb0e3463094f7b'
+[ "${CARCH}" = "x86_64" ] && md5sums[0]='3fa7f8fcc0a9cd9d0d2011593913ec4b'
 
 build() {
   cd ${srcdir}
@@ -55,7 +54,7 @@ build() {
   install -D -m755 pslaunch ${pkgdir}/usr/bin/$pkgname-setup
 
   # Remove unnecessary files
-  rm uninstall unscript.sh planeshift psclient pslaunch
+  rm uninstall unscript.sh planeshift
 
   cd $pkgdir/usr/bin/
 
