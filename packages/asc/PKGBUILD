@@ -1,22 +1,18 @@
 # Contributor: Eduard "bekks" Warkentin <eduard.warkentin@gmail.com>
 
 pkgname=asc
-pkgver=2.2.0.0
+pkgver=2.4.0.0
 pkgrel=2
 pkgdesc="Advance Strategy Command strategy game"
 url="http://www.asc-hq.org/"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('libsigcpp1.2' 'sdl_image' 'sdl_mixer' 'sdl_sound' 'expat' 'boost>=1.41.0' 'freetype2' 'physfs' 'xvidcore')
+depends=('lua' 'wxgtk' 'libsigcpp1.2' 'sdl_image' 'sdl_mixer' 'sdl_sound' 'expat' 'boost>=1.41.0' 'freetype2' 'physfs' 'xvidcore')
 source=(http://downloads.sourceforge.net/sourceforge/asc-hq/$pkgname-$pkgver.tar.bz2
         http://www.asc-hq.org/music/frontiers.ogg
         http://www.asc-hq.org/music/time_to_strike.ogg
         http://www.asc-hq.org/music/machine_wars.ogg)
 
-md5sums=('a5207e63109bb81b432542d0b43e9970'
-         'c27415246734d59e27e6a786ee4820d2'
-         '0f4de5275ab649f4426d110840e3e1ea'
-         'b4421ddd67a9e44d90a49a1d8bdf44c3')
 
 build() {
 
@@ -27,6 +23,7 @@ build() {
 
   #Build and install the package
   cd $srcdir/$pkgname-$pkgver
+#  LUA_LIBS="`pkg-config --libs lua`" LUA_CFLAGS=" " LUAC=/usr/bin/luac ./configure  --prefix=/usr --enable-docbook2man --enable-genparse
   ./configure --prefix=/usr --enable-docbook2man --enable-genparse
   make || return 1
   make DESTDIR=$pkgdir install
@@ -34,3 +31,7 @@ build() {
 }
 
 # vim:set ts=2 sw=2 et:
+md5sums=('8c18a7cf84cb53b04527d864301d405d'
+         'c27415246734d59e27e6a786ee4820d2'
+         '0f4de5275ab649f4426d110840e3e1ea'
+         'b4421ddd67a9e44d90a49a1d8bdf44c3')
