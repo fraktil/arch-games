@@ -2,7 +2,7 @@
 # Contributor: djnm <nmihalich [at} gmail dott com>
 pkgname=dwarffortress
 pkgver=v0.28.181.40d17
-pkgrel=4
+pkgrel=5
 pkgdesc="A single-player fantasy game. You control a dwarven outpost or an adventurer in a randomly generated persistent world."
 arch=(i686)
 # Current FotF: http://www.bay12games.com/forum/index.php?topic=44829.0
@@ -12,7 +12,7 @@ depends=(gtk2 mesa sdl_image libjpeg6 libsndfile openal)
 source=(http://www.bay12games.com/dwarves/df_28_181_40d17_linux.tar.bz2 dwarffortress http://brage.info/~svein/df-40d17-head.tar.bz2)
 md5sums=('d12eb0ba9bbadf68d8c7b3a43fe8c9d2'
          'c7259bdd79e49e53e5d31a6ef12e8fae'
-         'c616f21f8ee4f828b63924a447b66406')
+         '481fa438679b06248afce748629d3ac0')
 
 build() {
   cd $srcdir/df_linux
