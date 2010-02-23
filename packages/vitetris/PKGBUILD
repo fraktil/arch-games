@@ -1,7 +1,7 @@
 # Maintainer: Jaroslav Lichtblau <dragonlord@aur.archlinux.org>
 
 pkgname=vitetris
-pkgver=0.56
+pkgver=0.57
 pkgrel=1
 pkgdesc="A terminal-based Tetris clone with 2-player mode."
 arch=('i686' 'x86_64')
@@ -12,8 +12,7 @@ makedepends=('patch')
 options=(!makeflags)
 source=(http://victornils.net/tetris/$pkgname-$pkgver.tar.gz \
         $pkgname-makefile.diff)
-
-md5sums=('fc66ca3f90a95e9b270d68720dfe83ea'
+md5sums=('07d02ee03e2edd66a8741729e237f21f'
          '5510adbb8ff3153466aa58c90d5765d8')
 
 build() {
@@ -30,7 +29,7 @@ build() {
 
 #add a high score file:
   install -d -m775 ${pkgdir}/var/games/
-  install -D -g games -m664 /dev/null ${pkgdir}/var/games/vitetris/hiscores || return 1
+  install  -g games -d -m664 ${pkgdir}/var/games/vitetris/hiscores || return 1
 
 #license
   install -D -m644 licence.txt ${pkgdir}/usr/share/licenses/$pkgname/LICENSE || return 1
