@@ -3,8 +3,8 @@
 # Contributor: Jacek Poplawski <jacekpoplawski__gmail>
 
 pkgname=alephone
-pkgver=20081226
-pkgrel=3
+pkgver=20091015
+pkgrel=1
 pkgdesc='A free, enhanced port of the classic FPS "Marathon 2" by Bungie Software'
 arch=('i686' 'x86_64')
 url="http://marathon.sourceforge.net/"
@@ -23,7 +23,7 @@ optdepends=('..::AlephOne scenarios::..' \
             'alephone-tempus_irae')
 makedepends=('boost' 'lua>=5.1')
 source=(http://downloads.sourceforge.net/marathon/AlephOne-$pkgver.tar.bz2)
-md5sums=('7bd9e58cdf911d5db01a11d2b46c5d98')
+md5sums=('6a1a6d809369bd03e0263377f87b59f0')
 
 build() {
     cd $srcdir/AlephOne-$pkgver
