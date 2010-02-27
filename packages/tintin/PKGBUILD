@@ -2,7 +2,7 @@
 # Contributor: rabyte <rabyte__gmail>
 
 pkgname=tintin
-pkgver=1.99.9
+pkgver=2.00.0
 pkgrel=1
 pkgdesc="A console-based MUD client"
 arch=('i686' 'x86_64')
@@ -10,7 +10,6 @@ url="http://tintin.sourceforge.net/"
 license=('GPL2')
 depends=('zlib' 'pcre')
 source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz)
-md5sums=('a78f01a340749b0835563103a7b442ce')
 
 build() {
   cd $srcdir/tt/src
@@ -21,4 +20,4 @@ build() {
   ln -sf tt++ $pkgdir/usr/bin/tintin
 }
 
-# vim:set ts=2 sw=2 et:
+md5sums=('f62b905fe96f539db09cc19de2312b3e')
