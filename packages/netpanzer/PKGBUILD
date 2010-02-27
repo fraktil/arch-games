@@ -2,25 +2,31 @@
 # Contributor: Darwin Bautista <djclue917@gmail.com>
 # Contributor: Jakub Luzny <limoto94@gmail.com>
 pkgname=netpanzer
-pkgver=0.8.2
-pkgrel=3
-pkgdesc="An Online Multiplayer Tactical Warfare Game"
+pkgver=0.8.3
+pkgrel=1
+pkgdesc="An online multiplayer tactical warfare game"
 arch=('i686' 'x86_64')
-url="http://netpanzer.berlios.de/"
+url="http://www.netpanzer.org/"
 license=('GPL')
-depends=('gcc' 'physfs' 'sdl_mixer')
-makedepends=('ftjam')
-source=(http://download.berlios.de/netpanzer/${pkgname}-${pkgver}.tar.bz2 netpanzer-0.8.2-gcc43.patch)
-md5sums=('3f446403ac7e72ed0ff9e093517c83d3' '9517af8dc2533dcc24d074db3eb86e8d')
+depends=('gcc-libs' 'sdl_mixer')
+makedepends=('subversion' 'scons')
+source=()
+md5sums=()
+
+_svntag=svn://svn.berlios.de/netpanzer/tags/netpanzer/0.8.3
 
 build() {
-  cd $srcdir/${pkgname}-${pkgver}/
+  cd $srcdir
+  svn export $_svntag netpanzer-$pkgver
+  cd netpanzer-$pkgver
 
-  # patch netpanzer
-  patch -p1 < "$srcdir/netpanzer-0.8.2-gcc43.patch"
+  scons datadir=/usr/share/netpanzer
 
-  # compile
-  ./configure --prefix=/usr --disable-debug --without-wx-config
-  jam || return 1
-  jam -sprefix=$pkgdir/usr install
+  mkdir -p $pkgdir/usr/share/netpanzer
+  cp -pR cache maps pics powerups scripts sound \
+    units wads $pkgdir/usr/share/netpanzer
+
+  install -Dm755 netpanzer $pkgdir/usr/bin/netpanzer
+  install -Dm644 netpanzer.desktop $pkgdir/usr/share/applications/netpanzer.desktop
+  install -Dm644 netpanzer.png $pkgdir/usr/share/pixmaps/netpanzer.png
 }
