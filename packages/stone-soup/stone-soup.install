@@ -1,0 +1,8 @@
+post_upgrade() {
+	echo ">>> 0.5 breaks save and bones compatibility with 0.4"
+	echo ">>> You may need to manually delete them from /usr/share/stone-soup/save/"
+}
+
+op=$1
+shift
+$op $*
