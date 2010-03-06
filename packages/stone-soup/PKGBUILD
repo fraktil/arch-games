@@ -1,0 +1,32 @@
+# Contributor: KillaB <xGenoBlast@gmail.com>
+# Contributor: Nathan Jones <nathanj@insightbb.com>
+
+pkgname=stone-soup
+pkgver=0.5.2
+pkgrel=1
+pkgdesc="Community maintained variant of Linley's Dungeon Crawl"
+arch=('i686' 'x86_64' 'ppc')
+url="http://crawl-ref.sourceforge.net/"
+depends=(ncurses)
+makedepends=(gcc bison flex)
+conflicts=(crawl)
+license=('custom')
+install=stone-soup.install
+source=(http://downloads.sourceforge.net/sourceforge/crawl-ref/stone_soup-$pkgver-src.tbz2
+	makefile.patch)
+md5sums=('48aca99f320b70c880363ddaca7da89a' '4fe482243cd8a71d93122c9eeb33d4f5')
+
+build() {
+	cd "$srcdir/stone_soup-$pkgver-src/source" || return 1
+
+	patch makefile.unix "$srcdir/makefile.patch" || return 1
+
+	make || return 1
+	make INSTALLDIR="$pkgdir/usr/bin" \
+		DATADIR="$pkgdir/usr/share/stone-soup/data" \
+		SAVEDIR="$pkgdir/usr/share/stone-soup/saves" \
+		install || return 1
+
+	install -D -m644 ../licence.txt "$pkgdir/usr/share/licenses/stone-soup/license.txt" || return 1
+}
+

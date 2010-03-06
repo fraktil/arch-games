@@ -5,7 +5,7 @@
 # Maintainer: M Rawash <mrawash@gmail.com>
 
 pkgname=planeshift
-pkgver=0.5.1
+pkgver=0.5.2.1
 pkgrel=1
 pkgdesc="Open source and cross-platform 3D Fantasy MMORPG"
 arch=('i686' 'x86_64')
@@ -21,12 +21,12 @@ source=(http://www.psde.de/files/arcane/PlaneShift-v${pkgver}-${_arch}.bin \
 	planeshiftsetup.desktop \
 	license.txt
   scriptfix.patch)
-md5sums=('f3eef6e90b36beb98ec5d61dfcbc00ba'
-	'5be27f6e51c8edff591aa1fdc668b7e9'
-	'e75381f677b5d2ae331d0e4e742ee21a'
-	'dbac9cf5bfb63463bcb2b5ea09b00586'
-  '9f9b8d4033fd1b2c7ef33c5e04207abb')
-[ "${CARCH}" = "x86_64" ] && md5sums[0]='3fa7f8fcc0a9cd9d0d2011593913ec4b'
+md5sums=('4eed62fbe7be695d390658a81f4fa8be'
+         '5be27f6e51c8edff591aa1fdc668b7e9'
+         'e75381f677b5d2ae331d0e4e742ee21a'
+         'dbac9cf5bfb63463bcb2b5ea09b00586'
+         '9f9b8d4033fd1b2c7ef33c5e04207abb')
+[ "${CARCH}" = "x86_64" ] && md5sums[0]='75f1c7ebe74ede626b699a222d321518'
 
 build() {
   cd ${srcdir}

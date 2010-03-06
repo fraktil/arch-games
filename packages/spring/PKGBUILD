@@ -2,16 +2,16 @@
 # Contributor: Christoph Zeiler <archNOSPAM_at_moonblade.dot.org>
 
 pkgname=spring
-pkgver=0.80.5.2
+pkgver=0.81.2
 pkgrel=1
 pkgdesc='A free 3D real-time-strategy (RTS) game engine'
 arch=('i686' 'x86_64')
 url="http://springrts.com/"
 license=('GPL')
-depends=('openal' 'glew' 'boost' 'devil' 'libvorbis')
+depends=('freetype2' 'openal' 'glew' 'boost' 'devil' 'libvorbis')
 makedepends=('make' 'cmake>=2.6' 'zip' 'tar' 'lzma-utils' 'p7zip')
 source=(http://downloads.sourceforge.net/sourceforge/springrts/${pkgname}_${pkgver}_src.tar.lzma)
-md5sums=('61775b3fda894fd2dd39eb03178943c3')
+md5sums=('53566b5d23013c2c1054e4e47fc10269')
 
 build() {
     bsdtar -xf ${pkgname}_${pkgver}_src.tar.lzma || return 1
