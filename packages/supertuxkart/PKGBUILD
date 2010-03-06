@@ -20,7 +20,7 @@ build() {
   ./configure --prefix=/usr --datadir=/usr/share || return 1
 
   # Fix compilation failure: http://bugs.gentoo.org/283490
-  sed -i 's/opengl_LIBS = -lGL/opengl_LIBS= -lGL -lGLU/' src/Makefile
+  sed -i 's/-lGL/-lGL -lGLU/' config.status
 
   # those configure flags really mean nothing...
   sed -i "s#/usr/local#/usr#" src/file_manager.cpp
