@@ -2,7 +2,7 @@
 
 pkgname=tremulous-gpp
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc="The Gameplay Preview (beta) for Tremulous 1.2"
 arch=(i686 x86_64)
 url="http://tremulous.net"
@@ -26,6 +26,7 @@ build() {
   # Unpack the sources and build
   bsdtar -xf $pkgname$pkgver-src.tar.gz || return 1
   cd "tremulous-ggp$pkgver-src/"
+  sed -i 's/openal-config/pkg-config/g' Makefile
   make $_maketarget || return 1
 
 }
