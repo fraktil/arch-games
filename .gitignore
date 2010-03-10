@@ -3,5 +3,6 @@ pkg/
 *.zip
 *.tar.gz
 *.tar.bz2
+*.pkg.tar.*
 .*.swp
 *~
