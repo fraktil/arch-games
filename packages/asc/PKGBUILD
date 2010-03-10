@@ -2,7 +2,7 @@
 
 pkgname=asc
 pkgver=2.4.0.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Advance Strategy Command strategy game"
 url="http://www.asc-hq.org/"
 arch=('i686' 'x86_64')
@@ -25,7 +25,7 @@ build() {
   #Build and install the package
   cd $srcdir/$pkgname-$pkgver
 #  LUA_LIBS="`pkg-config --libs lua`" LUA_CFLAGS=" " LUAC=/usr/bin/luac ./configure  --prefix=/usr --enable-docbook2man --enable-genparse
-  ./configure --prefix=/usr --enable-docbook2man --enable-genparse
+  ./configure --prefix=/usr --enable-docbook2man --enable-genparse || return 1
   make || return 1
   make DESTDIR=$pkgdir install
 
