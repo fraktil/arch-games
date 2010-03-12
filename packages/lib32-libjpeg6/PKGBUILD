@@ -23,6 +23,6 @@ build() {
   cp -dp $srcdir/usr/lib/*.so* $pkgdir/opt/lib32/usr/lib || return 1
   rm -f $pkgdir/opt/lib32/usr/lib/libjpeg.so || return 1
 
-  install -Dm644 $startdir/LICENSE \
+  install -Dm644 $srcdir/LICENSE \
     $pkgdir/opt/lib32/usr/share/licenses/${_pkgsourcename}6/LICENSE || return 1
 }
