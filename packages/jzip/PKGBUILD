@@ -4,34 +4,26 @@
 
 pkgname=jzip
 pkgver=2.1
-license=('custom')
 _dlpkgver=21-10oct2000
-pkgrel=5
+pkgrel=6
 pkgdesc="Jzip is an interpreter for games in the Infocom Zcode story file format"
 url="http://jzip.sourceforge.net/"
-depends=(ncurses)
+depends=('ncurses' 'zlib')
 #source=(http://dl.sourceforge.net/$pkgname/$pkgname$_dlpkgver.zip makefile-patch.diff)
 source=(http://prdownloads.sourceforge.net/$pkgname/$pkgname$_dlpkgver.zip makefile-patch.diff LICENSE)
-md5sums=('4c03c95bec15e45477899c12a545fc1d' '3d3dbc03dca351bc8cd219d52caf5965' '54ec2719ddf62fd3805c732f058f1706')
+md5sums=('4c03c95bec15e45477899c12a545fc1d' '1625afeb6da07096571d3ccc964c01af' '54ec2719ddf62fd3805c732f058f1706')
 arch=('i686' 'x86_64')
+license="custom"
 
 build() {
-  # move the source files into $startdir/src/$pkgname-$pkgver (but not the original zip)
-  mkdir $startdir/tmp
-  mv $startdir/src/* $startdir/tmp/
-  mv $startdir/tmp/$pkgname$_dlpkgver.zip $startdir/src/
-  install -D -m755 -d $startdir/src/$pkgname-$pkgver
-  mv $startdir/tmp/* $startdir/src/$pkgname-$pkgver
-  rmdir $startdir/tmp
-
-  cd $startdir/src/$pkgname-$pkgver
+  cd $srcdir
   cp unixio.mak Makefile
 
-#  # apply patch to makefile
-  patch -Np1 < $startdir/makefile-patch.diff
+  # apply patch to makefile
+  patch -Np0 < $srcdir/makefile-patch.diff
 
   make || return 1
 
-  install -D -m755 $pkgname $startdir/pkg/usr/bin/$pkgname
-  install -D -m644 LICENSE $startdir/pkg/usr/share/licenses/$pkgname/LICENSE
+  install -D -m755 $pkgname $pkgdir/usr/bin/$pkgname
+  install -D -m644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
