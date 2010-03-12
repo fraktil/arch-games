@@ -20,8 +20,7 @@ _libdir="/usr/lib/${pkgname}"
  
  
 build() {
-    cd $startdir/src/${pkgname}${gamever}
-    
+    cd $srcdir/${pkgname}${gamever}
 
     # Remove pre-compiled libs
     rm {arena,data1}/game.so
