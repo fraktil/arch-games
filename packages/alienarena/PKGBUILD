@@ -32,7 +32,7 @@ build() {
     # Needed to compile fine with new versions of xf86dgaproto (Thanks Calimero)
     sed -i "s/xf86dga.h/Xxf86dga.h/g" unix/gl_glx.c
 
-    patch -Np0 -i $startdir/libjpeg8.patch $startdir/src/${pkgname}${gamever}/source/ref_gl/r_image.c  || return 1
+    patch -Np0 -i $srcdir/libjpeg8.patch $srcdir/${pkgname}${gamever}/source/ref_gl/r_image.c  || return 1
  
     make PREFIX=/usr \
 	WITH_DATADIR=yes WITH_LIBDIR=yes \
@@ -41,24 +41,24 @@ build() {
  
     #Binary
 
-    install -D -m755 release/game.so $startdir/pkg/${_libdir}/arena/game.so || return 1
-    install -D -m755 release/crx $startdir/pkg/usr/bin/${pkgname} || return 1
-    install -D -m755 release/crded $startdir/pkg/usr/bin/${pkgname}-ded || return 1
+    install -D -m755 release/game.so $pkgdir/${_libdir}/arena/game.so || return 1
+    install -D -m755 release/crx $pkgdir/usr/bin/${pkgname} || return 1
+    install -D -m755 release/crded $pkgdir/usr/bin/${pkgname}-ded || return 1
  
     cd ..
 
     # Data files
     find arena botinfo data1 -type f | while read _f ; do
-    install -D -m644 "$_f" "$startdir/pkg/$_datadir/$_f" || return 1
+    install -D -m644 "$_f" "$pkgdir/$_datadir/$_f" || return 1
     done
  
     # Desktop entry
-    install -D -m644 aa.png $startdir/pkg/usr/share/pixmaps/${pkgname}.png || return 1
-    install -D -m644 $startdir/src/${pkgname}.desktop $startdir/pkg/usr/share/applications/${pkgname}.desktop || return 1
+    install -D -m644 aa.png $pkgdir/usr/share/pixmaps/${pkgname}.png || return 1
+    install -D -m644 $srcdir/${pkgname}.desktop $pkgdir/usr/share/applications/${pkgname}.desktop || return 1
  
     # Docs
     cd docs
     dos2unix README.txt
-    mkdir -p $startdir/pkg/usr/share/doc/$pkgname
-    install -m644 -t $startdir/pkg/usr/share/doc/${pkgname}/ {license,README}.txt || return 1
+    mkdir -p $pkgdir/usr/share/doc/$pkgname
+    install -m644 -t $pkgdir/usr/share/doc/${pkgname}/ {license,README}.txt || return 1
 }
