@@ -17,7 +17,7 @@ optdepends=('lib32-nvidia-utils: If you have nvidia graphics' 'lib32-catalyst-ut
 source=(http://www.bay12games.com/dwarves/df_28_181_40d19_linux.tar.bz2
         dwarffortress http://brage.info/~svein/df-40d19-head.tar.bz2)
 md5sums=('95fc220321e88a646bb60de9e5ce942a'
-         'c7259bdd79e49e53e5d31a6ef12e8fae'
+         '0d45f25db59d3c864782273b5b836c6e'
          '615c77340f9cc2191d595907c19e2995')
 
 build() {
