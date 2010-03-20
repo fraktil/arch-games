@@ -6,7 +6,7 @@ pkgver=0.2
 pkgrel=4
 arch=('any')
 pkgdesc="An entertaining 2d space shooter."
-license="GPL"
+license=('GPL')
 url="http://offender.sourceforge.net"
 depends=('gtk')
 makedepends=('automake' )
@@ -14,7 +14,7 @@ source=(http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz)
 md5sums=('f65ff48b54fdff76170ec7c823fe120c')
 
 build() {
- cd $startdir/src/${pkgname}-${pkgver}
+ cd $srcdir/${pkgname}-${pkgver}
  aclocal -I config
  autoheader && automake --gnu --add-missing && autoconf
  ./configure --prefix=$pkgdir/usr --exec-prefix=$pkgdir/usr || return 1

@@ -15,14 +15,14 @@ md5sums=('e216bbbfc3d2a868be7e647aa79c6bca'
          '8cca4091a1fa8a73a12813ac054f0c97')
 
 build() {
-  cd $startdir/src/$pkgname-srcdata-${pkgver//./}
+  cd $srcdir/$pkgname-srcdata-${pkgver//./}
   ./configure --prefix=/usr --sysconfdir=/etc
   make || return 1
-  make sysconfdir=$startdir/pkg/etc prefix=$startdir/pkg/usr install
-  mkdir -p $startdir/pkg/usr/share/applications
-  cp $startdir/ultimatestunts.desktop $startdir/pkg/usr/share/applications
-  mkdir -p $startdir/pkg/usr/share/pixmaps
-  cp $startdir/ultimatestunts.png $startdir/pkg/usr/share/pixmaps
-  find $startdir/pkg/usr/share/ultimatestunts -type d | xargs chmod 555
-  find $startdir/pkg | xargs chown root:root
+  make sysconfdir=$pkgdir/etc prefix=$pkgdir/usr install
+  mkdir -p $pkgdir/usr/share/applications
+  cp $srcdir/ultimatestunts.desktop $pkgdir/usr/share/applications
+  mkdir -p $pkgdir/usr/share/pixmaps
+  cp $srcdir/ultimatestunts.png $pkgdir/usr/share/pixmaps
+  find $pkgdir/usr/share/ultimatestunts -type d | xargs chmod 555
+  find $pkgdir | xargs chown root:root
 }

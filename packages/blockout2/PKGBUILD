@@ -18,12 +18,12 @@ depends=('libgl')
 
 build() {
     install -d $pkgdir/usr/share/games/$pkgname
-    cp -R $startdir/src/bl2/* $pkgdir/usr/share/games/$pkgname
+    cp -R $srcdir/bl2/* $pkgdir/usr/share/games/$pkgname
     rm $pkgdir/usr/share/games/$pkgname/blockout_oldlibc
     
-    install -D -m644 $startdir/blockout2.desktop \
+    install -D -m644 $srcdir/blockout2.desktop \
             $pkgdir/usr/share/applications/blockout2.desktop
 	                
-    install -D -m755 $startdir/blockout2-${CARCH} \
+    install -D -m755 $srcdir/blockout2-${CARCH} \
             $pkgdir/usr/bin/blockout2
 }
