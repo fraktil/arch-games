@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Git pre-commit hook for devs.
+# Ensures all source files are checked in
+
+if [[ $(git config hooks.missingsources.allow) == true ]]; then
+    echo '[WARNING] pre-commit hook disabled. Committing PKGBUILDS without sources is allowed!'
+    exit 0
+fi
+
+staged_files=($(git diff --cached --name-only))
+repo_root="$(git rev-parse --git-dir)/.."
+exit_code=0
+
+for file in ${staged_files[@]}; do
+    [[ $(basename "$file") != 'PKGBUILD' ]] && continue
+
+    # Make sure we are running clean
+    errors=0
+    unset sources; sources=()
+    unset missing_files; missing_files=()
+
+    pushd "$repo_root/$(dirname "$file")" >/dev/null
+
+    sources=$(source PKGBUILD; echo ${source[@]} "$install")
+    for source_file in ${sources[@]}; do
+        if echo $source_file | grep -q '://'; then
+            # Source is downloadable, we don't want it committed
+            continue
+        fi
+        if ! git ls-files --error-unmatch "$source_file" &>/dev/null; then
+            errors=1
+            exit_code=1
+            missing_files=(${missing_files[@]} "$source_file")
+        fi
+    done
+
+    if (( errors )); then
+        echo '[ERROR] PKGBUILD committed without required source files'
+        echo "  $file requires:"
+        for required in ${missing_files[@]}; do
+            echo "    $required"
+        done
+    fi
+
+    popd >/dev/null
+done
+
+if (( exit_code )); then
+    echo "This pre-commit hook may be disabled with \`git config hooks.missingsources.allow true'"
+fi
+
+exit $exit_code
