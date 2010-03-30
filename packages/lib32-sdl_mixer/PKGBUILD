@@ -3,14 +3,14 @@
 
 pkgname=lib32-sdl_mixer
 pkgver=1.2.11
-pkgrel=1
+pkgrel=2
 pkgdesc="A simple multi-channel audio mixer"
 url="http://www.libsdl.org/projects/SDL_mixer/"
 arch=('x86_64')
 license=('LGPL')
 groups=('lib32')
 depends=('lib32-sdl' 'lib32-libvorbis' 'lib32-libmikmod')
-source=(ftp://ftp.archlinux.org/extra/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel}-i686.pkg.tar.gz)
+source=(ftp://ftp.archlinux.org/extra/os/i686/${pkgname/lib32-/}-${pkgver}-${pkgrel}-i686.pkg.tar.xz)
 
 build() {
 
@@ -20,4 +20,4 @@ build() {
 }
 
 # vim:set ts=2 sw=2 et:
-md5sums=('3ce2365b1086697f995b37a91ea67b6d')
+md5sums=('78938e297c88f76b2e68950986cfc192')
