@@ -2,7 +2,9 @@ src/
 pkg/
 *.zip
 *.tar.gz
+*.tgz
 *.tar.bz2
+*.tbz2
 *.pkg.tar.*
 .*.swp
 *~
